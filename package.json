@@ -12,11 +12,13 @@
   },
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
+    "build-android": "react-native bundle --entry-file index.js --bundle-output ./android/app/src/main/assets/index.android.bundle --platform android --assets-dest ./android/appsrc/main/res/ --dev false",
     "test": "jest",
     "lint": "eslint app --fix",
     "format": "find app -name '*.js' | xargs prettier --write --single-quote"
   },
   "dependencies": {
+    "crypto-js": "^3.1.9-1",
     "leancloud-storage": "3.6.7",
     "lodash": "^4.17.10",
     "moment": "^2.22.2",
@@ -29,6 +31,7 @@
     "react-native-scrollable-tab-view": "0.8.0",
     "react-native-simple-store": "^1.3.0",
     "react-native-splash-screen": "3.0.6",
+    "react-native-storage": "^0.2.3",
     "react-native-vector-icons": "^4.6.0",
     "react-native-wechat": "^1.9.9",
     "react-navigation": "1.5.11",
@@ -41,17 +44,10 @@
     "preset": "react-native"
   },
   "devDependencies": {
-    "babel-eslint": "^8.2.3",
-    "babel-jest": "^23.0.1",
+    "babel-jest": "23.4.2",
+    "babel-plugin-import": "^1.8.0",
     "babel-preset-react-native": "4.0.0",
-    "eslint": "^4.19.1",
-    "eslint-config-airbnb": "^16.1.0",
-    "eslint-plugin-import": "^2.11.0",
-    "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-react": "^7.7.0",
-    "jest": "^23.1.0",
-    "prettier": "^1.13.4",
-    "react-test-renderer": "16.3.1",
-    "redux-devtools": "^3.4.0"
+    "jest": "23.5.0",
+    "react-test-renderer": "16.4.1"
   }
 }

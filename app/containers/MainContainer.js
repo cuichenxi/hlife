@@ -37,7 +37,7 @@ class MainContainer extends React.Component {
       updateDialog: {
         optionalIgnoreButtonLabel: '稍后',
         optionalInstallButtonLabel: '后台更新',
-        optionalUpdateMessage: 'iReading有新版本了，是否更新？',
+        optionalUpdateMessage: '幸福宜居有新版本了，是否更新？',
         title: '更新提示'
       },
       installMode: CodePush.InstallMode.ON_NEXT_RESTART

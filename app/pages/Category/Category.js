@@ -36,7 +36,7 @@ import ToastUtil from '../../utils/ToastUtil';
 import NavigationUtil from '../../utils/NavigationUtil';
 
 let tempTypeIds = [];
-let maxCategory = 5; // 默认最多5个类别，远端可配置
+const maxCategory = 5; // 默认最多5个类别，远端可配置
 
 const propTypes = {
   categoryActions: PropTypes.object,
@@ -66,16 +66,16 @@ class Category extends React.Component {
   }
 
   componentDidMount() {
-    const { categoryActions } = this.props;
-    categoryActions.requestTypeList();
-    const query = new AV.Query('Reading_Settings');
-    query.get('57b86e0ba633bd002a96436b').then((settings) => {
-      maxCategory = settings.get('max_category');
-    });
-    const { params } = this.props.navigation.state;
-    if (params === undefined || !params.isFirst) {
-      this.props.navigation.setParams({ handleCheck: this.onActionSelected });
-    }
+    // const { categoryActions } = this.props;
+    // categoryActions.requestTypeList();
+    // const query = new AV.Query('Reading_Settings');
+    // query.get('57b86e0ba633bd002a96436b').then((settings) => {
+    //   maxCategory = settings.get('max_category');
+    // });
+    // const { params } = this.props.navigation.state;
+    // if (params === undefined || !params.isFirst) {
+    //   this.props.navigation.setParams({ handleCheck: this.onActionSelected });
+    // }
   }
 
   onRefresh = () => {

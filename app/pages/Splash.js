@@ -55,11 +55,11 @@ class Splash extends React.Component {
     SplashScreen.hide();
     this.timer = setTimeout(() => {
       store.get('isInit').then((isInit) => {
-        if (!isInit) {
-          navigate('Category', { isFirst: true });
-        } else {
+        // if (!isInit) {
+        //   navigate('Category', { isFirst: true });
+        // } else {
           NavigationUtil.reset(this.props.navigation, 'Home');
-        }
+        // }
       });
     }, 1000);
   }
