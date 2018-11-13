@@ -18,4 +18,4 @@
 import { AppRegistry } from 'react-native';
 import Root from './app/root';
 
-AppRegistry.registerComponent('reading', () => Root);
+AppRegistry.registerComponent('hLife', () => Root);

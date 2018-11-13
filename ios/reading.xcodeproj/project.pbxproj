@@ -1134,7 +1134,7 @@
 					"\"$(SRCROOT)/iReading\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.richardcao.reading;
+				PRODUCT_BUNDLE_IDENTIFIER = com.qfant.hlife;
 				PRODUCT_NAME = iReading;
 				PROVISIONING_PROFILE = "";
 			};
@@ -1157,7 +1157,7 @@
 					"\"$(SRCROOT)/iReading\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.richardcao.reading;
+				PRODUCT_BUNDLE_IDENTIFIER = com.qfant.hlife;
 				PRODUCT_NAME = iReading;
 				PROVISIONING_PROFILE = "";
 			};

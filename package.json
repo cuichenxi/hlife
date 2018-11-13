@@ -1,11 +1,11 @@
 {
-  "name": "reading",
-  "version": "2.1.0",
-  "description": "iReading App Write In React-Native",
+  "name": "ilife",
+  "version": "1.0.0",
+  "description": "ilife App Write In React-Native",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git@github.com:attentiveness/reading.git"
+    "url": "https://github.com/qfant/hlife.git"
   },
   "engines": {
     "node": ">=4"
