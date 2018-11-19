@@ -15,16 +15,5 @@
  * limitations under the License.
  *
  */
-import {NavigationActions, StackActions} from 'react-navigation';
-
-reset = (navigation, routeName) => {
-    const resetAction = StackActions.reset({
-        index: 0,
-        actions: [NavigationActions.navigate({routeName})]
-    });
-    navigation.dispatch(resetAction);
-};
-
-export default {
-    reset
-};
+export const WEXIN_ARTICLE_LIST = 'http://route.showapi.com/582-2';
+export const WEXIN_ARTICLE_TYPE = 'http://route.showapi.com/582-1';

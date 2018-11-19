@@ -1,36 +1,33 @@
 /**
- *
- * Copyright 2015-present reading
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
+ *https://www.jianshu.com/p/2f575cc35780
  */
-import {StackNavigator, TabNavigator} from 'react-navigation';
+import {
+    StackNavigator,
+    SafeAreaView,
+    createStackNavigator,
+    createDrawerNavigator,
+    createMaterialTopTabNavigator,
+    createBottomTabNavigator
+} from 'react-navigation';
 import Splash from '../pages/Splash';
+import {Platform} from 'react-native';
 import CategoryContainer from '../containers/CategoryContainer';
 import MainContainer from '../containers/MainContainer';
 import WebViewPage from '../pages/ItemDetail/WebViewPage';
-import Feedback from '../pages/Feedback/Feedback';
-import About from '../pages/About/About';
+import shopping from '../pages/shopping/shopping';
+import shoppingCart from '../pages/shoppingCart/shoppingCart';
 import UserCenter from '../pages/UserCenter/UserCenter';
+import LoginPage from '../pages/UserCenter/LoginPage';
+import Feedback from "../pages/Feedback/Feedback";
+import login from "../pages/UserCenter/login";
+import Icon from 'react-native-vector-icons/Ionicons';
 
-const TabContainer = TabNavigator(
+const TabContainer = createBottomTabNavigator(
     {
+        UserCenter: {screen: UserCenter},
         Main: {screen: MainContainer},
-        Category: {screen: CategoryContainer},
-        Feedback: {screen: Feedback},
-        About: {screen: About},
-        UserCenter: {screen: UserCenter}
+        shopping: {screen: shopping},
+        shoppingCart: {screen: shoppingCart},
     },
     {
         lazy: true,
@@ -52,34 +49,35 @@ const TabContainer = TabNavigator(
     }
 );
 
-const App = StackNavigator(
+const App = createStackNavigator(
     {
         Splash: {screen: Splash},
-        Category: {
-            screen: CategoryContainer,
-            navigationOptions: {
-                headerLeft: null
-            }
-        },
         Home: {
             screen: TabContainer,
             navigationOptions: {
-                headerLeft: null
+                title: '首页',
+                header: null,
             }
         },
-        Web: {screen: WebViewPage}
+        Web: {screen: WebViewPage},
+        LoginPage: {screen: LoginPage},
+        Feedback: {screen: Feedback}
     },
     {
-        headerMode: 'screen',
+        // initialRouteName: 'Splash',
+        // headerMode: 'screen',
+        // mode: Platform.OS === 'ios' ? 'modal' : 'card',
         navigationOptions: {
+            headerTitleStyle: {flex: 1, textAlign: 'center'},
             headerStyle: {
                 backgroundColor: '#3e9ce9'
             },
             headerTitleStyle: {
                 color: '#fff',
-                fontSize: 20
+                fontSize: 20,
+                flex: 1, textAlign: 'center'
             },
-            headerTintColor: '#fff'
+            headerTintColor: '#fff',
         }
     }
 );

@@ -16,57 +16,78 @@
  *
  */
 import React from 'react';
-import { StyleSheet, Image, Text, Linking, View } from 'react-native';
+import {StyleSheet, Text, View, Keyboard} from 'react-native';
 
+import AV from 'leancloud-storage';
 import DeviceInfo from 'react-native-device-info';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Button from '../../components/Button';
+import ToastUtil from '../../utils/ToastUtil';
+import Request from '../../utils/Request';
+import NavigationUtil from "../../utils/NavigationUtil";
 
-const SHOW_API = 'https://www.showapi.com';
-const READING_REPO = 'https://github.com/attentiveness/reading';
-
-const aboutLogo = require('../../img/about_logo.png');
+let feedbackText;
 
 class UserCenter extends React.Component {
-    static navigationOptions = {
-        title: '用户中心',
-        tabBarIcon: ({ tintColor }) => (
-            <Icon name="md-information-circle" size={25} color={tintColor} />
+    static navigationOptions = ({navigation}) => ({
+        title: '我的',
+        tabBarIcon: ({tintColor}) => (
+            <Icon name="md-thumbs-up" size={25} color={tintColor}/>
         ),
         headerRight: (
             <Icon.Button
-                name="logo-github"
+                name="md-checkmark"
                 backgroundColor="transparent"
                 underlayColor="transparent"
                 activeOpacity={0.8}
-                onPress={() => Linking.openURL(READING_REPO)}
+                onPress={() => {
+                    navigation.state.params.handleCheck();
+                }}
             />
         )
+    });
+    // static navigationOptions = ({navigation}) => ({
+    //     title: '用户登录',
+    //     tabBarIcon: ({tintColor}) => (
+    //         <Icon name="md-thumbs-up" size={25} color={tintColor}/>
+    //     ),
+    //     headerRight: (
+    //         <Icon.Button
+    //             name="md-checkmark"
+    //             backgroundColor="transparent"
+    //             underlayColor="transparent"
+    //             activeOpacity={0.8}
+    //             onPress={() => {
+    //                 navigation.state.params.handleCheck();
+    //             }}
+    //         />
+    //     )
+    // });
+
+    componentDidMount() {
+        feedbackText = '';
+        this.props.navigation.setParams({handleCheck: this.onActionSelected});
+    }
+
+    onActionSelected = () => {
+        // NavigationUtil.reset(this.props.navigation, 'Home');
+        this.props.navigation.navigate('shopping', {isFirst: true});
+        // alert('点击')
+    };
+    onNext = () => {
+        this.props.navigation.navigate('LoginPage', { isFirst: true });
+        // this.props.navigation.navigate('Feedback', { isFirst: true });
+        // this.props.navigation.navigate('Feedback', {
+        //     login_back_code: this.props.navigation.state.key, isFirst: true,
+        //     callback: (data) => {
+        //         alert(data);
+        //     }
+        // });
     };
 
     render() {
         return (
             <View style={styles.container}>
-                <View style={styles.content}>
-                    <View style={styles.center}>
-                        <Image style={styles.logo} source={aboutLogo} />
-                        <Text style={styles.version}>{`v${DeviceInfo.getVersion()}`}</Text>
-                        <Text style={styles.title}>iReading</Text>
-                        <Text style={styles.subtitle}>让生活更精彩</Text>
-                    </View>
-                    <View style={styles.bottomContainer}>
-                        <View style={styles.disclaimerContent}>
-                            <Text style={[styles.disclaimer, { color: '#999999' }]}>
-                                免责声明：所有内容均来自:
-                            </Text>
-                            <Button
-                                style={[styles.disclaimer, { color: '#3e9ce9' }]}
-                                text={SHOW_API}
-                                onPress={() => Linking.openURL(SHOW_API)}
-                            />
-                        </View>
-                    </View>
-                </View>
+                <Text style={styles.textInput} onPress={this.onNext}>点击</Text>
             </View>
         );
     }
@@ -75,49 +96,17 @@ class UserCenter extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'column',
         backgroundColor: '#fff'
     },
-    content: {
-        flex: 1,
-        justifyContent: 'center',
-        paddingBottom: 10
-    },
-    center: {
-        flex: 1,
-        alignItems: 'center'
-    },
-    logo: {
-        width: 110,
-        height: 110,
-        marginTop: 50
-    },
-    version: {
-        fontSize: 16,
+    textInput: {
+        alignSelf: 'center',
         textAlign: 'center',
-        color: '#aaaaaa',
-        marginTop: 5
-    },
-    title: {
-        fontSize: 28,
-        textAlign: 'center',
-        color: '#313131',
-        marginTop: 10
-    },
-    subtitle: {
+        color: '#fff',
+        marginTop: 100,
+        height: 100,
         fontSize: 18,
-        textAlign: 'center',
-        color: '#4e4e4e'
-    },
-    disclaimerContent: {
-        flexDirection: 'column'
-    },
-    disclaimer: {
-        fontSize: 14,
-        textAlign: 'center'
-    },
-    bottomContainer: {
-        alignItems: 'center'
+        padding: 15,
+        backgroundColor:'#999'
     }
 });
 

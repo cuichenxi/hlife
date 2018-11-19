@@ -23,15 +23,15 @@ import DeviceInfo from 'react-native-device-info';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ToastUtil from '../../utils/ToastUtil';
 import Request from '../../utils/Request';
+import NavigationUtil from "../../utils/NavigationUtil";
 
 let feedbackText;
 
-class Feedback extends React.Component {
+class login extends React.Component {
     static navigationOptions = ({navigation}) => ({
-        title: '建议',
-        tabBarIcon: ({tintColor}) => (
-            <Icon name="md-thumbs-up" size={25} color={tintColor}/>
-        ),
+        headerTitle: '用户登录',
+        headerBackTitle:'搜索',
+        headerTitleStyle:{flex: 1,textAlign:'center'},
         headerRight: (
             <Icon.Button
                 name="md-checkmark"
@@ -44,6 +44,23 @@ class Feedback extends React.Component {
             />
         )
     });
+    // static navigationOptions = ({navigation}) => ({
+    //     title: '用户登录',
+    //     tabBarIcon: ({tintColor}) => (
+    //         <Icon name="md-thumbs-up" size={25} color={tintColor}/>
+    //     ),
+    //     headerRight: (
+    //         <Icon.Button
+    //             name="md-checkmark"
+    //             backgroundColor="transparent"
+    //             underlayColor="transparent"
+    //             activeOpacity={0.8}
+    //             onPress={() => {
+    //                 navigation.state.params.handleCheck();
+    //             }}
+    //         />
+    //     )
+    // });
 
     componentDidMount() {
         feedbackText = '';
@@ -51,12 +68,18 @@ class Feedback extends React.Component {
     }
 
     onActionSelected = () => {
-        this.props.navigation.goBack();   // this.props.navigation.popToTop();
+        // NavigationUtil.reset(this.props.navigation, 'Home');
+        this.props.navigation.navigate('shopping', { isFirst: true });
+        // alert('点击')
     };
     onNext = () => {
-        this.props.navigation.state.params.callback('返回的数据');
-        this.props.navigation.goBack();
+        // this.props.navigation.navigate('LoginPage', { isFirst: true });
         // this.props.navigation.navigate('Feedback', { isFirst: true });
+        this.props.navigation.navigate('Feedback', {login_back_code: this.props.navigation.state.key,isFirst: true,
+            callback: (data) => {
+                alert(data);
+            }
+        });
     };
 
     render() {
@@ -82,5 +105,4 @@ const styles = StyleSheet.create({
     }
 });
 
-
-export default Feedback;
+export default login;

@@ -16,7 +16,7 @@
  *
  */
 import React from 'react';
-import {StyleSheet, Text, View, Keyboard} from 'react-native';
+import {StyleSheet, TextInput, View, Keyboard} from 'react-native';
 
 import AV from 'leancloud-storage';
 import DeviceInfo from 'react-native-device-info';
@@ -26,9 +26,9 @@ import Request from '../../utils/Request';
 
 let feedbackText;
 
-class Feedback extends React.Component {
+class shoppingCart extends React.Component {
     static navigationOptions = ({navigation}) => ({
-        title: '建议',
+        title: '购物车',
         tabBarIcon: ({tintColor}) => (
             <Icon name="md-thumbs-up" size={25} color={tintColor}/>
         ),
@@ -51,18 +51,49 @@ class Feedback extends React.Component {
     }
 
     onActionSelected = () => {
-        this.props.navigation.goBack();   // this.props.navigation.popToTop();
-    };
-    onNext = () => {
-        this.props.navigation.state.params.callback('返回的数据');
-        this.props.navigation.goBack();
-        // this.props.navigation.navigate('Feedback', { isFirst: true });
+        if (feedbackText === undefined || feedbackText.replace(/\s+/g, '') === '') {
+            // ToastUtil.showShort('请填写建议内容哦~');
+            Request.post("test.do", {})
+                .then(rep => {
+                    console.log("rep" + 'ok');
+                })
+                .catch((error) => {
+                    console.log("net:error=" + error);
+                });
+
+        } else {
+            const feedback = AV.Object.new('Shopping');
+            feedback.set('manufacturer', DeviceInfo.getManufacturer());
+            feedback.set('system', DeviceInfo.getSystemName());
+            feedback.set('deviceVersion', DeviceInfo.getSystemVersion());
+            feedback.set('deviceModel', DeviceInfo.getModel());
+            feedback.set('appVersion', DeviceInfo.getVersion());
+            feedback.set('feedback', feedbackText);
+            feedback.save();
+            ToastUtil.showShort('您的问题已反馈，我们会及时跟进处理');
+            this.textInput.clear();
+            Keyboard.dismiss();
+        }
     };
 
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.textInput}  onPress={this.onNext}>点击</Text>
+                <TextInput
+                    ref={(ref) => {
+                        this.textInput = ref;
+                    }}
+                    style={styles.textInput}
+                    placeholder="请写下您宝贵的意见或建议，与iReading一起进步！"
+                    placeholderTextColor="#aaaaaa"
+                    underlineColorAndroid="transparent"
+                    numberOfLines={200}
+                    multiline
+                    autoFocus
+                    onChangeText={(text) => {
+                        feedbackText = text;
+                    }}
+                />
             </View>
         );
     }
@@ -75,12 +106,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff'
     },
     textInput: {
-        width: 200,
-        height: 100,
+        flex: 1,
         fontSize: 18,
         padding: 15,
+        textAlignVertical: 'top'
     }
 });
 
-
-export default Feedback;
+export default shoppingCart;

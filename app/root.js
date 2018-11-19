@@ -16,10 +16,14 @@
  *
  */
 import React from 'react';
-import { Provider } from 'react-redux';
+import {Provider} from 'react-redux';
 import configureStore from './store/configure-store';
 import rootSaga from './sagas/index';
 import App from './containers/app';
+import AppSynStore from './store/AppSynStore';
+console.ignoredYellowBox = ['Warning: BackAndroid is deprecated. Please use BackHandler instead.','source.uri should not be an empty string','Invalid props.style key'];
+console.disableYellowBox = true // 关闭全部黄色警告
+AppSynStore.initData();
 
 const store = configureStore();
 
@@ -27,9 +31,9 @@ const store = configureStore();
 store.runSaga(rootSaga);
 
 const Root = () => (
-  <Provider store={store}>
-    <App />
-  </Provider>
+    <Provider store={store}>
+        <App/>
+    </Provider>
 );
 
 export default Root;

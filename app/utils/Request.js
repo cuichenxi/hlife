@@ -1,39 +1,61 @@
 /**
- * public String imei;
- public int versionCode;
- public String versionName;
- public Integer userId;
- public String token;
- public String platform;
- public String roomId;
- public String cid;
- public String districtid;
  * @param url
- * @param body
+ * @param params
  * @returns {Promise}
  */
-import {Encrypt, Decrypt} from './aes';
+import aes from './aes';
+import dInfo from 'react-native-device-info';
+import {Platform} from 'react-native';
+import {Toast} from 'antd-mobile-rn';
+import {Loading} from "./Loading";
 
-const post = (url, body) => {
-
+const post = (url, params = {}, options = {}) => {
+    let isMock = false;
+    if (options) {
+        if (options.mock) {
+            isMock = true;
+            url = 'http://rap2api.taobao.org/app/mock/data/' + options.mockId;
+        }
+        if (options.loading) {
+            Loading.show();
+            // Toast.loading(options.loadingMsg ? options.loadingMsg : '加载中...', 0, () => {
+            //     console.log('Load complete !!!');
+            // });
+        }
+    }
     if (url.indexOf('http') == -1) {
         url = getHost() + url;
     }
-    console.log("net:url=" + url);
-    let paramsJson = {...body};
-    // body = Encrypt(body);
-    let paramString = JSON.stringify(paramsJson);
-    console.log("net:request=" + paramString);
+    console.log("url=" + url);
+    let cParam = {
+        deviceId: dInfo.getUniqueID(),
+        versionCode: dInfo.getBuildNumber(),
+        versionName: dInfo.getVersion(),
+        bundleId: dInfo.getBundleId(),
+        platform: Platform.OS,
+        token: ""
+    }
+    let paramJson = {cParam, ...params};
+    let paramString = JSON.stringify(paramJson);
+    console.log("request=" + paramString);
+    let encodeParam = aes.Encrypt(paramString);
+    // console.log("request:encodeParam=" + encodeParam);
     let isOk;
+    let fetchOptions = {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: encodeParam
+    };
+    if (isMock) {
+        fetchOptions = {
+            method: 'GET',
+        }
+    }
     return new Promise((resolve, reject) => {
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: paramString
-        }).then((response) => {
+        fetch(url, fetchOptions).then((response) => {
             if (response.ok) {
                 isOk = true;
             } else {
@@ -41,18 +63,28 @@ const post = (url, body) => {
             }
             return response.text();
         }).then((responseData) => {
-            console.log("net:response=" + responseData);
-            responseData = JSON.parse(responseData);
+            // Toast.hide()
+            Loading.hidden();
+            if (isMock) {
+                console.log("response=" + responseData);
+                resolve(JSON.parse(responseData));
+                return;
+            }
+            let decryptData = aes.Decrypt(responseData);
+            console.log("response解密=" + decryptData);
+            responseData = JSON.parse(decryptData);
             if (isOk) {
                 resolve(responseData);
             } else {
                 reject(responseData);
             }
-        })
-            .catch((error) => {
-                console.log("net:error=" + error);
-                reject(error);
-            });
+
+        }).catch((error) => {
+            // Toast.hide()
+            Loading.hidden();
+            console.log("error=" + error);
+            reject(error);
+        });
     });
 };
 
@@ -71,7 +103,7 @@ export function getHost() {
     const protocol = 'dev';
     let host = 'http://172.17.100.16:7780/mockjsdata/4';
     if (protocol === 'dev') {
-        host = 'https://api-test.gaojihealth.cn';
+        host = 'http://47.96.183.3:8080/yjwy/customer/';
     } else if (protocol === 'beta') {
         host = 'https://api-stage.gaojihealth.cn';
     } else if (protocol === 'release') {
