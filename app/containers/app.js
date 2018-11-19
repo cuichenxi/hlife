@@ -65,7 +65,7 @@ const App = createStackNavigator(
     },
     {
         // initialRouteName: 'Splash',
-        // headerMode: 'screen',
+        headerMode: 'screen',
         // mode: Platform.OS === 'ios' ? 'modal' : 'card',
         navigationOptions: {
             headerTitleStyle: {flex: 1, textAlign: 'center'},

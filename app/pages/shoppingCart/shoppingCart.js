@@ -21,12 +21,11 @@ import {StyleSheet, TextInput, View, Keyboard} from 'react-native';
 import AV from 'leancloud-storage';
 import DeviceInfo from 'react-native-device-info';
 import Icon from 'react-native-vector-icons/Ionicons';
-import ToastUtil from '../../utils/ToastUtil';
 import Request from '../../utils/Request';
 
 let feedbackText;
-
-class shoppingCart extends React.Component {
+import {BaseComponent} from '../../components/base/BaseComponent'
+class shoppingCart extends BaseComponent {
     static navigationOptions = ({navigation}) => ({
         title: '购物车',
         tabBarIcon: ({tintColor}) => (
@@ -52,7 +51,7 @@ class shoppingCart extends React.Component {
 
     onActionSelected = () => {
         if (feedbackText === undefined || feedbackText.replace(/\s+/g, '') === '') {
-            // ToastUtil.showShort('请填写建议内容哦~');
+            // this.showShort('请填写建议内容哦~');
             Request.post("test.do", {})
                 .then(rep => {
                     console.log("rep" + 'ok');
@@ -70,7 +69,7 @@ class shoppingCart extends React.Component {
             feedback.set('appVersion', DeviceInfo.getVersion());
             feedback.set('feedback', feedbackText);
             feedback.save();
-            ToastUtil.showShort('您的问题已反馈，我们会及时跟进处理');
+            this.showShort('您的问题已反馈，我们会及时跟进处理');
             this.textInput.clear();
             Keyboard.dismiss();
         }

@@ -32,15 +32,14 @@ import {
 import * as WeChat from 'react-native-wechat';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { SafeAreaView } from 'react-navigation';
-import ToastUtil from '../../utils/ToastUtil';
 import LoadingView from '../../components/LoadingView';
 import { formatStringWithHtml } from '../../utils/FormatUtil';
 
 let canGoBack = false;
 const shareIconWechat = require('../../img/share_icon_wechat.png');
 const shareIconMoments = require('../../img/share_icon_moments.png');
-
-class WebViewPage extends React.Component {
+import {BaseComponent} from '../../components/base/BaseComponent'
+class WebViewPage extends BaseComponent {
   static navigationOptions = ({ navigation }) => ({
     title: navigation.state.params.article.userName,
     tabBarIcon: ({ tintColor }) => (
@@ -130,10 +129,10 @@ class WebViewPage extends React.Component {
                         type: 'news',
                         webpageUrl: params.article.url
                       }).catch((error) => {
-                        ToastUtil.showShort(error.message, true);
+                        this.showShort(error.message, true);
                       });
                     } else {
-                      ToastUtil.showShort('没有安装微信软件，请您安装微信之后再试', true);
+                      this.showShort('没有安装微信软件，请您安装微信之后再试', true);
                     }
                   });
                 }}
@@ -154,10 +153,10 @@ class WebViewPage extends React.Component {
                         type: 'news',
                         webpageUrl: params.article.url
                       }).catch((error) => {
-                        ToastUtil.showShort(error.message, true);
+                        this.showShort(error.message, true);
                       });
                     } else {
-                      ToastUtil.showShort('没有安装微信软件，请您安装微信之后再试', true);
+                      this.showShort('没有安装微信软件，请您安装微信之后再试', true);
                     }
                   });
                 }}

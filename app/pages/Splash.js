@@ -27,8 +27,8 @@ import UserStore from "../store/UserStore";
 const maxHeight = Dimensions.get('window').height;
 const maxWidth = Dimensions.get('window').width;
 const splashImg = require('../img/splash.png');
-
-class Splash extends React.Component {
+import {BaseComponent} from '../components/base/BaseComponent'
+class Splash extends BaseComponent{
     static navigationOptions = {
         header: null
     };

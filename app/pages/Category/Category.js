@@ -32,9 +32,8 @@ import AV from 'leancloud-storage';
 import store from 'react-native-simple-store';
 import GridView from '../../components/GridView';
 import Button from '../../components/Button';
-import ToastUtil from '../../utils/ToastUtil';
 import NavigationUtil from '../../utils/NavigationUtil';
-
+import {BaseComponent} from '../../components/base/BaseComponent'
 let tempTypeIds = [];
 const maxCategory = 5; // 默认最多5个类别，远端可配置
 
@@ -43,7 +42,7 @@ const propTypes = {
   category: PropTypes.object.isRequired
 };
 
-class Category extends React.Component {
+class Category extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -108,7 +107,7 @@ class Category extends React.Component {
         }
       ]);
     } else if (this.state.typeIds.length > maxCategory) {
-      ToastUtil.showShort(`不要超过${maxCategory}个类别哦`);
+      this.showShort(`不要超过${maxCategory}个类别哦`);
     } else {
       store.save('typeIds', this.state.typeIds);
       store.save('isInit', true);
@@ -118,11 +117,11 @@ class Category extends React.Component {
 
   onActionSelected = () => {
     if (tempTypeIds.length > maxCategory) {
-      ToastUtil.showShort(`不要超过${maxCategory}个类别哦`);
+      this.showShort(`不要超过${maxCategory}个类别哦`);
       return;
     }
     if (tempTypeIds.length < 1) {
-      ToastUtil.showShort('不要少于1个类别哦');
+      this.showShort('不要少于1个类别哦');
     }
     const { navigate } = this.props.navigation;
     InteractionManager.runAfterInteractions(() => {

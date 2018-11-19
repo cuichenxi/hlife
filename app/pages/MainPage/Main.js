@@ -29,13 +29,12 @@ import store from 'react-native-simple-store';
 import { SafeAreaView } from 'react-navigation';
 
 import LoadingView from '../../components/LoadingView';
-import ToastUtil from '../../utils/ToastUtil';
 import { getArticleList, getTypeName } from '../../utils/ItemsUtil';
 import ItemCell from './ItemCell';
 import Footer from './Footer';
 import EmptyView from './EmptyView';
 import ItemListView from './ItemListView';
-
+import {BaseComponent} from '../../components/base/BaseComponent'
 const propTypes = {
   readActions: PropTypes.object,
   read: PropTypes.object.isRequired
@@ -45,7 +44,7 @@ const pages = [];
 let loadMoreTime = 0;
 let currentLoadMoreTypeId;
 
-class Main extends React.Component {
+class Main extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -94,7 +93,7 @@ class Main extends React.Component {
       !nextProps.read.isRefreshing
     ) {
       if (nextProps.read.noMore) {
-        ToastUtil.showShort('没有更多数据了');
+        this.showShort('没有更多数据了');
         const index = this.state.typeIds.indexOf(currentLoadMoreTypeId);
         if (index >= 0) {
           pages[index] -= 1;

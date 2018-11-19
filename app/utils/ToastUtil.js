@@ -15,28 +15,20 @@
  * limitations under the License.
  *
  */
-import { Alert, ToastAndroid, Platform } from 'react-native';
+import {Toast} from 'antd-mobile-rn';
 
-const showShort = (content, isAlert) => {
-  if (!content) {
-    return;
-  }
-  if (isAlert || Platform.OS === 'ios') {
-    Alert.alert('提示', content.toString());
-  } else {
-    ToastAndroid.show(content.toString(), ToastAndroid.SHORT);
-  }
+const showShort = (content) => {
+    Toast.info(content, 1, () => {
+    }, true)
 };
 
-const showLong = (content, isAlert) => {
-  if (isAlert || Platform.OS === 'ios') {
-    Alert.alert('提示', content.toString());
-  } else {
-    ToastAndroid.show(content.toString(), ToastAndroid.LONG);
-  }
+
+const showLong = (content) => {
+    Toast.info(content, 3, () => {
+    }, true)
 };
 
 export default {
-  showShort,
-  showLong
+    showShort,
+    showLong
 };

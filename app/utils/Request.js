@@ -3,11 +3,9 @@
  * @param params
  * @returns {Promise}
  */
-import aes from './aes';
+import aes from './AesUtil';
 import dInfo from 'react-native-device-info';
 import {Platform} from 'react-native';
-import {Toast} from 'antd-mobile-rn';
-import {Loading} from "./Loading";
 
 const post = (url, params = {}, options = {}) => {
     let isMock = false;
@@ -15,12 +13,6 @@ const post = (url, params = {}, options = {}) => {
         if (options.mock) {
             isMock = true;
             url = 'http://rap2api.taobao.org/app/mock/data/' + options.mockId;
-        }
-        if (options.loading) {
-            Loading.show();
-            // Toast.loading(options.loadingMsg ? options.loadingMsg : '加载中...', 0, () => {
-            //     console.log('Load complete !!!');
-            // });
         }
     }
     if (url.indexOf('http') == -1) {
@@ -63,8 +55,6 @@ const post = (url, params = {}, options = {}) => {
             }
             return response.text();
         }).then((responseData) => {
-            // Toast.hide()
-            Loading.hidden();
             if (isMock) {
                 console.log("response=" + responseData);
                 resolve(JSON.parse(responseData));
@@ -80,8 +70,6 @@ const post = (url, params = {}, options = {}) => {
             }
 
         }).catch((error) => {
-            // Toast.hide()
-            Loading.hidden();
             console.log("error=" + error);
             reject(error);
         });

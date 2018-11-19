@@ -19,8 +19,10 @@ import {Toast, Modal} from 'antd-mobile-rn';
 import StorageUtil from "../../utils/StorageUtil";
 import UserStore from "../../store/UserStore";
 import {Loading} from "../../utils/Loading";
+import {BaseComponent} from '../../components/base/BaseComponent'
+import NavigationUtil from "../../utils/NavigationUtil";
 
-export default class LoginPage extends Component {
+export default class LoginPage extends BaseComponent {
     static navigationOptions = ({navigation}) => ({
         headerTitle: '用户登录',
         headerLeft: null
@@ -45,7 +47,9 @@ export default class LoginPage extends Component {
         //         this.props.navigator.popToTop();
         //     }
         // });
+        this.canBack = false;
     }
+
 
     componentWillUpdate(nextProps, nextState) {
         InteractionManager.runAfterInteractions(() => {
@@ -54,7 +58,7 @@ export default class LoginPage extends Component {
             //     this.props.navigator.popToTop();
             // }
             // if (!userReducer.isLoading && userReducer.status == false) {
-                // Toast.showLong(userReducer.message);
+            // Toast.showLong(userReducer.message);
             // }
         });
     }
@@ -121,46 +125,46 @@ export default class LoginPage extends Component {
         // StorageUtil.save('test','xx');
         // var s =StorageUtil.get('test');
         // console.log('s=' + s);
-        let token = UserStore.get().token;
-        console.log("loginpage token=" + token);
-        // Loading.show();
-        Toast.loading('Loading...', 0, () => {
-            console.log('Load complete !!!');
-        });
+        // let token = UserStore.get().token;
+        // console.log("loginpage token=" + token);
+        // // Loading.show();
+        // Toast.loading('Loading...', 0, () => {
+        //     console.log('Load complete !!!');
+        // });
+        // this.showShort('退出');
+        this.showDLoading()
     }
 
     _forgetPassword() {
-        UserStore.save({token: '12341234'})
-        // Toast.loading('Loading...', 1, () => {
-        //     console.log('Load complete !!!');
-        // });
-        Request.post('login.do',
-            {phone: "15811508404", code: 123456},
-            {loading: true, loadingMsg: '登录中..', mock: true, mockId: 672823})
-            .then(rep => {
-                // UserStore.save({token: '12341234'})
-                // Toast.info(JSON.stringify(rep));
-                // store.save()
-                // alert("token=" + JSON.stringify(rep));
-            }).catch(err => {
-        })
+
     }
 
     _login() {
         let {mobile, password} = this.state;
 
         if (!mobile.length) {
-            Toast.showLong('请输入正确的手机号');
+            this.showLong('请输入正确的手机号');
             return;
         }
         if (!password.length) {
-            Toast.showLong('请输入密码');
+            this.showLong('请输入密码');
             return;
         }
-
         InteractionManager.runAfterInteractions(() => {
-            const {dispatch} = this.props;
-            // dispatch(userLogin(mobile, password));
+            this.showLoading('登录中..');
+            Request.post('login.do',
+                {phone: "15811508404", code: 123456},
+                {mock: true, mockId: 672823})
+                .then(rep => {
+                    if (rep.bstatus.code === 0) {
+                        UserStore.save({token: '12341234'});
+                        NavigationUtil.reset(this.props.navigation, 'Home');
+                    }
+                    this.showLong(rep.bstatus.desc);
+                }).catch(err => {
+            }).done(() => {
+                this.hideLoading();
+            })
         });
     }
 

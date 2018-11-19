@@ -21,10 +21,9 @@ import {StyleSheet, Text, View, Keyboard} from 'react-native';
 import AV from 'leancloud-storage';
 import DeviceInfo from 'react-native-device-info';
 import Icon from 'react-native-vector-icons/Ionicons';
-import ToastUtil from '../../utils/ToastUtil';
 import Request from '../../utils/Request';
 import NavigationUtil from "../../utils/NavigationUtil";
-
+import {BaseComponent} from '../../components/base/BaseComponent'
 let feedbackText;
 
 class UserCenter extends React.Component {

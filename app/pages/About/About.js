@@ -26,8 +26,8 @@ const SHOW_API = 'https://www.showapi.com';
 const READING_REPO = 'https://github.com/attentiveness/reading';
 
 const aboutLogo = require('../../img/about_logo.png');
-
-class About extends React.Component {
+import {BaseComponent} from '../../components/base/BaseComponent'
+class About extends BaseComponent {
   static navigationOptions = {
     title: '关于',
     tabBarIcon: ({ tintColor }) => (

@@ -16,7 +16,7 @@
  *
  */
 import React from 'react';
-import {BackAndroid} from 'react-native';
+import {BackAndroid,Platform} from 'react-native';
 import { connect } from 'react-redux';
 import CodePush from 'react-native-code-push';
 import { bindActionCreators } from 'redux';
@@ -44,30 +44,7 @@ class MainContainer extends React.Component {
       installMode: CodePush.InstallMode.ON_NEXT_RESTART
     });
   }
-    componentWillMount() {
-        if (Platform.OS === 'android') {
-            BackAndroid.addEventListener('hardwareBackPress', this.onBackAndroid);
-        }
-    }
-    componentWillUnmount() {
-        if (Platform.OS === 'android') {
-            BackAndroid.removeEventListener('hardwareBackPress', this.onBackAndroid);
-        }
-    }
 
-    onBackAndroid = () => {
-        Toast.hide();
-        // const  navigator  = this.refs.navigator;
-        // const { navigator } = this.props;
-        // const routers = navigator.getCurrentRoutes();
-        // console.log('当前路由长度：'+routers.length);
-        // if (routers.length > 1) {
-        //     navigator.pop();
-        //     return true;//接管默认行为
-        // }
-
-        return false;//默认行为
-    };
 
   render() {
     return <Main {...this.props} />;
