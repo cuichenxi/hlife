@@ -100,11 +100,11 @@ def enableProguardInReleaseBuilds = true
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion "26.0.2"
     useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
-        applicationId "com.reading"
+        applicationId "com.qfant.hlife"
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 7
