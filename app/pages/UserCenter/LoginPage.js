@@ -25,6 +25,7 @@ import NavigationUtil from "../../utils/NavigationUtil";
 export default class LoginPage extends BaseComponent {
     static navigationOptions = ({navigation}) => ({
         headerTitle: '用户登录',
+        title: '用户登录',
         headerLeft: null
     });
 

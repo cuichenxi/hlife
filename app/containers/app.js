@@ -68,6 +68,7 @@ const App = createStackNavigator(
         headerMode: 'screen',
         // mode: Platform.OS === 'ios' ? 'modal' : 'card',
         navigationOptions: {
+            headerBackTitle: null,
             headerTitleStyle: {flex: 1, textAlign: 'center'},
             headerStyle: {
                 backgroundColor: '#3e9ce9'
