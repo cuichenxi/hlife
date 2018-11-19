@@ -61,6 +61,7 @@
 	<string></string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>iconfont.ttf</string>
 		<string>Ionicons.ttf</string>
 	</array>
 	<key>UIRequiredDeviceCapabilities</key>

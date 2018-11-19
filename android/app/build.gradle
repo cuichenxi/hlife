@@ -79,7 +79,7 @@ project.ext.react = [
 apply from: "../../node_modules/react-native/react.gradle"
 apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
 project.ext.vectoricons = [
-        iconFontNames: ['Ionicons.ttf'] // Name of the font files you want to copy
+        iconFontNames: ['Ionicons.ttf','iconfont.ttf'] // Name of the font files you want to copy
 ]
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 

@@ -14,6 +14,7 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "build-android": "react-native bundle --entry-file index.js --bundle-output ./android/app/src/main/assets/index.android.bundle --platform android --assets-dest ./android/appsrc/main/res/ --dev false",
     "test": "jest",
+    "build-font": "node app/assets/fonts/genJson.js",
     "lint": "eslint app --fix",
     "format": "find app -name '*.js' | xargs prettier --write --single-quote"
   },

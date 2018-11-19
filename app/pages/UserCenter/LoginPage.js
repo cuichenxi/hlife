@@ -136,7 +136,8 @@ export default class LoginPage extends BaseComponent {
     }
 
     _forgetPassword() {
-
+        const {navigate} = this.props.navigation;
+        navigate('Feedback', {isFirst: true});
     }
 
     _login() {

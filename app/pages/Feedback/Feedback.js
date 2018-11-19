@@ -21,6 +21,7 @@ import {StyleSheet, Text, View, Keyboard} from 'react-native';
 import AV from 'leancloud-storage';
 import DeviceInfo from 'react-native-device-info';
 import Icon from 'react-native-vector-icons/Ionicons';
+import QIcon from '../../assets/fonts/iconSets';
 import Request from '../../utils/Request';
 import {BaseComponent} from '../../components/base/BaseComponent'
 let feedbackText;
@@ -32,8 +33,8 @@ class Feedback extends BaseComponent {
             <Icon name="md-thumbs-up" size={25} color={tintColor}/>
         ),
         headerRight: (
-            <Icon.Button
-                name="md-checkmark"
+            <QIcon.Button
+                name="icon-shouye"
                 backgroundColor="transparent"
                 underlayColor="transparent"
                 activeOpacity={0.8}
