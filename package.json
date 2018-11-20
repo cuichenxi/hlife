@@ -1,5 +1,5 @@
 {
-  "name": "ilife",
+  "name": "hlife",
   "version": "1.0.0",
   "description": "ilife App Write In React-Native",
   "license": "Apache-2.0",
@@ -21,6 +21,8 @@
   "dependencies": {
     "antd-mobile-rn": "^2.3.1",
     "crypto-js": "^3.1.9-1",
+    "jcore-react-native": "^1.2.12",
+    "jpush-react-native": "^2.3.0",
     "leancloud-storage": "3.6.7",
     "lodash": "^4.17.10",
     "moment": "^2.22.2",
@@ -28,7 +30,7 @@
     "react": "16.3.1",
     "react-native": "0.55.4",
     "react-native-code-push": "^5.3.2",
-    "react-native-device-info": "^0.21.5",
+    "react-native-device-info": "^0.24.3",
     "react-native-exceptions-manager": "^0.2.0",
     "react-native-root-siblings": "^3.1.6",
     "react-native-scrollable-tab-view": "0.8.0",

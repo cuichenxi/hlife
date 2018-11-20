@@ -109,6 +109,12 @@ android {
         targetSdkVersion 26
         versionCode 7
         versionName "2.1.0"
+        manifestPlaceholders = [
+                JPUSH_PKGNAME : applicationId,
+                JPUSH_APPKEY: "51ddc724d55234b62777f08a",
+                APP_CHANNEL : "default"
+        ]
+
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -167,9 +173,9 @@ andResGuard {   // ./gradlew resguard[BuildType | Flavor]
     keepRoot = false
     // add <yourpackagename>.R.drawable.icon into whitelist.
     whiteList = [
-            "com.reading.R.drawable.ic_launcher",
-            "com.reading.R.drawable.app_img*",
-            "com.reading.R.drawable.node_modules*",
+            "com.qfant.hlife.R.drawable.ic_launcher",
+            "com.qfant.hlife.R.drawable.app_img*",
+            "com.qfant.hlife.R.drawable.node_modules*",
             // for react-native-code-push
             "R.string.CODE_PUSH_APK_BUILD_TIME"
     ]
@@ -188,15 +194,17 @@ andResGuard {   // ./gradlew resguard[BuildType | Flavor]
 }
 
 dependencies {
+    compile project(':react-native-wechat')
+    compile project(':react-native-device-info')
+    compile project(':jcore-react-native')
+    compile project(':jpush-react-native')
     compile project(':react-native-splash-screen')
     compile fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleCompatible
     compile "com.android.support:appcompat-v7:26.1.0"
     compile "com.facebook.react:react-native:+" //From node_modules
     compile 'com.tencent.bugly:crashreport:latest.release'
-    compile project(':RCTWeChat')
     compile project(':react-native-code-push')
-    compile project(':RNDeviceInfo')
     compile project(':react-native-vector-icons')
     compile project(':react-native-exceptions-manager')
 }

@@ -22,12 +22,16 @@ import com.facebook.react.ReactActivity;
 
 import org.devio.rn.splashscreen.SplashScreen;
 
+import cn.jpush.android.api.JPushInterface;
+
 public class MainActivity extends ReactActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SplashScreen.show(this);
         super.onCreate(savedInstanceState);
+        JPushInterface.init(this);
+        JPushInterface.setDebugMode(BuildConfig.DEBUG); 	// 设置开启日志,发布时请关闭日志
     }
 
     /**
@@ -37,5 +41,16 @@ public class MainActivity extends ReactActivity {
     @Override
     protected String getMainComponentName() {
         return "hlife";
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JPushInterface.onPause(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        JPushInterface.onResume(this);
     }
 }

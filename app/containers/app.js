@@ -21,6 +21,7 @@ import LoginPage from '../pages/UserCenter/LoginPage';
 import Feedback from "../pages/Feedback/Feedback";
 import login from "../pages/UserCenter/login";
 import Icon from 'react-native-vector-icons/Ionicons';
+import Push from "../pages/About/Push";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -61,6 +62,7 @@ const App = createStackNavigator(
         },
         Web: {screen: WebViewPage},
         LoginPage: {screen: LoginPage},
+        Push: {screen: Push},
         Feedback: {screen: Feedback}
     },
     {

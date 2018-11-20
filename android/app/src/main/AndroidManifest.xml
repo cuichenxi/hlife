@@ -1,17 +1,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.qfant">
+    package="com.qfant.hlife">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
-        android:name=".hlife.MainApplication"
+        android:name=".MainApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".hlife.MainActivity"
+            android:name=".MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/app_name">
             <intent-filter>
@@ -19,17 +19,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+    <meta-data
+        android:name="JPUSH_APPKEY"
+        android:value="${JPUSH_APPKEY}" />
+    <meta-data
+        android:name="JPUSH_CHANNEL"
+        android:value="${APP_CHANNEL}" />
+
 
         <!-- 微信Activity -->
         <activity
-            android:name=".hlife.wxapi.WXEntryActivity"
+            android:name=".wxapi.WXEntryActivity"
             android:exported="true"
             android:label="@string/app_name" />
 
         <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
 
         <!--react-native异常捕捉-->
-        <receiver android:name=".hlife.ReactNativeJSCrashReceiver">
+        <receiver android:name=".ReactNativeJSCrashReceiver">
             <intent-filter>
                 <action android:name="com.richardcao.android.REACT_NATIVE_CRASH_REPORT_ACTION" />
             </intent-filter>

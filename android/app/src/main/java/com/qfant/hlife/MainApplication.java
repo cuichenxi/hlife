@@ -20,6 +20,8 @@ import android.app.Application;
 
 import com.facebook.infer.annotation.Assertions;
 import com.facebook.react.ReactApplication;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import com.theweflex.react.WeChatPackage;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactInstanceManagerBuilder;
 import com.facebook.react.ReactNativeHost;
@@ -27,13 +29,10 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.common.LifecycleState;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.microsoft.codepush.react.CodePush;
 import com.oblador.vectoricons.VectorIconsPackage;
-import com.qfant.BuildConfig;
 import com.richardcao.exceptionsmanager.react.ExceptionsManager;
 import com.tencent.bugly.crashreport.CrashReport;
-import com.theweflex.react.WeChatPackage;
 
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 
@@ -43,7 +42,11 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import cn.jpush.reactnativejpush.JPushPackage;
+
 public class MainApplication extends Application implements ReactApplication {
+    private boolean SHUTDOWN_TOAST = true;
+    private boolean SHUTDOWN_LOG = true;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -104,6 +107,7 @@ public class MainApplication extends Application implements ReactApplication {
                     new WeChatPackage(),
                     new CodePush(BuildConfig.CODEPUSH_KEY, MainApplication.this, BuildConfig.DEBUG),
                     new RNDeviceInfo(),
+                    new JPushPackage(SHUTDOWN_TOAST, SHUTDOWN_LOG),
                     new VectorIconsPackage());
             ArrayList<ReactPackage> packageList = new ArrayList<>(packages);
             if (!BuildConfig.DEBUG) {

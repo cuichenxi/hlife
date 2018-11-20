@@ -16,53 +16,139 @@
  *
  */
 import React from 'react';
-import {BackAndroid,Platform} from 'react-native';
-import { connect } from 'react-redux';
+import {BackAndroid, Platform} from 'react-native';
+import {connect} from 'react-redux';
 import CodePush from 'react-native-code-push';
-import { bindActionCreators } from 'redux';
+import {bindActionCreators} from 'redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Main from '../pages/MainPage/Main';
 import * as readCreators from '../actions/read';
 import {Toast, Modal} from 'antd-mobile-rn';
+import JPushModule from 'jpush-react-native';
+
 class MainContainer extends React.Component {
-  static navigationOptions = {
-    title: '首页',
-    tabBarIcon: ({ tintColor }) => (
-      <Icon name="md-home" size={25} color={tintColor} />
-    )
-  };
+    static navigationOptions = {
+        title: '首页',
+        tabBarIcon: ({tintColor}) => (
+            <Icon name="md-home" size={25} color={tintColor}/>
+        )
+    };
 
-  static componentDidMount() {
-    CodePush.sync({
-      deploymentKey: 'RGOUfyINiLicZnld67aD0nrbRvyLV1Ifekvul',
-      updateDialog: {
-        optionalIgnoreButtonLabel: '稍后',
-        optionalInstallButtonLabel: '后台更新',
-        optionalUpdateMessage: '幸福宜居有新版本了，是否更新？',
-        title: '更新提示'
-      },
-      installMode: CodePush.InstallMode.ON_NEXT_RESTART
-    });
-  }
+    constructor(props) {
+        super(props)
+        this.onGetRegistrationIdPress = this.onGetRegistrationIdPress.bind(this)
+        this.onHasPermission = this.onHasPermission.bind(this)
+        this.jumpSecondActivity = this.jumpSecondActivity.bind(this)
+        // this.setTag = this.setTag.bind(this)
+        // this.setAlias = this.setAlias.bind(this)
+    }
+
+    static componentDidMount() {
+        CodePush.sync({
+            deploymentKey: 'RGOUfyINiLicZnld67aD0nrbRvyLV1Ifekvul',
+            updateDialog: {
+                optionalIgnoreButtonLabel: '稍后',
+                optionalInstallButtonLabel: '后台更新',
+                optionalUpdateMessage: '幸福宜居有新版本了，是否更新？',
+                title: '更新提示'
+            },
+            installMode: CodePush.InstallMode.ON_NEXT_RESTART
+        });
+        // 在收到点击事件之前调用此接口
+        JPushModule.addReceiveNotificationListener((map) => {
+            console.log("alertContent: " + map.alertContent);
+            console.log("extras: " + map.extras);
+            // var extra = JSON.parse(map.extras);
+            // console.log(extra.key + ": " + extra.value);
+        });
+        if (Platform.OS === 'android') {
+            JPushModule.initPush()
+            JPushModule.getInfo(map => {
+                console.log('extras: ' + map)
+            })
+            JPushModule.notifyJSDidLoad(resultCode => {
+                if (resultCode === 0) {
+
+                }
+            })
+        } else {
+            JPushModule.setupPush()
+        }
+
+        this.receiveCustomMsgListener = map => {
+            this.setState({
+                pushMsg: map.content
+            })
+            console.log('extras: ' + map.extras)
+        }
+
+        JPushModule.addReceiveCustomMsgListener(this.receiveCustomMsgListener)
+        this.receiveNotificationListener = map => {
+            console.log('alertContent: ' + map.alertContent)
+            console.log('extras: ' + map.extras)
+        }
+        JPushModule.addReceiveNotificationListener(this.receiveNotificationListener)
+
+        this.openNotificationListener = map => {
+            console.log('Opening notification!')
+            console.log('map.extra: ' + map.extras)
+            this.jumpSecondActivity()
+        }
+        JPushModule.addReceiveOpenNotificationListener(this.openNotificationListener)
+
+        this.getRegistrationIdListener = registrationId => {
+            console.log('Device register succeed, registrationId ' + registrationId)
+        }
+        JPushModule.addGetRegistrationIdListener(this.getRegistrationIdListener);
+        // JPushModule.resumePush();
+    }
+
+    componentWillUnmount() {
+        // JPushModule.removeReceiveCustomMsgListener(this.receiveCustomMsgListener)
+        // JPushModule.removeReceiveNotificationListener(this.receiveNotificationListener)
+        // JPushModule.removeReceiveOpenNotificationListener(this.openNotificationListener)
+        // JPushModule.removeGetRegistrationIdListener(this.getRegistrationIdListener)
+        // console.log('Will clear all notifications')
+        // JPushModule.clearAllNotifications()
+    }
 
 
-  render() {
-    return <Main {...this.props} />;
-  }
+    onHasPermission () {
+        JPushModule.hasPermission( res => console.log(`onHasPermission ${res}`) )
+    }
+
+
+    onGetRegistrationIdPress () {
+        JPushModule.getRegistrationID(registrationId => {
+            this.setState({
+                registrationId: registrationId
+            })
+        })
+    }
+    jumpSecondActivity () {
+        console.log('jump to SecondActivity')
+        // JPushModule.jumpToPushActivityWithParams('SecondActivity', {
+        //   hello: 'world'
+        // })
+        // this.props.navigation.navigate('About')
+    }
+    render() {
+        return <Main {...this.props} />;
+    }
 }
 
 const mapStateToProps = (state) => {
-  const { read } = state;
-  return {
-    read
-  };
+    const {read} = state;
+    return {
+        read
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  const readActions = bindActionCreators(readCreators, dispatch);
-  return {
-    readActions
-  };
+    const readActions = bindActionCreators(readCreators, dispatch);
+    return {
+        readActions
+    };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);
