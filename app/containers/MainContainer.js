@@ -42,18 +42,20 @@ class MainContainer extends React.Component {
         // this.setTag = this.setTag.bind(this)
         // this.setAlias = this.setAlias.bind(this)
     }
-
+    //rOfQ8XGOt98_57EL3FJIogtaEFaL1847071a-a410-40be-8295-ea5fb8bf4b4a staging
+    //Zuhm7813pnWp80Jxdy3_J07YWFJP1847071a-a410-40be-8295-ea5fb8bf4b4a test
+    //K6yVS_qXUMNuWuppkSEpFyOVmB921847071a-a410-40be-8295-ea5fb8bf4b4a Production
     componentDidMount() {
         console.log('MainContainer: componentDidMount')
         CodePush.sync({
-            deploymentKey: 'RGOUfyINiLicZnld67aD0nrbRvyLV1Ifekvul',
+            // deploymentKey: 'rOfQ8XGOt98_57EL3FJIogtaEFaL1847071a-a410-40be-8295-ea5fb8bf4b4a"',
             updateDialog: {
                 optionalIgnoreButtonLabel: '稍后',
                 optionalInstallButtonLabel: '后台更新',
                 optionalUpdateMessage: '幸福宜居有新版本了，是否更新？',
                 title: '更新提示'
             },
-            installMode: CodePush.InstallMode.ON_NEXT_RESTART
+            installMode: CodePush.InstallMode.IMMEDIATE
         });
 
         if (Platform.OS === 'android') {

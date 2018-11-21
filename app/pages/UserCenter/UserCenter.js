@@ -73,8 +73,8 @@ class UserCenter extends React.Component {
         // alert('点击')
     };
     onNext = () => {
-        this.props.navigation.navigate('Push', { isFirst: true });
-        // this.props.navigation.navigate('LoginPage', { isFirst: true });
+        // this.props.navigation.navigate('Push', { isFirst: true });
+        this.props.navigation.navigate('LoginPage', { isFirst: true });
         // this.props.navigation.navigate('Feedback', { isFirst: true });
         // this.props.navigation.navigate('Feedback', {
         //     login_back_code: this.props.navigation.state.key, isFirst: true,
@@ -87,7 +87,7 @@ class UserCenter extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.textInput} onPress={this.onNext}>点击</Text>
+                <Text style={styles.textInput} onPress={this.onNext}>点击4</Text>
             </View>
         );
     }

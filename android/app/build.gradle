@@ -108,7 +108,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 7
-        versionName "2.1.0"
+        versionName "1.0.0"
         manifestPlaceholders = [
                 JPUSH_PKGNAME : applicationId,
                 JPUSH_APPKEY: "51ddc724d55234b62777f08a",
@@ -137,13 +137,13 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField "String", "CODEPUSH_KEY", '"U7ZF2kYt5EzV14JyIB22SLRhQ2KBV1Ifekvul"'
+            buildConfigField "String", "CODEPUSH_KEY", '"rOfQ8XGOt98_57EL3FJIogtaEFaL1847071a-a410-40be-8295-ea5fb8bf4b4a"'
         }
         release {
             minifyEnabled enableProguardInReleaseBuilds
             zipAlignEnabled true
             pseudoLocalesEnabled true
-            buildConfigField "String", "CODEPUSH_KEY", '"RGOUfyINiLicZnld67aD0nrbRvyLV1Ifekvul"'
+            buildConfigField "String", "CODEPUSH_KEY", '"K6yVS_qXUMNuWuppkSEpFyOVmB921847071a-a410-40be-8295-ea5fb8bf4b4a"'
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
         }

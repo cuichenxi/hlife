@@ -1,6 +1,6 @@
 {
   "name": "hlife",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "ilife App Write In React-Native",
   "license": "Apache-2.0",
   "repository": {
@@ -12,9 +12,11 @@
   },
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "build-android": "react-native bundle --entry-file index.js --bundle-output ./android/app/src/main/assets/index.android.bundle --platform android --assets-dest ./android/appsrc/main/res/ --dev false",
-    "test": "jest",
+    "build-android": "react-native bundle --entry-file index.js --bundle-output ./android/app/src/main/assets/index.android.bundle  --assets-dest ./android/appsrc/main/res/ --dev false --platform android",
+    "build-ios":     "react-native bundle --entry-file index.js --bundle-output ./ios/hlife/bundle/main.jsbundle   --assets-dest ./ios/hlife/bundle  --dev false  --platform ios",
     "build-font": "node app/assets/fonts/genJson.js",
+    "build-android-bundle": "react-native bundle --entry-file index.js --platform android --bundle-output ./dest/android/bundle/index.android.bundle  --assets-dest ./dest/android/bundle/ --dev false",
+    "build-ios-native":     "react-native bundle --entry-file index.js --platform ios     --bundle-output ./dest/ios/bundle/main.jsbundle                     --assets-dest ./dest/ios/bundle/  --dev false",
     "lint": "eslint app --fix",
     "format": "find app -name '*.js' | xargs prettier --write --single-quote"
   },

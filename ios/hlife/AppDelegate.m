@@ -72,6 +72,8 @@
   
 #ifdef DEBUG
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+//  jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+//   jsCodeLocation = [CodePush bundleURL];
 #else
   jsCodeLocation = [CodePush bundleURL];
   [Bugly startWithAppId:@"b0c9343009"];
