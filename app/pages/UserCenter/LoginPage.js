@@ -48,7 +48,7 @@ export default class LoginPage extends BaseComponent {
         //         this.props.navigator.popToTop();
         //     }
         // });
-        this.canBack = false;
+        this.setCanBack(false);
     }
 
 

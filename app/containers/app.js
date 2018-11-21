@@ -25,8 +25,8 @@ import Push from "../pages/About/Push";
 
 const TabContainer = createBottomTabNavigator(
     {
-        UserCenter: {screen: UserCenter},
         Main: {screen: MainContainer},
+        UserCenter: {screen: UserCenter},
         shopping: {screen: shopping},
         shoppingCart: {screen: shoppingCart},
     },

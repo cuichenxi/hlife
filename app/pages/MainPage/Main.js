@@ -57,6 +57,7 @@ class Main extends BaseComponent {
   }
 
   componentDidMount() {
+    console.log('Main: componentDidMount')
     const { readActions } = this.props;
     DeviceEventEmitter.addListener('changeCategory', (typeIds) => {
       typeIds.forEach((typeId) => {

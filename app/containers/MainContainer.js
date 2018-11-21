@@ -36,14 +36,15 @@ class MainContainer extends React.Component {
 
     constructor(props) {
         super(props)
-        this.onGetRegistrationIdPress = this.onGetRegistrationIdPress.bind(this)
-        this.onHasPermission = this.onHasPermission.bind(this)
-        this.jumpSecondActivity = this.jumpSecondActivity.bind(this)
+        // this.onGetRegistrationIdPress = this.onGetRegistrationIdPress.bind(this)
+        // this.onHasPermission = this.onHasPermission.bind(this)
+        // this.jumpSecondActivity = this.jumpSecondActivity.bind(this)
         // this.setTag = this.setTag.bind(this)
         // this.setAlias = this.setAlias.bind(this)
     }
 
-    static componentDidMount() {
+    componentDidMount() {
+        console.log('MainContainer: componentDidMount')
         CodePush.sync({
             deploymentKey: 'RGOUfyINiLicZnld67aD0nrbRvyLV1Ifekvul',
             updateDialog: {
@@ -54,13 +55,7 @@ class MainContainer extends React.Component {
             },
             installMode: CodePush.InstallMode.ON_NEXT_RESTART
         });
-        // 在收到点击事件之前调用此接口
-        JPushModule.addReceiveNotificationListener((map) => {
-            console.log("alertContent: " + map.alertContent);
-            console.log("extras: " + map.extras);
-            // var extra = JSON.parse(map.extras);
-            // console.log(extra.key + ": " + extra.value);
-        });
+
         if (Platform.OS === 'android') {
             JPushModule.initPush()
             JPushModule.getInfo(map => {
@@ -68,7 +63,6 @@ class MainContainer extends React.Component {
             })
             JPushModule.notifyJSDidLoad(resultCode => {
                 if (resultCode === 0) {
-
                 }
             })
         } else {
@@ -76,16 +70,16 @@ class MainContainer extends React.Component {
         }
 
         this.receiveCustomMsgListener = map => {
-            this.setState({
-                pushMsg: map.content
-            })
             console.log('extras: ' + map.extras)
         }
 
         JPushModule.addReceiveCustomMsgListener(this.receiveCustomMsgListener)
         this.receiveNotificationListener = map => {
-            console.log('alertContent: ' + map.alertContent)
-            console.log('extras: ' + map.extras)
+            // console.log('alertContent: ' + map.alertContent)
+            console.log('extras: ' + JSON.stringify(map));
+            if (Platform.OS === 'ios') {
+                JPushModule.setBadge(map.aps.badge, success => {});
+            }
         }
         JPushModule.addReceiveNotificationListener(this.receiveNotificationListener)
 
@@ -93,23 +87,24 @@ class MainContainer extends React.Component {
             console.log('Opening notification!')
             console.log('map.extra: ' + map.extras)
             this.jumpSecondActivity()
+            JPushModule.clearAllNotifications();
         }
         JPushModule.addReceiveOpenNotificationListener(this.openNotificationListener)
 
         this.getRegistrationIdListener = registrationId => {
             console.log('Device register succeed, registrationId ' + registrationId)
         }
-        JPushModule.addGetRegistrationIdListener(this.getRegistrationIdListener);
-        // JPushModule.resumePush();
+        JPushModule.addGetRegistrationIdListener(this.getRegistrationIdListener)
+        JPushModule.clearAllNotifications();
     }
 
     componentWillUnmount() {
-        // JPushModule.removeReceiveCustomMsgListener(this.receiveCustomMsgListener)
-        // JPushModule.removeReceiveNotificationListener(this.receiveNotificationListener)
-        // JPushModule.removeReceiveOpenNotificationListener(this.openNotificationListener)
-        // JPushModule.removeGetRegistrationIdListener(this.getRegistrationIdListener)
-        // console.log('Will clear all notifications')
-        // JPushModule.clearAllNotifications()
+        JPushModule.removeReceiveCustomMsgListener(this.receiveCustomMsgListener)
+        JPushModule.removeReceiveNotificationListener(this.receiveNotificationListener)
+        JPushModule.removeReceiveOpenNotificationListener(this.openNotificationListener)
+        JPushModule.removeGetRegistrationIdListener(this.getRegistrationIdListener)
+        console.log('Will clear all notifications')
+        JPushModule.clearAllNotifications()
     }
 
 

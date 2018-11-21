@@ -16,20 +16,22 @@ import {
 } from 'react-navigation';
 
 // import {Actions} from "react-native-router-flux"
+let lastBackPressed = null;
+let isLoading = false;
+let canBack = true;
+
 class BaseComponent extends Component {
     _didFocusSubscription;
     _willBlurSubscription;
 
     constructor(props) {
         super(props)
-        this.state = {
-            lastBackPressed: null,
-            isLoading: false,
-            canBack: true
-        }
         this._didFocusSubscription = props.navigation.addListener('didFocus', payload =>
             BackHandler.addEventListener('hardwareBackPress', this.onBackPressAndroid)
         );
+        lastBackPressed = null;
+        isLoading = false;
+        canBack = true;
         // this.navigationBarProps = this.navigationBarProps.bind(this)
         // this._render = this._render.bind(this)
         // this.onLeftPress = this.onLeftPress.bind(this)
@@ -40,6 +42,9 @@ class BaseComponent extends Component {
         return null
     }
 
+    setCanBack(_canBack) {
+        canBack = _canBack;
+    }
 
     superFunc(data) {
         alert(`在子类中调用了父类的函数，${data}`)
@@ -54,7 +59,7 @@ class BaseComponent extends Component {
     }
 
     showLoading(content) {
-        this.isLoading = true;
+        isLoading = true;
         Toast.loading(content, 0, () => {
         }, true)
     }
@@ -89,22 +94,23 @@ class BaseComponent extends Component {
     }
 
     onBackPressAndroid = () => {
-        if (this.isLoading) {
+        if (isLoading) {
             this.hideLoading();
-            this.isLoading = false;
+            isLoading = false;
             return true;
         }
-        if (!this.canBack) {
+        if (!canBack) {
             return true;
         }
         const {dispatch, state} = this.props.navigation;
-        if (state.routeName  === 'Home') {
-            if (this.lastBackPressed && this.lastBackPressed + 2000 >= Date.now()) {
-                dispatch({type: 'ExitApp'})//将state设置成第一次启动一致，避免从哪个界面退出，启动时显示哪个界面的bug（杀掉进程启动无该问题）
+        if (state.routeName  === 'Main') {
+            if (lastBackPressed && lastBackPressed + 2000 >= Date.now()) {
+                // dispatch({type: 'ExitApp'});//将state设置成第一次启动一致，避免从哪个界面退出，启动时显示哪个界面的bug（杀掉进程启动无该问题）
+                BackHandler.exitApp()
                 return false
             }
             this.showShort('再按一次退出!');
-            this.lastBackPressed = Date.now();
+            lastBackPressed = Date.now();
             return true;
         }
         dispatch(NavigationActions.back());
