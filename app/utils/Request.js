@@ -4,8 +4,8 @@
  * @returns {Promise}
  */
 import aes from './AesUtil';
-import dInfo from 'react-native-device-info';
-import {Platform} from 'react-native';
+// import dInfo from 'react-native-device-info';
+import {Platform,DeviceInfo} from 'react-native';
 
 const post = (url, params = {}, options = {}) => {
     let isMock = false;
@@ -20,10 +20,10 @@ const post = (url, params = {}, options = {}) => {
     }
     console.log("url=" + url);
     let cParam = {
-        deviceId: dInfo.getUniqueID(),
-        versionCode: dInfo.getBuildNumber(),
-        versionName: dInfo.getVersion(),
-        bundleId: dInfo.getBundleId(),
+        // deviceId: dInfo.getUniqueID(),
+        // versionCode: dInfo.getBuildNumber(),
+        // versionName: dInfo.getVersion(),
+        // bundleId: dInfo.getBundleId(),
         platform: Platform.OS,
         token: ""
     }

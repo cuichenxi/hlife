@@ -27,7 +27,6 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.common.LifecycleState;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.microsoft.codepush.react.CodePush;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.qfant.BuildConfig;
@@ -103,7 +102,6 @@ public class MainApplication extends Application implements ReactApplication {
                     new SplashScreenReactPackage(),
                     new WeChatPackage(),
                     new CodePush(BuildConfig.CODEPUSH_KEY, MainApplication.this, BuildConfig.DEBUG),
-                    new RNDeviceInfo(),
                     new VectorIconsPackage());
             ArrayList<ReactPackage> packageList = new ArrayList<>(packages);
             if (!BuildConfig.DEBUG) {

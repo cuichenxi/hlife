@@ -19,7 +19,6 @@ import React from 'react';
 import {StyleSheet, Text, View, Keyboard} from 'react-native';
 
 import AV from 'leancloud-storage';
-import DeviceInfo from 'react-native-device-info';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Request from '../../utils/Request';
 import NavigationUtil from "../../utils/NavigationUtil";

@@ -19,7 +19,6 @@ import React from 'react';
 import {StyleSheet, TextInput, View, Keyboard} from 'react-native';
 
 import AV from 'leancloud-storage';
-import DeviceInfo from 'react-native-device-info';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Request from '../../utils/Request';
 
@@ -62,12 +61,12 @@ class shoppingCart extends BaseComponent {
 
         } else {
             const feedback = AV.Object.new('Shopping');
-            feedback.set('manufacturer', DeviceInfo.getManufacturer());
-            feedback.set('system', DeviceInfo.getSystemName());
-            feedback.set('deviceVersion', DeviceInfo.getSystemVersion());
-            feedback.set('deviceModel', DeviceInfo.getModel());
-            feedback.set('appVersion', DeviceInfo.getVersion());
-            feedback.set('feedback', feedbackText);
+            // feedback.set('manufacturer', DeviceInfo.getManufacturer());
+            // feedback.set('system', DeviceInfo.getSystemName());
+            // feedback.set('deviceVersion', DeviceInfo.getSystemVersion());
+            // feedback.set('deviceModel', DeviceInfo.getModel());
+            // feedback.set('appVersion', DeviceInfo.getVersion());
+            // feedback.set('feedback', feedbackText);
             feedback.save();
             this.showShort('您的问题已反馈，我们会及时跟进处理');
             this.textInput.clear();

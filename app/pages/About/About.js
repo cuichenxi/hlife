@@ -18,7 +18,6 @@
 import React from 'react';
 import { StyleSheet, Image, Text, Linking, View } from 'react-native';
 
-import DeviceInfo from 'react-native-device-info';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Button from '../../components/Button';
 
@@ -50,7 +49,6 @@ class About extends BaseComponent {
         <View style={styles.content}>
           <View style={styles.center}>
             <Image style={styles.logo} source={aboutLogo} />
-            <Text style={styles.version}>{`v${DeviceInfo.getVersion()}`}</Text>
             <Text style={styles.title}>iReading</Text>
             <Text style={styles.subtitle}>让生活更精彩</Text>
           </View>
