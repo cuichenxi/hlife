@@ -56,9 +56,9 @@ class Splash extends BaseComponent{
         SplashScreen.hide();
         this.timer = setTimeout(() => {
             if (UserStore.isLogin()) {
-                NavigationUtil.reset(this.props.navigation, 'Home');
+                this.reset( 'Home');
             } else {
-                navigate('LoginPage', {isFirst: true});
+                this.push('LoginPage', {isFirst: true});
             }
         }, 1000);
 

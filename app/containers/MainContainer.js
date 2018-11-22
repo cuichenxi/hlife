@@ -23,16 +23,10 @@ import {bindActionCreators} from 'redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Main from '../pages/MainPage/Main';
 import * as readCreators from '../actions/read';
-import {Toast, Modal} from 'antd-mobile-rn';
 import JPushModule from 'jpush-react-native';
+import MainIndex from "../pages/MainPage/MainIndex";
 
 class MainContainer extends React.Component {
-    static navigationOptions = {
-        title: '首页',
-        tabBarIcon: ({tintColor}) => (
-            <Icon name="md-home" size={25} color={tintColor}/>
-        )
-    };
 
     constructor(props) {
         super(props)
@@ -46,17 +40,16 @@ class MainContainer extends React.Component {
     //Zuhm7813pnWp80Jxdy3_J07YWFJP1847071a-a410-40be-8295-ea5fb8bf4b4a test
     //K6yVS_qXUMNuWuppkSEpFyOVmB921847071a-a410-40be-8295-ea5fb8bf4b4a Production
     componentDidMount() {
-        console.log('MainContainer: componentDidMount')
-        CodePush.sync({
-            // deploymentKey: 'rOfQ8XGOt98_57EL3FJIogtaEFaL1847071a-a410-40be-8295-ea5fb8bf4b4a"',
-            updateDialog: {
-                optionalIgnoreButtonLabel: '稍后',
-                optionalInstallButtonLabel: '后台更新',
-                optionalUpdateMessage: '幸福宜居有新版本了，是否更新？',
-                title: '更新提示'
-            },
-            installMode: CodePush.InstallMode.IMMEDIATE
-        });
+        // CodePush.sync({
+        //     // deploymentKey: 'rOfQ8XGOt98_57EL3FJIogtaEFaL1847071a-a410-40be-8295-ea5fb8bf4b4a"',
+        //     updateDialog: {
+        //         optionalIgnoreButtonLabel: '稍后',
+        //         optionalInstallButtonLabel: '后台更新',
+        //         optionalUpdateMessage: '幸福宜居有新版本了，是否更新？',
+        //         title: '更新提示'
+        //     },
+        //     installMode: CodePush.InstallMode.IMMEDIATE
+        // });
 
         if (Platform.OS === 'android') {
             JPushModule.initPush()
@@ -130,7 +123,7 @@ class MainContainer extends React.Component {
         // this.props.navigation.navigate('About')
     }
     render() {
-        return <Main {...this.props} />;
+        return <MainIndex {...this.props} />;
     }
 }
 

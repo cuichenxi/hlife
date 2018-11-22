@@ -3,73 +3,105 @@
  */
 import React, {Component} from 'react'
 import {View, BackHandler, StyleSheet} from 'react-native'
-// import NavigationBar from '../common/navigationBar/navigationBar'
 import {CommonStyle} from '../../common/CommonStyle'
 import {Toast, Modal} from 'antd-mobile-rn';
 import {
-    StackNavigator,
-    SafeAreaView,
-    createStackNavigator,
-    createDrawerNavigator,
-    createMaterialTopTabNavigator,
-    createBottomTabNavigator, NavigationActions
+    NavigationActions
 } from 'react-navigation';
+import NavigationBar from "../navigationBar/navigationBar";
+import Loading from "../Loading";
+import LoadingView from "../LoadingView";
+import NavigationUtil from "../../utils/NavigationUtil";
 
-// import {Actions} from "react-native-router-flux"
-let lastBackPressed = null;
-let isLoading = false;
-let canBack = true;
 
 class BaseComponent extends Component {
-    _didFocusSubscription;
-    _willBlurSubscription;
+    static navigationOptions = ({navigation}) => ({
+        header: null,
+        headerTitle: '',
+        title: '',
+        headerLeft: null,
+        gesturesEnabled: false
+    });
 
     constructor(props) {
         super(props)
-        this._didFocusSubscription = props.navigation.addListener('didFocus', payload =>
-            BackHandler.addEventListener('hardwareBackPress', this.onBackPressAndroid)
-        );
-        lastBackPressed = null;
-        isLoading = false;
-        canBack = true;
-        // this.navigationBarProps = this.navigationBarProps.bind(this)
-        // this._render = this._render.bind(this)
-        // this.onLeftPress = this.onLeftPress.bind(this)
-        // this.onRightPress = this.onRightPress.bind(this)
+        this.state = {
+            lastBackPressed: null,
+            inSideLoading: false,
+            isLoading: false,
+            loadingText: '加载中...',
+            canBack: true,
+        }
+        this.onLeftPress = this.onLeftPress.bind(this)
+        this.onRightPress = this.onRightPress.bind(this)
     }
 
     navigationBarProps() {
-        return null
+        return {};
     }
 
     setCanBack(_canBack) {
-        canBack = _canBack;
+        this.state.canBack = _canBack;
     }
 
-    superFunc(data) {
-        alert(`在子类中调用了父类的函数，${data}`)
+    goBack() {
+        this.props.navigation.goBack();
+    }
+
+    navigate(screenName, params = {}) {
+        this.props.navigation.navigate(screenName, params);
+    }
+
+    push(screenName, params = {}) {
+        this.props.navigation.push(screenName,params);
+    }
+
+    reset(screenName) {
+        NavigationUtil.reset(this.props.navigation, screenName);
     }
 
     onLeftPress() {
-        Actions.pop()
+        this.goBack();
     }
+
 
     onRightPress() {
         return null
     }
 
-    showLoading(content) {
-        isLoading = true;
-        Toast.loading(content, 0, () => {
-        }, true)
+    showLoading(loadingText) {
+        this.setState({
+                isLoading: true,
+                loadingText: loadingText
+            }
+        );
+        // Toast.loading(content, 0, () => {
+        // }, true)
     }
 
     showDLoading() {
         this.showLoading('加载中...')
     }
 
+    showInDLoading() {
+        this.showInLoading('加载中...')
+    }
+
+    showInLoading(loadingText) {
+        this.setState({
+                inSideLoading: true,
+                loadingText: loadingText
+            }
+        );
+    }
+
     hideLoading() {
-        Toast.hide();
+        this.setState({
+                inSideLoading: false,
+                isLoading: false
+            }
+        );
+        // Toast.hide();
     }
 
     showShort(content) {
@@ -78,42 +110,45 @@ class BaseComponent extends Component {
     }
 
     showLong(content) {
-        Toast.info(content, 3, () => {}, true)
+        Toast.info(content, 3, () => {
+        }, true)
     }
 
     componentDidMount() {
         this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
             BackHandler.removeEventListener('hardwareBackPress', this.onBackPressAndroid)
         );
+        this._didFocusSubscription = props.navigation.addListener('didFocus', payload =>
+            BackHandler.addEventListener('hardwareBackPress', this.onBackPressAndroid)
+        );
     }
 
 
     componentWillUnmount() {
-        this._didFocusSubscription && this._didFocusSubscription.remove();
-        this._willBlurSubscription && this._willBlurSubscription.remove();
+
     }
 
     onBackPressAndroid = () => {
-        if (isLoading) {
+        if (this.state.isLoading) {
             this.hideLoading();
-            isLoading = false;
             return true;
         }
-        if (!canBack) {
+        if (!this.state.canBack) {
             return true;
         }
-        const {dispatch, state} = this.props.navigation;
-        if (state.routeName  === 'Main') {
-            if (lastBackPressed && lastBackPressed + 2000 >= Date.now()) {
+
+        const {state} = this.props.navigation;
+        if (state.routeName === 'Main' || state.routeName === 'Home'
+            || state.routeName === 'UserCenter' || state.routeName === 'shopping' || state.routeName === 'shoppingCart') {
+            if (this.state.lastBackPressed && this.state.lastBackPressed + 2000 >= Date.now()) {
                 // dispatch({type: 'ExitApp'});//将state设置成第一次启动一致，避免从哪个界面退出，启动时显示哪个界面的bug（杀掉进程启动无该问题）
                 BackHandler.exitApp()
                 return false
             }
             this.showShort('再按一次退出!');
-            lastBackPressed = Date.now();
+            this.state.lastBackPressed = Date.now();
             return true;
         }
-        dispatch(NavigationActions.back());
         return true;
     }
 
@@ -130,23 +165,26 @@ class BaseComponent extends Component {
     }
 
     _render() {
-        return null
+        return null;
     }
 
-    // render() {
-    //   return (
-    //     <View style={[styles.container, this.props.style]}>
-    //       {this.renderNavigationBar()}
-    //       {this._render()}
-    //     </View>
-    //   )
-    // }
+    render() {
+        thiz = this;
+        return (
+            <View style={[styles.container, this.props.style]}>
+                {this.renderNavigationBar()}
+                {this.state.inSideLoading ? <LoadingView loadingtext={this.state.loadingText}/> : this._render()}
+                {this.state.isLoading ?
+                    <Loading loadProps={{visible: this.state.isLoading, loadingText: this.state.loadingText}}/> : null}
+            </View>
+        );
+    }
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: CommonStyle.white
+        backgroundColor: CommonStyle.bgColor
     }
 })
 

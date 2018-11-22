@@ -19,6 +19,7 @@ export const CommonStyle = {
   blue: '#0000FF',
   purple: '#800080',
   black: '#000',
+  color_333: '#333333',
   white: '#FFF',
   gray: '#808080',
   drakGray: '#A9A9A9',
@@ -28,7 +29,7 @@ export const CommonStyle = {
   clear: 'transparent',
 
   /** 主题色 **/
-  themeColor: '#e74c3c',
+  themeColor: '#3e9ce9',
   // 默认灰色字体颜色
   textGrayColor: '#989898',
   // 默认黑色字体颜色
@@ -42,12 +43,12 @@ export const CommonStyle = {
   // borderColor
   borderColor: '#808080',
   // 导航title 颜色
-  navTitleColor: '#262626',
+  navTitleColor: '#fff',
   // 导航左item title color
   navLeftTitleColor: '#333',
   // 导航右item title color
   navRightTitleColor: '#333',
-  navThemeColor: '#FEFEFE',
+  navThemeColor: '#3e9ce9',
   iconGray: '#989898',
   iconBlack: '#262626',
 
@@ -98,7 +99,7 @@ export const CommonStyle = {
   btnFont: 15,
   btnFontSmall: 13,
   // 导航title字体
-  navTitleFont: 17,
+  navTitleFont: 20,
   // tabBar文字字体
   barBarTitleFont: 12,
   // 占位符的默认字体大小

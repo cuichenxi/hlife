@@ -15,27 +15,33 @@
  * limitations under the License.
  *
  */
-import React from 'react';
-import { ActivityIndicator, Text, StyleSheet, View } from 'react-native';
+import React, {Component} from 'react';
+import {ActivityIndicator, Text, StyleSheet, View} from 'react-native';
+import {CommonStyle} from '../common/CommonStyle'
+class LoadingView extends Component {
+    render() {
+        return (
+            <View style={styles.loading}>
+                <ActivityIndicator size="large" color={CommonStyle.themeColor}/>
+                <Text style={styles.loadingText}>{this.props.loadingtext ? this.props.loadingtext : '加载中...'}</Text>
+            </View>
+        );
+    }
 
-const LoadingView = () => (
-  <View style={styles.loading}>
-    <ActivityIndicator size="large" color="#3e9ce9" />
-    <Text style={styles.loadingText}>数据加载中...</Text>
-  </View>
-);
+}
 
 const styles = StyleSheet.create({
-  loading: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'white'
-  },
-  loadingText: {
-    marginTop: 10,
-    textAlign: 'center'
-  }
+    loading: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: CommonStyle.bgColor
+    },
+    loadingText: {
+        marginTop: 10,
+        color: CommonStyle.themeColor,
+        textAlign: 'center'
+    }
 });
 
 export default LoadingView;

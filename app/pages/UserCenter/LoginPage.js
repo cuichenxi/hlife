@@ -6,7 +6,7 @@ import {
     View,
     Image,
     TouchableOpacity,
-    InteractionManager,
+    InteractionManager, Keyboard,
 } from 'react-native';
 // import Toast from '../../utils/ToastUtil';
 import Request from "../../utils/Request";
@@ -23,13 +23,11 @@ import {BaseComponent} from '../../components/base/BaseComponent'
 import NavigationUtil from "../../utils/NavigationUtil";
 
 export default class LoginPage extends BaseComponent {
-    static navigationOptions = ({navigation}) => ({
-        headerTitle: '用户登录',
-        title: '用户登录',
-        headerLeft: null,
-        gesturesEnabled: false
-    });
-
+    navigationBarProps() {
+        return {
+            title: '用户登录',
+        }
+    }
     constructor(props) {
         super(props);
         this.state = {
@@ -37,6 +35,7 @@ export default class LoginPage extends BaseComponent {
             password: '',
         };
     }
+
 
     componentWillUnmount() {
         // this.unsubscribe();
@@ -65,7 +64,7 @@ export default class LoginPage extends BaseComponent {
         });
     }
 
-    render() {
+    _render() {
         return (
             <View style={styles.container}>
                 <View style={[styles.formInput, styles.formInputSplit]}>
@@ -143,6 +142,7 @@ export default class LoginPage extends BaseComponent {
     }
 
     _login() {
+        Keyboard.dismiss();
         let {mobile, password} = this.state;
 
         if (!mobile.length) {

@@ -24,13 +24,14 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Request from '../../utils/Request';
 import NavigationUtil from "../../utils/NavigationUtil";
 import {BaseComponent} from '../../components/base/BaseComponent'
+import QIcon from "../../components/icon";
 let feedbackText;
 
 class UserCenter extends React.Component {
     static navigationOptions = ({navigation}) => ({
         title: '我的',
         tabBarIcon: ({tintColor}) => (
-            <Icon name="md-thumbs-up" size={25} color={tintColor}/>
+            <QIcon name="icon-mine" size={25} color={tintColor}/>
         ),
         headerRight: (
             <Icon.Button

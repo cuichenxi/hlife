@@ -41,7 +41,7 @@ const shareIconMoments = require('../../img/share_icon_moments.png');
 import {BaseComponent} from '../../components/base/BaseComponent'
 class WebViewPage extends BaseComponent {
   static navigationOptions = ({ navigation }) => ({
-    title: navigation.state.params.article.userName,
+    title: navigation.state.params.article.title,
     tabBarIcon: ({ tintColor }) => (
       <Icon name="md-home" size={25} color={tintColor} />
     ),

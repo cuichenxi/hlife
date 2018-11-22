@@ -13,7 +13,7 @@ import Splash from '../pages/Splash';
 import {Platform} from 'react-native';
 import CategoryContainer from '../containers/CategoryContainer';
 import MainContainer from '../containers/MainContainer';
-import WebViewPage from '../pages/ItemDetail/WebViewPage';
+import WebViewPage from '../pages/web/WebViewPage';
 import shopping from '../pages/shopping/shopping';
 import shoppingCart from '../pages/shoppingCart/shoppingCart';
 import UserCenter from '../pages/UserCenter/UserCenter';
@@ -22,17 +22,45 @@ import Feedback from "../pages/Feedback/Feedback";
 import login from "../pages/UserCenter/login";
 import Icon from 'react-native-vector-icons/Ionicons';
 import Push from "../pages/About/Push";
-
+import MainIndex from "../pages/MainPage/MainIndex";
+import QIcon from "../components/icon";
+import React from 'react';
 const TabContainer = createBottomTabNavigator(
     {
-        Main: {screen: MainContainer},
-        UserCenter: {screen: UserCenter},
-        shopping: {screen: shopping},
-        shoppingCart: {screen: shoppingCart},
+        Main: {
+            screen: MainContainer, navigationOptions: {
+                title:'首页',
+                tabBarIcon: ({tintColor}) => (
+                    <QIcon name="icon-home" size={21} color={tintColor}/>
+                )
+            }
+        },
+        UserCenter: {
+            screen: UserCenter, navigationOptions: {
+                tabBarIcon: ({tintColor}) => (
+                    <QIcon name="icon-mine" size={22} color={tintColor}/>
+                )
+            }
+        },
+        shopping: {
+            screen: shopping, navigationOptions: {
+                tabBarIcon: ({tintColor}) => (
+                    <QIcon name="icon-shopping" size={22} color={tintColor}/>
+                )
+            }
+        },
+        shoppingCart: {
+            screen: shoppingCart, navigationOptions: {
+                tabBarIcon: ({tintColor}) => (
+                    <QIcon name="icon-shopping-cart" size={23} color={tintColor}/>
+                )
+            }
+        },
     },
     {
         lazy: true,
         tabBarPosition: 'bottom',
+        backBehavior: "none",
         tabBarOptions: {
             activeTintColor: '#3e9ce9',
             inactiveTintColor: '#999999',
@@ -63,7 +91,8 @@ const App = createStackNavigator(
         Web: {screen: WebViewPage},
         LoginPage: {screen: LoginPage},
         Push: {screen: Push},
-        Feedback: {screen: Feedback}
+        Feedback: {screen: Feedback},
+        MainIndex: {screen: MainIndex}
     },
     {
         // initialRouteName: 'Splash',
@@ -82,7 +111,6 @@ const App = createStackNavigator(
             },
             headerTintColor: '#fff',
         },
-        backBehavior: 'none',
     }
 );
 

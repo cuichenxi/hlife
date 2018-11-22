@@ -37,7 +37,6 @@
 		A85175D71D54FD2000AEF15A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A85175D61D54FD2000AEF15A /* Security.framework */; };
 		A864F2C91FC17881004C4765 /* Bugly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A864F2C81FC17881004C4765 /* Bugly.framework */; };
 		A892EC8E1E7D7FB400D98A95 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
-		D722367321A2D94F00DD83FA /* iconfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D722367221A2D94F00DD83FA /* iconfont.ttf */; };
 		D7B7123721A5589B006205AD /* share_icon_wechat.png in Resources */ = {isa = PBXBuildFile; fileRef = D7B7121D21A5589B006205AD /* share_icon_wechat.png */; };
 		D7B7123821A5589B006205AD /* user.png in Resources */ = {isa = PBXBuildFile; fileRef = D7B7121E21A5589B006205AD /* user.png */; };
 		D7B7123921A5589B006205AD /* passicon.png in Resources */ = {isa = PBXBuildFile; fileRef = D7B7121F21A5589B006205AD /* passicon.png */; };
@@ -55,6 +54,7 @@
 		D7B7124521A5589B006205AD /* offline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7B7123421A5589B006205AD /* offline@2x.png */; };
 		D7B7124A21A56013006205AD /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = D7B7124821A56013006205AD /* main.jsbundle */; };
 		D7B7124B21A56013006205AD /* main.jsbundle.meta in Resources */ = {isa = PBXBuildFile; fileRef = D7B7124921A56013006205AD /* main.jsbundle.meta */; };
+		D7C993D521A6E42E0065B012 /* iconfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7C993D421A6E42E0065B012 /* iconfont.ttf */; };
 		D7EAB84A219AC9BF004DF1D3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D7EAB844219AC9BF004DF1D3 /* main.m */; };
 		D7EAB84B219AC9BF004DF1D3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7EAB845219AC9BF004DF1D3 /* Images.xcassets */; };
 		D7EAB84C219AC9BF004DF1D3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D7EAB846219AC9BF004DF1D3 /* AppDelegate.m */; };
@@ -422,7 +422,6 @@
 		B6162246D9CD4351A73DA780 /* libSplashScreen.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libSplashScreen.a; sourceTree = "<group>"; };
 		C2E8414693E74459A5FCB846 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		C6E771239E444EA8B4CE818B /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
-		D722367221A2D94F00DD83FA /* iconfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = iconfont.ttf; sourceTree = "<group>"; };
 		D76D3FAD21A3E3CC00AB7C46 /* hlife.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = hlife.entitlements; sourceTree = "<group>"; };
 		D7B7121D21A5589B006205AD /* share_icon_wechat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share_icon_wechat.png; sourceTree = "<group>"; };
 		D7B7121E21A5589B006205AD /* user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user.png; sourceTree = "<group>"; };
@@ -441,6 +440,7 @@
 		D7B7123421A5589B006205AD /* offline@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "offline@2x.png"; sourceTree = "<group>"; };
 		D7B7124821A56013006205AD /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle; path = bundle/main.jsbundle; sourceTree = "<group>"; };
 		D7B7124921A56013006205AD /* main.jsbundle.meta */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle.meta; path = bundle/main.jsbundle.meta; sourceTree = "<group>"; };
+		D7C993D421A6E42E0065B012 /* iconfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = iconfont.ttf; sourceTree = "<group>"; };
 		D7EAB843219AC9BF004DF1D3 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		D7EAB844219AC9BF004DF1D3 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D7EAB845219AC9BF004DF1D3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -880,7 +880,7 @@
 		D7EAB847219AC9BF004DF1D3 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				D722367221A2D94F00DD83FA /* iconfont.ttf */,
+				D7C993D421A6E42E0065B012 /* iconfont.ttf */,
 				D7EAB848219AC9BF004DF1D3 /* Ionicons.ttf */,
 			);
 			path = Fonts;
@@ -1361,11 +1361,11 @@
 				D7B7123E21A5589B006205AD /* back-icon.png in Resources */,
 				D7B7123F21A5589B006205AD /* back-icon-mask.png in Resources */,
 				D7B7124521A5589B006205AD /* offline@2x.png in Resources */,
-				D722367321A2D94F00DD83FA /* iconfont.ttf in Resources */,
 				D7B7124B21A56013006205AD /* main.jsbundle.meta in Resources */,
 				D7B7124021A5589B006205AD /* fail@3x.png in Resources */,
 				D7B7124321A5589B006205AD /* success@2x.png in Resources */,
 				D7B7123A21A5589B006205AD /* splash.png in Resources */,
+				D7C993D521A6E42E0065B012 /* iconfont.ttf in Resources */,
 				D7B7123C21A5589B006205AD /* back-icon@3x.png in Resources */,
 				D7B7123921A5589B006205AD /* passicon.png in Resources */,
 				D7B7123D21A5589B006205AD /* back-icon@2x.png in Resources */,
