@@ -81,7 +81,8 @@ const App = createStackNavigator(
                 flex: 1, textAlign: 'center'
             },
             headerTintColor: '#fff',
-        }
+        },
+        backBehavior: 'none',
     }
 );
 
