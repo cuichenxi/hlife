@@ -35,13 +35,7 @@ const TabContainer = createBottomTabNavigator(
                 )
             }
         },
-        UserCenter: {
-            screen: UserCenter, navigationOptions: {
-                tabBarIcon: ({tintColor}) => (
-                    <QIcon name="icon-mine" size={22} color={tintColor}/>
-                )
-            }
-        },
+
         shopping: {
             screen: shopping, navigationOptions: {
                 tabBarIcon: ({tintColor}) => (
@@ -53,6 +47,13 @@ const TabContainer = createBottomTabNavigator(
             screen: shoppingCart, navigationOptions: {
                 tabBarIcon: ({tintColor}) => (
                     <QIcon name="icon-shopping-cart" size={23} color={tintColor}/>
+                )
+            }
+        },
+        UserCenter: {
+            screen: UserCenter, navigationOptions: {
+                tabBarIcon: ({tintColor}) => (
+                    <QIcon name="icon-mine" size={22} color={tintColor}/>
                 )
             }
         },

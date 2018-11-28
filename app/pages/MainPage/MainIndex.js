@@ -2,11 +2,13 @@ import React from 'react';
 import {
     DeviceEventEmitter,
     TouchableHighlight, ScrollView, ListView, StyleSheet,
-    Image, View
+    Image, View, Text, Dimensions
 } from "react-native";
 import Swiper from 'react-native-swiper'
 import {BaseComponent} from "../../components/base/BaseComponent";
-import LoadingView from "../../components/LoadingView";
+// import ImageUtil from "../../utils/ImageUtil";
+
+const {width, height} = Dimensions.get('window')
 
 class MainIndex extends BaseComponent {
     navigationBarProps() {
@@ -23,8 +25,48 @@ class MainIndex extends BaseComponent {
                 {
                     title: '百度',
                     url: 'http://www.baidu.com',
-                    imagePath: 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQE_8DwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAyYXRKWVpGcVVjNG0xMDAwMGcwN0sAAgTsQ3VbAwQAAAAA'
+                    imagePath: 'https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/digitalstore/banner_1.png'
+                },
+                {
+                    title: 'weex',
+                    url: 'https://weexjs.github.io/weex-plugins/#/others/%E8%B5%84%E6%BA%90/',
+                    imagePath: 'https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/digitalstore/banner_1.png'
                 }
+            ],
+            types: [
+                {
+                    name: '维修',
+                    imageUrl:require('../../img/about_logo.png'),
+                    active: 'LoginPage'
+                }, {
+                    name: '送水',
+                    imageUrl:require('../../img/about_logo.png'),
+                    active: 'LoginPage'
+                }, {
+                    name: '租房',
+                    imageUrl:require('../../img/about_logo.png'),
+                    active: 'LoginPage'
+                }, {
+                    name: '家政',
+                    imageUrl:require('../../img/about_logo.png'),
+                    active: 'LoginPage'
+                }, {
+                    name: '缴费',
+                    imageUrl:require('../../img/about_logo.png'),
+                    active: 'LoginPage'
+                }, {
+                    name: '超市',
+                    imageUrl:require('../../img/about_logo.png'),
+                    active: 'LoginPage'
+                }, {
+                    name: '周边',
+                    imageUrl:require('../../img/about_logo.png'),
+                    active: 'LoginPage'
+                }, {
+                    name: '电话',
+                    imageUrl:require('../../img/about_logo.png'),
+                    active: 'LoginPage'
+                },
             ],
             dataSource: new ListView.DataSource({
                 rowHasChanged: (row1, row2) => row1 !== row2
@@ -35,7 +77,7 @@ class MainIndex extends BaseComponent {
     }
 
     componentDidMount() {
-        this.showInDLoading()
+        // this.showInDLoading()
     }
 
     componentWillUnmount() {
@@ -46,13 +88,16 @@ class MainIndex extends BaseComponent {
         this.props.navigation.navigate('Web', {article: {title: title, url: url}})
     }
 
-    renderBanner() {
-        thiz = this;
+    _renderBanner() {
+        var thiz = this;
         return (
-            <Swiper style={styles.banner} showsButtons={false} autoplay={true} height={125} showsPagination={false}>
-                {this.state.banners.map(function (banner) {
+            <Swiper style={styles.banner} paginationStyle={{bottom: 10}}
+                    dotStyle={{backgroundColor: 'rgba(0,0,0,.2)', width: 6, height: 6}}
+                    activeDotStyle={{backgroundColor: 'rgba(0,0,0,.5)', width: 6, height: 6}} showsButtons={false}
+                    autoplay={true} showsPagination={true}>
+                {this.state.banners.map((banner, i) => {
                     return (
-                        <TouchableHighlight onPress={() => {
+                        <TouchableHighlight key={i} onPress={() => {
                             thiz._loadWeb(banner.title, banner.url)
                         }}>
                             <Image style={[styles.slide,]} source={{uri: banner.imagePath}}></Image>
@@ -63,20 +108,38 @@ class MainIndex extends BaseComponent {
         );
     }
 
-    _randerHeader() {
+    _renderTypes() {
+       var thiz = this;
+        const w = width / 4, h = w * .6 + 10
         return (
-            <View>
-            </View>
-        );
+            <View style={styles.typesView}>
+                {
+                    this.state.types.map((item, i) => {
+                        let render = (
+                            <View style={[{width: w, height: h}, styles.typesItem]}>
+                                <Image source={item.imageUrl} style={{width: w * .4, height: w * .4,marginTop:6}}/>
+                                <Text style={{fontSize: 12, color: "#666",marginTop:6}}>{item.name}</Text>
+                            </View>
+                        )
+                        return (
+                            <TouchableHighlight style={{width: w, height: h}} key={i} onPress={() => {
+                                thiz._jumpRouter(item)
+                            }}>{render}</TouchableHighlight>
+                        )
+                    })
+                }
+            </View>)
+    }
+    _jumpRouter(typeItem){
+        this.navigate(typeItem.active);
     }
 
     _render() {
         return (
-            <View>
-                <ScrollView style={[styles.container]}>
-                    {this.renderBanner()}
-                </ScrollView>
-            </View>
+            <ScrollView style={styles.container}>
+                {this._renderBanner()}
+                {this._renderTypes()}
+            </ScrollView>
         );
     }
 }
@@ -86,12 +149,29 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingBottom: 68,
     },
-    banner: {
-        height: 125,
+    card: {
+        backgroundColor: "#fff",
+        marginTop: 10,
+        paddingHorizontal: 16,
+        paddingVertical: 16
     },
+    banner: {height: 125,},
     slide: {
         height: 125,
         resizeMode: Image.resizeMode.stretch,
+    },
+    typesView: {
+        paddingBottom: 10,
+        paddingTop: 10,
+        flex: 1,
+        backgroundColor: "#fff",
+        flexDirection: "row",
+        flexWrap: "wrap"
+    },
+    typesItem: {
+        backgroundColor: "#fff",
+        justifyContent: "center",
+        alignItems: "center"
     },
 })
 export default MainIndex;

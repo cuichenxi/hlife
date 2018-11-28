@@ -171,7 +171,7 @@ class BaseComponent extends Component {
     render() {
         thiz = this;
         return (
-            <View style={[styles.container, this.props.style]}>
+            <View style={[styles.baseContainer, this.props.style]}>
                 {this.renderNavigationBar()}
                 {this.state.inSideLoading ? <LoadingView loadingtext={this.state.loadingText}/> : this._render()}
                 {this.state.isLoading ?
@@ -182,7 +182,7 @@ class BaseComponent extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
+    baseContainer: {
         flex: 1,
         backgroundColor: CommonStyle.bgColor
     }

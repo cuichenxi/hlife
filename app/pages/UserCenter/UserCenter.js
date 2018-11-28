@@ -29,7 +29,7 @@ let feedbackText;
 
 class UserCenter extends React.Component {
     static navigationOptions = ({navigation}) => ({
-        title: '我的',
+        title: '个人中心',
         tabBarIcon: ({tintColor}) => (
             <QIcon name="icon-mine" size={25} color={tintColor}/>
         ),
