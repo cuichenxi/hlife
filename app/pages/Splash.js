@@ -58,7 +58,7 @@ class Splash extends BaseComponent{
             if (UserStore.isLogin()) {
                 this.reset( 'Home');
             } else {
-                this.push('LoginPage', {isFirst: true});
+                this.push('Login', {isFirst: true});
             }
         }, 1000);
 

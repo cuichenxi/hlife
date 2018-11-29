@@ -20,11 +20,9 @@ import {BackAndroid, Platform} from 'react-native';
 import {connect} from 'react-redux';
 import CodePush from 'react-native-code-push';
 import {bindActionCreators} from 'redux';
-import Icon from 'react-native-vector-icons/Ionicons';
-import Main from '../pages/MainPage/Main';
-import * as readCreators from '../actions/read';
+import * as readCreators from '../../actions/read';
 import JPushModule from 'jpush-react-native';
-import MainIndex from "../pages/MainPage/MainIndex";
+import Main from "./index";
 
 class MainContainer extends React.Component {
 
@@ -123,7 +121,7 @@ class MainContainer extends React.Component {
         // this.props.navigation.navigate('About')
     }
     render() {
-        return <MainIndex {...this.props} />;
+        return <Main {...this.props} />;
     }
 }
 

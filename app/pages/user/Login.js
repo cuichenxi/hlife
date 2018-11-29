@@ -8,23 +8,15 @@ import {
     TouchableOpacity,
     InteractionManager, Keyboard,
 } from 'react-native';
-// import Toast from '../../utils/ToastUtil';
 import Request from "../../utils/Request";
-// import * as Storage from '../common/Storage';
-// import RegisterContainer from '../containers/RegisterContainer';
-// import {userLogin} from '../actions/userActions';
-// import Loading from '../components/Loading';
-import store from 'react-native-simple-store';
-import {Toast, Modal} from 'antd-mobile-rn';
-import StorageUtil from "../../utils/StorageUtil";
 import UserStore from "../../store/UserStore";
-import {Loading} from "../../utils/Loading";
 import {BaseComponent} from '../../components/base/BaseComponent'
 import NavigationUtil from "../../utils/NavigationUtil";
 
-export default class LoginPage extends BaseComponent {
+export default class Login extends BaseComponent {
     navigationBarProps() {
         return {
+            hiddenLeftItem: true,
             title: '用户登录',
         }
     }
@@ -182,19 +174,19 @@ export default class LoginPage extends BaseComponent {
     }
 }
 
-class RegisterBtn extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <TouchableOpacity onPress={() => this.props.navigator.push({'id': 'register'})}>
-                <Text>注册</Text>
-            </TouchableOpacity>
-        )
-    }
-}
+// class RegisterBtn extends Component {
+//     constructor(props) {
+//         super(props);
+//     }
+//
+//     render() {
+//         return (
+//             <TouchableOpacity onPress={() => this.props.navigator.push({'id': 'register'})}>
+//                 <Text>注册</Text>
+//             </TouchableOpacity>
+//         )
+//     }
+// }
 
 const styles = StyleSheet.create({
     container: {

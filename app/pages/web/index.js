@@ -39,7 +39,7 @@ let canGoBack = false;
 const shareIconWechat = require('../../img/share_icon_wechat.png');
 const shareIconMoments = require('../../img/share_icon_moments.png');
 import {BaseComponent} from '../../components/base/BaseComponent'
-class WebViewPage extends BaseComponent {
+class Index extends BaseComponent {
   static navigationOptions = ({ navigation }) => ({
     title: navigation.state.params.article.title,
     tabBarIcon: ({ tintColor }) => (
@@ -257,4 +257,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default WebViewPage;
+export default Index;

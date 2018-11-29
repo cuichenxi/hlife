@@ -10,7 +10,7 @@ import {BaseComponent} from "../../components/base/BaseComponent";
 
 const {width, height} = Dimensions.get('window')
 
-class MainIndex extends BaseComponent {
+export default class Main extends BaseComponent {
     navigationBarProps() {
         return {
             hiddenLeftItem: true,
@@ -37,35 +37,35 @@ class MainIndex extends BaseComponent {
                 {
                     name: '维修',
                     imageUrl:require('../../img/about_logo.png'),
-                    active: 'LoginPage'
+                    active: 'Login'
                 }, {
                     name: '送水',
                     imageUrl:require('../../img/about_logo.png'),
-                    active: 'LoginPage'
+                    active: 'Login'
                 }, {
                     name: '租房',
                     imageUrl:require('../../img/about_logo.png'),
-                    active: 'LoginPage'
+                    active: 'Login'
                 }, {
                     name: '家政',
                     imageUrl:require('../../img/about_logo.png'),
-                    active: 'LoginPage'
+                    active: 'Login'
                 }, {
                     name: '缴费',
                     imageUrl:require('../../img/about_logo.png'),
-                    active: 'LoginPage'
+                    active: 'Login'
                 }, {
                     name: '超市',
                     imageUrl:require('../../img/about_logo.png'),
-                    active: 'LoginPage'
+                    active: 'Login'
                 }, {
                     name: '周边',
                     imageUrl:require('../../img/about_logo.png'),
-                    active: 'LoginPage'
+                    active: 'Login'
                 }, {
                     name: '电话',
                     imageUrl:require('../../img/about_logo.png'),
-                    active: 'LoginPage'
+                    active: 'Login'
                 },
             ],
             dataSource: new ListView.DataSource({
@@ -174,4 +174,3 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
 })
-export default MainIndex;

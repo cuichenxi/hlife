@@ -1,20 +1,16 @@
 /**
  * Created by guangqiang on 2017/8/27.
  */
-import React, {Component} from 'react'
+import React from 'react'
 import {View, BackHandler, StyleSheet} from 'react-native'
 import {CommonStyle} from '../../common/CommonStyle'
-import {Toast, Modal} from 'antd-mobile-rn';
-import {
-    NavigationActions
-} from 'react-navigation';
+import {Toast} from 'antd-mobile-rn';
 import NavigationBar from "../navigationBar/navigationBar";
 import Loading from "../Loading";
 import LoadingView from "../LoadingView";
 import NavigationUtil from "../../utils/NavigationUtil";
 
-
-class BaseComponent extends Component {
+class BaseComponent extends React.Component {
     static navigationOptions = ({navigation}) => ({
         header: null,
         headerTitle: '',
@@ -34,6 +30,12 @@ class BaseComponent extends Component {
         }
         this.onLeftPress = this.onLeftPress.bind(this)
         this.onRightPress = this.onRightPress.bind(this)
+        this.props.navigation.addListener('willBlur', payload =>
+            BackHandler.removeEventListener('hardwareBackPress', this.onBackPressAndroid)
+        );
+        props.navigation.addListener('didFocus', payload =>
+            BackHandler.addEventListener('hardwareBackPress', this.onBackPressAndroid)
+        );
     }
 
     navigationBarProps() {
@@ -53,7 +55,7 @@ class BaseComponent extends Component {
     }
 
     push(screenName, params = {}) {
-        this.props.navigation.push(screenName,params);
+        this.props.navigation.push(screenName, params);
     }
 
     reset(screenName) {
@@ -115,12 +117,7 @@ class BaseComponent extends Component {
     }
 
     componentDidMount() {
-        this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
-            BackHandler.removeEventListener('hardwareBackPress', this.onBackPressAndroid)
-        );
-        this._didFocusSubscription = props.navigation.addListener('didFocus', payload =>
-            BackHandler.addEventListener('hardwareBackPress', this.onBackPressAndroid)
-        );
+
     }
 
 
@@ -139,7 +136,7 @@ class BaseComponent extends Component {
 
         const {state} = this.props.navigation;
         if (state.routeName === 'Main' || state.routeName === 'Home'
-            || state.routeName === 'UserCenter' || state.routeName === 'shopping' || state.routeName === 'shoppingCart') {
+            || state.routeName === 'UserCenter' || state.routeName === 'index' || state.routeName === 'shoppingCart') {
             if (this.state.lastBackPressed && this.state.lastBackPressed + 2000 >= Date.now()) {
                 // dispatch({type: 'ExitApp'});//将state设置成第一次启动一致，避免从哪个界面退出，启动时显示哪个界面的bug（杀掉进程启动无该问题）
                 BackHandler.exitApp()

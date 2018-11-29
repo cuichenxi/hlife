@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     navBarStyle: {
         height: CommonStyle.navHeight,
         backgroundColor: CommonStyle.navThemeColor,
-        borderBottomWidth: 0.5,
+        borderBottomWidth: 0.0,
         borderBottomColor: CommonStyle.lineColor,
     },
     navContentStyle: {
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         marginTop: CommonStyle.navStatusBarHeight,
         height: CommonStyle.navContentHeight,
-        marginHorizontal: 10,
+        marginHorizontal: 16,
     },
     leftImageStyle: {
         width: CommonStyle.navImageWidth,

@@ -35,7 +35,7 @@ export const CommonStyle = {
   // 默认黑色字体颜色
   textBlockColor: '#262626',
   // 默认背景颜色
-  bgColor: '#E6E6E6',
+  bgColor: '#F8F8F8',
   // 默认分割线颜色
   lineColor: '#E6E6E6',
   // 默认placeholder颜色

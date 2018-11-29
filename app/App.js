@@ -2,34 +2,27 @@
  *https://www.jianshu.com/p/2f575cc35780
  */
 import {
-    StackNavigator,
-    SafeAreaView,
     createStackNavigator,
-    createDrawerNavigator,
-    createMaterialTopTabNavigator,
     createBottomTabNavigator
 } from 'react-navigation';
-import Splash from '../pages/Splash';
-import {Platform} from 'react-native';
-import CategoryContainer from '../containers/CategoryContainer';
-import MainContainer from '../containers/MainContainer';
-import WebViewPage from '../pages/web/WebViewPage';
-import shopping from '../pages/shopping/shopping';
-import shoppingCart from '../pages/shoppingCart/shoppingCart';
-import UserCenter from '../pages/UserCenter/UserCenter';
-import LoginPage from '../pages/UserCenter/LoginPage';
-import Feedback from "../pages/Feedback/Feedback";
-import login from "../pages/UserCenter/login";
-import Icon from 'react-native-vector-icons/Ionicons';
-import Push from "../pages/About/Push";
-import MainIndex from "../pages/MainPage/MainIndex";
-import QIcon from "../components/icon";
+import Splash from './pages/Splash';
+import MainContainer from './pages/main/MainContainer';
+import Web from './pages/web/index';
+import Shopping from './pages/shopping/index';
+import ShoppingCart from './pages/shoppingcart/index';
+import UserCenter from './pages/user/UserCenter';
+import Login from './pages/user/Login';
+import Feedback from "./pages/Feedback/Feedback";
+import Push from "./pages/About/Push";
+import QIcon from "./components/icon/index";
 import React from 'react';
+import Main from "./pages/main";
+
 const TabContainer = createBottomTabNavigator(
     {
         Main: {
             screen: MainContainer, navigationOptions: {
-                title:'首页',
+                title: '首页',
                 tabBarIcon: ({tintColor}) => (
                     <QIcon name="icon-home" size={21} color={tintColor}/>
                 )
@@ -37,14 +30,16 @@ const TabContainer = createBottomTabNavigator(
         },
 
         shopping: {
-            screen: shopping, navigationOptions: {
+            screen: Shopping, navigationOptions: {
+                title: '商城',
                 tabBarIcon: ({tintColor}) => (
                     <QIcon name="icon-shopping" size={22} color={tintColor}/>
                 )
             }
         },
         shoppingCart: {
-            screen: shoppingCart, navigationOptions: {
+            screen: ShoppingCart, navigationOptions: {
+                title: '购物车',
                 tabBarIcon: ({tintColor}) => (
                     <QIcon name="icon-shopping-cart" size={23} color={tintColor}/>
                 )
@@ -52,6 +47,7 @@ const TabContainer = createBottomTabNavigator(
         },
         UserCenter: {
             screen: UserCenter, navigationOptions: {
+                title: '个人中心',
                 tabBarIcon: ({tintColor}) => (
                     <QIcon name="icon-mine" size={22} color={tintColor}/>
                 )
@@ -89,11 +85,12 @@ const App = createStackNavigator(
                 header: null,
             }
         },
-        Web: {screen: WebViewPage},
-        LoginPage: {screen: LoginPage},
+        Web: {screen: Web},
+        Login: {screen: Login},
+        Shopping: {screen: Shopping},
         Push: {screen: Push},
         Feedback: {screen: Feedback},
-        MainIndex: {screen: MainIndex}
+        MainIndex: {screen: Main}
     },
     {
         // initialRouteName: 'Splash',
