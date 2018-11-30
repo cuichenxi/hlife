@@ -194,6 +194,7 @@ andResGuard {   // ./gradlew resguard[BuildType | Flavor]
 }
 
 dependencies {
+    compile project(':react-native-linear-gradient')
     compile project(':react-native-wechat')
     compile project(':react-native-device-info')
     compile project(':jcore-react-native')

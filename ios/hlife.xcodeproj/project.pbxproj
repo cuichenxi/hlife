@@ -5,7 +5,6 @@
 	};
 	objectVersion = 48;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -61,6 +60,7 @@
 		D7EAB84D219AC9BF004DF1D3 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7EAB848219AC9BF004DF1D3 /* Ionicons.ttf */; };
 		EEE44601B98B4BE19E11E9DD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB8602FFDA0D40EFBB3E495F /* UIKit.framework */; };
 		EF39ACA0CC6C4C36AD69558C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35C7D3A9E4B8471FAFDEA414 /* Foundation.framework */; };
+		3597C0A703934BAEAA3EA427 /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 90D5E6AB21F540418EDD5416 /* libBVLinearGradient.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -454,6 +454,8 @@
 		F8C313297B374DC99D962990 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		FAD3853F3DAF4F38BD6CDFF9 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		FB8602FFDA0D40EFBB3E495F /* UIKit.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		DECE08152EE74E30AD2D8CA3 /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; name = "BVLinearGradient.xcodeproj"; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		90D5E6AB21F540418EDD5416 /* libBVLinearGradient.a */ = {isa = PBXFileReference; name = "libBVLinearGradient.a"; path = "libBVLinearGradient.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -493,6 +495,7 @@
 				EEE44601B98B4BE19E11E9DD /* UIKit.framework in Frameworks */,
 				46C0888D4DDF46A0910175F9 /* libresolv.tbd in Frameworks */,
 				86D4114CC49F4BC0BD93E371 /* CoreGraphics.framework in Frameworks */,
+				3597C0A703934BAEAA3EA427 /* libBVLinearGradient.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -664,6 +667,7 @@
 				6975C3AB08DA47EF8DD10122 /* SplashScreen.xcodeproj */,
 				7662195DF88F49ED8ABF2A5F /* RCTJCoreModule.xcodeproj */,
 				9CB9E92B3DE642E58855E229 /* RCTJPushModule.xcodeproj */,
+				DECE08152EE74E30AD2D8CA3 /* BVLinearGradient.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1436,6 +1440,7 @@
 					"\"$(SRCROOT)/hlife\"",
 					"\"$(SRCROOT)/hlife\"",
 					"\"$(SRCROOT)/hlife\"",
+					"\"$(SRCROOT)/hlife\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.qfant.hlife;
@@ -1464,6 +1469,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/hlife\"",
 					"\"$(SRCROOT)/hlife\"",
 					"\"$(SRCROOT)/hlife\"",
 					"\"$(SRCROOT)/hlife\"",

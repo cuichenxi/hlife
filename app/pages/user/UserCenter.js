@@ -7,19 +7,16 @@ import {
     ScrollView,
     Dimensions,
     TouchableWithoutFeedback,
-    RefreshControl,
+    Button,
     TouchableOpacity
 } from 'react-native'
-// import NavBar from '../component/NavBar'
-// import Item from '../component/Item'
-// import Setting from './Setting'
-// import UserProfile from './UserProfile'
-// import Address from './Address'
 
 import Icon from 'react-native-vector-icons/Ionicons'
 import {BaseComponent} from "../../components/base/BaseComponent";
 import {CommonStyle} from "../../common/CommonStyle";
 import QIcon from '../../components/icon';
+import LinearGradient from 'react-native-linear-gradient';
+import ItemArrow from "../../components/ItemArrow";
 
 let {width, height} = Dimensions.get('window')
 
@@ -27,47 +24,33 @@ export default class UserCenter extends BaseComponent {
     navigationBarProps() {
         return {
             hiddenLeftItem: true,
-            title: '',
-            rightIcon: {
-                name: 'icon-home',
-                size: 20,
-                color: '#fff'
-            }
         }
     }
 
     constructor(props) {
         super(props)
         this.state = {
-            isRefreshing: false
+            isRefreshing: false,
+            xiaoqu: '矩阵'
         }
         this.config = [
             {icon: "ios-pin", name: "收货地址", onPress: this.goPage.bind(this, "address")},
-            {icon: "ios-heart", name: "我的收藏", color: "#fc7b53"},
-            {icon: "md-images", name: "美食相册"},
-            {icon: "logo-usd", name: "推荐有奖", subName: "5元现金", color: "#fc7b53"},
-            {icon: "ios-cart", name: "积分商城", subName: "0元好物在这里", color: "#94d94a"},
-            {icon: "ios-medal", name: "饿了吗会员卡", subName: "未开通", color: "#ffc636"},
-            {icon: "md-flower", name: "服务中心"},
-            {icon: "ios-outlet", name: "欢迎评分"},
-            {icon: "md-contacts", name: "加盟合作"},
+            {icon: "ios-heart", name: "我的收藏", color: "#fc7b53", onPress: this.goPage.bind(this, "address")},
+            {icon: "md-images", name: "我的小区", subName: this.state.xiaoqu, onPress: this.goPage.bind(this, "address")},
+            {icon: "logo-usd", name: "缴费记录", subName: "5元现金", onPress: this.goPage.bind(this, "address")},
+            {icon: "ios-cart", name: "维修记录", subName: "0元好物在这里", onPress: this.goPage.bind(this, "address")},
+            {icon: "ios-medal", name: "联系客服", subName: "未开通", onPress: this.goPage.bind(this, "address")},
+            {icon: "md-flower", name: "关于我们", onPress: this.goPage.bind(this, "address")},
         ]
     }
 
-    goPage(key, data = {}) {
-        let pages = {
-            // "address": Address
-        }
-        if (pages[key]) {
-            this.props.navigator.push({
-                component: pages[key],
-                args: {data}
-            })
-        }
+    goPage(data = {}) {
+        // this.navigate('login')
+        this.showShort('test')
     }
 
     leftPress() {
-
+        this.showLong("xxxxx")
     }
 
     rightPress() {
@@ -78,170 +61,162 @@ export default class UserCenter extends BaseComponent {
     }
 
     goProfile() {
-        this.props.navigator.push({
-            // component: UserProfile,
-            // args: {}
-        });
+        this.setState({
+            xiaoqu: '小明'
+        })
     }
 
     componentDidMount() {
-        this._onRefresh()
+        super.componentDidMount()
     }
 
-    _onRefresh() {
-        this.setState({isRefreshing: true});
-        setTimeout(() => {
-            this.setState({isRefreshing: false});
-        }, 1500)
-    }
 
     _renderListItem() {
         return this.config.map((item, i) => {
-            if (i % 3 == 0) {
-                item.first = true
-            }
-            // return (<Item key={i} {...item}/>)
-            return null;
+            return (<ItemArrow key={i} {...item}/>)
         })
+    }
+
+    _renderNavBar() {
+        return (
+            <View style={{
+                position: 'absolute', flex: 1,
+                flexDirection: 'row', height: CommonStyle.navContentHeight, width: width,
+                marginTop: CommonStyle.navStatusBarHeight, justifyContent: 'space-between', alignItems: 'center'
+            }}>
+
+                <TouchableOpacity>
+                    <View style={{
+                        justifyContent: 'center',
+                        flex: 1,
+                        alignItems: 'flex-end', width: 40
+                    }}>
+                        {/*<QIcon style={{alignSelf: 'center'}} name={'icon-home'} size={16}*/}
+                        {/*color={CommonStyle.lightGray}></QIcon>*/}
+                    </View>
+                </TouchableOpacity>
+                <Text style={{
+                    fontSize: CommonStyle.navTitleFont,
+                    color: CommonStyle.navTitleColor,
+                    textAlign: 'center',
+                    fontWeight: 'bold'
+                }}>我的</Text>
+                <TouchableOpacity onPress={() => this.goProfile()}>
+                    <View style={{
+                        justifyContent: 'center',
+                        flex: 1,
+                        alignItems: 'flex-end', width: 40
+                    }}>
+                        <QIcon style={{alignSelf: 'center'}} name={'icon-home'} size={18}
+                               color={CommonStyle.white}></QIcon>
+                    </View>
+                </TouchableOpacity>
+            </View>
+        );
     }
 
     render() {
         return (
             <View style={{flex: 1, backgroundColor: CommonStyle.bgColor}}>
-                <View style={{
-                    backgroundColor: CommonStyle.themeColor, flexDirection: 'row', height: CommonStyle.navContentHeight,
-                    marginTop: CommonStyle.navStatusBarHeight, justifyContent: 'flex-end', alignItems: 'center'
-                }}>
-                    <TouchableOpacity>
+                <ScrollView style={styles.scrollView}>
+                    <LinearGradient start={{x: 0.0, y: 0}} end={{x: .8, y: 0}}
+                                    colors={['#2CC1E9', CommonStyle.themeColor]}
+                                    style={{height: 180}}>
                         <View style={{
-                            justifyContent: 'center',
-                            backgroundColor: '#333',
-                            flex:1,
-                            alignItems: 'flex-end', width: 40
+                            flex: 1,
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            marginHorizontal: 16,
+                            marginTop: CommonStyle.navHeight
                         }}>
-                            <QIcon style={{alignSelf: 'center'}} name={'icon-home'} size={22}
-                                   color={CommonStyle.black}></QIcon>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-                {/*<ScrollView style={styles.scrollView}>*/}
-                {/*<View>*/}
-                {/*<View/>*/}
-                {/*<TouchableOpacity>*/}
-                {/*</TouchableOpacity>*/}
-                {/*</View>*/}
-                {/*</ScrollView>*/}
-            </View>
-        );
-    }
-
-    // position: 'absolute',
-    renderBac() {
-        return (
-            <ScrollView style={styles.scrollView}>
-                <View style={{minHeight: height - 64 - (46), paddingBottom: 100, backgroundColor: "#f3f3f3"}}>
-                    <TouchableWithoutFeedback onPress={this.goProfile.bind(this)}>
-                        <View style={styles.userHead}>
-                            <View style={{flex: 1, flexDirection: "row"}}>
-                                <Image source={require('../../img/about_logo.png')}
-                                       style={{width: (60), height: (60), borderRadius: (30)}}/>
-                                <View style={{flex: 1, marginLeft: 10, paddingVertical: 5}}>
-                                    <Text style={{color: "#fff", fontSize: (18)}}>_平行时空</Text>
-                                    <View style={{marginTop: (10), flexDirection: "row"}}>
-                                        <Icon name="ios-phone-portrait-outline" size={(14)} color="#fff"/>
-                                        <Text
-                                            style={{color: "#fff", fontSize: 13, paddingLeft: 5}}>135****0418</Text>
-                                    </View>
+                            <Image source={require('../../img/about_logo.png')}
+                                   style={{width: (60), height: (60), borderRadius: (30)}}/>
+                            <View style={{flex: 1, marginLeft: 10, paddingVertical: 5}}>
+                                <Text style={{color: "#fff", fontSize: (18)}}>有爱一声</Text>
+                                <View style={{marginTop: (10), flexDirection: "row"}}>
+                                    <Icon name="ios-phone-portrait-outline" size={(14)} color="#fff"/>
+                                    <Text
+                                        style={{color: "#fff", fontSize: 13, paddingLeft: 5}}>135****0418</Text>
                                 </View>
                             </View>
-                            <Icon name="ios-arrow-forward-outline" size={(22)} color="#fff"/>
                         </View>
-                    </TouchableWithoutFeedback>
-                    <View style={styles.numbers}>
-                        <TouchableWithoutFeedback>
-                            <View style={styles.numItem}>
-                                <Text style={{
-                                    color: "#f90",
-                                    fontSize: 18,
-                                    textAlign: "center",
-                                    fontWeight: "bold"
-                                }}>{"999999.0元"}</Text>
-                                <Text style={{
-                                    color: "#333",
-                                    fontSize: 12,
-                                    textAlign: "center",
-                                    paddingTop: 5
-                                }}>{"余额"}</Text>
-                            </View>
-                        </TouchableWithoutFeedback>
-                        <TouchableWithoutFeedback>
-                            <View style={[styles.numItem, {
-                                borderLeftWidth: 1,
-                                borderLeftColor: "#f5f5f5",
-                                borderRightWidth: 1,
-                                borderRightColor: "#f5f5f5"
-                            }]}>
-                                <Text style={{
-                                    color: "#ff5f3e",
-                                    fontSize: 18,
-                                    textAlign: "center",
-                                    fontWeight: "bold"
-                                }}>{"1940个"}</Text>
-                                <Text style={{
-                                    color: "#333",
-                                    fontSize: 12,
-                                    textAlign: "center",
-                                    paddingTop: 5
-                                }}>{"优惠"}</Text>
-                            </View>
-                        </TouchableWithoutFeedback>
-                        <TouchableWithoutFeedback>
-                            <View style={styles.numItem}>
-                                <Text style={{
-                                    color: "#6ac20b",
-                                    fontSize: 18,
-                                    textAlign: "center",
-                                    fontWeight: "bold"
-                                }}>{"999999分"}</Text>
-                                <Text style={{
-                                    color: "#333",
-                                    fontSize: 12,
-                                    textAlign: "center",
-                                    paddingTop: 5
-                                }}>{"积分"}</Text>
-                            </View>
-                        </TouchableWithoutFeedback>
+                    </LinearGradient>
+                    <View style={{
+                        backgroundColor: '#fff',
+                        flex: 1,
+                        flexDirection: 'row',
+                        height: 40,
+                        paddingHorizontal: 16,
+                        justifyContent: 'space-between',
+                        alignItems: 'center'
+                    }}>
+                        <Text style={{fontSize: 14, color: CommonStyle.color_333}}>我的订单</Text>
+                        <Text style={{
+                            fontSize: 12, color: CommonStyle.color_999, flex: 1, textAlign: 'right',
+                            marginRight: 5
+                        }}>查看全部订单</Text>
+                        <Icon name="ios-arrow-forward-outline" size={16} color='#999'/>
                     </View>
-                    <View>
+                    <View style={{
+                        flex: 1,
+                        backgroundColor: CommonStyle.lineColor,
+                        height: .5
+                    }}/>
+                    <View style={{
+                        backgroundColor: '#fff',
+                        flex: 1,
+                        flexDirection: 'row',
+                        height: 60,
+                        paddingHorizontal: 16,
+                        justifyContent: 'space-between',
+                        alignItems: 'center'
+                    }}>
+                        <View style={styles.orderItem}>
+                            <QIcon style={styles.orderItemIcon} name={'icon-home'} size={22}
+                                   color={CommonStyle.color_666}></QIcon>
+                            <Text style={styles.orderItemText}>待付款</Text>
+                        </View>
+                        <View style={styles.orderItem}>
+                            <QIcon style={styles.orderItemIcon} name={'icon-home'} size={22}
+                                   color={CommonStyle.color_666}></QIcon>
+                            <Text style={styles.orderItemText}>待收货</Text>
+                        </View>
+                        <View style={styles.orderItem}>
+                            <QIcon style={styles.orderItemIcon} name={'icon-home'} size={22}
+                                   color={CommonStyle.color_666}></QIcon>
+                            <Text style={styles.orderItemText}>待评价</Text>
+                        </View>
+                        <View style={styles.orderItem}>
+                            <QIcon style={styles.orderItemIcon} name={'icon-home'} size={22}
+                                   color={CommonStyle.color_666}></QIcon>
+                            <Text style={styles.orderItemText}>售后</Text>
+                        </View>
+                    </View>
+                    <View style={{
+                        flex: 1,
+                        backgroundColor: CommonStyle.lineColor,
+                        height: .5
+                    }}/>
+                    <View style={{marginTop: 10}}>
                         {this._renderListItem()}
                     </View>
-                </View>
-            </ScrollView>
-        )
+                </ScrollView>
+                {this._renderNavBar()}
+            </View>
+        );
     }
 };
 const styles = StyleSheet.create({
     scrollView: {
-        marginBottom: (46),
-        backgroundColor: CommonStyle.themeColor
+        backgroundColor: CommonStyle.bgColor
     },
-    userHead: {
-        justifyContent: "space-between",
-        alignItems: "center",
-        flexDirection: "row",
-        paddingHorizontal: 20,
-        paddingVertical: 20,
-        backgroundColor: CommonStyle.themeColor
-    },
-    numbers: {
-        flexDirection: "row",
-        backgroundColor: "#fff",
-        height: 74
-    },
-    numItem: {
+    orderItem: {justifyContent: 'center', alignItems: 'center'},
+    orderItemIcon: {textAlign: 'center', width: 40, marginTop: 8,},
+    orderItemText: {
+        fontSize: 12,
+        color: CommonStyle.color_666,
         flex: 1,
-        height: 74,
-        justifyContent: "center",
-        alignItems: "center"
-    }
+        marginTop: 4,
+        textAlign: 'center'
+    },
 })

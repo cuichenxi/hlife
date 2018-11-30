@@ -30,12 +30,16 @@ class BaseComponent extends React.Component {
         }
         this.onLeftPress = this.onLeftPress.bind(this)
         this.onRightPress = this.onRightPress.bind(this)
-        this.props.navigation.addListener('willBlur', payload =>
-            BackHandler.removeEventListener('hardwareBackPress', this.onBackPressAndroid)
-        );
-        props.navigation.addListener('didFocus', payload =>
-            BackHandler.addEventListener('hardwareBackPress', this.onBackPressAndroid)
-        );
+
+    }
+
+    componentDidMount() {
+        BackHandler.addEventListener('hardwareBackPress', this.onBackPressAndroid)
+    }
+
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackPressAndroid)
     }
 
     navigationBarProps() {
@@ -116,14 +120,6 @@ class BaseComponent extends React.Component {
         }, true)
     }
 
-    componentDidMount() {
-
-    }
-
-
-    componentWillUnmount() {
-
-    }
 
     onBackPressAndroid = () => {
         if (this.state.isLoading) {
@@ -135,8 +131,8 @@ class BaseComponent extends React.Component {
         }
 
         const {state} = this.props.navigation;
-        if (state.routeName === 'Main' || state.routeName === 'Home'
-            || state.routeName === 'UserCenter' || state.routeName === 'index' || state.routeName === 'shoppingCart') {
+        if (state.routeName === 'MainContainer' || state.routeName === 'Home' || state.routeName === 'Main'
+            || state.routeName === 'UserCenter' || state.routeName === 'shopping' || state.routeName === 'shoppingCart') {
             if (this.state.lastBackPressed && this.state.lastBackPressed + 2000 >= Date.now()) {
                 // dispatch({type: 'ExitApp'});//将state设置成第一次启动一致，避免从哪个界面退出，启动时显示哪个界面的bug（杀掉进程启动无该问题）
                 BackHandler.exitApp()

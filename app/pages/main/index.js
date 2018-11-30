@@ -77,10 +77,12 @@ export default class Main extends BaseComponent {
     }
 
     componentDidMount() {
+        super.componentDidMount()
         // this.showInDLoading()
     }
 
     componentWillUnmount() {
+        super.componentWillUnmount();
 
     }
 

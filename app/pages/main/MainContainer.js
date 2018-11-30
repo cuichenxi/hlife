@@ -23,8 +23,9 @@ import {bindActionCreators} from 'redux';
 import * as readCreators from '../../actions/read';
 import JPushModule from 'jpush-react-native';
 import Main from "./index";
+import {BaseComponent} from "../../components/base/BaseComponent";
 
-class MainContainer extends React.Component {
+class MainContainer extends BaseComponent {
 
     constructor(props) {
         super(props)
@@ -38,6 +39,7 @@ class MainContainer extends React.Component {
     //Zuhm7813pnWp80Jxdy3_J07YWFJP1847071a-a410-40be-8295-ea5fb8bf4b4a test
     //K6yVS_qXUMNuWuppkSEpFyOVmB921847071a-a410-40be-8295-ea5fb8bf4b4a Production
     componentDidMount() {
+        super.componentDidMount();
         // CodePush.sync({
         //     // deploymentKey: 'rOfQ8XGOt98_57EL3FJIogtaEFaL1847071a-a410-40be-8295-ea5fb8bf4b4a"',
         //     updateDialog: {
@@ -92,6 +94,7 @@ class MainContainer extends React.Component {
     }
 
     componentWillUnmount() {
+        super.componentWillUnmount();
         JPushModule.removeReceiveCustomMsgListener(this.receiveCustomMsgListener)
         JPushModule.removeReceiveNotificationListener(this.receiveNotificationListener)
         JPushModule.removeReceiveOpenNotificationListener(this.openNotificationListener)

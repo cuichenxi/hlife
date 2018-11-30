@@ -47,7 +47,7 @@ const TabContainer = createBottomTabNavigator(
         },
         UserCenter: {
             screen: UserCenter, navigationOptions: {
-                title: '个人中心',
+                title: '我的',
                 tabBarIcon: ({tintColor}) => (
                     <QIcon name="icon-mine" size={22} color={tintColor}/>
                 )

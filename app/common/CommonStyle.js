@@ -20,6 +20,8 @@ export const CommonStyle = {
   purple: '#800080',
   black: '#000',
   color_333: '#333333',
+  color_666: '#666666',
+  color_999: '#999999',
   white: '#FFF',
   gray: '#808080',
   drakGray: '#A9A9A9',
@@ -86,7 +88,7 @@ export const CommonStyle = {
   // tabBar的高度
   tabBarHeight: Platform.OS === 'ios' ? (deviceInfo.isIphoneX ? 83 : 49) : 49,
   // 底部按钮高度
-  bottonBtnHeight: 44,
+  bottomBtnHeight: 44,
   // 通用列表cell高度
   cellHeight: 44,
   // 导航栏左右按钮image高度

@@ -12,6 +12,7 @@ import Request from "../../utils/Request";
 import UserStore from "../../store/UserStore";
 import {BaseComponent} from '../../components/base/BaseComponent'
 import NavigationUtil from "../../utils/NavigationUtil";
+import {CommonStyle} from "../../common/CommonStyle";
 
 export default class Login extends BaseComponent {
     navigationBarProps() {
@@ -20,6 +21,7 @@ export default class Login extends BaseComponent {
             title: '用户登录',
         }
     }
+
     constructor(props) {
         super(props);
         this.state = {
@@ -30,10 +32,12 @@ export default class Login extends BaseComponent {
 
 
     componentWillUnmount() {
+        super.componentWillUnmount()
         // this.unsubscribe();
     }
 
     componentDidMount() {
+        super.componentDidMount();
         // Storage.getUser()
         // .then((user) => {
         //     if (user.id) {
@@ -225,8 +229,8 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     formInputSplit: {
-        borderBottomWidth: 1,
-        borderBottomColor: '#dbdada',
+        borderBottomWidth: .5,
+        borderBottomColor: CommonStyle.lineColor,
     },
     loginInput: {
         height: 40,
