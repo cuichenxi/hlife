@@ -2,7 +2,7 @@
  * Created by guangqiang on 2017/8/27.
  */
 import React from 'react'
-import {View, BackHandler, StyleSheet} from 'react-native'
+import {View, SafeAreaView, BackHandler, StyleSheet} from 'react-native'
 import {CommonStyle} from '../../common/CommonStyle'
 import {Toast} from 'antd-mobile-rn';
 import NavigationBar from "../navigationBar/navigationBar";
@@ -16,7 +16,7 @@ class BaseComponent extends React.Component {
         headerTitle: '',
         title: '',
         headerLeft: null,
-        gesturesEnabled: false
+        gesturesEnabled: true
     });
 
     constructor(props) {
@@ -25,29 +25,83 @@ class BaseComponent extends React.Component {
             lastBackPressed: null,
             inSideLoading: false,
             isLoading: false,
-            loadingText: '加载中...',
-            canBack: true,
-        }
-        this.onLeftPress = this.onLeftPress.bind(this)
-        this.onRightPress = this.onRightPress.bind(this)
+            loadingText: '',
+            _noBack: false,
+            ...props
+        };
+        console.log("constructor");
+    }
 
+
+    componentWillMount() {
+        console.log("componentWillMount");
+        this.ready();
+    }
+
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     console.log("componentWillMount");
+    // }
+
+    componentWillUpdate() {
+        console.log("componentWillUpdate");
+    }
+
+    componentDidUpdate() {
+        console.log("componentDidUpdate");
     }
 
     componentDidMount() {
+        console.log("componentDidMount");
         BackHandler.addEventListener('hardwareBackPress', this.onBackPressAndroid)
+        this.actived(this.props.navigation.state.params);
     }
 
-
     componentWillUnmount() {
+        console.log("componentWillUnmount");
         BackHandler.removeEventListener('hardwareBackPress', this.onBackPressAndroid)
+        this.deactived();
+        this.destroy();
+    }
+
+    /**
+     * 页面准备完成时。通过 this.prorps.param 可以获取 open(name, opts) 时传入的参数。
+     * 举例：从 A 页面打开 B 页面，此时 B 页面就准备完成了。
+     */
+    ready() {
+
+    }
+
+    /**
+     * 页面激活时。param 为来源页携带的参数。
+     * 举例：B 页面是从 A 页面打开的，现在从 B 页面返回 A 页面，此时 A 页面就被激活了。
+     * @param param
+     */
+    actived(param) {
+
+    }
+
+    /**
+     *  页面失活时。
+     *  举例：从 A 页面打开 B 页面，此时 A 页面就失活了。
+     */
+    deactived() {
+
+    }
+
+    /**
+     * 页面销毁时。
+     *举例：B 页面是从 A 页面打开的，现在从 B 页面返回 A 页面，此时 B 页面就被销毁了。
+     */
+    destroy() {
+
     }
 
     navigationBarProps() {
         return {};
     }
 
-    setCanBack(_canBack) {
-        this.state.canBack = _canBack;
+    setNoBack(_noBack) {
+        this.state._noBack = _noBack;
     }
 
     goBack() {
@@ -81,8 +135,6 @@ class BaseComponent extends React.Component {
                 loadingText: loadingText
             }
         );
-        // Toast.loading(content, 0, () => {
-        // }, true)
     }
 
     showDLoading() {
@@ -122,14 +174,14 @@ class BaseComponent extends React.Component {
 
 
     onBackPressAndroid = () => {
+
         if (this.state.isLoading) {
             this.hideLoading();
             return true;
         }
-        if (!this.state.canBack) {
+        if (this.state._noBack) {
             return true;
         }
-
         const {state} = this.props.navigation;
         if (state.routeName === 'MainContainer' || state.routeName === 'Home' || state.routeName === 'Main'
             || state.routeName === 'UserCenter' || state.routeName === 'shopping' || state.routeName === 'shoppingCart') {
@@ -142,19 +194,29 @@ class BaseComponent extends React.Component {
             this.state.lastBackPressed = Date.now();
             return true;
         }
+        this.goBack();
         return true;
     }
 
     renderNavigationBar() {
         let navigationBarProps = this.navigationBarProps()
+        if (this.state.title) {
+            Object.assign(navigationBarProps, {title: this.state.title})
+        }
         Object.assign(navigationBarProps, this.props)
         return (
             <NavigationBar
                 navigationBarProps={navigationBarProps}
-                onLeftPress={this.onLeftPress}
-                onRightPress={this.onRightPress}
+                onLeftPress={() => this.onLeftPress()}
+                onRightPress={() => this.onRightPress()}
             />
         )
+    }
+
+    setTitle(title) {
+        this.setState({
+            title: title
+        })
     }
 
     _render() {
@@ -181,4 +243,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export {BaseComponent}
+export {BaseComponent};

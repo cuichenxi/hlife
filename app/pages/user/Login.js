@@ -44,7 +44,7 @@ export default class Login extends BaseComponent {
         //         this.props.navigator.popToTop();
         //     }
         // });
-        this.setCanBack(false);
+        this.setNoBack(true);
     }
 
 
@@ -156,7 +156,7 @@ export default class Login extends BaseComponent {
                 {mock: true, mockId: 672823})
                 .then(rep => {
                     if (rep.bstatus.code === 0) {
-                        UserStore.save({token: '12341234'});
+                        UserStore.save({token: '12341234',phone:mobile, userName: '啦昂那多',headerUrl:''});
                         NavigationUtil.reset(this.props.navigation, 'Home');
                     }
                     this.showLong(rep.bstatus.desc);

@@ -5,6 +5,7 @@
 /** 设备信息 **/
 
 import {Dimensions, Platform} from 'react-native'
+// import AppJson from '../../app';
 // import DeviceInfo from 'react-native-device-info'
 export default deviceInfo = {
   // 设备宽度
@@ -15,5 +16,6 @@ export default deviceInfo = {
   // 设备系统
   deviceOS: Platform.OS,
   // 当前config: debug \ release
-  mode: __DEV__ ? 'xdebug' : 'release'
+  mode: __DEV__ ? 'xdebug' : 'release',
+    // appName: AppJson.get('displayName')
 }

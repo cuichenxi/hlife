@@ -19,6 +19,7 @@ package com.qfant.hlife;
 import android.os.Bundle;
 
 import com.facebook.react.ReactActivity;
+import com.gyf.barlibrary.ImmersionBar;
 
 import org.devio.rn.splashscreen.SplashScreen;
 
@@ -26,12 +27,23 @@ import cn.jpush.android.api.JPushInterface;
 
 public class MainActivity extends ReactActivity {
 
+    private ImmersionBar mImmersionBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SplashScreen.show(this);
+//        SplashScreen.show(this, true);
         super.onCreate(savedInstanceState);
+        mImmersionBar = ImmersionBar.with(this);
+        mImmersionBar.statusBarDarkFont(true, 0.2f).init();//设置状态栏字体为深色
         JPushInterface.init(this);
         JPushInterface.setDebugMode(BuildConfig.DEBUG); 	// 设置开启日志,发布时请关闭日志
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mImmersionBar != null)
+            mImmersionBar.destroy();
     }
 
     /**

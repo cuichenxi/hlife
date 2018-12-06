@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View, Keyboard} from 'react-native';
+import {StyleSheet,FlatList,TouchableHighlight, Text, View, Keyboard} from 'react-native';
 import {BaseComponent} from '../../components/base/BaseComponent'
 
 export default class Shopping extends BaseComponent {
@@ -17,7 +17,22 @@ export default class Shopping extends BaseComponent {
     _render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.textInput} onPress={this.onNext}>点击</Text>
+                {/*<FlatList*/}
+                    {/*ItemSeparatorComponent={Platform.OS !== 'android' && ({highlighted}) => (*/}
+                        {/*<View style={[style.separator, highlighted && {marginLeft: 0}]} />*/}
+                        {/*)}*/}
+                    {/*data={[{title: 'Title Text', key: 'item1'}]}*/}
+                    {/*renderItem={({item, separators}) => (*/}
+                        {/*<TouchableHighlight*/}
+                            {/*onPress={() => this._onPress(item)}*/}
+                            {/*onShowUnderlay={separators.highlight}*/}
+                            {/*onHideUnderlay={separators.unhighlight}>*/}
+                            {/*<View style={{backgroundColor: 'white'}}>*/}
+                                {/*<Text>{item.title}</Text>*/}
+                            {/*</View>*/}
+                        {/*</TouchableHighlight>*/}
+                    {/*)}*/}
+                {/*/>*/}
             </View>
         );
     }

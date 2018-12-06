@@ -16,11 +16,11 @@
  *
  */
 import React from 'react';
-import {StyleSheet, Text, View, Keyboard} from 'react-native';
+import {StyleSheet, Text,SafeAreaView, View, Keyboard} from 'react-native';
 
 import {BaseComponent} from '../../components/base/BaseComponent'
 
-export default class Feedback extends BaseComponent {
+export default class Feedback extends React.Component {
     // static navigationOptions = ({navigation}) => ({
     //     title: '建议',
     // });
@@ -39,7 +39,7 @@ export default class Feedback extends BaseComponent {
         this.props.navigation.navigate('Login', {isFirst: true});
     };
 
-    _render() {
+    render() {
         return (
             <View style={styles.container}>
                 <Text style={styles.textInput} onPress={this.onNext}>点击</Text>

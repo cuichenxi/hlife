@@ -16,19 +16,22 @@
  *
  */
 import React from 'react';
-import {Dimensions, Animated} from 'react-native';
-import store from 'react-native-simple-store';
+import {Dimensions, View, Image, Text, Animated} from 'react-native';
 import {registerApp} from 'react-native-wechat';
 import AV from 'leancloud-storage';
 import SplashScreen from 'react-native-splash-screen';
-import NavigationUtil from '../utils/NavigationUtil';
 import UserStore from "../store/UserStore";
 
 const maxHeight = Dimensions.get('window').height;
 const maxWidth = Dimensions.get('window').width;
 const splashImg = require('../img/splash.png');
 import {BaseComponent} from '../components/base/BaseComponent'
-class Splash extends BaseComponent{
+import ADStore from "../store/ADStore";
+import ImageView from "../components/ImageView";
+import {CommonStyle} from "../common/CommonStyle";
+import Button from "../components/Button";
+
+class Splash extends BaseComponent {
     static navigationOptions = {
         header: null
     };
@@ -36,48 +39,135 @@ class Splash extends BaseComponent{
     constructor(props) {
         super(props);
         this.state = {
-            bounceValue: new Animated.Value(1)
+            bounceValue: new Animated.Value(1),
+            ad: {
+                imageUrl: 'https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/common/1544009388067/ad_t1.gif',
+                active: 'https://reactnative.cn/docs/image/',
+            },
+            secondsElapsed: 0,
+            hasAd: false,
+            AdImageLoaded: false
         };
         registerApp('wxb24c445773822c79');
-        if (!AV.applicationId) {
-            AV.init({
-                appId: 'Tfi1z7dN9sjMwSul8sYaTEvg-gzGzoHsz',
-                appKey: '57qmeEJonefntNqRe17dAgi4'
-            });
+        // if (!AV.applicationId) {
+        //     AV.init({
+        //         appId: 'Tfi1z7dN9sjMwSul8sYaTEvg-gzGzoHsz',
+        //         appKey: '57qmeEJonefntNqRe17dAgi4'
+        //     });
+        // }
+    }
+
+    actived(param) {
+        setTimeout(() => {
+            let ADInfo = ADStore.get();
+            this.setState({
+                ad: {
+                    imageUrl: ADInfo.imageUrl,
+                    active: ADInfo.active,
+                },
+                hasAd: ADInfo.imageUrl != null,
+                secondsElapsed: ADInfo.times
+            })
+            if (this.state.hasAd) {
+                this.tickHandler();
+            } else {
+                this.timer = setTimeout(() => {
+                    this._goPage()
+                }, 1000);
+                Animated.timing(this.state.bounceValue, {
+                    toValue: 1.2,
+                    duration: 1000
+                }).start();
+            }
+        }, 1000);
+    }
+
+    _goPage() {
+        SplashScreen.hide();
+        if (UserStore.isLogin()) {
+            this.reset('Home');
+        } else {
+            this.push('Login', {isFirst: true});
         }
     }
 
-    componentDidMount() {
-        const {navigate} = this.props.navigation;
-        Animated.timing(this.state.bounceValue, {
-            toValue: 1.2,
-            duration: 1000
-        }).start();
+    _goAd() {
         SplashScreen.hide();
-        this.timer = setTimeout(() => {
-            if (UserStore.isLogin()) {
-                this.reset( 'Home');
-            } else {
-                this.push('Login', {isFirst: true});
-            }
-        }, 1000);
-
+        this._goPage()
+        this.navigate('Web', {article: {title: '', url: this.state.ad.active}})
     }
 
-    componentWillUnmount() {
+    deactived() {
         clearTimeout(this.timer);
+    }
+
+    tickHandler() {
+        var secondsElapsed = this.state.secondsElapsed - 1;
+        if (secondsElapsed == 0) {
+            this.setState({secondsElapsed: 0});
+            this._goPage();
+            return;
+        }
+        this.timer = setTimeout(
+            () => {
+                this.setState({secondsElapsed: secondsElapsed});
+                this.tickHandler();
+            },
+            1000
+        );
+    }
+
+    _renderADView() {
+        var adTimeText = this.state.secondsElapsed == 0 ? '' : ('跳过 ' + this.state.secondsElapsed + ' s');
+        return (
+            <Button style={{
+                position: CommonStyle.absolute,
+                width: maxWidth,
+                height: maxHeight,
+            }} onPress={() => this._goAd()}>
+                <View style={{flex: 1}}>
+                    <Image style={{
+                        width: maxWidth,
+                        height: maxHeight,
+                    }} source={{uri: this.state.ad.imageUrl}} onLoad={() => this.setState({AdImageLoaded: true})}/>
+
+                    {this.state.secondsElapsed > 0 &&
+                    <Button onPress={() => this._goPage()}>
+                        <View style={{
+                            position: CommonStyle.absolute,
+                            right: 30,
+                            bottom: 100,
+                            backgroundColor: 'rgba(0,0,0,0.5)',
+                            borderRadius: 5,
+                            padding: 5
+                        }}><Text style={{color: '#fff', fontSize: 14}}>{adTimeText}</Text>
+                        </View>
+                    </Button>}
+                    <View style={{
+                        position: CommonStyle.absolute,
+                        left: 20,
+                        top: 40,
+                        padding: 5
+                    }}><Text style={{color: '#666666', fontSize: 14}}>广告</Text>
+                    </View>
+
+                </View>
+            </Button>);
     }
 
     render() {
         return (
-            <Animated.Image
-                style={{
-                    width: maxWidth,
-                    height: maxHeight,
-                    transform: [{scale: this.state.bounceValue}]
-                }}
-                source={splashImg}
-            />
+            <View>
+                <Animated.Image
+                    style={{
+                        width: maxWidth,
+                        height: maxHeight,
+                        transform: [{scale: this.state.bounceValue}]
+                    }}
+                    source={splashImg}
+                />
+                {this.state.hasAd && this._renderADView()}
+            </View>
         );
     }
 }

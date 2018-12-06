@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         marginTop: CommonStyle.navStatusBarHeight,
         height: CommonStyle.navContentHeight,
-        marginHorizontal: 16,
+        marginHorizontal: 8,
     },
     leftImageStyle: {
         width: CommonStyle.navImageWidth,
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     },
     leftItemStyle: {
         justifyContent: 'center',
-        width: 40,
+        width: 35,
     },
     leftTitleStyle: {
         fontSize: CommonStyle.navLeftTitleFont,

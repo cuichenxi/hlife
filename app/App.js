@@ -3,8 +3,10 @@
  */
 import {
     createStackNavigator,
-    createBottomTabNavigator
+    createBottomTabNavigator,
+    StackViewTransitionConfigs
 } from 'react-navigation';
+import {Animated, Easing} from 'react-native'
 import Splash from './pages/Splash';
 import MainContainer from './pages/main/MainContainer';
 import Web from './pages/web/index';
@@ -17,6 +19,11 @@ import Push from "./pages/About/Push";
 import QIcon from "./components/icon/index";
 import React from 'react';
 import Main from "./pages/main";
+import MaintainRecord from "./pages/maintain";
+import GiftedListDemo from "./components/refreshList/GiftedListDemo";
+import GiftedListDemoFree from "./components/refreshList/GiftedListDemoFree";
+import GiftedListDemoNet from "./components/refreshList/GiftedListDemoNet";
+import UserInfo from "./pages/user/UserInfo";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -90,7 +97,12 @@ const App = createStackNavigator(
         Shopping: {screen: Shopping},
         Push: {screen: Push},
         Feedback: {screen: Feedback},
-        MainIndex: {screen: Main}
+        MainIndex: {screen: Main},
+        MaintainRecord: {screen: MaintainRecord},
+        GiftedListDemo: {screen: GiftedListDemo},
+        GiftedListDemoFree: {screen: GiftedListDemoFree},
+        GiftedListDemoNet: {screen: GiftedListDemoNet},
+        UserInfo: {screen: UserInfo},
     },
     {
         // initialRouteName: 'Splash',
@@ -109,6 +121,15 @@ const App = createStackNavigator(
             },
             headerTintColor: '#fff',
         },
+        gesturesEnabled: true,
+        gestureDirection: 'right-to-left',
+        transitionConfig: () => ({
+            transitionSpec: StackViewTransitionConfigs.SlideFromRightIOS.transitionSpec,
+            screenInterpolator: StackViewTransitionConfigs.SlideFromRightIOS.screenInterpolator,
+            containerStyle: {
+                backgroundColor: '#000'
+            }
+        }),
     }
 );
 

@@ -23,16 +23,15 @@ import {
     Modal,
     ActivityIndicator
 } from 'react-native';
-
+import PropTypes from 'prop-types';
 const SIZES = ['small', 'large'];
 
 const propTypes = {
-    visible: false,
-    color: '#fff',
-    size: 'large',
-    overlayColor: '#fff',
-    onRequestClose() {
-    }
+    visible: PropTypes.bool,
+    color: PropTypes.string,
+    size:  PropTypes.string,
+    overlayColor:  PropTypes.string,
+    onRequestClose: PropTypes.func,
 };
 const defaultProps = {
     visible: false,

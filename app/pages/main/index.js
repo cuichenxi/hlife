@@ -6,6 +6,8 @@ import {
 } from "react-native";
 import Swiper from 'react-native-swiper'
 import {BaseComponent} from "../../components/base/BaseComponent";
+import GridView from "../../components/GridView";
+import Button from "../../components/Button";
 // import ImageUtil from "../../utils/ImageUtil";
 
 const {width, height} = Dimensions.get('window')
@@ -36,37 +38,37 @@ export default class Main extends BaseComponent {
             types: [
                 {
                     name: '维修',
-                    imageUrl:require('../../img/about_logo.png'),
+                    imageUrl: require('../../img/about_logo.png'),
                     active: 'Login'
                 }, {
                     name: '送水',
-                    imageUrl:require('../../img/about_logo.png'),
+                    imageUrl: require('../../img/about_logo.png'),
                     active: 'Login'
                 }, {
                     name: '租房',
-                    imageUrl:require('../../img/about_logo.png'),
+                    imageUrl: require('../../img/about_logo.png'),
                     active: 'Login'
                 }, {
                     name: '家政',
-                    imageUrl:require('../../img/about_logo.png'),
+                    imageUrl: require('../../img/about_logo.png'),
                     active: 'Login'
                 }, {
                     name: '缴费',
-                    imageUrl:require('../../img/about_logo.png'),
+                    imageUrl: require('../../img/about_logo.png'),
                     active: 'Login'
                 }, {
                     name: '超市',
-                    imageUrl:require('../../img/about_logo.png'),
+                    imageUrl: require('../../img/about_logo.png'),
                     active: 'Login'
                 }, {
                     name: '周边',
-                    imageUrl:require('../../img/about_logo.png'),
+                    imageUrl: require('../../img/about_logo.png'),
                     active: 'Login'
                 }, {
                     name: '电话',
-                    imageUrl:require('../../img/about_logo.png'),
+                    imageUrl: require('../../img/about_logo.png'),
                     active: 'Login'
-                },
+                }
             ],
             dataSource: new ListView.DataSource({
                 rowHasChanged: (row1, row2) => row1 !== row2
@@ -76,22 +78,15 @@ export default class Main extends BaseComponent {
         };
     }
 
-    componentDidMount() {
-        super.componentDidMount()
-        // this.showInDLoading()
-    }
-
-    componentWillUnmount() {
-        super.componentWillUnmount();
+    actived(param) {
 
     }
 
     _loadWeb(title, url) {
-        this.props.navigation.navigate('Web', {article: {title: title, url: url}})
+        this.push('Web', {article: {title: title, url: url}})
     }
 
     _renderBanner() {
-        var thiz = this;
         return (
             <Swiper style={styles.banner} paginationStyle={{bottom: 10}}
                     dotStyle={{backgroundColor: 'rgba(0,0,0,.2)', width: 6, height: 6}}
@@ -100,7 +95,7 @@ export default class Main extends BaseComponent {
                 {this.state.banners.map((banner, i) => {
                     return (
                         <TouchableHighlight key={i} onPress={() => {
-                            thiz._loadWeb(banner.title, banner.url)
+                            this._loadWeb(banner.title, banner.url)
                         }}>
                             <Image style={[styles.slide,]} source={{uri: banner.imagePath}}></Image>
                         </TouchableHighlight>
@@ -110,37 +105,43 @@ export default class Main extends BaseComponent {
         );
     }
 
-    _renderTypes() {
-       var thiz = this;
-        const w = width / 4, h = w * .6 + 10
-        return (
-            <View style={styles.typesView}>
-                {
-                    this.state.types.map((item, i) => {
-                        let render = (
-                            <View style={[{width: w, height: h}, styles.typesItem]}>
-                                <Image source={item.imageUrl} style={{width: w * .4, height: w * .4,marginTop:6}}/>
-                                <Text style={{fontSize: 12, color: "#666",marginTop:6}}>{item.name}</Text>
-                            </View>
-                        )
-                        return (
-                            <TouchableHighlight style={{width: w, height: h}} key={i} onPress={() => {
-                                thiz._jumpRouter(item)
-                            }}>{render}</TouchableHighlight>
-                        )
-                    })
-                }
-            </View>)
-    }
-    _jumpRouter(typeItem){
+    _jumpRouter(typeItem) {
         this.navigate(typeItem.active);
+    }
+
+    _renderGridView() {
+        return (
+            <GridView
+                style={{
+                    flex: 1, paddingBottom: 10,
+                    paddingTop: 10,
+                    backgroundColor: '#fff'
+                }}
+                items={this.state.types}
+                num={4}
+                renderItem={this._renderGridItem.bind(this)}
+            />
+        )
+    }
+
+    _renderGridItem(item, index) {
+        return (
+            <Button style={{flex: 1}} key={index} onPress={() => {
+                this._jumpRouter(item)
+            }}>
+                <View style={[{flex: 1}, styles.typesItem]}>
+                    <Image source={item.imageUrl} style={{width: 35, height: 35, marginTop: 6}}/>
+                    <Text style={{fontSize: 12, color: "#666", marginTop: 6}}>{item.name}</Text>
+                </View>
+            </Button>
+        )
     }
 
     _render() {
         return (
             <ScrollView style={styles.container}>
                 {this._renderBanner()}
-                {this._renderTypes()}
+                {this._renderGridView()}
             </ScrollView>
         );
     }
@@ -161,14 +162,6 @@ const styles = StyleSheet.create({
     slide: {
         height: 125,
         resizeMode: Image.resizeMode.stretch,
-    },
-    typesView: {
-        paddingBottom: 10,
-        paddingTop: 10,
-        flex: 1,
-        backgroundColor: "#fff",
-        flexDirection: "row",
-        flexWrap: "wrap"
     },
     typesItem: {
         backgroundColor: "#fff",

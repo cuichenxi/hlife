@@ -17,87 +17,72 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, StyleSheet, ListView, ViewPropTypes } from 'react-native';
+import {View, StyleSheet, ViewPropTypes} from 'react-native';
 
 const propTypes = {
-  items: PropTypes.array,
-  renderItem: PropTypes.func,
-  style: ViewPropTypes.style,
-  itemsPerRow: PropTypes.number,
-  onEndReached: PropTypes.func,
-  scrollEnabled: PropTypes.func,
-  pageSize: PropTypes.number
+    items: PropTypes.array,
+    renderItem: PropTypes.func,
+    style: ViewPropTypes.style,
+    num: PropTypes.number,
 };
 
 const GridView = ({
-  items,
-  renderItem,
-  style,
-  itemsPerRow,
-  onEndReached,
-  scrollEnabled,
-  pageSize
-}) => {
-  const groupItems = (renderItems, renderItemsPerRow) => {
-    const itemsGroups = [];
-    let group = [];
-    renderItems.forEach((item) => {
-      if (group.length === renderItemsPerRow) {
-        itemsGroups.push(group);
-        group = [item];
-      } else {
-        group.push(item);
-      }
-    });
-    if (group.length > 0) {
-      itemsGroups.push(group);
-    }
-    return itemsGroups;
-  };
+                      items,
+                      renderItem,
+                      style,
+                      num,
+                  }) => {
+    const groupItems = (renderItems, num) => {
+        const itemsGroups = [];
+        let group = [];
+        renderItems.forEach((item) => {
+            if (group.length === num) {
+                itemsGroups.push(group);
+                group = [item];
+            } else {
+                group.push(item);
+            }
+        });
+        if (group.length > 0) {
+            itemsGroups.push(group);
+        }
+        return itemsGroups;
+    };
 
-  const renderGroup = (group) => {
-    const itemViews = group.map((item) => {
-      const i = renderItem(item);
-      return i;
-    });
-    return <View style={styles.group}>{itemViews}</View>;
-  };
+    const renderGroup = (group, pIndex) => {
+        const itemViews = group.map((item, index) => {
+            const i = renderItem(item, index);
+            return i;
+        });
+        return <View style={styles.group} key={pIndex}>{itemViews}</View>;
+    };
 
-  const groups = groupItems(items, itemsPerRow);
+    const groups = groupItems(items, num);
 
-  const ds = new ListView.DataSource({
-    rowHasChanged: (r1, r2) => r1 !== r2
-  });
-
-  return (
-    <ListView
-      initialListSize={1}
-      dataSource={ds.cloneWithRows(groups)}
-      renderRow={renderGroup}
-      style={style}
-      onEndReached={onEndReached}
-      scrollEnabled={scrollEnabled}
-      pageSize={pageSize || 1}
-      enableEmptySections
-    />
-  );
+    return (
+        <View style={[{flex: 1,}, style]}>{
+            groups.map((item, index) => {
+                return renderGroup(item, index);
+            })
+        }
+        </View>
+    );
 };
 
 const styles = StyleSheet.create({
-  group: {
-    flexDirection: 'row',
-    alignItems: 'center'
-  }
+    group: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    }
 });
 
 GridView.propTypes = propTypes;
 
 GridView.defaultProps = {
-  items: [],
-  renderItem: null,
-  style: undefined,
-  itemsPerRow: 1,
-  onEndReached: undefined
+    items: [],
+    renderItem: null,
+    style: undefined,
+    num: 1,
 };
 
 export default GridView;

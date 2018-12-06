@@ -24,6 +24,7 @@ import * as readCreators from '../../actions/read';
 import JPushModule from 'jpush-react-native';
 import Main from "./index";
 import {BaseComponent} from "../../components/base/BaseComponent";
+import ADStore from "../../store/ADStore";
 
 class MainContainer extends BaseComponent {
 
@@ -91,6 +92,13 @@ class MainContainer extends BaseComponent {
         }
         JPushModule.addGetRegistrationIdListener(this.getRegistrationIdListener)
         JPushModule.clearAllNotifications();
+
+        ADStore.save({
+            // imageUrl: 'https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/common/1544009388067/ad_t1.gif',
+            imageUrl: 'https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/common/1544009356352/ad_t2.gif',
+            active: 'https://reactnative.cn/docs/image/',
+            times: 5,
+        });
     }
 
     componentWillUnmount() {
