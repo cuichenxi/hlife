@@ -159,7 +159,7 @@ export default class Login extends BaseComponent {
                         UserStore.save({token: '12341234',phone:mobile, userName: '啦昂那多',headerUrl:''});
                         NavigationUtil.reset(this.props.navigation, 'Home');
                     }
-                    this.showLong(rep.bstatus.desc);
+                    // this.showShort(rep.bstatus.desc);
                 }).catch(err => {
             }).done(() => {
                 this.hideLoading();

@@ -1,26 +1,57 @@
 /**
- * @author Lei
- * @repo https://github.com/stoneWeb/elm-react-native
+ *
+ * Copyright 2016-present reading
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
  */
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { ViewPropTypes, Text, TouchableOpacity } from 'react-native';
 
-import React, { Component } from 'react'
-import {
-  View,
-  Platform,
-  TouchableHighlight,
-  TouchableNativeFeedback
-} from 'react-native'
+const propTypes = {
+  onPress: PropTypes.func,
+  disabled: PropTypes.bool,
+  style: Text.propTypes.style,
+  containerStyle: ViewPropTypes.style,
+  text: PropTypes.string,
+  activeOpacity: PropTypes.number
+};
 
-export default class Button extends Component {
-  constructor(props){
-    super(props)
-  }
-  render(){
-    return Platform.OS === 'ios'?(
-      <TouchableHighlight underlayColor='#f8f8f8' {...this.props} key={this.props.index}>{this.props.children}</TouchableHighlight>
-    ):(
-      <View {...this.props}><TouchableNativeFeedback underlayColor='#f8f8f8' key={this.props.index} onPress={this.props.onPress}>{this.props.children}</TouchableNativeFeedback></View>
-    )
-  }
-}
+const Button = ({
+  onPress,
+  disabled,
+  style,
+  containerStyle,
+  text,
+  activeOpacity
+}) => (
+  <TouchableOpacity
+    style={containerStyle}
+    onPress={onPress}
+    disabled={disabled}
+    activeOpacity={activeOpacity}
+  >
+    <Text style={style}>{text}</Text>
+  </TouchableOpacity>
+);
+
+Button.propTypes = propTypes;
+
+Button.defaultProps = {
+  onPress() {},
+  disabled: false,
+  activeOpacity: 0.8
+};
+
+export default Button;

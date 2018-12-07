@@ -70,7 +70,7 @@ export default class Push extends Component {
         // JPushModule.jumpToPushActivityWithParams('SecondActivity', {
         //   hello: 'world'
         // })
-        this.props.navigation.navigate('About')
+        this.props.navigation.navigate('AboutPage')
     }
 
     onInitPress () {

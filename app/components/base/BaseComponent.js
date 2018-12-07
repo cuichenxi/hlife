@@ -29,12 +29,10 @@ class BaseComponent extends React.Component {
             _noBack: false,
             ...props
         };
-        console.log("constructor");
     }
 
 
     componentWillMount() {
-        console.log("componentWillMount");
         this.ready();
     }
 
@@ -43,21 +41,17 @@ class BaseComponent extends React.Component {
     // }
 
     componentWillUpdate() {
-        console.log("componentWillUpdate");
     }
 
     componentDidUpdate() {
-        console.log("componentDidUpdate");
     }
 
     componentDidMount() {
-        console.log("componentDidMount");
         BackHandler.addEventListener('hardwareBackPress', this.onBackPressAndroid)
         this.actived(this.props.navigation.state.params);
     }
 
     componentWillUnmount() {
-        console.log("componentWillUnmount");
         BackHandler.removeEventListener('hardwareBackPress', this.onBackPressAndroid)
         this.deactived();
         this.destroy();

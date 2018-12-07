@@ -39,16 +39,18 @@ export default class UserCenter extends BaseComponent {
             userPhone: '-',
         }
         this.config = [
-            {icon: "md-flower", name: "GiftedListDemo", onPress: this.goPage.bind(this, "GiftedListDemo")},
-            {icon: "md-flower", name: "GiftedListDemoNet", onPress: this.goPage.bind(this, "GiftedListDemoNet")},
-            {icon: "md-flower", name: "GiftedListDemoFree", onPress: this.goPage.bind(this, "GiftedListDemoFree")},
+
             {icon: "ios-pin", name: "收货地址", onPress: this.goPage.bind(this, "address")},
             {icon: "ios-heart", name: "我的收藏", color: "#fc7b53", onPress: this.goPage.bind(this, "address")},
             {icon: "md-images", name: "我的小区", subName: this.state.xiaoqu, onPress: this.goPage.bind(this, "address")},
             {icon: "logo-usd", name: "缴费记录", subName: "5元现金", onPress: this.goPage.bind(this, "address")},
             {icon: "ios-cart", name: "维修记录", subName: "0元好物在这里", onPress: this.goPage.bind(this, "MaintainRecord")},
             {icon: "ios-medal", name: "联系客服", subName: "未开通", onPress: this.goPage.bind(this, "contactUs")},
-            {icon: "md-flower", name: "关于我们", onPress: this.goPage.bind(this, "address")},
+            {icon: "md-flower", name: "关于我们", onPress: this.goPage.bind(this, "AboutPage")},
+            {icon: "md-flower", name: "CodePushPage", onPress: this.goPage.bind(this, "CodePushPage")},
+            {icon: "md-flower", name: "GiftedListDemo", onPress: this.goPage.bind(this, "GiftedListDemo")},
+            {icon: "md-flower", name: "GiftedListDemoNet", onPress: this.goPage.bind(this, "GiftedListDemoNet")},
+            {icon: "md-flower", name: "GiftedListDemoFree", onPress: this.goPage.bind(this, "GiftedListDemoFree")},
         ]
     }
 
@@ -150,8 +152,6 @@ export default class UserCenter extends BaseComponent {
                                            style={{
                                                width: 60,
                                                height: 60,
-                                               resizeMode: "cover",
-                                               overflow: "hidden",
                                                borderRadius: 30
                                            }}/>
                                 <View style={{flex: 1, marginLeft: 10, paddingVertical: 5}}>

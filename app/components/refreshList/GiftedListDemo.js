@@ -7,7 +7,7 @@ import {
 } from 'react-native'
 import {BaseComponent} from "../base/BaseComponent";
 import GiftedListView from "./GiftedListView";
-import Button from "../Button";
+import TouchableView from "../TouchableView";
 
 export default class GiftedListDemo extends BaseComponent {
     navigationBarProps() {
@@ -52,11 +52,11 @@ export default class GiftedListDemo extends BaseComponent {
      */
     _renderRowView(rowData) {
         return (
-            <Button
+            <TouchableView
                 style={styles.row}
                 onPress={() => this._onPress(rowData)}>
                 <Text>{rowData}</Text>
-            </Button>
+            </TouchableView>
         );
     }
 

@@ -21,8 +21,6 @@ import android.os.Bundle;
 import com.facebook.react.ReactActivity;
 import com.gyf.barlibrary.ImmersionBar;
 
-import org.devio.rn.splashscreen.SplashScreen;
-
 import cn.jpush.android.api.JPushInterface;
 
 public class MainActivity extends ReactActivity {

@@ -45,7 +45,7 @@ class Index extends BaseComponent {
     // static navigationOptions = ({navigation}) => ({
     //     title: navigation.state.params.article.title,
     //     headerRight: (
-    //         <Icon.Button
+    //         <Icon.TouchableView
     //             name="md-share"
     //             backgroundColor="transparent"
     //             underlayColor="transparent"

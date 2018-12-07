@@ -162,6 +162,9 @@ android {
             }
         }
     }
+    sourceSets.main {
+        jniLibs.srcDirs = ['libs']
+    }
 }
 
 andResGuard {   // ./gradlew resguard[BuildType | Flavor]

@@ -24,6 +24,8 @@ import GiftedListDemo from "./components/refreshList/GiftedListDemo";
 import GiftedListDemoFree from "./components/refreshList/GiftedListDemoFree";
 import GiftedListDemoNet from "./components/refreshList/GiftedListDemoNet";
 import UserInfo from "./pages/user/UserInfo";
+import AboutPage from "./pages/About/AboutPage";
+import CodePushPage from "./pages/About/CodePush";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -103,6 +105,8 @@ const App = createStackNavigator(
         GiftedListDemoFree: {screen: GiftedListDemoFree},
         GiftedListDemoNet: {screen: GiftedListDemoNet},
         UserInfo: {screen: UserInfo},
+        AboutPage: {screen: AboutPage},
+        CodePushPage: {screen: CodePushPage},
     },
     {
         // initialRouteName: 'Splash',

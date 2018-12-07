@@ -31,7 +31,7 @@ import {
 import AV from 'leancloud-storage';
 import store from 'react-native-simple-store';
 import GridView from '../../components/GridView';
-import Button from '../../components/Button';
+import TouchableView from '../../components/TouchableView';
 import NavigationUtil from '../../utils/NavigationUtil';
 import {BaseComponent} from '../../components/base/BaseComponent'
 let tempTypeIds = [];
@@ -150,7 +150,7 @@ class Category extends BaseComponent {
     const isSelect =
       Array.from(this.state.typeIds).indexOf(parseInt(item.id)) !== -1;
     return (
-      <Button
+      <TouchableView
         key={item.id}
         containerStyle={[
           styles.categoryBtn,
@@ -212,7 +212,7 @@ class Category extends BaseComponent {
             </Text>
           </View>
           {this.renderGridView()}
-          <Button
+          <TouchableView
             containerStyle={styles.sureBtn}
             style={styles.btnText}
             text="确认"

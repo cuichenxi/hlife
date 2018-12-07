@@ -11,7 +11,7 @@ import {
 } from 'react-native'
 import {BaseComponent} from "../../components/base/BaseComponent";
 import {CommonStyle} from "../../common/CommonStyle";
-import Button from "../../components/Button";
+import TouchableView from "../../components/TouchableView";
 import {ActionSheet, Modal} from "antd-mobile-rn";
 import ImagePicker from 'react-native-image-crop-picker';
 import Request from "../../utils/Request";
@@ -50,7 +50,7 @@ export default class UserInfo extends BaseComponent {
         return (
             <View style={styles.container}>
                 <View style={{backgroundColor: CommonStyle.lineColor, marginTop: 10, height: 0.5}}/>
-                <Button style={{height: 50,}} onPress={() => {
+                <TouchableView style={{height: 50,}} onPress={() => {
                     this._onSelectImage()
                 }}>
                     <View style={styles.itemStyle}>
@@ -67,11 +67,11 @@ export default class UserInfo extends BaseComponent {
                         <Icon style={{marginLeft: 10, marginTop: 2}} name="ios-arrow-forward-outline" size={20}
                               color={CommonStyle.color_999}/>
                     </View>
-                </Button>
+                </TouchableView>
                 <View style={{backgroundColor: CommonStyle.lineColor, height: 0.5}}/>
 
                 <View style={{backgroundColor: CommonStyle.lineColor, marginTop: 10, height: 0.5}}/>
-                <Button style={{height: 45,}} onPress={() => {
+                <TouchableView style={{height: 45,}} onPress={() => {
                     this._onUpdateNickName()
                 }}>
                     <View style={styles.itemStyle}>
@@ -80,16 +80,16 @@ export default class UserInfo extends BaseComponent {
                         <Icon style={{marginTop: 2}} name="ios-arrow-forward-outline" size={20}
                               color={CommonStyle.color_999}/>
                     </View>
-                </Button>
+                </TouchableView>
                 <View style={{backgroundColor: CommonStyle.lineColor, height: 0.5, marginLeft: 16,}}/>
-                <Button style={{height: 45}} onPress={() => {
+                <TouchableView style={{height: 45}} onPress={() => {
                     // this._on()
                 }}>
                     <View style={styles.itemStyle}>
                         <Text style={styles.itemTitle}>手机号</Text>
                         <Text style={styles.itemSubTitle}>{this.state.userPhone}</Text>
                     </View>
-                </Button>
+                </TouchableView>
                 <View style={{backgroundColor: CommonStyle.lineColor, height: 0.5}}/>
                 <TouchableOpacity style={styles.loginOutBtn} onPress={this._logout.bind(this)}>
                     <Text style={{fontSize: 16, color: CommonStyle.white}}>退出登录</Text>

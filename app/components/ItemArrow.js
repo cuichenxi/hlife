@@ -16,7 +16,7 @@ import {
     AlertIOS,
     TouchableNativeFeedback
 } from 'react-native'
-import Button from './Button'
+import TouchableView from './TouchableView'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 
@@ -35,11 +35,11 @@ class ItemButton extends Component {
 
     render() {
         return (
-            <Button style={{marginTop: this.props.first ? 10 : 0}} onPress={this.props.onPress}>
+            <TouchableView style={{marginTop: this.props.first ? 10 : 0}} onPress={this.props.onPress}>
                 <View style={styles.button}>
                     <Text style={{color: this.props.color || "#f00"}}>{this.props.name}</Text>
                 </View>
-            </Button>
+            </TouchableView>
         )
     }
 }
@@ -96,7 +96,7 @@ export default class ItemArrow extends Component {
         onPress = onPress || (() => {})
         return disable ?
             this._render() :
-            <Button style={{marginTop: first ? 10 : 0}} onPress={onPress}>{this._render()}</Button>
+            <TouchableView style={{marginTop: first ? 10 : 0}} onPress={onPress}>{this._render()}</TouchableView>
     }
 }
 ItemArrow.Button = ItemButton

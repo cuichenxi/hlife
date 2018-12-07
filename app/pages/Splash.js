@@ -29,7 +29,7 @@ import {BaseComponent} from '../components/base/BaseComponent'
 import ADStore from "../store/ADStore";
 import ImageView from "../components/ImageView";
 import {CommonStyle} from "../common/CommonStyle";
-import Button from "../components/Button";
+import TouchableView from "../components/TouchableView";
 
 class Splash extends BaseComponent {
     static navigationOptions = {
@@ -120,7 +120,7 @@ class Splash extends BaseComponent {
     _renderADView() {
         var adTimeText = this.state.secondsElapsed == 0 ? '' : ('跳过 ' + this.state.secondsElapsed + ' s');
         return (
-            <Button style={{
+            <TouchableView style={{
                 position: CommonStyle.absolute,
                 width: maxWidth,
                 height: maxHeight,
@@ -132,7 +132,7 @@ class Splash extends BaseComponent {
                     }} source={{uri: this.state.ad.imageUrl}} onLoad={() => this.setState({AdImageLoaded: true})}/>
 
                     {this.state.secondsElapsed > 0 &&
-                    <Button onPress={() => this._goPage()}>
+                    <TouchableView onPress={() => this._goPage()}>
                         <View style={{
                             position: CommonStyle.absolute,
                             right: 30,
@@ -142,7 +142,7 @@ class Splash extends BaseComponent {
                             padding: 5
                         }}><Text style={{color: '#fff', fontSize: 14}}>{adTimeText}</Text>
                         </View>
-                    </Button>}
+                    </TouchableView>}
                     <View style={{
                         position: CommonStyle.absolute,
                         left: 20,
@@ -152,7 +152,7 @@ class Splash extends BaseComponent {
                     </View>
 
                 </View>
-            </Button>);
+            </TouchableView>);
     }
 
     render() {

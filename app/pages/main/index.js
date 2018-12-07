@@ -7,7 +7,7 @@ import {
 import Swiper from 'react-native-swiper'
 import {BaseComponent} from "../../components/base/BaseComponent";
 import GridView from "../../components/GridView";
-import Button from "../../components/Button";
+import TouchableView from "../../components/TouchableView";
 // import ImageUtil from "../../utils/ImageUtil";
 
 const {width, height} = Dimensions.get('window')
@@ -126,14 +126,14 @@ export default class Main extends BaseComponent {
 
     _renderGridItem(item, index) {
         return (
-            <Button style={{flex: 1}} key={index} onPress={() => {
+            <TouchableView style={{flex: 1}} key={index} onPress={() => {
                 this._jumpRouter(item)
             }}>
                 <View style={[{flex: 1}, styles.typesItem]}>
                     <Image source={item.imageUrl} style={{width: 35, height: 35, marginTop: 6}}/>
                     <Text style={{fontSize: 12, color: "#666", marginTop: 6}}>{item.name}</Text>
                 </View>
-            </Button>
+            </TouchableView>
         )
     }
 

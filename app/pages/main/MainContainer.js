@@ -64,18 +64,25 @@ class MainContainer extends BaseComponent {
         } else {
             JPushModule.setupPush()
         }
+        // JPushModule.initPush();
 
         this.receiveCustomMsgListener = map => {
-            console.log('extras: ' + map.extras)
+            console.log('android extras: ' + JSON.stringify(map));
+            JPushModule.setBadge(1, success => {
+            });
         }
 
         JPushModule.addReceiveCustomMsgListener(this.receiveCustomMsgListener)
         this.receiveNotificationListener = map => {
             // console.log('alertContent: ' + map.alertContent)
-            console.log('extras: ' + JSON.stringify(map));
+            console.log('ios extras: ' + JSON.stringify(map));
             if (Platform.OS === 'ios') {
                 JPushModule.setBadge(map.aps.badge, success => {});
+            }else {
+                JPushModule.setBadge(1, success => {
+                });
             }
+
         }
         JPushModule.addReceiveNotificationListener(this.receiveNotificationListener)
 
@@ -129,7 +136,7 @@ class MainContainer extends BaseComponent {
         // JPushModule.jumpToPushActivityWithParams('SecondActivity', {
         //   hello: 'world'
         // })
-        // this.props.navigation.navigate('About')
+        // this.props.navigation.navigate('AboutPage')
     }
     render() {
         return <Main {...this.props} />;
