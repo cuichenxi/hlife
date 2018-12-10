@@ -26,6 +26,8 @@ import GiftedListDemoNet from "./components/refreshList/GiftedListDemoNet";
 import UserInfo from "./pages/user/UserInfo";
 import AboutPage from "./pages/About/AboutPage";
 import CodePushPage from "./pages/About/CodePush";
+import BarcodeTestPage from "./pages/tests/BarcodeTestPage";
+import PayPage from "./pages/tests/payPage";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -107,6 +109,8 @@ const App = createStackNavigator(
         UserInfo: {screen: UserInfo},
         AboutPage: {screen: AboutPage},
         CodePushPage: {screen: CodePushPage},
+        BarcodeTestPage: {screen: BarcodeTestPage},
+        PayPage: {screen: PayPage},
     },
     {
         // initialRouteName: 'Splash',

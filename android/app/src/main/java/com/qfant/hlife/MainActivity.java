@@ -20,6 +20,7 @@ import android.os.Bundle;
 
 import com.facebook.react.ReactActivity;
 import com.gyf.barlibrary.ImmersionBar;
+import com.qfant.hlife.BuildConfig;
 
 import cn.jpush.android.api.JPushInterface;
 

@@ -40,6 +40,7 @@ let canGoBack = true;
 const shareIconWechat = require('../../img/share_icon_wechat.png');
 const shareIconMoments = require('../../img/share_icon_moments.png');
 import {BaseComponent} from '../../components/base/BaseComponent'
+import DeviceInfo from "react-native-device-info/deviceinfo";
 
 class Index extends BaseComponent {
     // static navigationOptions = ({navigation}) => ({
@@ -133,7 +134,7 @@ class Index extends BaseComponent {
                                         if (isInstalled) {
                                             WeChat.shareToSession({
                                                 title: formatStringWithHtml(params.article.title),
-                                                description: '分享自:幸福宜居',
+                                                description: '分享自:' + DeviceInfo.getApplicationName(),
                                                 thumbImage: params.article.contentImg,
                                                 type: 'news',
                                                 webpageUrl: params.article.url

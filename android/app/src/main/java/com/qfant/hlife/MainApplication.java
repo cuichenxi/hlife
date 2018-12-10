@@ -20,6 +20,8 @@ import android.app.Application;
 
 import com.facebook.infer.annotation.Assertions;
 import com.facebook.react.ReactApplication;
+import com.qfant.hlife.BuildConfig;
+import com.reactnativecomponent.barcode.RCTCapturePackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
@@ -106,6 +108,7 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             List<ReactPackage> packages = Arrays.asList(
                     new MainReactPackage(),
+            new RCTCapturePackage(),
             new PickerPackage(),
             new LinearGradientPackage(),
                     new SplashScreenReactPackage(),

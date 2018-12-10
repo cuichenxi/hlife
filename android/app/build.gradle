@@ -79,7 +79,7 @@ project.ext.react = [
 apply from: "../../node_modules/react-native/react.gradle"
 apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
 project.ext.vectoricons = [
-        iconFontNames: ['Ionicons.ttf','iconfont.ttf'] // Name of the font files you want to copy
+        iconFontNames: ['Ionicons.ttf', 'iconfont.ttf'] // Name of the font files you want to copy
 ]
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 
@@ -110,9 +110,9 @@ android {
         versionCode 7
         versionName "1.0.0"
         manifestPlaceholders = [
-                JPUSH_PKGNAME : applicationId,
-                JPUSH_APPKEY: "51ddc724d55234b62777f08a",
-                APP_CHANNEL : "default"
+                JPUSH_PKGNAME: applicationId,
+                JPUSH_APPKEY : "51ddc724d55234b62777f08a",
+                APP_CHANNEL  : "default"
         ]
 
         ndk {
@@ -122,6 +122,12 @@ android {
     }
     signingConfigs {
         release {
+            storeFile file(READING_RELEASE_STORE_FILE)
+            storePassword READING_RELEASE_STORE_PASSWORD
+            keyAlias READING_RELEASE_KEY_ALIAS
+            keyPassword READING_RELEASE_KEY_PASSWORD
+        }
+        debug {
             storeFile file(READING_RELEASE_STORE_FILE)
             storePassword READING_RELEASE_STORE_PASSWORD
             keyAlias READING_RELEASE_KEY_ALIAS
@@ -139,6 +145,8 @@ android {
     buildTypes {
         debug {
             buildConfigField "String", "CODEPUSH_KEY", '"rOfQ8XGOt98_57EL3FJIogtaEFaL1847071a-a410-40be-8295-ea5fb8bf4b4a"'
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.debug
         }
         release {
             minifyEnabled enableProguardInReleaseBuilds
@@ -198,6 +206,7 @@ andResGuard {   // ./gradlew resguard[BuildType | Flavor]
 }
 
 dependencies {
+    compile project(':react-native-smart-barcode')
     compile project(':react-native-image-crop-picker')
     compile project(':react-native-linear-gradient')
     compile project(':react-native-wechat')
@@ -213,7 +222,7 @@ dependencies {
     compile project(':react-native-code-push')
     compile project(':react-native-vector-icons')
     compile project(':react-native-exceptions-manager')
-    compile ('com.facebook.fresco:animated-gif:1.3.0')
+    compile('com.facebook.fresco:animated-gif:1.3.0')
     compile 'com.gyf.barlibrary:barlibrary:2.3.0'
 }
 
