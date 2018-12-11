@@ -20,6 +20,7 @@ import android.app.Application;
 
 import com.facebook.infer.annotation.Assertions;
 import com.facebook.react.ReactApplication;
+import com.qfant.alipay.AlipayPackage;
 import com.qfant.hlife.BuildConfig;
 import com.reactnativecomponent.barcode.RCTCapturePackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
@@ -52,6 +53,7 @@ import cn.jpush.reactnativejpush.JPushPackage;
 public class MainApplication extends Application implements ReactApplication {
     private boolean SHUTDOWN_TOAST = true;
     private boolean SHUTDOWN_LOG = true;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -108,9 +110,10 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             List<ReactPackage> packages = Arrays.asList(
                     new MainReactPackage(),
-            new RCTCapturePackage(),
-            new PickerPackage(),
-            new LinearGradientPackage(),
+                    new RCTCapturePackage(),
+                    new AlipayPackage(),
+                    new PickerPackage(),
+                    new LinearGradientPackage(),
                     new SplashScreenReactPackage(),
                     new WeChatPackage(),
                     new CodePush(BuildConfig.CODEPUSH_KEY, MainApplication.this, BuildConfig.DEBUG),

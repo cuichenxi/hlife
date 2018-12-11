@@ -17,6 +17,7 @@
 #import <React/RCTRootView.h>
 #import <Bugly/Bugly.h>
 #import "SplashScreen.h"
+#import "AlipayModule.h"
 
 @implementation AppDelegate
 
@@ -61,6 +62,12 @@
 
   completionHandler();
 }
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+  [AlipayModule handleCallback:url];
+  return YES;
+}
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -72,7 +79,7 @@
   
 #ifdef DEBUG
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
-//  jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+//  jsCodeLocation = [[NSBun#import "AlipayModule.h"dle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 //   jsCodeLocation = [CodePush bundleURL];
 #else
   jsCodeLocation = [CodePush bundleURL];
