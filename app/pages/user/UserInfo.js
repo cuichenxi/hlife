@@ -36,7 +36,7 @@ export default class UserInfo extends BaseComponent {
         };
     }
 
-    actived(param) {
+    onReady(param) {
         let userInfo = UserStore.get();
         this.setState({
             headerUrl: 'https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/common/1542198920071/youji.gif',

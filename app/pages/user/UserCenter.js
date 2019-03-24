@@ -80,7 +80,7 @@ export default class UserCenter extends BaseComponent {
         super.componentDidMount()
     }
 
-    actived(param) {
+    onReady(param) {
         let userInfo = UserStore.get();
         this.setState({
             // headerUrl: userInfo.headerUrl,

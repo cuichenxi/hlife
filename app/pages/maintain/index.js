@@ -27,8 +27,8 @@ export default class MaintainRecord extends BaseComponent {
     }
 
 
-    actived(param) {
-        console.log('actived')
+    onReady(param) {
+        console.log('onReady')
         this.makeRemoteRequest();
         this.setNoBack(true);
     }

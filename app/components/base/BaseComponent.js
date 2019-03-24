@@ -33,7 +33,7 @@ class BaseComponent extends React.Component {
 
 
     componentWillMount() {
-        this.ready();
+        this.onShow();
     }
 
     // shouldComponentUpdate(nextProps, nextState) {
@@ -48,20 +48,20 @@ class BaseComponent extends React.Component {
 
     componentDidMount() {
         BackHandler.addEventListener('hardwareBackPress', this.onBackPressAndroid)
-        this.actived(this.props.navigation.state.params);
+        this.onReady(this.props.navigation.state.params);
     }
 
     componentWillUnmount() {
         BackHandler.removeEventListener('hardwareBackPress', this.onBackPressAndroid)
-        this.deactived();
-        this.destroy();
+        this.onHide();
+        this.onUnload();
     }
 
     /**
      * 页面准备完成时。通过 this.prorps.param 可以获取 open(name, opts) 时传入的参数。
      * 举例：从 A 页面打开 B 页面，此时 B 页面就准备完成了。
      */
-    ready() {
+    onShow() {
 
     }
 
@@ -70,7 +70,7 @@ class BaseComponent extends React.Component {
      * 举例：B 页面是从 A 页面打开的，现在从 B 页面返回 A 页面，此时 A 页面就被激活了。
      * @param param
      */
-    actived(param) {
+    onReady(param) {
 
     }
 
@@ -78,7 +78,7 @@ class BaseComponent extends React.Component {
      *  页面失活时。
      *  举例：从 A 页面打开 B 页面，此时 A 页面就失活了。
      */
-    deactived() {
+    onHide() {
 
     }
 
@@ -86,7 +86,7 @@ class BaseComponent extends React.Component {
      * 页面销毁时。
      *举例：B 页面是从 A 页面打开的，现在从 B 页面返回 A 页面，此时 B 页面就被销毁了。
      */
-    destroy() {
+    onUnload() {
 
     }
 

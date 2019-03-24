@@ -156,7 +156,7 @@ export default class Login extends BaseComponent {
                 {mock: true, mockId: 672823})
                 .then(rep => {
                     if (rep.bstatus.code === 0) {
-                        UserStore.save({token: '12341234',phone:mobile, userName: '啦昂那多',headerUrl:''});
+                        UserStore.save({token: '12341234', phone: mobile, userName: '啦昂那多', headerUrl: ''});
                         NavigationUtil.reset(this.props.navigation, 'Home');
                     }
                     // this.showShort(rep.bstatus.desc);

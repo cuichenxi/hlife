@@ -38,7 +38,7 @@ export default class PayPage extends BaseComponent {
         ]
     }
 
-    actived(p) {
+    onReady(p) {
         WeChat.addListener(
             'SendMessageToWX.Resp',
             (response) => {

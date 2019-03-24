@@ -78,7 +78,7 @@ export default class Main extends BaseComponent {
         };
     }
 
-    actived(param) {
+    onReady(param) {
 
     }
 

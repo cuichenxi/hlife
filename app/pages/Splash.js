@@ -58,7 +58,7 @@ class Splash extends BaseComponent {
         // }
     }
 
-    actived(param) {
+    onReady(param) {
         setTimeout(() => {
             let ADInfo = ADStore.get();
             this.setState({
@@ -98,7 +98,7 @@ class Splash extends BaseComponent {
         this.navigate('Web', {article: {title: '', url: this.state.ad.active}})
     }
 
-    deactived() {
+    onUnload() {
         clearTimeout(this.timer);
     }
 
