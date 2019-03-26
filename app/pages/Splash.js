@@ -66,7 +66,7 @@ class Splash extends BaseComponent {
                     imageUrl: ADInfo.imageUrl,
                     active: ADInfo.active,
                 },
-                hasAd: ADInfo.imageUrl != null,
+                // hasAd: ADInfo.imageUrl != null,
                 secondsElapsed: ADInfo.times
             })
             if (this.state.hasAd) {

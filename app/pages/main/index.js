@@ -2,12 +2,15 @@ import React from 'react';
 import {
     DeviceEventEmitter,
     TouchableHighlight, ScrollView, ListView, StyleSheet,
-    Image, View, Text, Dimensions
+    Image, View, Text, Dimensions, TextInput
 } from "react-native";
 import Swiper from 'react-native-swiper'
 import {BaseComponent} from "../../components/base/BaseComponent";
 import GridView from "../../components/GridView";
 import TouchableView from "../../components/TouchableView";
+import {CommonStyle} from "../../common/CommonStyle";
+import QIcon from "../../components/icon";
+import BarcodePage from "../witget/BarcodePage";
 // import ImageUtil from "../../utils/ImageUtil";
 
 const {width, height} = Dimensions.get('window')
@@ -78,6 +81,10 @@ export default class Main extends BaseComponent {
         };
     }
 
+    onShow() {
+        this.hideHeader(true);
+    }
+
     onReady(param) {
 
     }
@@ -107,6 +114,39 @@ export default class Main extends BaseComponent {
 
     _jumpRouter(typeItem) {
         this.navigate(typeItem.active);
+    }
+
+    onScanClick() {
+        this.navigate("BarcodePage", {
+            callback: (backData) => {
+               this.showShort(backData)
+            }
+        });
+    }
+
+    _renderHeader() {
+        return (
+            <View style={{height: CommonStyle.navHeight, backgroundColor: CommonStyle.navThemeColor}}>
+                <View style={{
+                    flex: 1, flexDirection: 'row', height: CommonStyle.navContentHeight,
+                    marginTop: CommonStyle.navStatusBarHeight, alignItems: 'center'
+                }}>
+                    <TouchableView style={{width: 50,alignItems:'center'}} onPress={()=>{this.onScanClick()}}>
+                        <QIcon style={{textAlign: 'center', width: 40, width: 40}} name={'icon-home'} size={22}
+                               color={CommonStyle.color_666}></QIcon>
+                    </TouchableView>
+                    <View style={{flex: 1, alignItems: 'center', height:30,flexDirection: 'row',backgroundColor:'#fff' , borderRadius: 10}}>
+                        <QIcon style={{textAlign: 'center', width: 20, width: 20, marginLeft: 8}} name={'icon-home'} size={14}
+                               color={CommonStyle.color_666}></QIcon>
+                        <Text style={{color:CommonStyle.color_666, fontSize: 14, marginLeft: 2}}>五一家装节</Text>
+                    </View>
+                    <TouchableView style={{width: 50,alignItems:'center'}}>
+                        <QIcon style={{textAlign: 'center', width: 40, width: 40}} name={'icon-home'} size={22}
+                               color={CommonStyle.color_666}></QIcon>
+                    </TouchableView>
+                </View>
+            </View>
+        );
     }
 
     _renderGridView() {
@@ -140,11 +180,14 @@ export default class Main extends BaseComponent {
     _render() {
         return (
             <ScrollView style={styles.container}>
+                {this._renderHeader()}
                 {this._renderBanner()}
                 {this._renderGridView()}
             </ScrollView>
         );
     }
+
+
 }
 
 const styles = StyleSheet.create({

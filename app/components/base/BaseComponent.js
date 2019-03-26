@@ -27,6 +27,7 @@ class BaseComponent extends React.Component {
             isLoading: false,
             loadingText: '',
             _noBack: false,
+            hideHeader: false,
             ...props
         };
     }
@@ -94,11 +95,18 @@ class BaseComponent extends React.Component {
         return {};
     }
 
+    hideHeader(hideHeader) {
+        this.state.hideHeader = hideHeader;
+    }
+
     setNoBack(_noBack) {
         this.state._noBack = _noBack;
     }
 
-    goBack() {
+    goBack(params) {
+        if (params && this.props.navigation.state.params && this.props.navigation.state.params.callback) {
+            this.props.navigation.state.params.callback(params);
+        }
         this.props.navigation.goBack();
     }
 
@@ -221,7 +229,7 @@ class BaseComponent extends React.Component {
         thiz = this;
         return (
             <View style={[styles.baseContainer, this.props.style]}>
-                {this.renderNavigationBar()}
+                {this.state.hideHeader ? null : this.renderNavigationBar()}
                 {this.state.inSideLoading ? <LoadingView loadingtext={this.state.loadingText}/> : this._render()}
                 {this.state.isLoading ?
                     <Loading loadProps={{visible: this.state.isLoading, loadingText: this.state.loadingText}}/> : null}

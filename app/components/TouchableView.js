@@ -18,9 +18,9 @@ export default class TouchableView extends Component {
   }
   render(){
     return Platform.OS === 'ios'?(
-      <TouchableHighlight underlayColor='#f8f8f8' {...this.props} key={this.props.index}>{this.props.children}</TouchableHighlight>
+      <TouchableHighlight underlayColor='#00000000' {...this.props} key={this.props.index}>{this.props.children}</TouchableHighlight>
     ):(
-      <View {...this.props}><TouchableNativeFeedback underlayColor='#f8f8f8' key={this.props.index} onPress={this.props.onPress}>{this.props.children}</TouchableNativeFeedback></View>
+      <View {...this.props}><TouchableNativeFeedback underlayColor='#00000000' key={this.props.index} onPress={this.props.onPress}>{this.props.children}</TouchableNativeFeedback></View>
     )
   }
 }

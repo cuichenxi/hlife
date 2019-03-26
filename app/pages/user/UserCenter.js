@@ -47,7 +47,7 @@ export default class UserCenter extends BaseComponent {
             {icon: "ios-cart", name: "维修记录", subName: "0元好物在这里", onPress: this.goPage.bind(this, "MaintainRecord")},
             {icon: "ios-medal", name: "联系客服", subName: "未开通", onPress: this.goPage.bind(this, "contactUs")},
             {icon: "md-flower", name: "关于我们", onPress: this.goPage.bind(this, "AboutPage")},
-            {icon: "md-flower", name: "BarcodeTestPage", onPress: this.goPage.bind(this, "BarcodeTestPage")},
+            {icon: "md-flower", name: "BarcodePage", onPress: this.goPage.bind(this, "BarcodePage")},
             {icon: "md-flower", name: "支付调试", onPress: this.goPage.bind(this, "PayPage")},
             {icon: "md-flower", name: "CodePushPage", onPress: this.goPage.bind(this, "CodePushPage")},
             {icon: "md-flower", name: "GiftedListDemo", onPress: this.goPage.bind(this, "GiftedListDemo")},
