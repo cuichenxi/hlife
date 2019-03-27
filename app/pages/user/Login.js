@@ -101,35 +101,7 @@ export default class Login extends BaseComponent {
     }
 
     _register() {
-        // InteractionManager.runAfterInteractions(() => {
-        //     this.props.navigator.push({
-        //         name: 'RegisterContainer',
-        //         component: RegisterContainer,
-        //         passProps: {
-        //             ...this.props,
-        //         }
-        //     })
-        // });
-        // Modal.prompt(
-        //     'Name',
-        //     'name message',
-        //     (password) => console.log(`password: ${password}`),
-        //     'default',
-        //     null,
-        //     ['please input name'],
-        // );
-        // console.log(caches);
-        // StorageUtil.save('test','xx');
-        // var s =StorageUtil.get('test');
-        // console.log('s=' + s);
-        // let token = UserStore.get().token;
-        // console.log("loginpage token=" + token);
-        // // Loading.show();
-        // Toast.loading('Loading...', 0, () => {
-        //     console.log('Load complete !!!');
-        // });
-        // this.showShort('退出');
-        this.showDLoading()
+        this.push("Register");
     }
 
     _forgetPassword() {
@@ -149,22 +121,20 @@ export default class Login extends BaseComponent {
             this.showLong('请输入密码');
             return;
         }
-        InteractionManager.runAfterInteractions(() => {
-            this.showLoading('登录中..');
-            Request.post('login.do',
-                {phone: "15811508404", code: 123456},
-                {mock: true, mockId: 672823})
-                .then(rep => {
-                    if (rep.bstatus.code === 0) {
-                        UserStore.save({token: '12341234', phone: mobile, userName: '啦昂那多', headerUrl: ''});
-                        NavigationUtil.reset(this.props.navigation, 'Home');
-                    }
-                    // this.showShort(rep.bstatus.desc);
-                }).catch(err => {
-            }).done(() => {
-                this.hideLoading();
-            })
-        });
+        this.showLoading('登录中..');
+        Request.post('login.do',
+            {phone: "15811508404", code: 123456},
+            {mock: true, mockId: 672823})
+            .then(rep => {
+                if (rep.bstatus.code === 0) {
+                    UserStore.save({token: '12341234', phone: mobile, userName: '啦昂那多', headerUrl: ''});
+                    NavigationUtil.reset(this.props.navigation, 'Home');
+                }
+                // this.showShort(rep.bstatus.desc);
+            }).catch(err => {
+        }).done(() => {
+            this.hideLoading();
+        })
     }
 
     onChangeMobile(text) {
@@ -240,7 +210,7 @@ const styles = StyleSheet.create({
     },
 
     loginBtn: {
-        backgroundColor: '#ff6836',
+        backgroundColor: CommonStyle.themeColor,
         padding: 10,
         alignItems: 'center',
         marginTop: 20,

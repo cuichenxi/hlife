@@ -20,14 +20,16 @@ import QIcon from "./components/icon/index";
 import React from 'react';
 import Main from "./pages/main";
 import MaintainRecord from "./pages/maintain";
-import GiftedListDemo from "./components/refreshList/GiftedListDemo";
-import GiftedListDemoFree from "./components/refreshList/GiftedListDemoFree";
-import GiftedListDemoNet from "./components/refreshList/GiftedListDemoNet";
+import GiftedListDemo from "./components/refreshList/demo/GiftedListDemo";
+import GiftedListDemoFree from "./components/refreshList/demo/GiftedListDemoFree";
+import GiftedListDemoNet from "./components/refreshList/demo/GiftedListDemoNet";
 import UserInfo from "./pages/user/UserInfo";
 import AboutPage from "./pages/About/AboutPage";
 import CodePushPage from "./pages/About/CodePush";
 import BarcodePage from "./pages/witget/BarcodePage";
 import PayPage from "./pages/witget/payPage";
+import ContactList from "./pages/contactlist/ContactList";
+import Register from "./pages/user/Register";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -98,6 +100,7 @@ const App = createStackNavigator(
         },
         Web: {screen: Web},
         Login: {screen: Login},
+        Register: {screen: Register},
         Shopping: {screen: Shopping},
         Push: {screen: Push},
         Feedback: {screen: Feedback},
@@ -111,6 +114,7 @@ const App = createStackNavigator(
         CodePushPage: {screen: CodePushPage},
         BarcodePage: {screen: BarcodePage},
         PayPage: {screen: PayPage},
+        ContactList: {screen: ContactList},
     },
     {
         // initialRouteName: 'Splash',

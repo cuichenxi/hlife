@@ -40,13 +40,13 @@ export default class Main extends BaseComponent {
             ],
             types: [
                 {
-                    name: '维修',
+                    name: '注册',
                     imageUrl: require('../../img/about_logo.png'),
-                    active: 'Login'
+                    active: 'Register'
                 }, {
                     name: '送水',
                     imageUrl: require('../../img/about_logo.png'),
-                    active: 'Login'
+                    active: 'ContactList'
                 }, {
                     name: '租房',
                     imageUrl: require('../../img/about_logo.png'),
@@ -54,7 +54,7 @@ export default class Main extends BaseComponent {
                 }, {
                     name: '家政',
                     imageUrl: require('../../img/about_logo.png'),
-                    active: 'Login'
+                    active: 'ContactList'
                 }, {
                     name: '缴费',
                     imageUrl: require('../../img/about_logo.png'),
@@ -113,7 +113,7 @@ export default class Main extends BaseComponent {
     }
 
     _jumpRouter(typeItem) {
-        this.navigate(typeItem.active);
+        this.push(typeItem.active,{title: typeItem.name});
     }
 
     onScanClick() {

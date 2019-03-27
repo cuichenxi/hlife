@@ -5,9 +5,9 @@ import {
     View,
     TouchableHighlight
 } from 'react-native'
-import {BaseComponent} from "../base/BaseComponent";
-import GiftedListView from "./GiftedListView";
-import TouchableView from "../TouchableView";
+import {BaseComponent} from "../../base/BaseComponent";
+import GiftedListView from "../GiftedListView";
+import TouchableView from "../../TouchableView";
 import {ListItem} from "react-native-elements";
 export default class GiftedListDemoNet extends BaseComponent {
     navigationBarProps() {

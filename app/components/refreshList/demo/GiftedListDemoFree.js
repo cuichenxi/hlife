@@ -1,4 +1,4 @@
-import {BaseComponent} from "../base/BaseComponent";
+import {BaseComponent} from "../../base/BaseComponent";
 
 import React from 'react';
 import {
@@ -9,7 +9,7 @@ import {
     Platform,
     ActivityIndicator
 } from 'react-native';
-import GiftedListView from "./GiftedListView";
+import GiftedListView from "../GiftedListView";
 
 
 export default class GiftedListDemoFree extends BaseComponent {
