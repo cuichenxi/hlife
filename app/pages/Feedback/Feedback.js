@@ -16,52 +16,33 @@
  *
  */
 import React from 'react';
-import {StyleSheet, Text, View, Keyboard} from 'react-native';
+import {StyleSheet, Text,SafeAreaView, View, Keyboard} from 'react-native';
 
-import AV from 'leancloud-storage';
-import Icon from 'react-native-vector-icons/Ionicons';
-import QIcon from '../../assets/fonts/iconSets';
-import Request from '../../utils/Request';
 import {BaseComponent} from '../../components/base/BaseComponent'
-let feedbackText;
 
-class Feedback extends BaseComponent {
-    static navigationOptions = ({navigation}) => ({
-        title: '建议',
-        tabBarIcon: ({tintColor}) => (
-            <Icon name="md-thumbs-up" size={25} color={tintColor}/>
-        ),
-        headerRight: (
-            <QIcon.Button
-                name="icon-shouye"
-                backgroundColor="transparent"
-                underlayColor="transparent"
-                activeOpacity={0.8}
-                onPress={() => {
-                    navigation.state.params.handleCheck();
-                }}
-            />
-        )
-    });
-
+export default class Feedback extends React.Component {
+    // static navigationOptions = ({navigation}) => ({
+    //     title: '建议',
+    // });
+    navigationBarProps() {
+        return {
+            title: '建议',
+        }
+    }
     componentDidMount() {
-        feedbackText = '';
         this.props.navigation.setParams({handleCheck: this.onActionSelected});
     }
 
-    onActionSelected = () => {
-        this.props.navigation.goBack();   // this.props.navigation.popToTop();
-    };
     onNext = () => {
-        this.props.navigation.state.params.callback('返回的数据');
+        // this.props.navigation.state.params.callback('返回的数据');
         this.props.navigation.goBack();
-        // this.props.navigation.navigate('Feedback', { isFirst: true });
+        this.props.navigation.navigate('Login', {isFirst: true});
     };
 
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.textInput}  onPress={this.onNext}>点击</Text>
+                <Text style={styles.textInput} onPress={this.onNext}>点击</Text>
             </View>
         );
     }
@@ -81,5 +62,3 @@ const styles = StyleSheet.create({
     }
 });
 
-
-export default Feedback;

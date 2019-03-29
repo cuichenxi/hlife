@@ -15,88 +15,99 @@
  * limitations under the License.
  *
  */
-import React from 'react';
-import PropTypes from 'prop-types';
 import {
-  StyleSheet,
-  Dimensions,
-  View,
-  Text,
-  Modal,
-  ActivityIndicator
+    StyleSheet,
+    Dimensions,
+    View,
+    Text,
+    Modal,
+    ActivityIndicator
 } from 'react-native';
-
+import PropTypes from 'prop-types';
 const SIZES = ['small', 'large'];
 
 const propTypes = {
-  visible: PropTypes.bool,
-  color: PropTypes.string,
-  size: PropTypes.oneOf(SIZES),
-  overlayColor: PropTypes.string,
-  onRequestClose: PropTypes.func
+    visible: PropTypes.bool,
+    color: PropTypes.string,
+    size:  PropTypes.string,
+    overlayColor:  PropTypes.string,
+    onRequestClose: PropTypes.func,
 };
+const defaultProps = {
+    visible: false,
+    color: 'white',
+    size: 'large',
+    loadingText: '数据加载中...',
+    overlayColor: 'transparent',
+    onRequestClose() {
+    }
+};
+import React, {Component} from 'react';
 
-const Loading = ({
-  visible, color, size, overlayColor, onRequestClose
-}) => (
-  <Modal visible={visible} transparent onRequestClose={onRequestClose}>
-    {visible ? (
-      <View key="spinner" style={styles.container}>
-        <View style={[styles.background, { backgroundColor: overlayColor }]}>
-          <View style={styles.loading}>
-            <ActivityIndicator size={size} color={color} />
-            <Text style={styles.loadingText}>数据加载中...</Text>
-          </View>
-        </View>
-      </View>
-    ) : (
-      <View key="spinner" />
-    )}
-  </Modal>
-);
+// import {CommonStyle} from '../common/CommonStyle'
+
+class Loading extends Component {
+    constructor(props) {
+        super(props)
+        this.loadProps = Object.assign({}, defaultProps, props.loadProps)
+    }
+    render() {
+        return (
+            <Modal visible={this.loadProps.visible} transparent onRequestClose={this.loadProps.onRequestClose}>
+                {this.loadProps.visible ? (
+                    <View key="spinner" style={styles.container}>
+                        <View style={[styles.background, {backgroundColor: this.loadProps.overlayColor}]}>
+                            <View style={styles.loading}>
+                                <ActivityIndicator size={this.loadProps.size} color={this.loadProps.color}/>
+                                <Text style={styles.loadingText}>{this.loadProps.loadingText}</Text>
+                            </View>
+                        </View>
+                    </View>
+                ) : (
+                    <View key="spinner"/>
+                )}
+            </Modal>
+        );
+    }
+
+}
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'transparent',
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0
-  },
-  background: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  loading: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: Dimensions.get('window').width / 2.5,
-    height: Dimensions.get('window').width / 2.5,
-    borderRadius: 10,
-    backgroundColor: 'rgba(0, 0, 0, 0.25)'
-  },
-  loadingText: {
-    marginTop: 10,
-    textAlign: 'center',
-    color: '#fcfcfc'
-  }
+    container: {
+        flex: 1,
+        backgroundColor: 'transparent',
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0
+    },
+    background: {
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    loading: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 110,
+        height: 110,
+        borderRadius: 10,
+        backgroundColor: 'rgba(0, 0, 0, 0.8)'
+    },
+    loadingText: {
+        marginTop: 10,
+        textAlign: 'center',
+        color: '#fcfcfc'
+    }
 });
 
 Loading.propTypes = propTypes;
 
-Loading.defaultProps = {
-  visible: false,
-  color: 'white',
-  size: 'large',
-  overlayColor: 'transparent',
-  onRequestClose() {}
-};
+Loading.defaultProps = defaultProps;
 
 export default Loading;
