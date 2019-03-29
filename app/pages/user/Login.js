@@ -98,12 +98,12 @@ export default class Login extends BaseComponent {
             return;
         }
         this.showLoading('登录中..');
-        Request.post('login.do',
-            {phone: "15811508404", code: 123456},
-            {mock: true, mockId: 672823})
+        Request.post('/api/loginbyPhonepass',
+            {phone: this.state.mobile, password: this.state.password},
+            {mock: false, mockId: 672823})
             .then(rep => {
-                if (rep.bstatus.code === 0) {
-                    UserStore.save({token: '12341234', phone: mobile, userName: '啦昂那多', headerUrl: ''});
+                if (rep) {
+                    UserStore.save({userId: rep.userId, phone: rep.phone, userName: rep.name, headerUrl: ''});
                     NavigationUtil.reset(this.props.navigation, 'Home');
                 }
                 // this.showShort(rep.bstatus.desc);

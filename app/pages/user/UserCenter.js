@@ -40,16 +40,18 @@ export default class UserCenter extends BaseComponent {
         }
         this.config = [
 
-            {icon: "ios-pin", name: "收货地址", onPress: this.goPage.bind(this, "address")},
-            {icon: "ios-heart", name: "红包", color: "#fc7b53", onPress: this.goPage.bind(this, "RedPacket")},
-            {icon: "ios-heart", name: "我的收藏", color: "#fc7b53", onPress: this.goPage.bind(this, "address")},
-            {icon: "md-images", name: "我的小区", subName: this.state.xiaoqu, onPress: this.goPage.bind(this, "address")},
-            {icon: "logo-usd", name: "缴费记录", subName: "5元现金", onPress: this.goPage.bind(this, "address")},
-            {icon: "ios-cart", name: "维修记录", subName: "0元好物在这里", onPress: this.goPage.bind(this, "MaintainRecord")},
-            {icon: "ios-medal", name: "联系客服", subName: "未开通", onPress: this.goPage.bind(this, "contactUs")},
-            {icon: "md-flower", name: "关于我们", onPress: this.goPage.bind(this, "AboutPage")},
-            {icon: "md-flower", name: "BarcodePage", onPress: this.goPage.bind(this, "BarcodePage")},
-            {icon: "md-flower", name: "支付调试", onPress: this.goPage.bind(this, "PayPage")},
+            {icon: "ios-pin", name: "设置", onPress: this.goPage.bind(this, "UserInfo")},
+            {icon: "ios-heart", name: "关于", color: "#fc7b53", onPress: this.goPage.bind(this, "AboutPage")},
+            // {icon: "ios-pin", name: "收货地址", onPress: this.goPage.bind(this, "address")},
+            // {icon: "ios-heart", name: "红包", color: "#fc7b53", onPress: this.goPage.bind(this, "RedPacket")},
+            // {icon: "ios-heart", name: "我的收藏", color: "#fc7b53", onPress: this.goPage.bind(this, "address")},
+            // {icon: "md-images", name: "我的小区", subName: this.state.xiaoqu, onPress: this.goPage.bind(this, "address")},
+            // {icon: "logo-usd", name: "缴费记录", subName: "5元现金", onPress: this.goPage.bind(this, "address")},
+            // {icon: "ios-cart", name: "维修记录", subName: "0元好物在这里", onPress: this.goPage.bind(this, "MaintainRecord")},
+            // {icon: "ios-medal", name: "联系客服", subName: "未开通", onPress: this.goPage.bind(this, "contactUs")},
+            // {icon: "md-flower", name: "关于我们", onPress: this.goPage.bind(this, "AboutPage")},
+            // {icon: "md-flower", name: "BarcodePage", onPress: this.goPage.bind(this, "BarcodePage")},
+            // {icon: "md-flower", name: "支付调试", onPress: this.goPage.bind(this, "PayPage")},
             {icon: "md-flower", name: "CodePushPage", onPress: this.goPage.bind(this, "CodePushPage")},
             {icon: "md-flower", name: "GiftedListDemo", onPress: this.goPage.bind(this, "GiftedListDemo")},
             {icon: "md-flower", name: "GiftedListDemoNet", onPress: this.goPage.bind(this, "GiftedListDemoNet")},
@@ -172,57 +174,6 @@ export default class UserCenter extends BaseComponent {
                             </View>
                         </TouchableOpacity>
                     </LinearGradient>
-                    <View style={{
-                        backgroundColor: '#fff',
-                        flex: 1,
-                        flexDirection: 'row',
-                        height: 40,
-                        paddingHorizontal: 16,
-                        justifyContent: 'space-between',
-                        alignItems: 'center'
-                    }}>
-                        <Text style={{fontSize: 14, color: CommonStyle.color_333}}>我的订单</Text>
-                        <Text style={{
-                            fontSize: 12, color: CommonStyle.color_999, flex: 1, textAlign: 'right',
-                            marginRight: 5
-                        }}>查看全部订单</Text>
-                        <Icon name="ios-arrow-forward-outline" size={16} color='#999'/>
-                    </View>
-                    <View style={{
-                        flex: 1,
-                        backgroundColor: CommonStyle.lineColor,
-                        height: .5
-                    }}/>
-                    <View style={{
-                        backgroundColor: '#fff',
-                        flex: 1,
-                        flexDirection: 'row',
-                        height: 60,
-                        paddingHorizontal: 16,
-                        justifyContent: 'space-between',
-                        alignItems: 'center'
-                    }}>
-                        <View style={styles.orderItem}>
-                            <QIcon style={styles.orderItemIcon} name={'icon-home'} size={22}
-                                   color={CommonStyle.color_666}></QIcon>
-                            <Text style={styles.orderItemText}>待付款</Text>
-                        </View>
-                        <View style={styles.orderItem}>
-                            <QIcon style={styles.orderItemIcon} name={'icon-home'} size={22}
-                                   color={CommonStyle.color_666}></QIcon>
-                            <Text style={styles.orderItemText}>待收货</Text>
-                        </View>
-                        <View style={styles.orderItem}>
-                            <QIcon style={styles.orderItemIcon} name={'icon-home'} size={22}
-                                   color={CommonStyle.color_666}></QIcon>
-                            <Text style={styles.orderItemText}>待评价</Text>
-                        </View>
-                        <View style={styles.orderItem}>
-                            <QIcon style={styles.orderItemIcon} name={'icon-home'} size={22}
-                                   color={CommonStyle.color_666}></QIcon>
-                            <Text style={styles.orderItemText}>售后</Text>
-                        </View>
-                    </View>
                     <View style={{
                         flex: 1,
                         backgroundColor: CommonStyle.lineColor,

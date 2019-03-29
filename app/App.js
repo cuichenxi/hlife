@@ -11,7 +11,7 @@ import Splash from './pages/Splash';
 import MainContainer from './pages/main/MainContainer';
 import Web from './pages/web/index';
 import Shopping from './pages/shopping/index';
-import ShoppingCart from './pages/shoppingcart/index';
+// import ShoppingCart from './pages/shoppingcart/index';
 import UserCenter from './pages/user/UserCenter';
 import Login from './pages/user/Login';
 import Feedback from "./pages/Feedback/Feedback";
@@ -43,22 +43,22 @@ const TabContainer = createBottomTabNavigator(
             }
         },
 
-        shopping: {
-            screen: Shopping, navigationOptions: {
-                title: '商城',
-                tabBarIcon: ({tintColor}) => (
-                    <QIcon name="icon-shopping" size={22} color={tintColor}/>
-                )
-            }
-        },
-        shoppingCart: {
-            screen: ShoppingCart, navigationOptions: {
-                title: '购物车',
-                tabBarIcon: ({tintColor}) => (
-                    <QIcon name="icon-shopping-cart" size={23} color={tintColor}/>
-                )
-            }
-        },
+        // shopping: {
+        //     screen: Shopping, navigationOptions: {
+        //         title: '商城',
+        //         tabBarIcon: ({tintColor}) => (
+        //             <QIcon name="icon-shopping" size={22} color={tintColor}/>
+        //         )
+        //     }
+        // },
+        // shoppingCart: {
+        //     screen: ShoppingCart, navigationOptions: {
+        //         title: '购物车',
+        //         tabBarIcon: ({tintColor}) => (
+        //             <QIcon name="icon-shopping-cart" size={23} color={tintColor}/>
+        //         )
+        //     }
+        // },
         UserCenter: {
             screen: UserCenter, navigationOptions: {
                 title: '我的',

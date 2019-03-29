@@ -6,7 +6,82 @@
 import aes from './AesUtil';
 // import dInfo from 'react-native-device-info';
 import {Platform,DeviceInfo} from 'react-native';
+import CookieStore from "../store/CookieStore";
+const get = (url,  options = {}) => {
+    let isMock = false;
+    if (options) {
+        if (options.mock) {
+            isMock = true;
+            url = 'http://rap2api.taobao.org/app/mock/data/' + options.mockId;
+        }
+    }
+    if (url.indexOf('http') == -1) {
+        url = getHost() + url;
+    }
+    console.log("url=" + url);
+    let isOk;
+    var cookies = CookieStore.get();
+    let fetchOptions = {
+        method: 'GET',
+        headers: {
+            'Cookie':cookies? cookies.cookies:"",
+            'Authorization': cookies ? cookies.accessToken : '',
+            'X-XSRF-TOKEN':cookies? cookies.xsrfToken:'',
+        },
+    };
+    if (isMock) {
+        fetchOptions = {
+            method: 'GET',
+        }
+    }
+    return new Promise((resolve, reject) => {
+        fetch(url, fetchOptions).then((response) => {
+            if (response.ok) {
+                isOk = true;
+            } else {
+                isOk = false;
+            }
+            var cookies = response.headers.get('set-cookie').split(';');
+            var xsrfToken = ""
+            var accessToken = ""
+            var sessionToken = ""
+            if (cookies) {
+                cookies.forEach((item,index)=>{
+                    if (item.indexOf("XSRF-TOKEN=") != -1) {
+                        xsrfToken = item.replace("XSRF-TOKEN=", '');
+                    }
+                    if (item.indexOf("access_token=") != -1) {
+                        accessToken = item.substring(item.indexOf("token=") + 6, item.length);
+                    }
+                    if (item.indexOf("XSRF-TOKEN=") != -1) {
+                        xsrfToken = item.replace("XSRF-TOKEN=", '');
+                        sessionToken = item.substring(item.indexOf("token=") + 6, item.length);
+                    }
+                });
+            }
+            CookieStore.save({cookies:cookies, xsrfToken: xsrfToken, accessToken: accessToken, sessionToken: sessionToken});
+            return response.text();
+        }).then((responseData) => {
+            console.log("response=" + responseData);
+            if (isMock) {
+                resolve(JSON.parse(responseData));
+                return;
+            }
+            // let decryptData = aes.Decrypt(responseData);
+            // console.log("response解密=" + decryptData);
+            responseData = JSON.parse(responseData);
+            if (isOk) {
+                resolve(responseData);
+            } else {
+                reject(responseData);
+            }
 
+        }).catch((error) => {
+            console.log("error=" + error);
+            reject(error);
+        });
+    });
+};
 const post = (url, params = {}, options = {}) => {
     let isMock = false;
     if (options) {
@@ -30,16 +105,21 @@ const post = (url, params = {}, options = {}) => {
     let paramJson = {cParam, ...params};
     let paramString = JSON.stringify(paramJson);
     console.log("request=" + paramString);
-    let encodeParam = aes.Encrypt(paramString);
+    // let encodeParam = aes.Encrypt(paramString);
     // console.log("request:encodeParam=" + encodeParam);
     let isOk;
+    var cookies = CookieStore.get();
+
     let fetchOptions = {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/x-www-form-urlencoded'
+            'Content-Type': 'application/json; charset=utf-8',
+            'Cookie':cookies? cookies.cookies:"",
+            'Authorization': cookies ? cookies.accessToken : '',
+            'X-XSRF-TOKEN':cookies? cookies.xsrfToken:'',
         },
-        body: encodeParam
+        body: paramString
     };
     if (isMock) {
         fetchOptions = {
@@ -53,16 +133,35 @@ const post = (url, params = {}, options = {}) => {
             } else {
                 isOk = false;
             }
+            var cookies = response.headers.get('set-cookie').split(';');
+            var xsrfToken = ""
+            var accessToken = ""
+            var sessionToken = ""
+            if (cookies) {
+                cookies.forEach((item,index)=>{
+                    if (item.indexOf("XSRF-TOKEN=") != -1) {
+                        xsrfToken = item.replace("XSRF-TOKEN=", '');
+                    }
+                    if (item.indexOf("access_token=") != -1) {
+                        accessToken = item.substring(item.indexOf("token=") + 6, item.length);
+                    }
+                    if (item.indexOf("XSRF-TOKEN=") != -1) {
+                        xsrfToken = item.replace("XSRF-TOKEN=", '');
+                        sessionToken = item.substring(item.indexOf("token=") + 6, item.length);
+                    }
+                });
+            }
+            CookieStore.save({cookies:cookies, xsrfToken: xsrfToken, accessToken: accessToken, sessionToken: sessionToken});
             return response.text();
         }).then((responseData) => {
+            console.log("response=" + responseData);
             if (isMock) {
-                console.log("response=" + responseData);
                 resolve(JSON.parse(responseData));
                 return;
             }
-            let decryptData = aes.Decrypt(responseData);
-            console.log("response解密=" + decryptData);
-            responseData = JSON.parse(decryptData);
+            // let decryptData = aes.Decrypt(responseData);
+            // console.log("response解密=" + decryptData);
+            responseData = JSON.parse(responseData);
             if (isOk) {
                 resolve(responseData);
             } else {
@@ -170,6 +269,7 @@ const uploadFile = (url, files = [], options = {}) => {
 };
 export default {
     post,
+    get,
     uploadFile,
 };
 
@@ -184,7 +284,7 @@ export function getHost() {
     const protocol = 'dev';
     let host = 'http://172.17.100.16:7780/mockjsdata/4';
     if (protocol === 'dev') {
-        host = 'http://47.96.183.3:8080/yjwy/customer/';
+        host = 'https://api-test.gaojihealth.cn';
     } else if (protocol === 'beta') {
         host = 'https://api-stage.gaojihealth.cn';
     } else if (protocol === 'release') {
