@@ -1,17 +1,8 @@
 import React from 'react'
-import {
-    Text,
-    View,
-    StyleSheet,
-} from 'react-native'
+import {StyleSheet, View,} from 'react-native'
 
 import {BaseComponent} from "../../components/base/BaseComponent";
-import {CommonStyle} from "../../common/CommonStyle";
 import ItemArrow from "../../components/ItemArrow";
-import {ActionSheet, Modal} from "antd-mobile-rn/lib/index.native";
-import Request from "../../utils/Request";
-import UserStore from "../../store/UserStore";
-import {formatStringWithHtml} from "../../utils/FormatUtil";
 import * as WeChat from "react-native-wechat";
 import AliPay from '../../utils/AilPay';
 import DeviceInfo from "react-native-device-info/deviceinfo";

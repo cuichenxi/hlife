@@ -141,7 +141,7 @@ export default class UserInfo extends BaseComponent {
                             headerUrl: image.path
                         })
                     });
-                } else {
+                } else if (buttonIndex == 1) {
                     ImagePicker.openCamera({
                         width: 300,
                         height: 300,

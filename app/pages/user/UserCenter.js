@@ -41,6 +41,7 @@ export default class UserCenter extends BaseComponent {
         this.config = [
 
             {icon: "ios-pin", name: "收货地址", onPress: this.goPage.bind(this, "address")},
+            {icon: "ios-heart", name: "红包", color: "#fc7b53", onPress: this.goPage.bind(this, "RedPacket")},
             {icon: "ios-heart", name: "我的收藏", color: "#fc7b53", onPress: this.goPage.bind(this, "address")},
             {icon: "md-images", name: "我的小区", subName: this.state.xiaoqu, onPress: this.goPage.bind(this, "address")},
             {icon: "logo-usd", name: "缴费记录", subName: "5元现金", onPress: this.goPage.bind(this, "address")},
@@ -76,10 +77,9 @@ export default class UserCenter extends BaseComponent {
         this.navigate('UserInfo')
     }
 
-    componentDidMount() {
-        super.componentDidMount()
+    canExitApp(){
+        return true;
     }
-
     onReady(param) {
         let userInfo = UserStore.get();
         this.setState({
@@ -154,6 +154,7 @@ export default class UserCenter extends BaseComponent {
                                            style={{
                                                width: 60,
                                                height: 60,
+                                               overflow: "hidden",
                                                borderRadius: 30
                                            }}/>
                                 <View style={{flex: 1, marginLeft: 10, paddingVertical: 5}}>

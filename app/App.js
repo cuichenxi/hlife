@@ -30,6 +30,7 @@ import BarcodePage from "./pages/witget/BarcodePage";
 import PayPage from "./pages/witget/payPage";
 import ContactList from "./pages/contactlist/ContactList";
 import Register from "./pages/user/Register";
+import RedPacket from "./pages/user/RedPacket";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -115,6 +116,7 @@ const App = createStackNavigator(
         BarcodePage: {screen: BarcodePage},
         PayPage: {screen: PayPage},
         ContactList: {screen: ContactList},
+        RedPacket: {screen: RedPacket},
     },
     {
         // initialRouteName: 'Splash',

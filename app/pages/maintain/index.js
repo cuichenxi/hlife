@@ -29,7 +29,9 @@ export default class MaintainRecord extends BaseComponent {
 
     onShow() {
         this.makeRemoteRequest();
-        this.setNoBack(true);
+    }
+    canBack(){
+        return false;
     }
 
     makeRemoteRequest = () => {

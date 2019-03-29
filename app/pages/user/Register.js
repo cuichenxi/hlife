@@ -1,11 +1,9 @@
 import {BaseComponent} from "../../components/base/BaseComponent";
-import {Text, TextInput, View, StyleSheet} from "react-native";
+import {StyleSheet, Text, TextInput, View} from "react-native";
 import React from "react";
 import {CommonStyle} from "../../common/CommonStyle";
 import TouchableView from "../../components/TouchableView";
 import Request from "../../utils/Request";
-import NavigationUtil from "../../utils/NavigationUtil";
-import UserStore from "../../store/UserStore";
 
 export default class Register extends BaseComponent {
 
@@ -17,6 +15,8 @@ export default class Register extends BaseComponent {
             address: '',
             identity: '',
             code: '',
+            codeLabel: '验证码',
+            secondsElapsed: 0
         };
     }
 
@@ -40,7 +40,54 @@ export default class Register extends BaseComponent {
         })
     }
 
+    sendCode() {
+        if (this.state.secondsElapsed > 0) {
+            return;
+        }
+        this.setState({secondsElapsed: 60});
+        this.tickHandler();
+        // this.showLoading('获取验证码...');
+        // Request.post('login.do',
+        //     {phone: "15811508404", code: 123456},
+        //     {mock: true, mockId: 672823})
+        //     .then(rep => {
+        //         if (rep.bstatus.code === 0) {
+        //             this.goBack()
+        //         }
+        //         this.showShort(rep.bstatus.desc);
+        //     }).catch(err => {
+        // }).done(() => {
+        //     this.hideLoading();
+        // })
+
+    }
+
+    tickHandler() {
+        this.setState((preState => {
+            return {
+                secondsElapsed: preState.secondsElapsed - 1
+            }
+        }), () => {
+            var secondsElapsed = this.state.secondsElapsed;
+            if (this.state.secondsElapsed == 0) {
+                this.setState({secondsElapsed: 0});
+                return;
+            }
+            this.timer = setTimeout(() => {
+                    this.setState({secondsElapsed: secondsElapsed});
+                    this.tickHandler();
+                },
+                1000
+            );
+        });
+    }
+
+    onUnload() {
+        clearTimeout(this.timer);
+    }
+
     _render() {
+        const that = this;
         return (
             <View style={{flex: 1, flexDirection: 'column'}}>
                 <View style={styles.item}>
@@ -55,9 +102,25 @@ export default class Register extends BaseComponent {
                     <Text style={styles.itemTextLabel}>验证码</Text>
                     <TextInput
                         placeholder='请输入验证吗'
-                        style={styles.itemInput}
+                        style={[styles.itemInput, {flex: 1}]}
                         underlineColorAndroid="transparent"
                         onChangeText={(text) => this.setState({code: text})}/>
+                    <TouchableView style={{
+                        backgroundColor: (that.state.secondsElapsed > 0) ? "#999" : CommonStyle.themeColor, paddingHorizontal: 10, paddingVertical: 5,
+                        borderRadius: 5,
+                        alignItems: 'center',
+                    }} onPress={this.sendCode.bind(this)}>
+                        {this.state.secondsElapsed == 0 ?
+                            <Text style={{
+                                color: "#fff",
+                                fontSize: 16
+                            }}>验证码</Text> :
+                            <Text style={{
+                                color: "#fff",
+                                fontSize: 16
+                            }}>{that.state.secondsElapsed + "S"}</Text>}
+
+                    </TouchableView>
                 </View>
                 <View style={styles.item}>
                     <Text style={styles.itemTextLabel}>密码</Text>
@@ -72,7 +135,7 @@ export default class Register extends BaseComponent {
                     <TextInput
                         placeholder='请输入小区'
                         style={styles.itemInput}
-                        multiline="true"
+                        multiline={true}
                         underlineColorAndroid="transparent"
                         onChangeText={(text) => this.setState({address: text})}/>
                 </View>
@@ -112,19 +175,20 @@ const styles = StyleSheet.create(
     {
         item: {
             flexDirection: 'row',
+            height: 50,
             paddingHorizontal: 15,
-            paddingVertical: 15,
             alignItems: 'center',
             borderBottomColor: CommonStyle.lineColor,
-            borderBottomWidth: CommonStyle.lineWidth
+            borderBottomWidth: CommonStyle.lineWidth,
         },
         itemTextLabel: {
             color: "#333",
             fontSize: 16,
             marginRight: 5,
-            width: 80
+            width: 80,
         },
         itemInput: {
+            flex: 1,
             color: "#666",
             fontSize: 16,
         },

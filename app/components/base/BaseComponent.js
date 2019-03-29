@@ -1,6 +1,3 @@
-/**
- * Created by guangqiang on 2017/8/27.
- */
 import React from 'react'
 import {View, SafeAreaView, BackHandler, StyleSheet} from 'react-native'
 import {CommonStyle} from '../../common/CommonStyle'
@@ -17,10 +14,12 @@ class BaseComponent extends React.Component {
         title: '',
         headerLeft: null,
         gesturesEnabled: true
+
     });
 
     constructor(props) {
         super(props)
+        //无用只是
         this.state = {
             lastBackPressed: null,
             inSideLoading: false,
@@ -37,19 +36,20 @@ class BaseComponent extends React.Component {
         this.onShow();
     }
 
-    // shouldComponentUpdate(nextProps, nextState) {
-    //     console.log("componentWillMount");
-    // }
-
     componentWillUpdate() {
+
     }
 
     componentDidUpdate() {
+
     }
 
     componentDidMount() {
         BackHandler.addEventListener('hardwareBackPress', this.onBackPressAndroid)
         this.onReady(this.props.navigation.state.params);
+        this.setState({
+            gesturesEnabled: this.canBack()
+        })
     }
 
     componentWillUnmount() {
@@ -99,9 +99,6 @@ class BaseComponent extends React.Component {
         this.state.hideHeader = hideHeader;
     }
 
-    setNoBack(_noBack) {
-        this.state._noBack = _noBack;
-    }
 
     goBack(params) {
         if (params && this.props.navigation.state.params && this.props.navigation.state.params.callback) {
@@ -161,7 +158,6 @@ class BaseComponent extends React.Component {
                 isLoading: false
             }
         );
-        // Toast.hide();
     }
 
     showShort(content) {
@@ -174,19 +170,31 @@ class BaseComponent extends React.Component {
         }, true)
     }
 
+    setTitle(title) {
+        this.setState({
+            title: title
+        })
+    }
+
+
+    canExitApp() {
+        return false;
+    }
+
+    canBack() {
+        return true;
+    }
 
     onBackPressAndroid = () => {
-
         if (this.state.isLoading) {
             this.hideLoading();
             return true;
         }
-        if (this.state._noBack) {
+        if (!this.canBack()) {
             return true;
         }
-        const {state} = this.props.navigation;
-        if (state.routeName === 'MainContainer' || state.routeName === 'Home' || state.routeName === 'Main'
-            || state.routeName === 'UserCenter' || state.routeName === 'shopping' || state.routeName === 'shoppingCart') {
+        // const {state} = this.props.navigation;
+        if (this.canExitApp()) {
             if (this.state.lastBackPressed && this.state.lastBackPressed + 2000 >= Date.now()) {
                 // dispatch({type: 'ExitApp'});//将state设置成第一次启动一致，避免从哪个界面退出，启动时显示哪个界面的bug（杀掉进程启动无该问题）
                 BackHandler.exitApp()
@@ -215,24 +223,18 @@ class BaseComponent extends React.Component {
         )
     }
 
-    setTitle(title) {
-        this.setState({
-            title: title
-        })
-    }
-
     _render() {
         return null;
     }
 
     render() {
-        thiz = this;
+        const that = this;
         return (
-            <View style={[styles.baseContainer, this.props.style]}>
-                {this.state.hideHeader ? null : this.renderNavigationBar()}
-                {this.state.inSideLoading ? <LoadingView loadingtext={this.state.loadingText}/> : this._render()}
-                {this.state.isLoading ?
-                    <Loading loadProps={{visible: this.state.isLoading, loadingText: this.state.loadingText}}/> : null}
+            <View style={[styles.baseContainer, that.props.style]}>
+                {that.state.hideHeader ? null : this.renderNavigationBar()}
+                {that.state.inSideLoading ? <LoadingView loadingtext={that.state.loadingText}/> : this._render()}
+                {that.state.isLoading ?
+                    <Loading loadProps={{visible: that.state.isLoading, loadingText: that.state.loadingText}}/> : null}
             </View>
         );
     }

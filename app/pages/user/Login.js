@@ -6,7 +6,7 @@ import {
     View,
     Image,
     TouchableOpacity,
-    InteractionManager, Keyboard,
+    Keyboard,
 } from 'react-native';
 import Request from "../../utils/Request";
 import UserStore from "../../store/UserStore";
@@ -19,6 +19,7 @@ export default class Login extends BaseComponent {
         return {
             hiddenLeftItem: true,
             title: '用户登录',
+            gesturesEnabled: false
         }
     }
 
@@ -30,35 +31,10 @@ export default class Login extends BaseComponent {
         };
     }
 
-
-    componentWillUnmount() {
-        super.componentWillUnmount()
-        // this.unsubscribe();
+    canBack() {
+        return false;
     }
 
-    componentDidMount() {
-        super.componentDidMount();
-        // Storage.getUser()
-        // .then((user) => {
-        //     if (user.id) {
-        //         this.props.navigator.popToTop();
-        //     }
-        // });
-        this.setNoBack(true);
-    }
-
-
-    componentWillUpdate(nextProps, nextState) {
-        InteractionManager.runAfterInteractions(() => {
-            // const {userReducer} = this.props;
-            // if (userReducer.user.id) {
-            //     this.props.navigator.popToTop();
-            // }
-            // if (!userReducer.isLoading && userReducer.status == false) {
-            // Toast.showLong(userReducer.message);
-            // }
-        });
-    }
 
     _render() {
         return (
@@ -147,20 +123,6 @@ export default class Login extends BaseComponent {
         // this.setState({'password': text});
     }
 }
-
-// class RegisterBtn extends Component {
-//     constructor(props) {
-//         super(props);
-//     }
-//
-//     render() {
-//         return (
-//             <TouchableOpacity onPress={() => this.props.navigator.push({'id': 'register'})}>
-//                 <Text>注册</Text>
-//             </TouchableOpacity>
-//         )
-//     }
-// }
 
 const styles = StyleSheet.create({
     container: {

@@ -14,6 +14,10 @@ export default class ShoppingCart extends BaseComponent {
         this.navigate('Login', {isFirst: true});
     };
 
+    canExitApp() {
+        return true;
+    }
+
     _render() {
         return (
             <View style={styles.container}>
