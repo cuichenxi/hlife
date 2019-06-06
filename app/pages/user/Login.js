@@ -100,7 +100,7 @@ export default class Login extends BaseComponent {
         this.showLoading('登录中..');
         Request.post('/api/loginbyPhonepass',
             {phone: this.state.mobile, password: this.state.password},
-            {mock: false, mockId: 672823})
+            {mock: true, mockId: 672823})
             .then(rep => {
                 if (rep) {
                     UserStore.save({userId: rep.userId, phone: rep.phone, userName: rep.name, headerUrl: ''});
