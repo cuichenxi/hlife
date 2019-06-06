@@ -31,6 +31,8 @@ import PayPage from "./pages/witget/payPage";
 import ContactList from "./pages/contactlist/ContactList";
 import Register from "./pages/user/Register";
 import RedPacket from "./pages/user/RedPacket";
+import Steward from "./pages/steward/Steward";
+import Neighbour from "./pages/neighbour/Neighbour";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -43,22 +45,30 @@ const TabContainer = createBottomTabNavigator(
             }
         },
 
-        // shopping: {
-        //     screen: Shopping, navigationOptions: {
-        //         title: '商城',
-        //         tabBarIcon: ({tintColor}) => (
-        //             <QIcon name="icon-shopping" size={22} color={tintColor}/>
-        //         )
-        //     }
-        // },
-        // shoppingCart: {
-        //     screen: ShoppingCart, navigationOptions: {
-        //         title: '购物车',
-        //         tabBarIcon: ({tintColor}) => (
-        //             <QIcon name="icon-shopping-cart" size={23} color={tintColor}/>
-        //         )
-        //     }
-        // },
+        shopping: {
+            screen: Shopping, navigationOptions: {
+                title: '生活',
+                tabBarIcon: ({tintColor}) => (
+                    <QIcon name="icon-shopping" size={22} color={tintColor}/>
+                )
+            }
+       },
+        steward: {
+            screen: Steward, navigationOptions: {
+                title: '管家',
+                tabBarIcon: ({tintColor}) => (
+                    <QIcon name="icon-shopping-cart" size={23} color={tintColor}/>
+                )
+            }
+        },
+        Neighbour: {
+            screen: Neighbour, navigationOptions: {
+                title: '邻里',
+                tabBarIcon: ({tintColor}) => (
+                    <QIcon name="icon-shopping-cart" size={23} color={tintColor}/>
+                )
+            }
+        },
         UserCenter: {
             screen: UserCenter, navigationOptions: {
                 title: '我的',
@@ -106,6 +116,8 @@ const App = createStackNavigator(
         Push: {screen: Push},
         Feedback: {screen: Feedback},
         MainIndex: {screen: Main},
+        Steward: {screen: Steward},
+        Neighbour: {screen: Neighbour},
         MaintainRecord: {screen: MaintainRecord},
         GiftedListDemo: {screen: GiftedListDemo},
         GiftedListDemoFree: {screen: GiftedListDemoFree},
