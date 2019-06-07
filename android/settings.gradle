@@ -1,24 +1,24 @@
 rootProject.name = 'hlife'
 include ':react-native-smart-barcode'
-project(':react-native-smart-barcode').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-smart-barcode/android')
+project(':react-native-smart-barcode').projectDir = new File(rootProject.projectDir, 'libs/react-native-smart-barcode/android')
 include ':react-native-image-crop-picker'
-project(':react-native-image-crop-picker').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-image-crop-picker/android')
+project(':react-native-image-crop-picker').projectDir = new File(rootProject.projectDir, 'libs/react-native-image-crop-picker/android')
 include ':react-native-linear-gradient'
-project(':react-native-linear-gradient').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-linear-gradient/android')
+project(':react-native-linear-gradient').projectDir = new File(rootProject.projectDir, 'libs/react-native-linear-gradient/android')
 include ':react-native-wechat'
-project(':react-native-wechat').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-wechat/android')
+project(':react-native-wechat').projectDir = new File(rootProject.projectDir, 'libs/react-native-wechat/android')
 include ':react-native-device-info'
-project(':react-native-device-info').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-device-info/android')
+project(':react-native-device-info').projectDir = new File(rootProject.projectDir, 'libs/react-native-device-info/android')
 include ':jcore-react-native'
-project(':jcore-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jcore-react-native/android')
+project(':jcore-react-native').projectDir = new File(rootProject.projectDir, 'libs/jcore-react-native/android')
 
 include ':jpush-react-native'
-//project(':jpush-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jpush-react-native/android')
+project(':jpush-react-native').projectDir = new File(rootProject.projectDir, 'libs/jpush-react-native/android')
 
 include ':react-native-splash-screen'
-project(':react-native-splash-screen').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-splash-screen/android')
+project(':react-native-splash-screen').projectDir = new File(rootProject.projectDir, 'libs/react-native-splash-screen/android')
 
 include ':app', ':react-native-code-push', ':react-native-vector-icons', ':react-native-exceptions-manager'
-project(':react-native-code-push').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-code-push/android/app')
-project(':react-native-vector-icons').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-vector-icons/android')
-project(':react-native-exceptions-manager').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-exceptions-manager/android/app')
+project(':react-native-code-push').projectDir = new File(rootProject.projectDir, 'libs/react-native-code-push/android/app')
+project(':react-native-vector-icons').projectDir = new File(rootProject.projectDir, 'libs/react-native-vector-icons/android')
+project(':react-native-exceptions-manager').projectDir = new File(rootProject.projectDir, 'libs/react-native-exceptions-manager/android/app')
