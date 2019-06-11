@@ -31,6 +31,8 @@ import PayPage from "./pages/witget/payPage";
 import ContactList from "./pages/contactlist/ContactList";
 import Register from "./pages/user/Register";
 import RedPacket from "./pages/user/RedPacket";
+import Housekeeper from "./pages/housekeeper";
+import ReportMatter from "./pages/housekeeper/ReportMatter";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -48,6 +50,14 @@ const TabContainer = createBottomTabNavigator(
                 title: '商城',
                 tabBarIcon: ({tintColor}) => (
                     <QIcon name="icon-shopping" size={22} color={tintColor}/>
+                )
+            }
+        },
+        housekeeper: {
+            screen: Housekeeper, navigationOptions: {
+                title: '管家',
+                tabBarIcon: ({tintColor}) => (
+                    <QIcon name="icon-shopping-cart" size={23} color={tintColor}/>
                 )
             }
         },
@@ -117,6 +127,7 @@ const App = createStackNavigator(
         PayPage: {screen: PayPage},
         ContactList: {screen: ContactList},
         RedPacket: {screen: RedPacket},
+        ReportMatter: {screen: ReportMatter},
     },
     {
         // initialRouteName: 'Splash',
