@@ -98,14 +98,22 @@ export default class Login extends BaseComponent {
             return;
         }
         this.showLoading('登录中..');
-        Request.post('/api/loginbyPhonepass',
-            {phone: this.state.mobile, password: this.state.password},
-            {mock: true, mockId: 672823})
-            .then(rep => {
-                if (rep) {
-                    UserStore.save({userId: rep.userId, phone: rep.phone, userName: rep.name, headerUrl: ''});
-                    NavigationUtil.reset(this.props.navigation, 'Home');
+        var param = {phone: this.state.mobile, password: this.state.password};
+        Request.post('/api/loginbyPhonepass', param,
+            {
+                mock: true,
+                mockId: 672823,
+                cache: 1,
+            },(cacheRep)=>{
+                if (cacheRep) {
+                    UserStore.save(cacheRep.data);
+                    // NavigationUtil.reset(this.props.navigation, 'Home');
                 }
+            }).then(rep => {
+            if (rep.code == 0&&rep.data) {
+                UserStore.save(rep.data);
+                NavigationUtil.reset(this.props.navigation, 'Home');
+            }
                 // this.showShort(rep.bstatus.desc);
             }).catch(err => {
         }).done(() => {

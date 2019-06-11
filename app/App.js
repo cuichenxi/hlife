@@ -11,7 +11,6 @@ import Splash from './pages/Splash';
 import MainContainer from './pages/main/MainContainer';
 import Web from './pages/web/index';
 import Shopping from './pages/shopping/index';
-// import ShoppingCart from './pages/shoppingcart/index';
 import UserCenter from './pages/user/UserCenter';
 import Login from './pages/user/Login';
 import Feedback from "./pages/Feedback/Feedback";
@@ -35,7 +34,7 @@ import Housekeeper from "./pages/housekeeper";
 import ReportMatter from "./pages/housekeeper/ReportMatter";
 import Steward from "./pages/steward/Steward";
 import Neighbour from "./pages/neighbour/Neighbour";
-import ShoppingCart from "./pages/shoppingcart";
+import ShoppingCart from "./pages/shoppingCart/index";
 import MyAddress from "./pages/user/myaddress/MyAddress";
 
 const TabContainer = createBottomTabNavigator(
@@ -119,7 +118,7 @@ const App = createStackNavigator(
         Shopping: {screen: Shopping},
         Push: {screen: Push},
         Feedback: {screen: Feedback},
-        MainIndex: {screen: Main},
+        MainIndex: {screen: MainContainer},
         Steward: {screen: Steward},
         Neighbour: {screen: Neighbour},
         MaintainRecord: {screen: MaintainRecord},

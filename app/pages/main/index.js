@@ -11,9 +11,6 @@ import TouchableView from "../../components/TouchableView";
 import {CommonStyle} from "../../common/CommonStyle";
 import QIcon from "../../components/icon";
 import BarcodePage from "../witget/BarcodePage";
-import UserStore from "../../store/UserStore";
-import NavigationUtil from "../../utils/NavigationUtil";
-import Request from "../../utils/Request";
 // import ImageUtil from "../../utils/ImageUtil";
 
 const {width, height} = Dimensions.get('window')
@@ -43,36 +40,36 @@ export default class Main extends BaseComponent {
             ],
             types: [
                 {
-                    name: '会员发展',
-                    imageUrl: "https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/common/1542197604342/chaxun.png",
-                    active: 'Register'
-                }, {
-                    name: '会员看板',
-                    imageUrl: 'https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/common/1542197684535/kanban.png',
-                    active: 'ContactList'
-                }, {
-                    name: '慢病服务',
-                    imageUrl: "https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/common/1542197721245/manbingguanli.png",
-                    active: 'Login'
-                }, {
-                    name: '问卷调查',
-                    imageUrl: "https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/common/1542197820818/wenda.png",
-                    active: 'ContactList'
-                }, {
-                    name: '优绩',
-                    imageUrl: "https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/common/1546844861866/youji.gif",
-                    active: 'Login'
-                }, {
-                    name: '会议',
-                    imageUrl: "https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/common/1546614626914/huiyi.png",
-                    active: 'ContactList'
-                }, {
                     name: '注册',
-                    imageUrl: "https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/common/1546614626914/huiyi.png",
+                    imageUrl: require('../../img/about_logo.png'),
                     active: 'Register'
                 }, {
-                    name: '登录',
-                    imageUrl: "https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/common/1546614626914/huiyi.png",
+                    name: '送水',
+                    imageUrl: require('../../img/about_logo.png'),
+                    active: 'ContactList'
+                }, {
+                    name: '租房',
+                    imageUrl: require('../../img/about_logo.png'),
+                    active: 'Login'
+                }, {
+                    name: '家政',
+                    imageUrl: require('../../img/about_logo.png'),
+                    active: 'ContactList'
+                }, {
+                    name: '缴费',
+                    imageUrl: require('../../img/about_logo.png'),
+                    active: 'Login'
+                }, {
+                    name: '超市',
+                    imageUrl: require('../../img/about_logo.png'),
+                    active: 'Login'
+                }, {
+                    name: '周边',
+                    imageUrl: require('../../img/about_logo.png'),
+                    active: 'Login'
+                }, {
+                    name: '电话',
+                    imageUrl: require('../../img/about_logo.png'),
                     active: 'Login'
                 }
             ],
@@ -89,17 +86,7 @@ export default class Main extends BaseComponent {
     }
 
     onReady(param) {
-        Request.get('/digitalstore/api/commonApp/index',
-            {mock: false, mockId: 672823})
-            .then(rep => {
-                if (rep) {
 
-                }
-                // this.showShort(rep.bstatus.desc);
-            }).catch(err => {
-        }).done(() => {
-            this.hideLoading();
-        })
     }
 
     _loadWeb(title, url) {
@@ -132,7 +119,7 @@ export default class Main extends BaseComponent {
     onScanClick() {
         this.navigate("BarcodePage", {
             callback: (backData) => {
-               this.showShort(backData)
+                this.showShort(backData)
             }
         });
     }
@@ -183,7 +170,7 @@ export default class Main extends BaseComponent {
                 this._jumpRouter(item)
             }}>
                 <View style={[{flex: 1}, styles.typesItem]}>
-                    <Image source={{uri: item.imageUrl}} style={{width: 35, height: 35, marginTop: 6}}/>
+                    <Image source={item.imageUrl} style={{width: 35, height: 35, marginTop: 6}}/>
                     <Text style={{fontSize: 12, color: "#666", marginTop: 6}}>{item.name}</Text>
                 </View>
             </TouchableView>

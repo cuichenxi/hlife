@@ -1,11 +1,22 @@
 import store from 'react-native-simple-store';
 
 const user_info_key = 'user_info_key';
-
+// "isAuth": 1,
+//     "token": "1231412421",
+//     "avatar": "xxx",
+//     "userName": "张三",
+//     "nickName": "串串",
+//     "phone": "13701252212",
+//     "gender": 0,
+//     "birthday": "2019-03-01"
 let userInfo = {
-    token: null,
+    isAuth: 0,
     phone: null,
-    userName: null
+    userName: null,
+    token: null,
+    avatar: null,
+    gender: null,
+    birthday: null
 };
 
 export default UserStore = {
