@@ -107,6 +107,11 @@ class BaseComponent extends React.Component {
         this.props.navigation.goBack();
     }
 
+    /**
+     * navigate('pageScreen',{prams:xxx,callback:()=>{}})
+     * @param screenName
+     * @param params
+     */
     navigate(screenName, params = {}) {
         this.props.navigation.navigate(screenName, params);
     }

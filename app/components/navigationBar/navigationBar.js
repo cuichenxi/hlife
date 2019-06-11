@@ -14,7 +14,7 @@ const defaultNavigationBarProps = {
     leftIcon: {
         name: 'icon-back',
         size: 25,
-        color: '#fff'
+        color: '#333'
     }
 }
 
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     navBarStyle: {
         height: CommonStyle.navHeight,
         backgroundColor: CommonStyle.navThemeColor,
-        borderBottomWidth: 0.0,
+        borderBottomWidth: 0.5,
         borderBottomColor: CommonStyle.lineColor,
     },
     navContentStyle: {

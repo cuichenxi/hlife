@@ -19,6 +19,7 @@ import ItemArrow from "../../components/ItemArrow";
 import UserStore from "../../store/UserStore";
 import ImageView from "../../components/ImageView";
 import {Modal} from "antd-mobile-rn/lib/index.native";
+import ToastUtil from "../../utils/ToastUtil";
 
 let {width, height} = Dimensions.get('window')
 
@@ -42,16 +43,16 @@ export default class UserCenter extends BaseComponent {
 
             {icon: "ios-pin", name: "设置", onPress: this.goPage.bind(this, "UserInfo")},
             {icon: "ios-heart", name: "关于", color: "#fc7b53", onPress: this.goPage.bind(this, "AboutPage")},
-            // {icon: "ios-pin", name: "收货地址", onPress: this.goPage.bind(this, "address")},
-            // {icon: "ios-heart", name: "红包", color: "#fc7b53", onPress: this.goPage.bind(this, "RedPacket")},
-            // {icon: "ios-heart", name: "我的收藏", color: "#fc7b53", onPress: this.goPage.bind(this, "address")},
-            // {icon: "md-images", name: "我的小区", subName: this.state.xiaoqu, onPress: this.goPage.bind(this, "address")},
-            // {icon: "logo-usd", name: "缴费记录", subName: "5元现金", onPress: this.goPage.bind(this, "address")},
-            // {icon: "ios-cart", name: "维修记录", subName: "0元好物在这里", onPress: this.goPage.bind(this, "MaintainRecord")},
-            // {icon: "ios-medal", name: "联系客服", subName: "未开通", onPress: this.goPage.bind(this, "contactUs")},
-            // {icon: "md-flower", name: "关于我们", onPress: this.goPage.bind(this, "AboutPage")},
-            // {icon: "md-flower", name: "BarcodePage", onPress: this.goPage.bind(this, "BarcodePage")},
-            // {icon: "md-flower", name: "支付调试", onPress: this.goPage.bind(this, "PayPage")},
+            {icon: "ios-pin", name: "收货地址", onPress: this.goPage.bind(this, "address")},
+            {icon: "ios-heart", name: "红包", color: "#fc7b53", onPress: this.goPage.bind(this, "RedPacket")},
+            {icon: "ios-heart", name: "我的收藏", color: "#fc7b53", onPress: this.goPage.bind(this, "address")},
+            {icon: "md-images", name: "我的小区", subName: this.state.xiaoqu, onPress: this.goPage.bind(this, "address")},
+            {icon: "logo-usd", name: "缴费记录", subName: "5元现金", onPress: this.goPage.bind(this, "address")},
+            {icon: "ios-cart", name: "维修记录", subName: "0元好物在这里", onPress: this.goPage.bind(this, "MaintainRecord")},
+            {icon: "ios-medal", name: "联系客服", subName: "未开通", onPress: this.goPage.bind(this, "contactUs")},
+            {icon: "md-flower", name: "关于我们", onPress: this.goPage.bind(this, "AboutPage")},
+            {icon: "md-flower", name: "BarcodePage", onPress: this.goPage.bind(this, "BarcodePage")},
+            {icon: "md-flower", name: "支付调试", onPress: this.goPage.bind(this, "PayPage")},
             {icon: "md-flower", name: "CodePushPage", onPress: this.goPage.bind(this, "CodePushPage")},
             {icon: "md-flower", name: "GiftedListDemo", onPress: this.goPage.bind(this, "GiftedListDemo")},
             {icon: "md-flower", name: "GiftedListDemoNet", onPress: this.goPage.bind(this, "GiftedListDemoNet")},
@@ -73,16 +74,21 @@ export default class UserCenter extends BaseComponent {
         } else {
             this.navigate(data);
         }
-
     }
 
     goProfile() {
+        // this.navigate("RedPacket", {
+        //     callback: (data) => {
+        //         ToastUtil.showShort(data.price)
+        //     }
+        // })
         this.navigate('UserInfo')
     }
 
-    canExitApp(){
+    canExitApp() {
         return true;
     }
+
     onReady(param) {
         let userInfo = UserStore.get();
         this.setState({
@@ -141,8 +147,8 @@ export default class UserCenter extends BaseComponent {
         return (
             <View style={{flex: 1, backgroundColor: CommonStyle.bgColor}}>
                 <ScrollView style={styles.scrollView}>
-                    <LinearGradient start={{x: 0.0, y: 0}} end={{x: .8, y: 0}}
-                                    colors={['#2CC1E9', CommonStyle.themeColor]}
+                    <LinearGradient start={{x: 0.0, y: 0}} end={{x: 0, y: .8}}
+                                    colors={['#63D5A2', CommonStyle.themeColor]}
                                     style={{height: 180}}>
                         <TouchableOpacity style={{height: 180}} onPress={() => this.goProfile()}>
                             <View style={{

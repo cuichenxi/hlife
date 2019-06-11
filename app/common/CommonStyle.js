@@ -31,7 +31,7 @@ export const CommonStyle = {
     clear: 'transparent',
 
     /** 主题色 **/
-    themeColor: '#3e9ce9',
+    themeColor: '#20C075',
     // 默认灰色字体颜色
     textGrayColor: '#989898',
     // 默认黑色字体颜色
@@ -45,12 +45,12 @@ export const CommonStyle = {
     // borderColor
     borderColor: '#808080',
     // 导航title 颜色
-    navTitleColor: '#fff',
+    navTitleColor: '#333',
     // 导航左item title color
     navLeftTitleColor: '#333',
     // 导航右item title color
-    navRightTitleColor: '#fff',
-    navThemeColor: '#3e9ce9',
+    navRightTitleColor: '#333',
+    navThemeColor: '#fff',
     iconGray: '#989898',
     iconBlack: '#262626',
 
@@ -80,11 +80,11 @@ export const CommonStyle = {
 
     /** height **/
     // 导航栏的高度
-    navHeight: Platform.OS === 'ios' ? (deviceInfo.isIphoneX ? 88 : 64) : 74,
+    navHeight: Platform.OS === 'ios' ? (deviceInfo.isIphoneX ? 98 : 74) : 84,
     // 导航栏顶部的状态栏高度
     navStatusBarHeight: Platform.OS === 'ios' ? (deviceInfo.isIphoneX ? 44 : 20) : 24,
     // 导航栏除掉状态栏的高度
-    navContentHeight: Platform.OS === 'ios' ? 44 : 50,
+    navContentHeight: Platform.OS === 'ios' ? 54 : 60,
     // tabBar的高度
     tabBarHeight: Platform.OS === 'ios' ? (deviceInfo.isIphoneX ? 83 : 49) : 49,
     // 底部按钮高度
