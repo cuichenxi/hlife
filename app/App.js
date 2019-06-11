@@ -35,6 +35,8 @@ import Housekeeper from "./pages/housekeeper";
 import ReportMatter from "./pages/housekeeper/ReportMatter";
 import Steward from "./pages/steward/Steward";
 import Neighbour from "./pages/neighbour/Neighbour";
+import ShoppingCart from "./pages/shoppingcart";
+import MyAddress from "./pages/user/myaddress/MyAddress";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -63,9 +65,6 @@ const TabContainer = createBottomTabNavigator(
                 )
             }
         },
-        shoppingCart: {
-            screen: ShoppingCart, navigationOptions: {
-                title: '购物车',
         Neighbour: {
             screen: Neighbour, navigationOptions: {
                 title: '邻里',
@@ -135,6 +134,8 @@ const App = createStackNavigator(
         ContactList: {screen: ContactList},
         RedPacket: {screen: RedPacket},
         ReportMatter: {screen: ReportMatter},
+        ShoppingCart:{screen:ShoppingCart},
+        MyAddress:{screen:MyAddress}
     },
     {
         // initialRouteName: 'Splash',
@@ -142,7 +143,6 @@ const App = createStackNavigator(
         // mode: Platform.OS === 'ios' ? 'modal' : 'card',
         navigationOptions: {
             headerBackTitle: null,
-            headerTitleStyle: {flex: 1, textAlign: 'center'},
             headerStyle: {
                 backgroundColor: '#3e9ce9'
             },

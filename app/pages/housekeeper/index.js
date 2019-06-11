@@ -222,13 +222,16 @@ export default class Housekeeper extends BaseComponent {
                         marginBottom: 8,
                         textAlign: 'left', color: '#666666'
                     }}>{item.activityName}</Text>
-                    <Text style={{textAlign: 'left', color: '#999999', fontSize: 15}}>haha:</Text>
-                    <Text style={{textAlign: 'left', color: '#999999', fontSize: 15}}>hehe:</Text>
-                    <Text style={{textAlign: 'left', color: '#999999', fontSize: 15}}>xixi:</Text>
+                    <View style={{flexDirection:'row'}}>
+                        <Image source={item.imageUrl}
+                               style={{
+                                   width: 20,
+                                   height: 20,}}/>
+                    </View>
                 </View>
                 <View>
                     <Text style={{textAlign: 'left', color: '#999999', fontSize: 15}}>{item.date}</Text>
-                    <Text style={{textAlign: 'left', color: '#999999', fontSize: 15}}>{item.joinPeople}</Text>
+                    <Text style={{textAlign: 'left', color: '#999999', fontSize: 15}}>已有{item.joinPeople}人参加活动</Text>
                 </View>
             </TouchableOpacity>)
         })
@@ -273,7 +276,7 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     titleLine: {
-        backgroundColor: '#fff',
+            backgroundColor: '#fff',
         flex: 1,
         flexDirection: 'row',
         height: 40,

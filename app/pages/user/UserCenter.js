@@ -56,6 +56,7 @@ export default class UserCenter extends BaseComponent {
             {icon: "md-flower", name: "GiftedListDemo", onPress: this.goPage.bind(this, "GiftedListDemo")},
             {icon: "md-flower", name: "GiftedListDemoNet", onPress: this.goPage.bind(this, "GiftedListDemoNet")},
             {icon: "md-flower", name: "GiftedListDemoFree", onPress: this.goPage.bind(this, "GiftedListDemoFree")},
+            {icon: "md-flower", name: "我的地址", onPress: this.goPage.bind(this, "MyAddress")},
         ]
     }
 
