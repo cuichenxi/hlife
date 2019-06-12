@@ -31,7 +31,6 @@ export default class UserCenter extends BaseComponent {
     constructor(props) {
         super(props)
         this.state = {
-            isRefreshing: false,
             headerUrl: '',
             userName: '-',
             userPhone: '-',

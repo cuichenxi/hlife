@@ -16,6 +16,10 @@ export default class Index extends BaseView {
         };
     }
 
+    componentDidMount() {
+        // this.showLong("index=" + this.state.index);
+    }
+
     _onFetch(page = 1, callback) {
         console.log('page' + page);
         // this.showInDLoading()
