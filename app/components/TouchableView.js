@@ -6,11 +6,12 @@
 
 import React, { Component } from 'react'
 import {
-  View,
-  Platform,
-  TouchableHighlight,
-  TouchableNativeFeedback
-} from 'react-native'
+    View,
+    Platform,
+    TouchableHighlight,
+    TouchableNativeFeedback,
+    TouchableOpacity
+} from 'react-native';
 
 export default class TouchableView extends Component {
   constructor(props){
@@ -18,7 +19,7 @@ export default class TouchableView extends Component {
   }
   render(){
     return Platform.OS === 'ios'?(
-      <TouchableHighlight underlayColor='#00000000' {...this.props} key={this.props.index}>{this.props.children}</TouchableHighlight>
+      <TouchableOpacity underlayColor='#00000000' {...this.props} key={this.props.index}>{this.props.children}</TouchableOpacity>
     ):(
       <View {...this.props}><TouchableNativeFeedback underlayColor='#00000000' key={this.props.index} onPress={this.props.onPress}>{this.props.children}</TouchableNativeFeedback></View>
     )

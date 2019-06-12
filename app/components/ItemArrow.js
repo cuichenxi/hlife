@@ -11,16 +11,11 @@ import {
     Image,
     StyleSheet,
     Dimensions,
-    Platform,
-    TouchableHighlight,
-    AlertIOS,
-    TouchableNativeFeedback
 } from 'react-native'
 import TouchableView from './TouchableView'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 
-let {width, height} = Dimensions.get('window')
 const itemHeight = 45
 
 const Font = {
@@ -62,11 +57,11 @@ export default class ItemArrow extends Component {
     //   onPress: ()=>{}
     // }
     _render() {
-        let {icon, iconSize, name, subName, color, first, avatar, disable, font} = this.props
+        let {icon, iconSize, name, subName, color, first, avatar, disable, font, marginTop} = this.props;
         font = font || "Ionicons"
         const Icon = Font[font]
         return (
-            <View style={styles.listItem}>
+            <View style={[styles.listItem,{marginTop: marginTop}]}>
                 {icon ? (
                     <Icon name={icon} size={(iconSize || 20)} style={{width: 22, marginRight: 5,
                         marginTop: 4, textAlign: "center"}}

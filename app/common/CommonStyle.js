@@ -125,4 +125,47 @@ export const CommonStyle = {
     between: 'space-between',
     center: 'center',
     row: 'row',
+    /** row | row-reverse | column | column-reverse **/
+    flexDirection: 'flex-direction'
+
+    //justify-content属性定义了项目在主轴上的对齐方式。
+    // justify-content: flex-start | flex-end | center | space-between | space-around
+    // align-items属性定义项目在交叉轴上如何对齐。
+//    align-items: flex-start | flex-end | center | baseline | stretch;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
