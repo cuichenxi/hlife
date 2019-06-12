@@ -37,21 +37,15 @@ export default class UserCenter extends BaseComponent {
             userPhone: '-',
         }
         this.config = [
-            {icon: "ios-pin", name: "我的订单", onPress: this.goPage.bind(this, "address")},
-            {
-                icon: "ios-heart",
-                name: "我的收藏",
-                marginTop: 12,
-                color: "#fc7b53",
-                onPress: this.goPage.bind(this, "address")
-            },
-            {icon: "ios-pin", name: "我的访客", onPress: this.goPage.bind(this, "address")},
-            {icon: "ios-pin", name: "我的小区", onPress: this.goPage.bind(this, "address")},
+            {icon: "ios-pin", name: "我的订单", first:true,onPress: this.goPage.bind(this, "address")},
+            { icon: "ios-heart", name: "我的收藏",first:true, color: "#fc7b53", onPress: this.goPage.bind(this, "address")},
+            {icon: "ios-pin", name: "我的访客",   onPress: this.goPage.bind(this, "address")},
+            {icon: "ios-pin", name: "我的小区",  onPress: this.goPage.bind(this, "address")},
             {icon: "ios-pin", name: "我的地址", onPress: this.goPage.bind(this, "MyAddress")},
             {icon: "logo-usd", name: "缴费记录", onPress: this.goPage.bind(this, "address")},
             {icon: "ios-cart", name: "缴费记录", onPress: this.goPage.bind(this, "MaintainRecord")},
-            {icon: "ios-heart", name: "我的发票", marginTop: 12, onPress: this.goPage.bind(this, "RedPacket")},
-            {icon: "ios-heart", name: "红包", marginTop: 12, onPress: this.goPage.bind(this, "RedPacket")},
+            {icon: "ios-heart", name: "我的发票",first:true, marginTop: 10, onPress: this.goPage.bind(this, "RedPacket")},
+            {icon: "ios-heart", name: "红包", marginTop: 10, onPress: this.goPage.bind(this, "RedPacket")},
             {icon: "md-flower", name: "支付调试", onPress: this.goPage.bind(this, "PayPage")},
             {icon: "md-flower", name: "CodePushPage", onPress: this.goPage.bind(this, "CodePushPage")},
             {icon: "md-flower", name: "GiftedListDemo", onPress: this.goPage.bind(this, "GiftedListDemo")},
@@ -145,10 +139,12 @@ export default class UserCenter extends BaseComponent {
                         this.showLong("签到")
                     }}>
                         <LinearGradient start={{x: 0.0, y: 0}} end={{x: 1, y: 0}}
-                                        colors={[CommonStyle.themeColor,'#63D5A2']}
-                                        style={{height: 30,flex:1, flexDirection: 'row', alignItems: 'center',
-                                            justifyContent: 'center',borderTopLeftRadius: 15,
-                                            borderBottomLeftRadius: 15}}>
+                                        colors={[CommonStyle.themeColor, '#63D5A2']}
+                                        style={{
+                                            height: 30, flex: 1, flexDirection: 'row', alignItems: 'center',
+                                            justifyContent: 'center', borderTopLeftRadius: 15,
+                                            borderBottomLeftRadius: 15
+                                        }}>
 
                             <QIcon style={{alignSelf: 'center'}} name={'icon-home'} size={16}
                                    color={'#fff'}></QIcon>
@@ -159,23 +155,7 @@ export default class UserCenter extends BaseComponent {
                             }}>签到</Text>
                         </LinearGradient>
                     </TouchableView>
-                    <TouchableView style={{
-                        position: 'absolute',
-                        top: -35,
-                    }} onPress={() => {
-                        this.navigate('UserInfo')
-                    }}>
-                        <ImageView source={{uri: this.state.headerUrl}}
-                                   placeholderSource={require("../../img/default_head.png")}
-                                   style={{
-                                       width: 70,
-                                       height: 70,
-                                       overflow: "hidden",
-                                       backgroundColor: '#fff',
-                                       borderRadius: 35
-                                   }} onPress={() => {
-                        }}/>
-                    </TouchableView>
+
                     <Text style={{
                         marginTop: 45,
                         color: "#333",
@@ -192,10 +172,33 @@ export default class UserCenter extends BaseComponent {
                         }}>查看/编辑个人资料</Text>
                     </TouchableView>
                 </View>
+                <View style={{
+                    position: 'absolute',
+                    top: 45,
+                    left:0,
+                    right:0,
+                    alignSelf:'center'
+                }}>
+                    <TouchableView style={{
+                        alignSelf:'center'
+                    }} onPress={() => {
+                        this.navigate('UserInfo')
+                    }}>
+                        <ImageView source={{uri: this.state.headerUrl}}
+                                   placeholderSource={require("../../img/default_head.png")}
+                                   style={{
+                                       width: 70,
+                                       height: 70,
+                                       overflow: "hidden",
+                                       backgroundColor: '#fff',
+                                       borderRadius: 35
+                                   }} onPress={() => {
+                        }}/>
+                    </TouchableView></View>
 
-                <View style={{position: 'absolute', top: 280, width: '100%'}}>
+                <View style={{flex: 1,marginTop:80}}>
                     {this._renderListItem()}
-                </View>
+               </View>
             </ScrollView>
         );
     }
