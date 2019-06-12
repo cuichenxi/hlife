@@ -11,6 +11,9 @@ import TouchableView from "../../components/TouchableView";
 import {CommonStyle} from "../../common/CommonStyle";
 import QIcon from "../../components/icon";
 import BarcodePage from "../witget/BarcodePage";
+import UserStore from "../../store/UserStore";
+import NavigationUtil from "../../utils/NavigationUtil";
+import Request from "../../utils/Request";
 // import ImageUtil from "../../utils/ImageUtil";
 
 const {width, height} = Dimensions.get('window')
@@ -86,7 +89,7 @@ export default class Main extends BaseComponent {
     }
 
     onReady(param) {
-
+        this.getUserInfo();
     }
 
     _loadWeb(title, url) {
@@ -112,8 +115,24 @@ export default class Main extends BaseComponent {
         );
     }
 
+    getUserInfo() {
+        Request.post('/api/user/geuserinfo', {},
+            {
+                mock: true,
+                mockId: 1124783,
+            }).then(rep => {
+            if (rep.code == 0 && rep.data) {
+                UserStore.save(rep.data);
+            }
+        }).catch(err => {
+
+        }).done(() => {
+
+        })
+    }
+
     _jumpRouter(typeItem) {
-        this.push(typeItem.active,{title: typeItem.name});
+        this.push(typeItem.active, {title: typeItem.name});
     }
 
     onScanClick() {
@@ -131,16 +150,26 @@ export default class Main extends BaseComponent {
                     flex: 1, flexDirection: 'row', height: CommonStyle.navContentHeight,
                     marginTop: CommonStyle.navStatusBarHeight, alignItems: 'center'
                 }}>
-                    <TouchableView style={{width: 50,alignItems:'center'}} onPress={()=>{this.onScanClick()}}>
+                    <TouchableView style={{width: 50, alignItems: 'center'}} onPress={() => {
+                        this.onScanClick()
+                    }}>
                         <QIcon style={{textAlign: 'center', width: 40, width: 40}} name={'icon-home'} size={22}
                                color={CommonStyle.color_666}></QIcon>
                     </TouchableView>
-                    <View style={{flex: 1, alignItems: 'center', height:30,flexDirection: 'row',backgroundColor:'#fff' , borderRadius: 10}}>
-                        <QIcon style={{textAlign: 'center', width: 20, width: 20, marginLeft: 8}} name={'icon-home'} size={14}
+                    <View style={{
+                        flex: 1,
+                        alignItems: 'center',
+                        height: 30,
+                        flexDirection: 'row',
+                        backgroundColor: '#fff',
+                        borderRadius: 10
+                    }}>
+                        <QIcon style={{textAlign: 'center', width: 20, width: 20, marginLeft: 8}} name={'icon-home'}
+                               size={14}
                                color={CommonStyle.color_666}></QIcon>
-                        <Text style={{color:CommonStyle.color_666, fontSize: 14, marginLeft: 2}}>五一家装节</Text>
+                        <Text style={{color: CommonStyle.color_666, fontSize: 14, marginLeft: 2}}>五一家装节</Text>
                     </View>
-                    <TouchableView style={{width: 50,alignItems:'center'}}>
+                    <TouchableView style={{width: 50, alignItems: 'center'}}>
                         <QIcon style={{textAlign: 'center', width: 40, width: 40}} name={'icon-home'} size={22}
                                color={CommonStyle.color_666}></QIcon>
                     </TouchableView>

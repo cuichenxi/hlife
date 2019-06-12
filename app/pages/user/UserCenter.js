@@ -34,16 +34,26 @@ export default class UserCenter extends BaseComponent {
             headerUrl: '',
             userName: '-',
             userPhone: '-',
+            redCount: 0,
+            integralCount: 0,
+            balance: 0,
+            signVisible: false,
         }
         this.config = [
-            {icon: "ios-pin", name: "我的订单", first:true,onPress: this.goPage.bind(this, "address")},
-            { icon: "ios-heart", name: "我的收藏",first:true, color: "#fc7b53", onPress: this.goPage.bind(this, "address")},
-            {icon: "ios-pin", name: "我的访客",   onPress: this.goPage.bind(this, "MyVisitor")},
-            {icon: "ios-pin", name: "我的小区",  onPress: this.goPage.bind(this, "address")},
+            {icon: "ios-pin", name: "我的订单", first: true, onPress: this.goPage.bind(this, "address")},
+            {
+                icon: "ios-heart",
+                name: "我的收藏",
+                first: true,
+                color: "#fc7b53",
+                onPress: this.goPage.bind(this, "address")
+            },
+            {icon: "ios-pin", name: "我的访客", onPress: this.goPage.bind(this, "address")},
+            {icon: "ios-pin", name: "我的小区", onPress: this.goPage.bind(this, "address")},
             {icon: "ios-pin", name: "我的地址", onPress: this.goPage.bind(this, "MyAddress")},
             {icon: "logo-usd", name: "缴费记录", onPress: this.goPage.bind(this, "address")},
             {icon: "ios-cart", name: "缴费记录", onPress: this.goPage.bind(this, "MaintainRecord")},
-            {icon: "ios-heart", name: "我的发票",first:true, marginTop: 10, onPress: this.goPage.bind(this, "RedPacket")},
+            {icon: "ios-heart", name: "我的发票", first: true, marginTop: 10, onPress: this.goPage.bind(this, "RedPacket")},
             {icon: "ios-heart", name: "红包", marginTop: 10, onPress: this.goPage.bind(this, "RedPacket")},
             {icon: "md-flower", name: "支付调试", onPress: this.goPage.bind(this, "PayPage")},
             {icon: "md-flower", name: "CodePushPage", onPress: this.goPage.bind(this, "CodePushPage")},
@@ -88,6 +98,9 @@ export default class UserCenter extends BaseComponent {
             // headerUrl: 'https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/common/1542198920071/youji.gif',
             userName: userInfo.userName,
             userPhone: userInfo.phone,
+            redCount: userInfo.redCount,
+            integralCount: userInfo.integralCount,
+            balance: userInfo.balance,
         })
     }
 
@@ -95,6 +108,26 @@ export default class UserCenter extends BaseComponent {
         return this.config.map((item, i) => {
             return (<ItemArrow key={i} {...item}/>)
         })
+    }
+
+    _renderSignView() {
+        return (
+            <Modal
+                animationType="slide"
+                transparent={false}
+                visible={this.state.signVisible}
+                onRequestClose={() => {
+                    alert("Modal has been closed.");
+                }}
+            ><View style={{
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: '99000000'
+            }}>
+            </View></Modal>
+
+        )
     }
 
     render() {
@@ -133,7 +166,7 @@ export default class UserCenter extends BaseComponent {
                         position: 'absolute',
                         top: 15,
                         right: -1,
-                        width: 80,
+                        width: 70,
                     }} onPress={() => {
                         this.showLong("签到")
                     }}>
@@ -145,7 +178,7 @@ export default class UserCenter extends BaseComponent {
                                             borderBottomLeftRadius: 15
                                         }}>
 
-                            <QIcon style={{alignSelf: 'center'}} name={'icon-home'} size={16}
+                            <QIcon style={{alignSelf: 'center'}} name={'icon-home'} size={14}
                                    color={'#fff'}></QIcon>
                             <Text style={{
                                 color: "#fff",
@@ -170,16 +203,62 @@ export default class UserCenter extends BaseComponent {
                             fontSize: 14
                         }}>查看/编辑个人资料</Text>
                     </TouchableView>
+                    <View style={{
+                        marginTop: 20, flex: 1, width: '80%', flexDirection: 'row', alignItems: 'center',
+                        justifyContent: 'space-between',
+                    }}>
+                        <TouchableView style={{alignItems: 'center'}} onPress={() => {
+                            this.navigate('RedPacket')
+                        }}>
+                            <Text style={{
+                                color: CommonStyle.themeColor,
+                                fontSize: 18
+                            }}>{this.state.balance}</Text>
+                            <Text style={{
+                                marginTop: 2,
+                                color: "#666",
+                                fontSize: 14
+                            }}>钱包</Text>
+                        </TouchableView>
+                        <View style={{backgroundColor: CommonStyle.lineColor, height: 35, width: 1}}/>
+                        <TouchableView style={{alignItems: 'center'}} onPress={() => {
+                            this.navigate('RedPacket')
+                        }}>
+                            <Text style={{
+                                color: CommonStyle.themeColor,
+                                fontSize: 18
+                            }}>{this.state.redCount}</Text>
+                            <Text style={{
+                                marginTop: 2,
+                                color: "#666",
+                                fontSize: 14
+                            }}>红包(个)</Text>
+                        </TouchableView>
+                        <View style={{backgroundColor: CommonStyle.lineColor, height: 35, width: 1}}/>
+                        <TouchableView style={{alignItems: 'center'}} onPress={() => {
+                            this.navigate('RedPacket')
+                        }}>
+                            <Text style={{
+                                color: CommonStyle.themeColor,
+                                fontSize: 18
+                            }}>{this.state.integralCount}</Text>
+                            <Text style={{
+                                marginTop: 2,
+                                color: "#666",
+                                fontSize: 14
+                            }}>积分</Text>
+                        </TouchableView>
+                    </View>
                 </View>
                 <View style={{
                     position: 'absolute',
                     top: 45,
-                    left:0,
-                    right:0,
-                    alignSelf:'center'
+                    left: 0,
+                    right: 0,
+                    alignSelf: 'center'
                 }}>
                     <TouchableView style={{
-                        alignSelf:'center'
+                        alignSelf: 'center'
                     }} onPress={() => {
                         this.navigate('UserInfo')
                     }}>
@@ -195,9 +274,10 @@ export default class UserCenter extends BaseComponent {
                         }}/>
                     </TouchableView></View>
 
-                <View style={{flex: 1,marginTop:80}}>
+                <View style={{flex: 1, marginTop: 80}}>
                     {this._renderListItem()}
-               </View>
+                </View>
+
             </ScrollView>
         );
     }
