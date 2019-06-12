@@ -35,6 +35,12 @@ import Steward from "./pages/steward/Steward";
 import Neighbour from "./pages/neighbour/Neighbour";
 import ShoppingCart from "./pages/shoppingCart/index";
 import MyAddress from "./pages/user/myaddress/MyAddress";
+import AddHousingAddress from "./pages/user/myaddress/AddHousingAddress";
+import HousingAddressList from "./pages/user/myaddress/HousingAddressList";
+import ElementList from "./pages/user/myaddress/ElementList";
+import UnitList from "./pages/user/myaddress/UnitList";
+import ModifyHousingAddress from "./pages/user/myaddress/ModifyHousingAddress";
+import MyVisitor from "./pages/user/myvisitor/MyVisitor";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -133,7 +139,13 @@ const App = createStackNavigator(
         RedPacket: {screen: RedPacket},
         ReportMatter: {screen: ReportMatter},
         ShoppingCart:{screen:ShoppingCart},
-        MyAddress:{screen:MyAddress}
+        MyAddress:{screen:MyAddress},
+        AddHousingAddress:{screen:AddHousingAddress},
+        HousingAddressList:{screen:HousingAddressList},
+        ElementList:{screen:ElementList},//单元楼列表
+        UnitList:{screen:UnitList},//单元-室
+        ModifyHousingAddress:{screen:ModifyHousingAddress},//修改小区地址
+        MyVisitor:{screen:MyVisitor},//我的访客
     },
     {
         // initialRouteName: 'Splash',

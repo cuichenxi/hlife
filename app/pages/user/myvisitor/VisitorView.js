@@ -1,12 +1,22 @@
 import React from "react";
-import {Text, StyleSheet, View} from "react-native";
+import {Dimensions, Text, View} from "react-native";
 import {BaseView} from "../../../components/base/BaseView";
 import GiftedListView from "../../../components/refreshList/GiftedListView";
 import TouchableView from "../../../components/TouchableView";
 import Request from "../../../utils/Request";
 import {PAGE_SIZE} from "../../../constants/AppConstants";
-import {SwipeAction} from "antd-mobile-rn";
-import ToastUtil from "../../../utils/ToastUtil";
+import {CommonStyle} from "../../../common/CommonStyle";
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import Ionicons from "react-native-vector-icons/Ionicons";
+
+/**
+ * 访客view
+ */
+let {width, height} = Dimensions.get('window')
+const Font = {
+    Ionicons,
+    FontAwesome
+}
 
 export default class Index extends BaseView {
     constructor(props) {
@@ -14,22 +24,21 @@ export default class Index extends BaseView {
         this.state = {
             ...props
         };
+        console.log(this.props)
     }
 
-    componentDidMount() {
-        // this.showLong("index=" + this.state.index);
-    }
-
-    _onFetch(page = 1, callback) {
-        console.log('page' + page);
-        // this.showInDLoading()
+    makeRemoteRequest(page = 1, callback) {
         let param = {statusBODY: this.state.index, page: page - 1, pageSize: PAGE_SIZE};
-        Request.post("api/user/redPacket", param,
+
+        console.log('==========')
+        console.log(this.props)
+        Request.post('api/user/goodsaddresslist', param,
             {
                 mock: true,
-                mockId: 1095476,
+                mockId: 1095864,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
+                // console.log(JSON.stringify(rep))
                 callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             }
         }).catch(err => {
@@ -39,14 +48,20 @@ export default class Index extends BaseView {
         })
     }
 
-    _renderRowView(rowData) {
+    _renderRowView(item) {
         return (
-            <TouchableView
-                style={styles.row}
-                onPress={() => this.state.onItemPress(rowData)}>
-                <Text>{rowData.title}</Text>
-            </TouchableView>
-        );
+            <View style={{
+                backgroundColor: 'white',
+                // height:50,
+                flexDirection: 'row',
+                alignItems: 'center',
+                padding: 5
+            }}>
+                <Text style={{textAlign: 'center', color: 'white',}}>到访日期</Text>
+                <Text style={{textAlign: 'left', color: '#999999', fontSize: 13, marginTop: 5}}>姓名</Text>
+            </View>
+
+        )
     }
 
     // _renderRowView(rowData) {
@@ -72,22 +87,20 @@ export default class Index extends BaseView {
 
     _render() {
         return (
-            <GiftedListView
-                style={styles.container}
-                rowView={this._renderRowView.bind(this)}
-                onFetch={this._onFetch.bind(this)}
-                loadMore={true}
-            />
+            <View style={{
+                flex: 1,
+                backgroundColor: 'white',
+                flexDirection: 'column'
+            }}>
+                <GiftedListView
+                    style={{with: width, flex: 1}}
+                    rowView={this._renderRowView.bind(this)}
+                    onFetch={this.makeRemoteRequest.bind(this)}
+                    loadMore={false}
+                />
+            </View>
         );
     }
+
 }
 ;
-const styles = StyleSheet.create({
-    container: {
-        width: "100%",
-    },
-    row: {
-        padding: 10,
-        height: 44,
-    },
-});

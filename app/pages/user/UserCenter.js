@@ -38,7 +38,7 @@ export default class UserCenter extends BaseComponent {
         this.config = [
             {icon: "ios-pin", name: "我的订单", first:true,onPress: this.goPage.bind(this, "address")},
             { icon: "ios-heart", name: "我的收藏",first:true, color: "#fc7b53", onPress: this.goPage.bind(this, "address")},
-            {icon: "ios-pin", name: "我的访客",   onPress: this.goPage.bind(this, "address")},
+            {icon: "ios-pin", name: "我的访客",   onPress: this.goPage.bind(this, "MyVisitor")},
             {icon: "ios-pin", name: "我的小区",  onPress: this.goPage.bind(this, "address")},
             {icon: "ios-pin", name: "我的地址", onPress: this.goPage.bind(this, "MyAddress")},
             {icon: "logo-usd", name: "缴费记录", onPress: this.goPage.bind(this, "address")},
