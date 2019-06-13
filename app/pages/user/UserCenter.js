@@ -4,7 +4,8 @@ import {
     View,
     Linking,
     StyleSheet,
-    ScrollView,
+    ScrollView, Image,
+    Modal as ModalView
 } from 'react-native'
 
 import FIcon from 'react-native-vector-icons/Feather'
@@ -19,6 +20,8 @@ import ImageView from "../../components/ImageView";
 import {Modal} from "antd-mobile-rn/lib/index.native";
 import ToastUtil from "../../utils/ToastUtil";
 import TouchableView from "../../components/TouchableView";
+import NavigationUtil from "../../utils/NavigationUtil";
+import Request from "../../utils/Request";
 
 
 export default class UserCenter extends BaseComponent {
@@ -53,7 +56,13 @@ export default class UserCenter extends BaseComponent {
             {icon: "ios-pin", name: "我的地址", onPress: this.goPage.bind(this, "MyAddress")},
             {icon: "logo-usd", name: "缴费记录", onPress: this.goPage.bind(this, "address")},
             {icon: "ios-cart", name: "缴费记录", onPress: this.goPage.bind(this, "MaintainRecord")},
-            {icon: "ios-heart", name: "我的发票", first: true, marginTop: 10, onPress: this.goPage.bind(this, "MyInvoiceList")},
+            {
+                icon: "ios-heart",
+                name: "我的发票",
+                first: true,
+                marginTop: 10,
+                onPress: this.goPage.bind(this, "MyInvoiceList")
+            },
             {icon: "ios-heart", name: "红包", marginTop: 10, onPress: this.goPage.bind(this, "RedPacket")},
             {icon: "md-flower", name: "支付调试", onPress: this.goPage.bind(this, "PayPage")},
             {icon: "md-flower", name: "CodePushPage", onPress: this.goPage.bind(this, "CodePushPage")},
@@ -92,6 +101,7 @@ export default class UserCenter extends BaseComponent {
     }
 
     onReady(param) {
+        this.hideHeader(true);
         let userInfo = UserStore.get();
         this.setState({
             headerUrl: userInfo.avatar,
@@ -110,27 +120,93 @@ export default class UserCenter extends BaseComponent {
         })
     }
 
-    _renderSignView() {
-        return (
-            <Modal
-                animationType="slide"
-                transparent={false}
-                visible={this.state.signVisible}
-                onRequestClose={() => {
-                    alert("Modal has been closed.");
-                }}
-            ><View style={{
-                flex: 1,
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: '99000000'
-            }}>
-            </View></Modal>
-
-        )
+    /**
+     * 签到
+     */
+    requestSign() {
+        this.showLoading('签到中...');
+        Request.post('/api/user/signIn', {},
+            {
+                mock: true,
+                mockId: 1095514,
+            }).then(rep => {
+            if (rep.code == 0) {
+                this.setState({
+                    signVisible: true
+                })
+            }
+        }).catch(err => {
+        }).done(() => {
+            this.hideLoading();
+        })
     }
 
-    render() {
+
+    _renderSignView() {
+        return (
+            <ModalView
+                animationType="slide"
+                transparent={true}
+                visible={this.state.signVisible}
+                onRequestClose={() => {
+                }}
+            >
+                <View style={{
+                    backgroundColor: 'rgba(0,0,0,0.5)', flex: 1, alignItems: 'center',
+                    justifyContent: 'center',
+                }}>
+                    <TouchableView onPress={() => {
+                        this.setState({
+                            signVisible: false
+                        })
+                    }}>
+                        <View style={{
+                            width: 300,
+                            height: 360,
+                            alignItems: 'center',
+                            borderRadius: 15,
+                            backgroundColor: '#99000000'
+                        }}>
+                            <Image style={{
+                                width: 300,
+                                height: 360,
+                                borderRadius: 15,
+                            }} source={require("../../img/splash.png")}/>
+                            <View  style={{
+                                position: 'absolute',
+                                bottom: 30,
+                                alignItems: 'center',
+                                width: 300,
+                                height: 200,
+                                justifyContent: 'flex-end',
+                            }}>
+                                <View style={{flexDirection:'row' ,alignItems: 'center',}}>
+                                    <Text style={{fontSize:14,
+                                        color: '#666'}}>你已连续签到</Text>
+                                    <Text style={{fontSize:16,
+                                        color: CommonStyle.themeColor}}>10</Text>
+                                    <Text style={{fontSize:14,
+                                        color: '#666'}}>天</Text>
+                                </View>
+                                <View style={{flexDirection:'row',marginTop:10}}>
+                                    <Text style={{fontSize:14,
+                                        color: '#666'}}>今天签到的积分:</Text>
+                                    <Text style={{fontSize:16,
+                                        color: CommonStyle.themeColor}}>10分</Text>
+                                </View>
+                                <View style={{alignItems: 'center',marginTop:25, justifyContent: 'center',width:120, height:42 ,borderRadius:22,backgroundColor:CommonStyle.themeColor}}>
+                                    <Text style={{fontSize:16,
+                                        color: '#fff',textAlign:'center',textAlignVertical:'center'}}>知道了</Text>
+                                </View >
+                            </View>
+                        </View>
+                    </TouchableView>
+                </View>
+            </ModalView>
+        );
+    }
+
+    _render() {
         return (
             <ScrollView style={{flex: 1, backgroundColor: CommonStyle.bgColor}}>
                 <LinearGradient start={{x: 0.0, y: 0}} end={{x: 0, y: .8}}
@@ -167,16 +243,18 @@ export default class UserCenter extends BaseComponent {
                         top: 15,
                         right: -1,
                         width: 70,
-                    }} onPress={() => {
-                        this.showLong("签到")
-                    }}>
+                    }} onPress={
+                        this.requestSign.bind(this)
+                    }>
                         <LinearGradient start={{x: 0.0, y: 0}} end={{x: 1, y: 0}}
                                         colors={[CommonStyle.themeColor, '#63D5A2']}
                                         style={{
                                             height: 30, flex: 1, flexDirection: 'row', alignItems: 'center',
                                             justifyContent: 'center', borderTopLeftRadius: 15,
                                             borderBottomLeftRadius: 15
-                                        }}>
+                                        }} onPress={
+                            this.requestSign.bind(this)
+                        }>
 
                             <QIcon style={{alignSelf: 'center'}} name={'icon-home'} size={14}
                                    color={'#fff'}></QIcon>
@@ -277,10 +355,12 @@ export default class UserCenter extends BaseComponent {
                 <View style={{flex: 1, marginTop: 80}}>
                     {this._renderListItem()}
                 </View>
-
+                {this._renderSignView()}
             </ScrollView>
         );
     }
+
+
 };
 const styles = StyleSheet.create({
     orderItem: {justifyContent: 'center', alignItems: 'center'},
