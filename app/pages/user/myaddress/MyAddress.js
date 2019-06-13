@@ -1,21 +1,11 @@
 import {BaseComponent} from "../../../components/base/BaseComponent";
 import React from "react";
-import {Text, View} from "react-native";
-import Request from "../../../utils/Request";
 import Tabs from "antd-mobile-rn/es/tabs/index.native";
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
-import Ionicons from "react-native-vector-icons/Ionicons";
 import {CommonStyle} from "../../../common/CommonStyle";
-import TouchableView from "../../../components/TouchableView";
-import {PAGE_SIZE} from "../../../constants/AppConstants";
 import HousingAddressView from "./HousingAddressView";
 import ToastUtil from "../../../utils/ToastUtil";
 
 
-const Font = {
-    Ionicons,
-    FontAwesome
-}
 /**
  *我的地址
  */

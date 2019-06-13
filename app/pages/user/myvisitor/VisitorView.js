@@ -2,21 +2,14 @@ import React from "react";
 import {Dimensions, Text, View} from "react-native";
 import {BaseView} from "../../../components/base/BaseView";
 import GiftedListView from "../../../components/refreshList/GiftedListView";
-import TouchableView from "../../../components/TouchableView";
 import Request from "../../../utils/Request";
 import {PAGE_SIZE} from "../../../constants/AppConstants";
 import {CommonStyle} from "../../../common/CommonStyle";
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
-import Ionicons from "react-native-vector-icons/Ionicons";
 
 /**
  * 访客view
  */
 let {width, height} = Dimensions.get('window')
-const Font = {
-    Ionicons,
-    FontAwesome
-}
 
 export default class Index extends BaseView {
     constructor(props) {
@@ -32,10 +25,10 @@ export default class Index extends BaseView {
 
         console.log('==========')
         console.log(this.props)
-        Request.post('api/user/goodsaddresslist', param,
+        Request.post('api/user/visitor', param,
             {
                 mock: true,
-                mockId: 1095864,
+                mockId: 1095607,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
                 // console.log(JSON.stringify(rep))
@@ -52,38 +45,21 @@ export default class Index extends BaseView {
         return (
             <View style={{
                 backgroundColor: 'white',
-                // height:50,
+                height:40,
                 flexDirection: 'row',
                 alignItems: 'center',
-                padding: 5
+                justifyContent:'space-between',
+                // padding: 10,
+                paddingLeft: 30,
+                paddingRight: 30,
             }}>
-                <Text style={{textAlign: 'center', color: 'white',}}>到访日期</Text>
-                <Text style={{textAlign: 'left', color: '#999999', fontSize: 13, marginTop: 5}}>姓名</Text>
+                <Text style={{textAlign: 'center', color: CommonStyle.textBlockColor,fontSize:13}}>{item.date}</Text>
+                <Text style={{textAlign: 'center', color: CommonStyle.textBlockColor, fontSize: 13}}>{item.name}</Text>
             </View>
 
         )
     }
 
-    // _renderRowView(rowData) {
-    //     return (
-    //         <SwipeAction
-    //             autoClose={true}
-    //             style={{backgroundColor: 'transparent'}}
-    //             right={[{
-    //                 text: '删除',
-    //                 onPress: () => {
-    //                     ToastUtil.showShort(rowData.title)
-    //                 },
-    //                 style: {backgroundColor: 'red', color: 'white'},
-    //             }]}
-    //             onOpen={() => console.log('open')}
-    //             onClose={() => console.log('close')}
-    //             onPress={() => this.state.onItemPress(rowData)}
-    //         >
-    //             <Text>{rowData.title}</Text>
-    //         </SwipeAction>
-    //     );
-    // }
 
     _render() {
         return (
@@ -92,6 +68,20 @@ export default class Index extends BaseView {
                 backgroundColor: 'white',
                 flexDirection: 'column'
             }}>
+                <View style={{
+                    height:40,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent:'space-between',
+                    // padding: 10,
+                    backgroundColor:CommonStyle.bgColor,
+                    paddingLeft: 30,
+                    paddingRight: 30,
+                }}>
+                    <Text style={{textAlign: 'center', color: CommonStyle.textGrayColor,fontSize:13}}>到访日期</Text>
+                    <Text style={{textAlign: 'center', color: CommonStyle.textGrayColor, fontSize: 13}}>姓名</Text>
+                </View>
+                <View style={{height: 0.5, backgroundColor: CommonStyle.textGrayColor, width: width}}/>
                 <GiftedListView
                     style={{with: width, flex: 1}}
                     rowView={this._renderRowView.bind(this)}

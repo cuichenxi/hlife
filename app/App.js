@@ -41,6 +41,9 @@ import ElementList from "./pages/user/myaddress/ElementList";
 import UnitList from "./pages/user/myaddress/UnitList";
 import ModifyHousingAddress from "./pages/user/myaddress/ModifyHousingAddress";
 import MyVisitor from "./pages/user/myvisitor/MyVisitor";
+import MyCollection from "./pages/user/MyCollection";
+import AddBillInfo from "./pages/user/myinvoice/AddBillInfo";
+import MyInvoiceList from "./pages/user/myinvoice/MyInvoiceList";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -146,6 +149,9 @@ const App = createStackNavigator(
         UnitList:{screen:UnitList},//单元-室
         ModifyHousingAddress:{screen:ModifyHousingAddress},//修改小区地址
         MyVisitor:{screen:MyVisitor},//我的访客
+        MyCollection:{screen:MyCollection},//我的收藏
+        AddBillInfo:{screen:AddBillInfo},//增加发票
+        MyInvoiceList:{screen:MyInvoiceList},//我的发票
     },
     {
         // initialRouteName: 'Splash',

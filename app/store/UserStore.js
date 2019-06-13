@@ -31,7 +31,8 @@ export default UserStore = {
         return userInfo;
     },
     isLogin() {
-        return userInfo.token;
+        // return userInfo.token;
+        return true;
     },
     save(data = {}) {
         userInfo = Object.assign(userInfo, data);

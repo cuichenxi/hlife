@@ -46,14 +46,14 @@ export default class UserCenter extends BaseComponent {
                 name: "我的收藏",
                 first: true,
                 color: "#fc7b53",
-                onPress: this.goPage.bind(this, "address")
+                onPress: this.goPage.bind(this, "MyCollection")
             },
-            {icon: "ios-pin", name: "我的访客", onPress: this.goPage.bind(this, "address")},
+            {icon: "ios-pin", name: "我的访客", onPress: this.goPage.bind(this, "MyVisitor")},
             {icon: "ios-pin", name: "我的小区", onPress: this.goPage.bind(this, "address")},
             {icon: "ios-pin", name: "我的地址", onPress: this.goPage.bind(this, "MyAddress")},
             {icon: "logo-usd", name: "缴费记录", onPress: this.goPage.bind(this, "address")},
             {icon: "ios-cart", name: "缴费记录", onPress: this.goPage.bind(this, "MaintainRecord")},
-            {icon: "ios-heart", name: "我的发票", first: true, marginTop: 10, onPress: this.goPage.bind(this, "RedPacket")},
+            {icon: "ios-heart", name: "我的发票", first: true, marginTop: 10, onPress: this.goPage.bind(this, "MyInvoiceList")},
             {icon: "ios-heart", name: "红包", marginTop: 10, onPress: this.goPage.bind(this, "RedPacket")},
             {icon: "md-flower", name: "支付调试", onPress: this.goPage.bind(this, "PayPage")},
             {icon: "md-flower", name: "CodePushPage", onPress: this.goPage.bind(this, "CodePushPage")},
