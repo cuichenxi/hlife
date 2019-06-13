@@ -19,7 +19,7 @@ let userInfo = {
     birthday: null
 };
 
-export default UserStore = {
+export default  UserStore = {
 
     initData() {
         store.get(user_info_key).then(data => {
