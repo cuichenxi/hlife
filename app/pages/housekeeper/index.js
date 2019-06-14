@@ -238,7 +238,7 @@ export default class Housekeeper extends BaseComponent {
     }
 
     goReportMatter() {
-        this.navigate('MyAddress')
+        this.navigate('MyAddressWithTab')
     }
 }
 

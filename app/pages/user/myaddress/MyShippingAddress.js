@@ -17,12 +17,12 @@ const Font = {
     FontAwesome
 }
 /**
- *我的地址
+ *我的收货地址
  */
-export default class MyAddress extends BaseComponent {
+export default class MyShippingAddress extends BaseComponent {
     navigationBarProps() {
         return {
-            title: '我的地址',
+            title: '我的收货地址',
         }
     }
 
@@ -52,7 +52,7 @@ export default class MyAddress extends BaseComponent {
                     bottom: 0,
                     alignSelf: 'center'
                 }} onPress={() => {this.goAddHousingAddress()}}>
-                    <Text style={{color: 'white'}}>新增小区地址</Text>
+                    <Text style={{color: 'white'}}>新增收货地址</Text>
                 </TouchableView>
             </View>
         );
@@ -133,6 +133,6 @@ export default class MyAddress extends BaseComponent {
     }
 
     goAddHousingAddress() {
-        this.navigate('AddHousingAddress')
+        this.navigate('AddShippingAddress')
     }
 }

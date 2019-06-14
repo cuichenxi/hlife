@@ -32,8 +32,6 @@ export default class MyCollection extends BaseComponent{
     makeRemoteRequest(page = 1, callback) {
         let param = {page: page - 1, pageSize: PAGE_SIZE};
 
-        console.log('==========')
-        console.log(this.props)
         Request.post('api/user/collectlist', param,
             {
                 mock: true,

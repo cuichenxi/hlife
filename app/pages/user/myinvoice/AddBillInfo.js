@@ -14,7 +14,7 @@ import TouchableView from "../../../components/TouchableView";
 export default class AddBillInfo extends BaseComponent {
     navigationBarProps() {
         return {
-            title: '增加开票信息',
+            title: this.props.navigation.state.params.invoice ? '修改开票信息' : '增加开票信息',
         }
     }
 
@@ -23,13 +23,15 @@ export default class AddBillInfo extends BaseComponent {
         this.state = {
             initItem: '个人',
             initId: '0',
-            name:'',
-            no:'',
-            address:'',
-            phone:'',
-            bank:'',
-            bankNo:''
+            name: '',
+            no: '',
+            address: '',
+            phone: '',
+            bank: '',
+            bankNo: '',
+            invoice: this.props.navigation.state.params.invoice
         }
+        console.log(this.state.invoice)
     }
 
 
@@ -43,7 +45,10 @@ export default class AddBillInfo extends BaseComponent {
                         </View>
                         <RadioModal
                             selectedValue={this.state.initId}
-                            onValueChange={(id, item) => this.setState({initId: id, initItem: item})}
+                            onValueChange={(id, item) => {
+                                this.setState({initId: id, initItem: item})
+
+                            }}
                             style={{
                                 flexDirection: 'row',
                                 // flexWrap:'wrap',
@@ -64,7 +69,8 @@ export default class AddBillInfo extends BaseComponent {
                             style={styles.inputItem}
                             underlineColorAndroid="transparent"
                             placeholder=''
-                            onChangeText={(text) =>this.setState({name:text})}
+                            onChangeText={(text) => this.setState({name: text})}
+                            value={this.state.invoice ? this.state.invoice.name : ''}
                         />
                     </View>
                     <View style={styles.lineStyle}/>
@@ -75,7 +81,8 @@ export default class AddBillInfo extends BaseComponent {
                             style={styles.inputItem}
                             underlineColorAndroid="transparent"
                             placeholder=''
-                            onChangeText={(text) =>this.setState({no:text})}
+                            onChangeText={(text) => this.setState({no: text})}
+                            value={this.state.invoice ? this.state.invoice.no : ''}
                         />
                     </View>
                     <View style={styles.lineStyle}/>
@@ -86,7 +93,8 @@ export default class AddBillInfo extends BaseComponent {
                             style={styles.inputItem}
                             underlineColorAndroid="transparent"
                             placeholder=''
-                            onChangeText={(text) =>this.setState({address:text})}
+                            onChangeText={(text) => this.setState({address: text})}
+                            value={this.state.invoice ? this.state.invoice.address : ''}
                         />
                     </View>
                     <View style={styles.lineStyle}/>
@@ -97,7 +105,8 @@ export default class AddBillInfo extends BaseComponent {
                             style={styles.inputItem}
                             underlineColorAndroid="transparent"
                             placeholder=''
-                            onChangeText={(text) =>this.setState({phone:text})}
+                            onChangeText={(text) => this.setState({phone: text})}
+                            value={this.state.invoice ? this.state.invoice.phone : ''}
                         />
                     </View>
                     <View style={styles.lineStyle}/>
@@ -108,7 +117,8 @@ export default class AddBillInfo extends BaseComponent {
                             style={styles.inputItem}
                             underlineColorAndroid="transparent"
                             placeholder=''
-                            onChangeText={(text) =>this.setState({bank:text})}
+                            onChangeText={(text) => this.setState({bank: text})}
+                            value={this.state.invoice ? this.state.invoice.bank : ''}
                         />
                     </View>
                     <View style={styles.lineStyle}/>
@@ -119,7 +129,8 @@ export default class AddBillInfo extends BaseComponent {
                             style={styles.inputItem}
                             underlineColorAndroid="transparent"
                             placeholder=''
-                            onChangeText={(text) =>this.setState({bankNo:text})}
+                            onChangeText={(text) => this.setState({bankNo: text})}
+                            value={this.state.invoice ? this.state.invoice.bankNo : ''}
                         />
                     </View>
                     <View style={styles.lineStyle}/>
@@ -132,11 +143,11 @@ export default class AddBillInfo extends BaseComponent {
                         borderRadius: 30,
                         backgroundColor: CommonStyle.themeColor,
                         justifyContent: 'center',
-                        alignItems: 'center'
-                    }} onPress={()=>{
+                        alignItems: 'center',
+                    }} onPress={() => {
                         this.addBillInfo()
                     }}>
-                        <Text style={{color: '#ffffff', fontSize: 14}}>添加</Text>
+                        <Text style={{color: '#ffffff', fontSize: 14}}>{this.state.invoice ? '修改' : '添加'}</Text>
                     </TouchableView>
                 </KeyboardAvoidingView>
             </ScrollView>
@@ -145,16 +156,16 @@ export default class AddBillInfo extends BaseComponent {
 
     addBillInfo(callback) {
         Keyboard.dismiss();
-        let {initId, name,no,address,phone,bank,bankNo} = this.state;
-        if (!name.length){
+        let {initId, name, no, address, phone, bank, bankNo} = this.state;
+        if (!name.length) {
             this.showLong('请输入发票抬头');
             return;
         }
-        if (!no.length){
+        if (!no.length) {
             this.showLong('请输入税号');
             return;
         }
-        let param = {type:initId,name:name,no:no,address:address,phone:phone,bank:bank,bankNo:bankNo};
+        let param = {type: initId, name: name, no: no, address: address, phone: phone, bank: bank, bankNo: bankNo};
 
         console.log(param)
         Request.post('api/user/addInvoice', param,

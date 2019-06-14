@@ -52,8 +52,8 @@ export default class UserCenter extends BaseComponent {
                 onPress: this.goPage.bind(this, "MyCollection")
             },
             {icon: "ios-pin", name: "我的访客", onPress: this.goPage.bind(this, "MyVisitor")},
-            {icon: "ios-pin", name: "我的小区", onPress: this.goPage.bind(this, "address")},
-            {icon: "ios-pin", name: "我的地址", onPress: this.goPage.bind(this, "MyAddress")},
+            {icon: "ios-pin", name: "我的小区", onPress: this.goPage.bind(this, "MyAddress")},
+            {icon: "ios-pin", name: "我的地址", onPress: this.goPage.bind(this, "MyShippingAddress")},
             {icon: "logo-usd", name: "缴费记录", onPress: this.goPage.bind(this, "address")},
             {icon: "ios-cart", name: "缴费记录", onPress: this.goPage.bind(this, "MaintainRecord")},
             {
@@ -214,7 +214,8 @@ export default class UserCenter extends BaseComponent {
                                 style={{height: 190}}>
                 </LinearGradient>
                 <TouchableView style={{position: 'absolute', top: 40, right: 0}} onPress={() => {
-                    this.navigate('AboutPage')
+                    // this.navigate('AboutPage')
+                    this.navigate('MySetting')
                 }}>
                     <View style={{
                         justifyContent: 'center',

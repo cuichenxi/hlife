@@ -34,7 +34,7 @@ import ReportMatter from "./pages/housekeeper/ReportMatter";
 import Steward from "./pages/steward/Steward";
 import Neighbour from "./pages/neighbour/Neighbour";
 import ShoppingCart from "./pages/shoppingCart/index";
-import MyAddress from "./pages/user/myaddress/MyAddress";
+import MyAddressWithTab from "./pages/user/myaddress/MyAddressWithTab";
 import AddHousingAddress from "./pages/user/myaddress/AddHousingAddress";
 import HousingAddressList from "./pages/user/myaddress/HousingAddressList";
 import ElementList from "./pages/user/myaddress/ElementList";
@@ -44,6 +44,10 @@ import MyVisitor from "./pages/user/myvisitor/MyVisitor";
 import MyCollection from "./pages/user/MyCollection";
 import AddBillInfo from "./pages/user/myinvoice/AddBillInfo";
 import MyInvoiceList from "./pages/user/myinvoice/MyInvoiceList";
+import MyAddress from "./pages/user/myaddress/MyAddress";
+import MyShippingAddress from "./pages/user/myaddress/MyShippingAddress";
+import AddShippingAddress from "./pages/user/myaddress/AddShippingAddress";
+import MySetting from "./pages/user/MySetting";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -142,8 +146,11 @@ const App = createStackNavigator(
         RedPacket: {screen: RedPacket},
         ReportMatter: {screen: ReportMatter},
         ShoppingCart:{screen:ShoppingCart},
+        MyAddressWithTab:{screen:MyAddressWithTab},
         MyAddress:{screen:MyAddress},
-        AddHousingAddress:{screen:AddHousingAddress},
+        MyShippingAddress:{screen:MyShippingAddress},
+        AddHousingAddress:{screen:AddHousingAddress},//新增小区地址
+        AddShippingAddress:{screen:AddShippingAddress},//新增收货地址
         HousingAddressList:{screen:HousingAddressList},
         ElementList:{screen:ElementList},//单元楼列表
         UnitList:{screen:UnitList},//单元-室
@@ -152,6 +159,7 @@ const App = createStackNavigator(
         MyCollection:{screen:MyCollection},//我的收藏
         AddBillInfo:{screen:AddBillInfo},//增加发票
         MyInvoiceList:{screen:MyInvoiceList},//我的发票
+        MySetting:{screen:MySetting},//我的设置
     },
     {
         // initialRouteName: 'Splash',

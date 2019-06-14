@@ -79,7 +79,7 @@ export default class AddHousingAddress extends BaseComponent {
                         </View>
                     </TouchableView>
 
-                    <View style={{height: 0.5, backgroundColor: CommonStyle.textGrayColor, width: width}}/>
+                    <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
                 </View>
                 <View style={{backgroundColor: '#ffffff'}}>
                     <Text style={{color: CommonStyle.textBlockColor, padding: 10}}>苑、栋、单元室</Text>
@@ -101,7 +101,7 @@ export default class AddHousingAddress extends BaseComponent {
                                            color="#bbb"/>
                         </View>
                     </TouchableView>
-                    <View style={{height: 0.5, backgroundColor: CommonStyle.textGrayColor, width: width}}/>
+                    <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
                 </View>
 
 
