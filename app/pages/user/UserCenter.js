@@ -39,6 +39,8 @@ export default class UserCenter extends BaseComponent {
             userPhone: '-',
             redCount: 0,
             integralCount: 0,
+            singInCount: 0,
+            signCount: 0,
             balance: 0,
             signVisible: false,
         }
@@ -132,8 +134,12 @@ export default class UserCenter extends BaseComponent {
             }).then(rep => {
             if (rep.code == 0) {
                 this.setState({
-                    signVisible: true
+                    signVisible: true,
+                    singInCount: rep.data.singInCount,
+                    signCount: rep.data.integralCount,
+                    integralCount: this.state.integralCount + rep.data.integralCount,
                 })
+                UserStore.save({integralCount: this.state.integralCount + 1})
             }
         }).catch(err => {
         }).done(() => {
@@ -145,7 +151,7 @@ export default class UserCenter extends BaseComponent {
     _renderSignView() {
         return (
             <ModalView
-                animationType="slide"
+                animationType="fade"
                 transparent={true}
                 visible={this.state.signVisible}
                 onRequestClose={() => {
@@ -184,7 +190,7 @@ export default class UserCenter extends BaseComponent {
                                     <Text style={{fontSize:14,
                                         color: '#666'}}>你已连续签到</Text>
                                     <Text style={{fontSize:16,
-                                        color: CommonStyle.themeColor}}>10</Text>
+                                        color: CommonStyle.themeColor}}>{this.state.singInCount}</Text>
                                     <Text style={{fontSize:14,
                                         color: '#666'}}>天</Text>
                                 </View>
@@ -192,7 +198,7 @@ export default class UserCenter extends BaseComponent {
                                     <Text style={{fontSize:14,
                                         color: '#666'}}>今天签到的积分:</Text>
                                     <Text style={{fontSize:16,
-                                        color: CommonStyle.themeColor}}>10分</Text>
+                                        color: CommonStyle.themeColor}}>{`${this.state.signCount}分`}</Text>
                                 </View>
                                 <View style={{alignItems: 'center',marginTop:25, justifyContent: 'center',width:120, height:42 ,borderRadius:22,backgroundColor:CommonStyle.themeColor}}>
                                     <Text style={{fontSize:16,

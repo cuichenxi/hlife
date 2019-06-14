@@ -99,7 +99,7 @@ export default class Login extends BaseComponent {
         }
         this.showLoading('登录中..');
         var param = {phone: this.state.mobile, password: this.state.password};
-        Request.post('/api/loginbyPhonepass', param,
+        Request.post('/api/user/login', param,
             {
                 mock: true,
                 mockId: 672823,
@@ -113,8 +113,10 @@ export default class Login extends BaseComponent {
             if (rep.code == 0&&rep.data) {
                 UserStore.save(rep.data);
                 NavigationUtil.reset(this.props.navigation, 'Home');
+            }else {
+                this.showShort(rep.message);
             }
-                // this.showShort(rep.bstatus.desc);
+
             }).catch(err => {
         }).done(() => {
             this.hideLoading();

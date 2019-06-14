@@ -34,7 +34,7 @@ const post = (url, params = {}, options = {}, cacheCallback) => {
     }
     console.log("url=" + url);
     var {token} = UserStore.get();
-    let cParam = {
+    let cparam = {
         deviceId: dInfo.getUniqueID(),
         versionCode: dInfo.getBuildNumber(),
         versionName: dInfo.getVersion(),
@@ -42,11 +42,11 @@ const post = (url, params = {}, options = {}, cacheCallback) => {
         platform: Platform.OS,
         token: token
     }
-    let paramJson = {cParam, ...params};
+    let paramJson = {cparam, ...params};
     let paramString = JSON.stringify(paramJson);
     console.log("request=" + paramString);
     let encodeParam = aes.Encrypt(paramString);
-    // console.log("request:encodeParam=" + encodeParam);
+    console.log("request:encodeParam=" + encodeParam);
     let isOk;
     let fetchOptions = {
         method: 'POST',
@@ -150,7 +150,7 @@ const uploadFile = (url, files = [], options = {}) => {
     let paramString = JSON.stringify(paramJson);
     console.log("request=" + paramString);
     let encodeParam = aes.Encrypt(paramString);
-    // console.log("request:encodeParam=" + encodeParam);
+    console.log("request:encodeParam=" + encodeParam);
     let isOk;
     let fetchOptions = {
         method: 'POST',
@@ -210,7 +210,7 @@ export function getHost() {
     const protocol = 'dev';
     let host = 'http://172.17.100.16:7780/mockjsdata/4';
     if (protocol === 'dev') {
-        host = 'http://47.96.183.3:8080/yjwy/customer/';
+        host = 'http://115.28.21.13:8089';
     } else if (protocol === 'beta') {
         host = 'https://api-stage.gaojihealth.cn';
     } else if (protocol === 'release') {

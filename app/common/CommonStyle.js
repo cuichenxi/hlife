@@ -119,6 +119,7 @@ export const CommonStyle = {
 
     /** 定位 **/
     absolute: 'absolute',
+    relative: 'relative',
 
     /** flex **/
     around: 'space-around',
