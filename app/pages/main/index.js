@@ -23,7 +23,7 @@ export default class Main extends BaseComponent {
     navigationBarProps() {
         return {
             hiddenLeftItem: true,
-            refreshing: false,
+
             title: '首页',
         }
     }
@@ -31,6 +31,7 @@ export default class Main extends BaseComponent {
     constructor(props) {
         super(props);
         this.state = {
+            refreshing: false,
             banners: [
                 {
                     title: '百度',
@@ -230,7 +231,7 @@ export default class Main extends BaseComponent {
                         </TouchableView>
                     </View>
                     </TouchableView>
-                    <TouchableView style={{ alignItems: 'center',justifyContent:'center'}} onPress={() => {
+                    <TouchableView style={{ alignItems: 'center',justifyContent:'center', height: 50}} onPress={() => {
                         this.showShort("消息")
                     }}>
                         <Badge text={this.state.unreadMessageCount} overflowCount={99} small >
@@ -270,7 +271,7 @@ export default class Main extends BaseComponent {
                     paddingBottom: 20,
                     paddingTop: 20,
                     borderRadius: 10, backgroundColor: '#fff',
-                    borderColor: CommonStyle.lightGray,
+                    borderColor: '#fff',
                     borderWidth: 1,
                     marginLeft: 10,
                     marginRight: 10
@@ -303,7 +304,7 @@ export default class Main extends BaseComponent {
                     autoplay={true} showsPagination={true}>
                 {this.state.recommendList.map((banner, i) => {
                     return (
-                        <TouchableHighlight style={{
+                        <TouchableView style={{
                             paddingRight: 10,
                             paddingLeft: 10,
                         }} key={i} onPress={() => {
@@ -312,9 +313,8 @@ export default class Main extends BaseComponent {
                             <Image style={{
                                 borderRadius: 40,
                                 height: 80,
-                                resizeMode: Image.resizeMode.stretch,
                             }} source={{uri: banner.imagePath}}></Image>
-                        </TouchableHighlight>
+                        </TouchableView>
                     );
                 })}
             </Swiper>

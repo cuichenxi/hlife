@@ -1,17 +1,24 @@
 import React from 'react';
-import {Image, FlatList, ScrollView, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {Image, FlatList, ScrollView, StyleSheet, Text, View, TouchableOpacity, RefreshControl} from 'react-native';
 import {BaseComponent} from "../../components/base/BaseComponent";
 import GridView from "../../components/GridView";
 import TouchableView from "../../components/TouchableView";
 import QIcon from "../../components/icon";
 import {CommonStyle} from "../../common/CommonStyle";
 import Icon from "react-native-vector-icons/Ionicons";
+import Request from "../../utils/Request";
 
-const iconUrl = require('../../img/about_logo.png');
 export default class Housekeeper extends BaseComponent {
+    navigationBarProps() {
+        return {
+            hiddenLeftItem: true,
+            title: '管家',
+        }
+    }
     constructor(props) {
         super(props);
         this.state = {
+            refreshing: false,
             types: [
                 {
                     name: '物业缴费',
@@ -47,11 +54,6 @@ export default class Housekeeper extends BaseComponent {
                     active: 'Login'
                 }
             ],
-            // dataSource: new ListView.DataSource({
-            //     rowHasChanged: (row1, row2) => row1 !== row2
-            // }),
-            typeIds: [],
-            typeList: {},
             activities: [
                 {
                     imageUrl: require('../../img/about_logo.png'),
@@ -74,82 +76,74 @@ export default class Housekeeper extends BaseComponent {
             ]
         };
     }
+    onReady(){
+        this.requestData();
+    }
+    requestData() {
+        Request.post('/api/steward/basci', {},
+            {
+                mock: true,
+                mockId: 1095640,
+            }).then(rep => {
+            if (rep.code == 0 && rep.data) {
+                // this.setData(rep.data)
+            }
+        }).catch(err => {
 
-    navigationBarProps() {
-        return {
-            hiddenLeftItem: true,
-            title: '管家',
-        }
+        }).done(() => {
+            this.setState({refreshing: false});
+        })
     }
 
-    onNext = () => {
-        this.navigate('Login', {isFirst: true});
-    };
+    /**
+     * "imageUrl": "",
+     "title": "",
+     "date": "",
+     "personCount": "",
+     "des": ""
+     * @param data
+     */
+    setData(data) {
+        let _activityList = [];
+        if (data.activityList) {
+            data.activityList.forEach(item => {
+                _activityList.push({
+                    title: item.name,
+                    url: item.actionUrl,
+                    imagePath: item.imageUrl
+                })
+            })
+        }
+        this.setState({
+            activities: _activityList,
+        });
+    }
 
     canExitApp() {
         return true;
+    }
+    _jumpRouter(typeItem) {
+        this.push(typeItem.active, {title: typeItem.name});
     }
 
     _render() {
         let activities = this.state.activities;
         return (
-            <ScrollView style={styles.container}>
+            <ScrollView style={styles.container} refreshControl={
+                <RefreshControl
+                    refreshing={this.state.refreshing}
+                    onRefresh={this._onRefresh}
+                />}>
                 <View>
-
-
                     {this._renderGridView()}
                     {this._rendCardView()}
-                    <View style={styles.titleLine}>
-                        <Icon name="ios-arrow-forward-outline" size={16} color='#999'/>
-                        <TouchableOpacity onPress={()=>{this.goReportMatter()}}>
-                            <Text style={{fontSize: 14, color: CommonStyle.color_333}}>物业服务</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={{
-                        flex: 1,
-                        backgroundColor: CommonStyle.lineColor,
-                        height: .5
-                    }}/>
-                    <View style={{
-                        backgroundColor: '#fff',
-                        flex: 1,
-                        flexDirection: 'row',
-                        height: 60,
-                        paddingHorizontal: 16,
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-
-                    }}>
-                        <View style={styles.orderItem}>
-                            <QIcon style={styles.orderItemIcon} name={'icon-home'} size={22}
-                                   color={CommonStyle.color_666}></QIcon>
-                            <Text style={styles.orderItemText}>送水服务</Text>
-                        </View>
-                        <View style={styles.orderItem}>
-                            <QIcon style={styles.orderItemIcon} name={'icon-home'} size={22}
-                                   color={CommonStyle.color_666}></QIcon>
-                            <Text style={styles.orderItemText}>家政服务</Text>
-                        </View>
-                        <View style={styles.orderItem}>
-                            <QIcon style={styles.orderItemIcon} name={'icon-home'} size={22}
-                                   color={CommonStyle.color_666}></QIcon>
-                            <Text style={styles.orderItemText}>访客通行</Text>
-                        </View>
-                        <View style={styles.orderItem}>
-                            <QIcon style={styles.orderItemIcon} name={'icon-home'} size={22}
-                                   color={CommonStyle.color_666}></QIcon>
-                            <Text style={styles.orderItemText}>咨询建议</Text>
-                        </View>
-                    </View>
-                    <View style={[styles.titleLine, {marginTop: 0}]}>
+                    <View style={[styles.titleLine, {marginTop: 20}]}>
                         <Icon name="ios-arrow-forward-outline" size={16} color='#999'/>
                         <Text style={{fontSize: 14, color: CommonStyle.color_333}}>小区活动</Text>
                     </View>
-
-                    <View>
+                    <View >
                         {this._renderBottomItem(activities)}
                     </View>
-
                 </View>
             </ScrollView>
         );
@@ -159,15 +153,16 @@ export default class Housekeeper extends BaseComponent {
         return (
             <GridView
                 style={{
-                    flex: 1, paddingBottom: 10,
-                    paddingTop: 10,
+                    flex: 1,
+                    paddingBottom: 20,
+                    marginTop: 10,
                     backgroundColor: '#fff'
                 }}
                 items={this.state.types}
                 num={4}
                 renderItem={this._renderGridItem.bind(this)}
             />
-        )
+        );
     }
 
     _renderGridItem(item, index) {
@@ -176,8 +171,8 @@ export default class Housekeeper extends BaseComponent {
                 this._jumpRouter(item)
             }}>
                 <View style={[{flex: 1}, styles.typesItem]}>
-                    <Image source={item.imageUrl} style={{width: 35, height: 35, marginTop: 6}}/>
-                    <Text style={{fontSize: 12, color: "#666", marginTop: 6}}>{item.name}</Text>
+                    <Image source={item.imageUrl} style={{width: 35, height: 35, marginTop: 20}}/>
+                    <Text style={{fontSize: 14, color: "#333", marginTop: 10}}>{item.name}</Text>
                 </View>
             </TouchableView>
         )
@@ -185,15 +180,25 @@ export default class Housekeeper extends BaseComponent {
 
     _rendCardView() {
         return (
-            <View style={{flexDirection: 'row', flex: 1, marginRight: 5, marginLeft: 5}}>
-                <View style={styles.card}>
-                    <Text>查一查</Text>
-                    <Text>物业知识共分享</Text>
+            <View style={{flexDirection: 'row', flex: 1, marginTop: 20}}>
+                <TouchableView style={{flex: 1}}onPress={()=>{
+                    this.showShort("查一查")
+                }}>
+                <View style={{paddingLeft:20,borderRadius:3,backgroundColor:'#fff',borderColor:'#eee',height:80,marginHorizontal: 10 , flex: 1 ,justifyContent:'center'}}>
+                    <Text style={{color:'#333',fontWeight: 'bold',fontSize:16}}>查一查</Text>
+                    <Text  style={{color: '#999',fontSize:14 ,marginTop:10}}>物业知识共分享</Text>
+                    <Image source={require('../../img/about_logo.png')} style={{position:'absolute',width: 35, height: 35,right:0, bottom: 0}}/>
                 </View>
-                <View style={[styles.card, {marginLeft: 15}]}>
-                    <Text>电话物业</Text>
-                    <Text>24小时在线</Text>
+                </TouchableView>
+                <TouchableView style={{flex: 1}}onPress={()=>{
+                    this.showShort("电话物业")
+                }}>
+                <View style={{paddingLeft:20,borderRadius:3,backgroundColor:'#fff',borderColor:'#eee',height:80,marginHorizontal: 10 , flex: 1 ,justifyContent:'center'}}>
+                    <Text style={{color:'#333',fontWeight: 'bold',fontSize:16}}>电话物业</Text>
+                    <Text  style={{color: '#999',fontSize:14 ,marginTop:10}}>24小时在线</Text>
+                    <Image source={require('../../img/about_logo.png')} style={{position:'absolute',width: 35, height: 35,right:0, bottom: 0}}/>
                 </View>
+                </TouchableView>
             </View>
 
         )
@@ -222,11 +227,12 @@ export default class Housekeeper extends BaseComponent {
                         marginBottom: 8,
                         textAlign: 'left', color: '#666666'
                     }}>{item.activityName}</Text>
-                    <View style={{flexDirection:'row'}}>
+                    <View style={{flexDirection: 'row'}}>
                         <Image source={item.imageUrl}
                                style={{
                                    width: 20,
-                                   height: 20,}}/>
+                                   height: 20,
+                               }}/>
                     </View>
                 </View>
                 <View>
@@ -235,12 +241,12 @@ export default class Housekeeper extends BaseComponent {
                 </View>
             </TouchableOpacity>)
         })
-    }
+    };
 
     goReportMatter() {
         this.navigate('MyAddress')
     }
-}
+};
 
 const styles = StyleSheet.create({
     container: {
