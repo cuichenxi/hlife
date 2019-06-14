@@ -101,14 +101,8 @@ export default class Login extends BaseComponent {
         var param = {phone: this.state.mobile, password: this.state.password};
         Request.post('/api/user/login', param,
             {
-                mock: true,
+                mock: false,
                 mockId: 672823,
-                cache: 1,
-            },(cacheRep)=>{
-                if (cacheRep) {
-                    UserStore.save(cacheRep.data);
-                    // NavigationUtil.reset(this.props.navigation, 'Home');
-                }
             }).then(rep => {
             if (rep.code == 0&&rep.data) {
                 UserStore.save(rep.data);
