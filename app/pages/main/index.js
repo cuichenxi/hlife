@@ -14,6 +14,7 @@ import BarcodePage from "../witget/BarcodePage";
 import UserStore from "../../store/UserStore";
 import NavigationUtil from "../../utils/NavigationUtil";
 import Request from "../../utils/Request";
+import {Badge} from "antd-mobile-rn";
 // import ImageUtil from "../../utils/ImageUtil";
 
 const {width, height} = Dimensions.get('window')
@@ -72,7 +73,10 @@ export default class Main extends BaseComponent {
             }),
             typeIds: [],
             typeList: {},
-            goodsRecommend: []
+            goodsRecommend: [],
+            isAuth: false,
+            searchHint:'请搜索',
+            unreadMessageCount: 0
         };
     }
 
@@ -148,6 +152,9 @@ export default class Main extends BaseComponent {
         this.setState({
             banners: _banners,
             recommendList: _recommendList,
+            isAuth: data.isAuth == 1,
+            searchHint: data.searchHint,
+            unreadMessageCount: data.unreadMessageCount
         });
     }
 
@@ -191,28 +198,45 @@ export default class Main extends BaseComponent {
                     flex: 1, flexDirection: 'row', height: CommonStyle.navContentHeight,
                     marginTop: CommonStyle.navStatusBarHeight, alignItems: 'center'
                 }}>
-                    <TouchableView style={{width: 50, alignItems: 'center'}} onPress={() => {
-                        this.onScanClick()
+                    <TouchableView style={{width: 60, alignItems: 'center',justifyContent:'center'}} onPress={() => {
+                        this.showShort("请认证")
                     }}>
-                        <QIcon style={{textAlign: 'center', width: 40, width: 40}} name={'icon-home'} size={22}
-                               color={CommonStyle.color_666}></QIcon>
+                        <Text style={{textAlign: 'center',color:'#fff', fontSize: 14}} >{this.state.isAuth?'请认证':'已认证'}</Text>
                     </TouchableView>
+                    <TouchableView style={{
+                        flex: 1,
+                        height: 30,
+                    }} onPress={() => {
+                        this.showShort("搜索")
+                    }}>
                     <View style={{
                         flex: 1,
                         alignItems: 'center',
                         height: 30,
                         flexDirection: 'row',
-                        backgroundColor: '#fff',
-                        borderRadius: 10
+                        backgroundColor: 'rgba(255,255,255,.5)',
+                        borderRadius: 15
                     }}>
                         <QIcon style={{textAlign: 'center', width: 20, width: 20, marginLeft: 8}} name={'icon-home'}
-                               size={14}
+                               size={12}
                                color={CommonStyle.color_666}></QIcon>
-                        <Text style={{color: CommonStyle.color_666, fontSize: 14, marginLeft: 2}}>五一家装节</Text>
+                        <Text style={{color: "#fff", fontSize: 14,flex:1, marginLeft: 5}}>{this.state.searchHint}</Text>
+                        <TouchableView style={{width: 60, alignItems: 'center',justifyContent:'center'}} onPress={() => {
+                            this.onScanClick()
+                        }}>
+                            <QIcon style={{textAlign: 'center',  marginLeft: 8}} name={'icon-home'}
+                                   size={16}
+                                   color="#333"></QIcon>
+                        </TouchableView>
                     </View>
-                    <TouchableView style={{width: 50, alignItems: 'center'}}>
-                        <QIcon style={{textAlign: 'center', width: 40, width: 40}} name={'icon-home'} size={22}
-                               color={CommonStyle.color_666}></QIcon>
+                    </TouchableView>
+                    <TouchableView style={{ alignItems: 'center',justifyContent:'center'}} onPress={() => {
+                        this.showShort("消息")
+                    }}>
+                        <Badge text={this.state.unreadMessageCount} overflowCount={99} small >
+                            <QIcon style={{textAlign: 'center',paddingLeft:15,paddingRight:15}} name={'icon-home'} size={16}
+                                   color="#333"></QIcon>
+                        </Badge>
                     </TouchableView>
                 </View>
             </View>
