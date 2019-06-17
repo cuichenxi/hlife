@@ -145,7 +145,7 @@ export default class Login extends BaseComponent {
         var param = {phone: this.state.mobile, password: this.state.password};
         Request.post('/api/user/login', param,
             {
-                mock: false,
+                mock: true,
                 mockId: 672823,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {

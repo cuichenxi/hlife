@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, FlatList, ScrollView, StyleSheet, Text, View, TouchableOpacity, RefreshControl} from 'react-native';
+import {Image, FlatList, Linking,ScrollView, StyleSheet, Text, View, TouchableOpacity, RefreshControl} from 'react-native';
 import {BaseComponent} from "../../components/base/BaseComponent";
 import GridView from "../../components/GridView";
 import TouchableView from "../../components/TouchableView";
@@ -27,7 +27,7 @@ export default class Housekeeper extends BaseComponent {
                 }, {
                     name: '生活缴费',
                     imageUrl: require('../../img/about_logo.png'),
-                    active: 'ContactList'
+                    active: 'lifePay'
                 }, {
                     name: '报修报事',
                     imageUrl: require('../../img/about_logo.png'),
@@ -123,7 +123,8 @@ export default class Housekeeper extends BaseComponent {
         return true;
     }
     _jumpRouter(typeItem) {
-        this.push(typeItem.active, {title: typeItem.name});
+        Linking.openURL("alipays://platformapi/startapp?appId=20000193");
+            // this.push(typeItem.active, {title: typeItem.name});
     }
 
     _render() {

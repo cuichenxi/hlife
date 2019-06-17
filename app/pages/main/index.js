@@ -17,7 +17,6 @@ import Request from "../../utils/Request";
 import {Badge} from "antd-mobile-rn";
 // import ImageUtil from "../../utils/ImageUtil";
 
-const {width, height} = Dimensions.get('window')
 
 export default class Main extends BaseComponent {
     navigationBarProps() {
