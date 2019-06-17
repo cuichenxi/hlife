@@ -60,10 +60,12 @@ export default class Login extends BaseComponent {
                     <Image source={require('../../img/passicon.png')}
                            style={{marginTop: 7, width: 20, height: 20, resizeMode: 'contain'}}/>
                     <TextInput
-                        ref="login_psw"
+                        ref="login_auth"
                         style={styles.loginInput}
                         underlineColorAndroid="transparent"
-                        placeholder='请输入验证码'/>
+                        placeholder='请输入验证码'
+                        onChangeText={this.onChangeAuth.bind(this)}
+                    />
                     <View style={{
                         height: 30, justifyContent: 'center', marginRight: 10
                     }}>
@@ -199,6 +201,10 @@ export default class Login extends BaseComponent {
     onChangePassword(text) {
         this.state.password = text;
         // this.setState({'password': text});
+    }
+
+    onChangeAuth(text){
+        this.state.authCode = text;
     }
 }
 
