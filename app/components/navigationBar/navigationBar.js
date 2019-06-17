@@ -151,8 +151,8 @@ const styles = StyleSheet.create({
     navBarStyle: {
         height: CommonStyle.navHeight,
         backgroundColor: CommonStyle.navThemeColor,
-        borderBottomWidth: 0.5,
-        borderBottomColor: CommonStyle.lineColor,
+        // borderBottomWidth: 0.5,
+        // borderBottomColor: CommonStyle.lineColor,
     },
     navContentStyle: {
         flexDirection: 'row',

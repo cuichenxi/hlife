@@ -6,3 +6,5 @@ https://github.com/jpush/jpush-react-native
 app store
 ch.colorful@gmail.com 
 Chenghui1989
+
+https://lanhuapp.com/url/xpcJ3-4pdqg
