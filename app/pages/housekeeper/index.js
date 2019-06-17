@@ -22,53 +22,53 @@ export default class Housekeeper extends BaseComponent {
             types: [
                 {
                     name: '物业缴费',
-                    imageUrl: require('../../img/about_logo.png'),
+                    imageUrl: require('../../img/menu_wyjf.png'),
                     active: 'Register'
                 }, {
-                    name: '生活缴费',
-                    imageUrl: require('../../img/about_logo.png'),
+                    name: '水电缴费',
+                    imageUrl: require('../../img/menu_sdjf.png'),
                     active: 'lifePay'
                 }, {
                     name: '报修报事',
-                    imageUrl: require('../../img/about_logo.png'),
+                    imageUrl: require('../../img/menu_bxbs.png'),
                     active: 'Login'
                 }, {
-                    name: '智能家居',
-                    imageUrl: require('../../img/about_logo.png'),
+                    name: '咨询建议',
+                    imageUrl: require('../../img/menu_zxjy.png'),
                     active: 'ContactList'
                 }, {
-                    name: '手机充值',
-                    imageUrl: require('../../img/about_logo.png'),
+                    name: '电子钥匙',
+                    imageUrl: require('../../img/menu_dzcx.png'),
                     active: 'Login'
                 }, {
                     name: '常用电话',
-                    imageUrl: require('../../img/about_logo.png'),
+                    imageUrl: require('../../img/menu_xydh.png'),
                     active: 'Login'
                 }, {
-                    name: '租房租售',
-                    imageUrl: require('../../img/about_logo.png'),
+                    name: '房屋租售',
+                    imageUrl: require('../../img/menu_fwzs.png'),
                     active: 'Login'
                 }, {
-                    name: '社区通告',
-                    imageUrl: require('../../img/about_logo.png'),
+                    name: '投诉表扬',
+                    imageUrl: require('../../img/menu_tsby.png'),
                     active: 'Login'
                 }
             ],
             activities: [
                 {
-                    imageUrl: require('../../img/about_logo.png'),
+                    imageUrl: require('../../img/menu_dzcx.png'),
                     activityName: '端午节龙舟赛',
                     date: '06月07日举办',
                     joinPeople: 12
                 },
                 {
-                    imageUrl: require('../../img/about_logo.png'),
+                    imageUrl: require('../../img/menu_dzcx.png'),
                     activityName: '社区文化艺术节',
                     date: '06月08日举办',
                     joinPeople: 19
                 },
                 {
-                    imageUrl: require('../../img/about_logo.png'),
+                    imageUrl: require('../../img/menu_dzcx.png'),
                     activityName: '三月八日女神节',
                     date: '03月08日举办',
                     joinPeople: 100
@@ -172,7 +172,7 @@ export default class Housekeeper extends BaseComponent {
                 this._jumpRouter(item)
             }}>
                 <View style={[{flex: 1}, styles.typesItem]}>
-                    <Image source={item.imageUrl} style={{width: 35, height: 35, marginTop: 20}}/>
+                    <Image source={item.imageUrl} style={{width: 30, height: 30, marginTop: 20, resizeMode:'center'}}/>
                     <Text style={{fontSize: 14, color: "#333", marginTop: 10}}>{item.name}</Text>
                 </View>
             </TouchableView>
@@ -185,19 +185,19 @@ export default class Housekeeper extends BaseComponent {
                 <TouchableView style={{flex: 1}}onPress={()=>{
                     this.showShort("查一查")
                 }}>
-                <View style={{paddingLeft:20,borderRadius:3,backgroundColor:'#fff',borderColor:'#eee',height:80,marginHorizontal: 10 , flex: 1 ,justifyContent:'center'}}>
+                <View style={{borderRadius:3,backgroundColor:'#fff',borderColor:'#eee',height:80,marginHorizontal: 10 , flex: 1 ,justifyContent:'center'}}>
+                    <Image source={require('../../img/bg_cyc.png')} style={{position:'absolute',top:0,left:0,right:0, bottom: 0}}/>
                     <Text style={{color:'#333',fontWeight: 'bold',fontSize:16}}>查一查</Text>
                     <Text  style={{color: '#999',fontSize:14 ,marginTop:10}}>物业知识共分享</Text>
-                    <Image source={require('../../img/about_logo.png')} style={{position:'absolute',width: 35, height: 35,right:0, bottom: 0}}/>
                 </View>
                 </TouchableView>
                 <TouchableView style={{flex: 1}}onPress={()=>{
                     this.showShort("电话物业")
                 }}>
-                <View style={{paddingLeft:20,borderRadius:3,backgroundColor:'#fff',borderColor:'#eee',height:80,marginHorizontal: 10 , flex: 1 ,justifyContent:'center'}}>
+                <View style={{borderRadius:3,backgroundColor:'#fff',borderColor:'#eee',height:80,marginHorizontal: 10 , flex: 1 ,justifyContent:'center'}}>
+                    <Image source={require('../../img/bg_dhwy.png')} style={{position:'absolute',top:0,left:0,right:0, bottom: 0}}/>
                     <Text style={{color:'#333',fontWeight: 'bold',fontSize:16}}>电话物业</Text>
                     <Text  style={{color: '#999',fontSize:14 ,marginTop:10}}>24小时在线</Text>
-                    <Image source={require('../../img/about_logo.png')} style={{position:'absolute',width: 35, height: 35,right:0, bottom: 0}}/>
                 </View>
                 </TouchableView>
             </View>

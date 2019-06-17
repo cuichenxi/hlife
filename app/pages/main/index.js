@@ -48,23 +48,23 @@ export default class Main extends BaseComponent {
             types: [
                 {
                     name: '报修报事',
-                    imageUrl: require('../../img/about_logo.png'),
+                    imageUrl: require('../../img/menu_bxbs.png'),
                     active: 'Register'
                 }, {
                     name: '电子钥匙',
-                    imageUrl: require('../../img/about_logo.png'),
+                    imageUrl: require('../../img/menu_dzcx.png'),
                     active: 'ContactList'
                 }, {
                     name: '物业缴费',
-                    imageUrl: require('../../img/about_logo.png'),
+                    imageUrl: require('../../img/menu_wyjf.png'),
                     active: 'Login'
                 }, {
                     name: '违章查询',
-                    imageUrl: require('../../img/about_logo.png'),
+                    imageUrl: require('../../img/menu_wzcx.png'),
                     active: 'ContactList'
                 }, {
                     name: '快递查询',
-                    imageUrl: require('../../img/about_logo.png'),
+                    imageUrl: require('../../img/menu_kdcx.png'),
                     active: 'Login'
                 }
             ],
@@ -288,7 +288,7 @@ export default class Main extends BaseComponent {
                 this._jumpRouter(item)
             }}>
                 <View style={[{flex: 1}, styles.typesItem]}>
-                    <Image source={item.imageUrl} style={{width: 35, height: 35, marginTop: 6}}/>
+                    <Image source={item.imageUrl} style={{width: 30, height: 30,  resizeMode:'center',marginTop: 6}}/>
                     <Text style={{fontSize: 12, color: "#333", marginTop: 10}}>{item.name}</Text>
                 </View>
             </TouchableView>

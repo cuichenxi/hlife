@@ -28,36 +28,36 @@ export default class Shopping extends BaseComponent {
         this.state = {
             types: [
                 {
-                    name: '送水上面',
-                    imageUrl: require('../../img/about_logo.png'),
+                    name: '送水上门',
+                    imageUrl: require('../../img/menu_sssm.png'),
                     active: 'Register'
                 }, {
                     name: '园区超市',
-                    imageUrl: require('../../img/about_logo.png'),
+                    imageUrl: require('../../img/menu_yqcs.png'),
                     active: 'ContactList'
                 }, {
                     name: '家政服务',
-                    imageUrl: require('../../img/about_logo.png'),
+                    imageUrl: require('../../img/menu_jzfw.png'),
                     active: 'Login'
                 }, {
                     name: '快递查询',
-                    imageUrl: require('../../img/about_logo.png'),
+                    imageUrl: require('../../img/menu_kdcx.png'),
                     active: 'ContactList'
                 }, {
                     name: '违章查询',
-                    imageUrl: require('../../img/about_logo.png'),
+                    imageUrl: require('../../img/menu_wzcx.png'),
                     active: 'Login'
                 }, {
                     name: '手机充值',
-                    imageUrl: require('../../img/about_logo.png'),
+                    imageUrl: require('../../img/menu_sjcx.png'),
                     active: 'Register'
                 }, {
                     name: '日用百货',
-                    imageUrl: require('../../img/about_logo.png'),
+                    imageUrl: require('../../img/menu_rcbh.png'),
                     active: 'ContactList'
                 }, {
-                    name: '健康商城',
-                    imageUrl: require('../../img/about_logo.png'),
+                    name: '健康养生',
+                    imageUrl: require('../../img/menu_jkys.png'),
                     active: 'Login'
                 }
             ],
@@ -189,7 +189,7 @@ export default class Shopping extends BaseComponent {
                 this._jumpRouter(item)
             }}>
                 <View style={[{flex: 1}, styles.typesItem]}>
-                    <Image source={item.imageUrl} style={{width: 35, height: 35, marginTop: 20}}/>
+                    <Image source={item.imageUrl} style={{width: 30, height: 30, marginTop: 20, resizeMode:'center'}}/>
                     <Text style={{fontSize: 14, color: "#333", marginTop: 10}}>{item.name}</Text>
                 </View>
             </TouchableView>

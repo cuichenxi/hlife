@@ -177,7 +177,22 @@ export default class UserCenter extends BaseComponent {
                                 width: 300,
                                 height: 360,
                                 borderRadius: 15,
-                            }} source={require("../../img/splash.png")}/>
+                            }} source={require("../../img/bg_qd.png")}/>
+                            <View  style={{
+                                position: 'absolute',
+                                top: 50,
+                                alignItems: 'center',
+                                width: 300,
+                                height: 200,
+                                justifyContent: 'flex-start',
+                            }}>
+                                <Image style={{
+                                    width: 60,
+                                    height: 60,
+                                }} source={require("../../img/icon_qd.png")}/>
+                                <Text style={{fontSize:24,marginTop:20,
+                                    color: '#fff'}}>签到成功</Text>
+                            </View>
                             <View  style={{
                                 position: 'absolute',
                                 bottom: 30,
