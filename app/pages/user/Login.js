@@ -13,6 +13,7 @@ import UserStore from "../../store/UserStore";
 import {BaseComponent} from '../../components/base/BaseComponent'
 import NavigationUtil from "../../utils/NavigationUtil";
 import {CommonStyle} from "../../common/CommonStyle";
+import CountDownButton from "../../components/CountDownButton";
 
 export default class Login extends BaseComponent {
     navigationBarProps() {
@@ -28,6 +29,8 @@ export default class Login extends BaseComponent {
         this.state = {
             mobile: '',
             password: '',
+            authCode: '',
+            authState: '显示请求的状态',
         };
     }
 
@@ -37,17 +40,47 @@ export default class Login extends BaseComponent {
 
 
     _render() {
+        const {mobile} = this.state
         return (
             <View style={styles.container}>
+                <Image source={require('../../img/about_logo.png')} style={{width: '100%',}} resizeMode='cover'/>
                 <View style={[styles.formInput, styles.formInputSplit]}>
                     <Image source={require('../../img/user.png')}
                            style={{marginTop: 7, width: 20, height: 20, resizeMode: 'contain'}}/>
                     <TextInput
                         ref="login_name"
-                        placeholder='请输入手机号'
+                        placeholder='请输入您的手机号码'
                         style={styles.loginInput}
+                        keyboardType='numeric'
+                        maxLength={11}
                         underlineColorAndroid="transparent"
                         onChangeText={this.onChangeMobile.bind(this)}/>
+                </View>
+                <View style={[styles.formInput, styles.formInputSplit]}>
+                    <Image source={require('../../img/passicon.png')}
+                           style={{marginTop: 7, width: 20, height: 20, resizeMode: 'contain'}}/>
+                    <TextInput
+                        ref="login_psw"
+                        style={styles.loginInput}
+                        underlineColorAndroid="transparent"
+                        placeholder='请输入验证码'/>
+                    <View style={{
+                        height: 30, justifyContent: 'center', marginRight: 10
+                    }}>
+                        <CountDownButton
+                            textStyle={{color: CommonStyle.themeColor}}
+                            disableColor={CommonStyle.gray}
+                            timerTitle={'获取验证码'}
+                            enable={mobile.length > 10}
+                            onClick={(shouldStartCounting) => {
+                                this._requestAuthCode(shouldStartCounting)
+                            }}
+                            timerEnd={() => {
+                                this.setState({
+                                    authState: '倒计时结束'
+                                })
+                            }}/>
+                    </View>
                 </View>
                 <View style={[styles.formInput, styles.formInputSplit]}>
                     <Image source={require('../../img/passicon.png')}
@@ -60,7 +93,16 @@ export default class Login extends BaseComponent {
                         placeholder='请输入密码'
                         onChangeText={this.onChangePassword.bind(this)}/>
                 </View>
-                <TouchableOpacity style={styles.loginBtn} onPress={this._login.bind(this)}>
+                <TouchableOpacity style={{
+                    height: 40,
+                    marginLeft: 30,
+                    marginRight: 30,
+                    marginTop: 20,
+                    borderRadius: 30,
+                    backgroundColor: CommonStyle.themeColor,
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }} onPress={this._login.bind(this)}>
                     <Text style={styles.loginText}>登录</Text>
                 </TouchableOpacity>
                 <View style={styles.registerWrap}>
@@ -104,14 +146,46 @@ export default class Login extends BaseComponent {
                 mock: false,
                 mockId: 672823,
             }).then(rep => {
-            if (rep.code == 0&&rep.data) {
+            if (rep.code == 0 && rep.data) {
                 UserStore.save(rep.data);
                 NavigationUtil.reset(this.props.navigation, 'Home');
-            }else {
+            } else {
                 this.showShort(rep.message);
             }
 
-            }).catch(err => {
+        }).catch(err => {
+        }).done(() => {
+            this.hideLoading();
+        })
+    }
+
+    _requestAuthCode(shouldStartCounting) {
+        console.log('============')
+        this.setState({
+            authState: '正在请求验证码'
+        })
+        var param = {phone: this.state.mobile};
+
+        Request.post('/api/user/getAuthCode', param,
+            {
+                mock: false,
+                mockId: 1089766,
+            }).then(rep => {
+            let requestSucc = true
+            if (rep.code == 0) {
+                this.setState({
+                    authState: `验证码获取成功`
+                })
+            } else {
+                this.setState({
+                    authState: rep.message
+                })
+                requestSucc = false
+            }
+            shouldStartCounting && shouldStartCounting(requestSucc)
+            this.showShort(rep.message);
+
+        }).catch(err => {
         }).done(() => {
             this.hideLoading();
         })
@@ -131,6 +205,7 @@ export default class Login extends BaseComponent {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: '#fff'
     },
 
     headerWrap: {
