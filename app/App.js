@@ -48,6 +48,9 @@ import MyAddress from "./pages/user/myaddress/MyAddress";
 import MyShippingAddress from "./pages/user/myaddress/MyShippingAddress";
 import AddShippingAddress from "./pages/user/myaddress/AddShippingAddress";
 import MySetting from "./pages/user/MySetting";
+import AuthPage from "./pages/user/AuthPage";
+import MessageList from "./pages/main/MessageList";
+import ProductDetail from "./pages/main/ProductDetail";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -160,6 +163,9 @@ const App = createStackNavigator(
         AddBillInfo:{screen:AddBillInfo},//增加发票
         MyInvoiceList:{screen:MyInvoiceList},//我的发票
         MySetting:{screen:MySetting},//我的设置
+        AuthPage:{screen:AuthPage},//认证
+        MessageList:{screen:MessageList},//消息列表
+        ProductDetail:{screen:ProductDetail},//商品详情
     },
     {
         // initialRouteName: 'Splash',

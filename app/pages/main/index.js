@@ -200,6 +200,8 @@ export default class Main extends BaseComponent {
                 }}>
                     <TouchableView style={{width: 60, alignItems: 'center',justifyContent:'center'}} onPress={() => {
                         this.showShort("请认证")
+                        // this.navigate('AuthPage')
+                        this.navigate('ProductDetail')
                     }}>
                         <Text style={{textAlign: 'center',color:'#fff', fontSize: 14}} >{this.state.isAuth?'请认证':'已认证'}</Text>
                     </TouchableView>
@@ -232,6 +234,7 @@ export default class Main extends BaseComponent {
                     </TouchableView>
                     <TouchableView style={{ alignItems: 'center',justifyContent:'center', height: 50}} onPress={() => {
                         this.showShort("消息")
+                        this.navigate("MessageList")
                     }}>
                         <Badge text={this.state.unreadMessageCount} overflowCount={99} small >
                             <QIcon style={{textAlign: 'center',paddingLeft:15,paddingRight:15}} name={'icon-home'} size={16}

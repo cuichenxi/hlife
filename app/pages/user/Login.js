@@ -1,12 +1,14 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {
+    Dimensions,
+    Image,
+    ImageBackground,
+    Keyboard,
     StyleSheet,
     Text,
     TextInput,
-    View,
-    Image,
     TouchableOpacity,
-    Keyboard,
+    View
 } from 'react-native';
 import Request from "../../utils/Request";
 import UserStore from "../../store/UserStore";
@@ -14,6 +16,8 @@ import {BaseComponent} from '../../components/base/BaseComponent'
 import NavigationUtil from "../../utils/NavigationUtil";
 import {CommonStyle} from "../../common/CommonStyle";
 import CountDownButton from "../../components/CountDownButton";
+
+var { width, height } = Dimensions.get('window');
 
 export default class Login extends BaseComponent {
     navigationBarProps() {
@@ -31,6 +35,7 @@ export default class Login extends BaseComponent {
             password: '',
             authCode: '',
             authState: '显示请求的状态',
+            codeRequesting:false
         };
     }
 
@@ -40,12 +45,16 @@ export default class Login extends BaseComponent {
 
 
     _render() {
-        const {mobile} = this.state
+        const {mobile,codeRequesting} = this.state
         return (
             <View style={styles.container}>
-                <Image source={require('../../img/about_logo.png')} style={{width: '100%',}} resizeMode='cover'/>
+                <ImageBackground style={{alignItems:'center',justifyContent:'center',height:120}} source={require('../../img/about_logo.png')}>
+                    <Image source={require('../../img/login_logo.png')} style={{width:173,
+                        height:66, alignItems:'center'}} resizeMode='cover'/>
+                </ImageBackground>
+
                 <View style={[styles.formInput, styles.formInputSplit]}>
-                    <Image source={require('../../img/user.png')}
+                    <Image source={require('../../img/shouji.png')}
                            style={{marginTop: 7, width: 20, height: 20, resizeMode: 'contain'}}/>
                     <TextInput
                         ref="login_name"
@@ -57,7 +66,7 @@ export default class Login extends BaseComponent {
                         onChangeText={this.onChangeMobile.bind(this)}/>
                 </View>
                 <View style={[styles.formInput, styles.formInputSplit]}>
-                    <Image source={require('../../img/passicon.png')}
+                    <Image source={require('../../img/yanzhengma.png')}
                            style={{marginTop: 7, width: 20, height: 20, resizeMode: 'contain'}}/>
                     <TextInput
                         ref="login_auth"
@@ -70,10 +79,14 @@ export default class Login extends BaseComponent {
                         height: 30, justifyContent: 'center', marginRight: 10
                     }}>
                         <CountDownButton
+                            executeFunc={(shouldStartCounting)=>{
+                                // 组件加载完成后 回吐开始倒计时的function 把这个function绑定到当前对象
+                                this.shouldStartCounting = shouldStartCounting;
+                            }}
                             textStyle={{color: CommonStyle.themeColor}}
                             disableColor={CommonStyle.gray}
                             timerTitle={'获取验证码'}
-                            enable={mobile.length > 10}
+                            enable={mobile.length > 10 && !codeRequesting}
                             onClick={(shouldStartCounting) => {
                                 this._requestAuthCode(shouldStartCounting)
                             }}
@@ -83,17 +96,6 @@ export default class Login extends BaseComponent {
                                 })
                             }}/>
                     </View>
-                </View>
-                <View style={[styles.formInput, styles.formInputSplit]}>
-                    <Image source={require('../../img/passicon.png')}
-                           style={{marginTop: 7, width: 20, height: 20, resizeMode: 'contain'}}/>
-                    <TextInput
-                        ref="login_psw"
-                        style={styles.loginInput}
-                        secureTextEntry={true}
-                        underlineColorAndroid="transparent"
-                        placeholder='请输入密码'
-                        onChangeText={this.onChangePassword.bind(this)}/>
                 </View>
                 <TouchableOpacity style={{
                     height: 40,
@@ -107,15 +109,6 @@ export default class Login extends BaseComponent {
                 }} onPress={this._login.bind(this)}>
                     <Text style={styles.loginText}>登录</Text>
                 </TouchableOpacity>
-                <View style={styles.registerWrap}>
-                    <TouchableOpacity style={{alignItems: 'flex-start', flex: 1}}
-                                      onPress={this._forgetPassword.bind(this)}>
-                        <Text style={{color: '#62a2e0'}}>忘记密码?</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{alignItems: 'flex-end', flex: 1}} onPress={this._register.bind(this)}>
-                        <Text style={{color: '#62a2e0'}}>立即注册</Text>
-                    </TouchableOpacity>
-                </View>
             </View>
         )
     }
@@ -131,18 +124,18 @@ export default class Login extends BaseComponent {
 
     _login() {
         Keyboard.dismiss();
-        let {mobile, password} = this.state;
+        let {mobile, authCode} = this.state;
 
         if (!mobile.length) {
             this.showLong('请输入正确的手机号');
             return;
         }
-        if (!password.length) {
-            this.showLong('请输入密码');
+        if (!authCode.length) {
+            this.showLong('请输入验证码');
             return;
         }
         this.showLoading('登录中..');
-        var param = {phone: this.state.mobile, password: this.state.password};
+        var param = {phone: this.state.mobile, code: this.state.authCode};
         Request.post('/api/user/login', param,
             {
                 mock: true,
@@ -150,6 +143,7 @@ export default class Login extends BaseComponent {
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
                 UserStore.save(rep.data);
+                console.log('====登录成功=====')
                 NavigationUtil.reset(this.props.navigation, 'Home');
             } else {
                 this.showShort(rep.message);
@@ -162,9 +156,9 @@ export default class Login extends BaseComponent {
     }
 
     _requestAuthCode(shouldStartCounting) {
-        console.log('============')
         this.setState({
-            authState: '正在请求验证码'
+            authState: '正在请求验证码',
+            codeRequesting:true
         })
         var param = {phone: this.state.mobile};
 
@@ -174,17 +168,11 @@ export default class Login extends BaseComponent {
                 mockId: 1089766,
             }).then(rep => {
             let requestSucc = true
-            if (rep.code == 0) {
-                this.setState({
-                    authState: `验证码获取成功`
-                })
-            } else {
-                this.setState({
-                    authState: rep.message
-                })
-                requestSucc = false
-            }
-            shouldStartCounting && shouldStartCounting(requestSucc)
+            this.setState({
+                authState: `验证码获取${rep.code===0?'成功':'失败'}`,
+                codeRequesting:false
+            })
+            shouldStartCounting && shouldStartCounting(rep.code===0)
             this.showShort(rep.message);
 
         }).catch(err => {
