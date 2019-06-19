@@ -31,11 +31,12 @@ export default class Housekeeper extends BaseComponent {
                 }, {
                     name: '报修报事',
                     imageUrl: require('../../img/menu_bxbs.png'),
-                    active: 'Login'
+                    active: 'RepairsSelect'
                 }, {
                     name: '咨询建议',
                     imageUrl: require('../../img/menu_zxjy.png'),
-                    active: 'ContactList'
+                    // active: 'ContactList'
+                    active: 'GiveAdvice'
                 }, {
                     name: '电子钥匙',
                     imageUrl: require('../../img/menu_dzcx.png'),
@@ -51,7 +52,7 @@ export default class Housekeeper extends BaseComponent {
                 }, {
                     name: '投诉表扬',
                     imageUrl: require('../../img/menu_tsby.png'),
-                    active: 'Login'
+                    active: 'GiveAdvice'
                 }
             ],
             activities: [
@@ -123,8 +124,8 @@ export default class Housekeeper extends BaseComponent {
         return true;
     }
     _jumpRouter(typeItem) {
-        Linking.openURL("alipays://platformapi/startapp?appId=20000193");
-            // this.push(typeItem.active, {title: typeItem.name});
+        // Linking.openURL("alipays://platformapi/startapp?appId=20000193");
+            this.push(typeItem.active, {title: typeItem.name});
     }
 
     _render() {

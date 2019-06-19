@@ -51,6 +51,9 @@ import MySetting from "./pages/user/MySetting";
 import AuthPage from "./pages/user/AuthPage";
 import MessageList from "./pages/main/MessageList";
 import ProductDetail from "./pages/main/ProductDetail";
+import GiveAdvice from "./pages/housekeeper/GiveAdvice";
+import RepairsSelect from "./pages/housekeeper/RepairsSelect";
+import CommitInfo from "./pages/housekeeper/CommitInfo";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -166,6 +169,9 @@ const App = createStackNavigator(
         AuthPage:{screen:AuthPage},//认证
         MessageList:{screen:MessageList},//消息列表
         ProductDetail:{screen:ProductDetail},//商品详情
+        GiveAdvice:{screen:GiveAdvice},//咨询建议
+        RepairsSelect:{screen:RepairsSelect},//报修报事
+        CommitInfo:{screen:CommitInfo},//提交报修报事
     },
     {
         // initialRouteName: 'Splash',

@@ -23,6 +23,14 @@ export default class MyAddress extends BaseComponent {
     navigationBarProps() {
         return {
             title: '我的地址',
+            gesturesEnabled: false
+        }
+    }
+
+    constructor(props) {
+        super(props);
+        this.state={
+            addressList:[]
         }
     }
 
@@ -39,6 +47,7 @@ export default class MyAddress extends BaseComponent {
                     rowView={this._renderRowView.bind(this)}
                     onFetch={this.makeRemoteRequest.bind(this)}
                     loadMore={false}
+                    onRef={this.onRef}
                 />
 
                 <TouchableView style={{
@@ -58,6 +67,10 @@ export default class MyAddress extends BaseComponent {
         );
     }
 
+    onRef=(ref) =>{
+        this.GiftedListView = ref
+    }
+
 
     makeRemoteRequest(page = 1, callback) {
         let param = {statusBODY: this.state.index, page: page - 1, pageSize: PAGE_SIZE};
@@ -68,8 +81,12 @@ export default class MyAddress extends BaseComponent {
                 mockId: 1095864,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
-                // console.log(JSON.stringify(rep))
-                callback(rep.data.rows,{allLoaded: page * PAGE_SIZE >= rep.data.total})
+                this.setState(
+                    {
+                        addressList:rep.data.rows
+                    }
+                )
+                callback(this.state.addressList,{allLoaded: page * PAGE_SIZE >= rep.data.total})
             }
         }).catch(err => {
 
@@ -78,12 +95,12 @@ export default class MyAddress extends BaseComponent {
         })
     }
 
-    _renderRowView(item){
+    _renderRowView(item,i){
         return (
             <SwipeAction style={{
                 backgroundColor: 'transparent',
             }} autoClose={true} onOpen={() => {
-                this.navigate('ModifyHousingAddress',{address:item})
+                // this.navigate('ModifyHousingAddress',{address:item})
             }}
                          onClose={() => console.log('close')}
                          onPress={() => {
@@ -93,10 +110,17 @@ export default class MyAddress extends BaseComponent {
                              {
                                  text: '删除',
                                  onPress: () => {
-                                     console.log('delete')
+                                     this.showShort('delete')
+                                     let list = this.state.addressList
+                                     console.log(list)
                                      console.log(item)
-                                     let list = this.state.invoiceList
-
+                                     console.log(i)
+                                     // item.id='一单元-403'
+                                     list = this.removeArray(list,item)
+                                     console.log(list)
+                                     // console.log(this.GiftedListView.props)
+                                     //todo 删除逻辑
+                                     // this.GiftedListView._updateRows()
                                  },
                                  style: {backgroundColor: 'red', color: 'white'},
                              },
@@ -130,6 +154,36 @@ export default class MyAddress extends BaseComponent {
             </SwipeAction>
 
         )
+    }
+
+    getIndex(_arr,_obj){
+        var len = _arr.level
+        for (var i=0;i<len;i++){
+            if (_arr[i] == _obj){
+                return parseInt(i)
+            }
+        }
+        return -1
+    }
+
+    removeArray(_arr,_obj){
+        var length = _arr.length;
+        for (var i = 0; i < length; i++) {
+            if (_arr[i] == _obj) {
+                if (i == 0) {
+                    _arr.shift(); //删除并返回数组的第一个元素
+                    return _arr;
+                }
+                else if (i == length - 1) {
+                    _arr.pop();  //删除并返回数组的最后一个元素
+                    return _arr;
+                }
+                else {
+                    _arr.splice(i, 1); //删除下标为i的元素
+                    return _arr;
+                }
+            }
+        }
     }
 
     goAddHousingAddress() {
