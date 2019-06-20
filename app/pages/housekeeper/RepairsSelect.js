@@ -113,7 +113,7 @@ export default class RepairsSelect extends BaseComponent{
                         this.showShort(firstType)
                     }}>
                         <ImageBackground style={{alignItems:'center',justifyContent:'center',height: 67 ,width:107,}} source={require('../../img/white_bg.png')}>
-                            <Text style={{color:'#fff',fontWeight: 'bold',fontSize:16,marginBottom: 5}}>小区报修</Text>
+                            <Text style={{color:'#333',fontWeight: 'bold',fontSize:16,marginBottom: 5}}>小区报修</Text>
                         </ImageBackground>
                     </TouchableView>
                     <TouchableView onPress={()=>{
@@ -129,8 +129,8 @@ export default class RepairsSelect extends BaseComponent{
                     <TouchableView onPress={()=>{
                         this.showShort(firstType)
                     }}>
-                        <ImageBackground style={{alignItems:'center',justifyContent:'center',height: 67 ,width:107,}} source={require('../../img/theme_color_bg.png')}>
-                            <Text style={{color:'#fff',fontWeight: 'bold',fontSize:16,marginBottom: 5}}>小区绿化</Text>
+                        <ImageBackground style={{alignItems:'center',justifyContent:'center',height: 67 ,width:107,}} source={require('../../img/white_bg.png')}>
+                            <Text style={{color:'#333',fontWeight: 'bold',fontSize:16,marginBottom: 5}}>小区绿化</Text>
                         </ImageBackground>
                     </TouchableView>
                     <TouchableView onPress={()=>{

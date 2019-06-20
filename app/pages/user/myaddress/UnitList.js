@@ -40,6 +40,9 @@ export default class UnitList extends BaseComponent{
         return(<TouchableView onPress={() => {
             // this.goBack(rowData)
             this.push("AddHousingAddress",{elementName:this.state.elementData.name+rowData.name})
+            // this.goBack("AddHousingAddress",{elementName:this.state.elementData.name+rowData.name})
+            // this.props.navigation.goBack("AddHousingAddress");
+            // this.props.navigation.goBack(null);
         }}>
             <View style={{justifyContent: 'center',alignItems:'flex-start',height:40,width: '100%',backgroundColor:'#fff',paddingLeft:15}}>
                 <Text>{rowData.name}</Text>

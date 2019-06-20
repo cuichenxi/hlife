@@ -23,11 +23,11 @@ export default class Housekeeper extends BaseComponent {
                 {
                     name: '物业缴费',
                     imageUrl: require('../../img/menu_wyjf.png'),
-                    active: 'Register'
+                    active: 'LivingPayment'
                 }, {
                     name: '水电缴费',
                     imageUrl: require('../../img/menu_sdjf.png'),
-                    active: 'lifePay'
+                    active: 'LivingPayment'
                 }, {
                     name: '报修报事',
                     imageUrl: require('../../img/menu_bxbs.png'),
@@ -40,7 +40,7 @@ export default class Housekeeper extends BaseComponent {
                 }, {
                     name: '电子钥匙',
                     imageUrl: require('../../img/menu_dzcx.png'),
-                    active: 'Login'
+                    active: 'GuestPassKey'
                 }, {
                     name: '常用电话',
                     imageUrl: require('../../img/menu_xydh.png'),

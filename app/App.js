@@ -54,6 +54,11 @@ import ProductDetail from "./pages/main/ProductDetail";
 import GiveAdvice from "./pages/housekeeper/GiveAdvice";
 import RepairsSelect from "./pages/housekeeper/RepairsSelect";
 import CommitInfo from "./pages/housekeeper/CommitInfo";
+import GuestPassKey from "./pages/housekeeper/GuestPassKey";
+import TrafficPermit from "./pages/housekeeper/TrafficPermit";
+import LivingPayment from "./pages/housekeeper/LivingPayment";
+import LivingPaymentDetail from "./pages/housekeeper/LivingPaymentDetail";
+import BillDetail from "./pages/housekeeper/BillDetail";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -172,6 +177,11 @@ const App = createStackNavigator(
         GiveAdvice:{screen:GiveAdvice},//咨询建议
         RepairsSelect:{screen:RepairsSelect},//报修报事
         CommitInfo:{screen:CommitInfo},//提交报修报事
+        GuestPassKey:{screen:GuestPassKey},//访客通行
+        TrafficPermit:{screen:TrafficPermit},//访客通行证页面
+        LivingPayment:{screen:LivingPayment},//生活缴费
+        LivingPaymentDetail:{screen:LivingPaymentDetail},//生活缴费明细
+        BillDetail:{screen:BillDetail},//生活缴费详情
     },
     {
         // initialRouteName: 'Splash',
