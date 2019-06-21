@@ -48,11 +48,8 @@ export default class LivingPaymentDetail extends  BaseComponent{
                     paddingLeft: 5,
                     paddingRight: 5
                 }}>
-                    <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
-                                   color="#bbb"/>
-                    <Text style={{color: CommonStyle.textBlockColor, fontSize: 12}}>{communityinfo}</Text>
+                    <Text style={{color: CommonStyle.textBlockColor, fontSize: 15,paddingLeft:5}}>{communityinfo}</Text>
                 </View>
-                <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
                 <ScrollView style={{
                     flex: 1,
                     height: 1000,
@@ -85,23 +82,26 @@ export default class LivingPaymentDetail extends  BaseComponent{
                             checkedImage = {<Image source = {require('../../img/selted.png')} style = {styles.image}/>}
                             unCheckedImage = {<Image source = {require('../../img/selt.png')} style = {styles.image}/>}
                         />
-                        <Text>全选</Text>
+                        <Text style={{fontSize:14,color:'#333'}}>全选</Text>
                     </TouchableView>
                     <View style={{height: 60, width: 0.5, backgroundColor: CommonStyle.lineColor,}}/>
                     <TouchableView style={[styles.bottomLeftBt,styles.centerBottomRow]} onPress={() => {this.navigate('ShoppingCart')}}>
                         <View style={{justifyContent: 'center', alignItems: 'flex-end',}}>
-                            <Text style={{color: CommonStyle.textGrayColor, fontSize: 12}}>共计：100￥</Text>
-                            <Text style={{color: CommonStyle.textGrayColor, fontSize: 10}}>已选0项</Text>
+                            <View style={{flexDirection:'row',justifyContent:'center',alignItems:'flex-end'}}>
+                                <Text style={{color: '#333', fontSize: 12,marginBottom:2}}>共计:￥</Text>
+                                <Text style={{color: '#FF3633', fontSize: 20}}>100</Text>
+                            </View>
+                            <Text style={{color: '#666666', fontSize: 11}}>已选0项</Text>
                         </View>
                     </TouchableView>
                     <TouchableView style={{
                         alignItems: 'center',
-                        backgroundColor: CommonStyle.themeColor,
+                        backgroundColor: CommonStyle.drakGray,
                         justifyContent: 'center',
                         height: 60,
                         width: width / 3,
                     }} onPress={() => this.state.onButtonPress()}>
-                        <Text style={{color: 'white'}}>提交支付</Text>
+                        <Text style={{color: 'white',fontSize:16}}>去缴费</Text>
                     </TouchableView>
                 </View>
             </View>
@@ -126,7 +126,6 @@ export default class LivingPaymentDetail extends  BaseComponent{
         }).catch(err => {
 
         }).done(() => {
-            // this.hideLoading();
         })
     }
 
@@ -160,7 +159,7 @@ export default class LivingPaymentDetail extends  BaseComponent{
                         checkedImage = {<Image source = {require('../../img/selted.png')} style = {styles.image}/>}
                         unCheckedImage = {<Image source = {require('../../img/selt.png')} style = {styles.image}/>}
                     />
-                    <Text style={{paddingLeft: 5}}>2019-06</Text>
+                    <Text style={{paddingLeft: 5,color:'#333',fontSize:15}}>2019-06</Text>
                 </View>
 
                 <View style={{
@@ -173,8 +172,8 @@ export default class LivingPaymentDetail extends  BaseComponent{
                     <Text style={{
                         color: CommonStyle.themeColor,
                         padding: 3,
-                        fontSize: 16
-                    }}>$179.0</Text>
+                        fontSize: 20
+                    }}>¥100</Text>
                     <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
                                    color="#bbb"/>
                 </View>
@@ -229,10 +228,10 @@ const styles = StyleSheet.create({
         height:14,
     },
     bottomRow:{
-        flexDirection: 'row', justifyContent: 'center',alignItems:'center'
+        flexDirection: 'row', justifyContent: 'flex-start',alignItems:'center'
     },
     centerBottomRow:{
         alignItems: 'flex-end',
-        marginRight: 5
+        paddingRight: 5
     }
 });

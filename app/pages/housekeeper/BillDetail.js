@@ -2,7 +2,6 @@ import {BaseComponent} from "../../components/base/BaseComponent";
 import React from "react";
 import {Dimensions, Image, ScrollView, StyleSheet, Text, View} from "react-native";
 import {CommonStyle} from "../../common/CommonStyle";
-import {PAGE_SIZE} from "../../constants/AppConstants";
 import Request from "../../utils/Request";
 
 let {width, height} = Dimensions.get('window')
@@ -31,12 +30,13 @@ export default class BillDetail extends BaseComponent {
         }
     }
 
-    componentDidMount(){
+    componentWillMount(){
         this.makeRemoteRequest()
     }
 
 
     _render() {
+        const {data} = this.state
         return (
             <View style={{flex: 1}}>
                 <ScrollView style={{
@@ -48,7 +48,7 @@ export default class BillDetail extends BaseComponent {
                         <Image source={require('../../img/bill_info.png')}
                                style={{width: 20, height: 20, resizeMode: 'contain'}}/>
                         <Text style={{
-                            color: CommonStyle.textGrayColor,
+                            color: '#333',
                             padding: 3,
                             fontSize: 16
                         }}>收费信息</Text>
@@ -56,11 +56,11 @@ export default class BillDetail extends BaseComponent {
                     <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
                     <View style={styles.contentItem}>
                         <Text style={styles.contentText}>收费信息：</Text>
-                        <Text style={styles.contentRightText}>收费信息</Text>
+                        <Text style={styles.contentRightText}>{data.title}</Text>
                     </View>
                     <View style={styles.contentItem}>
                         <Text style={styles.contentText}>收费地址：</Text>
-                        <Text style={styles.contentRightText}>收费信息</Text>
+                        <Text style={styles.contentRightText}>{data.address}</Text>
                     </View>
                     <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
                     <View style={styles.titleLine}>
@@ -69,7 +69,7 @@ export default class BillDetail extends BaseComponent {
                         <Image source={require('../../img/bill_detail.png')}
                                style={{width: 20, height: 20, resizeMode: 'contain'}}/>
                         <Text style={{
-                            color: CommonStyle.textGrayColor,
+                            color: '#333',
                             padding: 3,
                             fontSize: 16
                         }}>收费详情</Text>
@@ -79,31 +79,31 @@ export default class BillDetail extends BaseComponent {
 
 
                         <Text style={styles.contentText}>账单月份：</Text>
-                        <Text style={styles.contentRightText}>收费信息</Text>
+                        <Text style={styles.contentRightText}>{data.date}</Text>
                     </View>
                     <View style={styles.contentItem}>
                         <Text style={styles.contentText}>账单金额：</Text>
-                        <Text style={styles.themeColor}>收费信息</Text>
+                        <Text style={styles.themeColor}>{data.price}</Text>
                     </View>
                     <View style={styles.contentItem}>
                         <Text style={styles.contentText}>已交金额：</Text>
-                        <Text style={styles.themeColor}>收费信息</Text>
+                        <Text style={styles.themeColor}>{data.payedPrice}</Text>
                     </View>
                     <View style={styles.contentItem}>
                         <Text style={styles.contentText}>本次应收：</Text>
-                        <Text style={styles.contentRightText}>收费信息</Text>
+                        <Text style={styles.contentRightText}>{data.payPrice}</Text>
                     </View>
                     <View style={styles.contentItem}>
                         <Text style={styles.contentText}>计费周期：</Text>
-                        <Text style={styles.contentRightText}>收费信息</Text>
+                        <Text style={styles.contentRightText}>{data.cycle}</Text>
                     </View>
                     <View style={styles.contentItem}>
                         <Text style={styles.contentText}>单位价格：</Text>
-                        <Text style={styles.contentRightText}>收费信息</Text>
+                        <Text style={styles.contentRightText}>{data.unitPrice}</Text>
                     </View>
                     <View style={styles.contentItem}>
                         <Text style={styles.contentText}>面积：</Text>
-                        <Text style={styles.contentRightText}>收费信息</Text>
+                        <Text style={styles.contentRightText}>{data.size}</Text>
                     </View>
                 </ScrollView>
             </View>
@@ -121,7 +121,7 @@ export default class BillDetail extends BaseComponent {
             if (rep.code == 0 && rep.data) {
                 // console.log(JSON.stringify(rep))
                 this.setState({
-                    communityinfo:rep.data.communityinfo
+                    data:rep.data
                 })
             }
         }).catch(err => {
@@ -147,18 +147,18 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff'
     },
     contentText: {
-        color: CommonStyle.textGrayColor,
+        color: '#333',
         padding: 3,
-        fontSize: 14
+        fontSize: 15
     },
     contentRightText: {
-        color: CommonStyle.textGrayColor,
+        color: '#666',
         padding: 3,
-        fontSize: 12
+        fontSize: 14
     },
     themeColor: {
         color:CommonStyle.themeColor,
         padding: 3,
-        fontSize: 12
+        fontSize: 14
     }
 })

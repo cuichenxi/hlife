@@ -59,6 +59,8 @@ import TrafficPermit from "./pages/housekeeper/TrafficPermit";
 import LivingPayment from "./pages/housekeeper/LivingPayment";
 import LivingPaymentDetail from "./pages/housekeeper/LivingPaymentDetail";
 import BillDetail from "./pages/housekeeper/BillDetail";
+import WaterElectricityPayment from "./pages/housekeeper/WaterElectricityPayment";
+import UsefulPhone from "./pages/housekeeper/UsefulPhone";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -182,6 +184,8 @@ const App = createStackNavigator(
         LivingPayment:{screen:LivingPayment},//生活缴费
         LivingPaymentDetail:{screen:LivingPaymentDetail},//生活缴费明细
         BillDetail:{screen:BillDetail},//生活缴费详情
+        WaterElectricityPayment:{screen:WaterElectricityPayment},//水电缴费
+        UsefulPhone:{screen:UsefulPhone},//常用电话
     },
     {
         // initialRouteName: 'Splash',
