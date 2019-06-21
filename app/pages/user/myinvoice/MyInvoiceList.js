@@ -1,13 +1,11 @@
 import {BaseComponent} from "../../../components/base/BaseComponent";
 import React from "react";
-import {Dimensions, Text, View} from "react-native";
-import GiftedListView from "../../../components/refreshList/GiftedListView";
+import {Dimensions, FlatList, Text, View} from "react-native";
 import {CommonStyle} from "../../../common/CommonStyle";
 import {PAGE_SIZE} from "../../../constants/AppConstants";
 import Request from "../../../utils/Request";
 import TouchableView from "../../../components/TouchableView";
 import {SwipeAction} from "antd-mobile-rn";
-import ToastUtil from "../../../utils/ToastUtil";
 
 let {width, height} = Dimensions.get('window')
 
@@ -22,20 +20,38 @@ export default class MyInvoiceList extends BaseComponent {
     constructor(props) {
         super(props);
         this.state = {
-            invoiceList: []
+            invoiceList: [],
+            rows:[],
+            isLoading: false,
+            isRefresh: true,
         }
     }
 
+    componentWillMount(){
+        this.fetchData()
+    }
 
     _render() {
+        const {rows} = this.state
         return (
             <View style={{flex: 1}}>
-                <GiftedListView
-                    style={{with: width}}
-                    rowView={this._renderRowView.bind(this)}
-                    onFetch={this.makeRemoteRequest.bind(this)}
-                    loadMore={false}
-                />
+                <View style={{flex: 1}}>
+                    <FlatList ref={(flatList) => this._flatList = flatList}
+                              ItemSeparatorComponent={this._separator}
+                              renderItem={this._renderItem}
+
+                              onRefresh={() => this.refreshing()}
+                              refreshing={this.state.isLoading}
+
+                              onEndReachedThreshold={0.1}
+                        // onEndReached={
+                        //     () => this._onLoadMore()
+                        // }
+
+                              data={rows}>
+
+                    </FlatList>
+                </View>
                 <TouchableView style={{
                     backgroundColor: 'white',
                     height: 40,
@@ -53,69 +69,76 @@ export default class MyInvoiceList extends BaseComponent {
         )
     }
 
-    _renderRowView(item,i) {
+    _separator = () => {
+        return <View style={{height: 0.5, backgroundColor: CommonStyle.lightGray}}/>;
+    }
 
+    _renderItem =(item) =>{
         return (
             <SwipeAction style={{
                 backgroundColor: 'transparent',
             }} autoClose={true} onOpen={() => {
-                this.navigate('AddBillInfo', {invoice: item})
+
             }}
                          onClose={() => console.log('close')}
                          onPress={() => {
-                             this.navigate('AddBillInfo', {invoice: item})
+                             this.navigate('AddBillInfo', {invoice: item.item})
                          }}
                          right={[
                              {
                                  text: '删除',
                                  onPress: () => {
-                                     console.log('delete')
-                                     console.log(item)
-                                     console.log(i)
-                                     let list = this.state.invoiceList
+                                     let list = this.state.rows
+                                     // 删除指定位置元素
+                                     list.splice(item.index, 1)
+                                     console.log(list)
+                                     //todo 删除逻辑
+                                     this.setState(
+                                         {
+                                             row: list
+                                         }
+                                     )
 
                                  },
                                  style: {backgroundColor: 'red', color: 'white'},
                              },
                          ]}
             >
-                <View style={{
-                    backgroundColor: 'white',
-                    height: 60,
-                    alignItems: 'flex-start',
-                    justifyContent: 'center',
-                    // padding: 10,
-                    paddingLeft: 30,
-                    paddingRight: 30,
+                <TouchableView onPress={()=>{
+                    this.navigate('AddBillInfo', {invoice: item.item})
                 }}>
-                    <Text style={{
-                        textAlign: 'center',
-                        color: CommonStyle.textBlockColor,
-                        fontSize: 14,
-                        flex: 1,
-                        marginTop: 10
-                    }}>{item.name}</Text>
-                    <Text style={{
-                        textAlign: 'center',
-                        color: CommonStyle.textGrayColor,
-                        fontSize: 14,
-                        flex: 1
-                    }}>税号：{item.no}</Text>
-                </View>
+                    <View style={{
+                        backgroundColor: 'white',
+                        height: 60,
+                        alignItems: 'flex-start',
+                        justifyContent: 'center',
+                        // padding: 10,
+                        paddingLeft: 30,
+                        paddingRight: 30,
+                    }}>
+                        <Text style={{
+                            textAlign: 'center',
+                            color: CommonStyle.textBlockColor,
+                            fontSize: 14,
+                            flex: 1,
+                            marginTop: 10
+                        }}>{item.item.name}</Text>
+                        <Text style={{
+                            textAlign: 'center',
+                            color: CommonStyle.textGrayColor,
+                            fontSize: 14,
+                            flex: 1
+                        }}>税号：{item.item.no}</Text>
+                    </View>
+                </TouchableView>
+
 
             </SwipeAction>
-
         )
     }
 
-    deleteItem(item, callback) {
-        let list = this.state.invoiceList
-        list.filter((item, index) => {
 
-        })
-    }
-
-    makeRemoteRequest(page = 1, callback) {
+    fetchData(page = 1) {
         let param = {statusBODY: this.state.index, page: page - 1, pageSize: PAGE_SIZE};
 
         Request.post('api/user/invoiceList', param,
@@ -125,10 +148,9 @@ export default class MyInvoiceList extends BaseComponent {
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
                 // console.log(JSON.stringify(rep))
-                /*this.setState({
-                    invoiceList:rep.data.rows
-                })*/
-                callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
+                this.setState({
+                    rows: rep.data.rows
+                })
             }
         }).catch(err => {
 
@@ -136,4 +158,5 @@ export default class MyInvoiceList extends BaseComponent {
             // this.hideLoading();
         })
     }
+
 }
