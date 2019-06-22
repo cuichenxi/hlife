@@ -100,7 +100,7 @@ export default class LivingPaymentDetail extends  BaseComponent{
                         justifyContent: 'center',
                         height: 60,
                         width: width / 3,
-                    }} onPress={() => this.state.onButtonPress()}>
+                    }} onPress={() =>{this.navigate('Payment')}}>
                         <Text style={{color: 'white',fontSize:16}}>去缴费</Text>
                     </TouchableView>
                 </View>

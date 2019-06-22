@@ -55,8 +55,8 @@ export default class UserCenter extends BaseComponent {
             },
             {icon: "ios-pin", name: "我的访客", onPress: this.goPage.bind(this, "MyVisitor")},
             {icon: "ios-pin", name: "我的小区", onPress: this.goPage.bind(this, "MyAddress")},
-            {icon: "ios-pin", name: "我的地址", onPress: this.goPage.bind(this, "MyShippingAddress")},
-            {icon: "logo-usd", name: "缴费记录", onPress: this.goPage.bind(this, "address")},
+            {icon: "ios-pin", name: "收货地址", onPress: this.goPage.bind(this, "MyShippingAddress")},
+            {icon: "logo-usd", name: "工单记录", onPress: this.goPage.bind(this, "address")},
             {icon: "ios-cart", name: "缴费记录", onPress: this.goPage.bind(this, "MaintainRecord")},
             {
                 icon: "ios-heart",
@@ -308,7 +308,7 @@ export default class UserCenter extends BaseComponent {
                         justifyContent: 'space-between',
                     }}>
                         <TouchableView style={{alignItems: 'center'}} onPress={() => {
-                            this.navigate('RedPacket')
+                            this.navigate('MyWallet')
                         }}>
                             <Text style={{
                                 color: CommonStyle.themeColor,
@@ -336,7 +336,7 @@ export default class UserCenter extends BaseComponent {
                         </TouchableView>
                         <View style={{backgroundColor: CommonStyle.lineColor, height: 35, width: 1}}/>
                         <TouchableView style={{alignItems: 'center'}} onPress={() => {
-                            this.navigate('RedPacket')
+                            this.navigate('MyIntegral')
                         }}>
                             <Text style={{
                                 color: CommonStyle.themeColor,

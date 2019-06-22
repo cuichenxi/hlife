@@ -1,6 +1,6 @@
 import {BaseComponent} from "../../../components/base/BaseComponent";
 import React from "react";
-import {Dimensions, Text, View} from "react-native";
+import {Dimensions, Image, Text, View} from "react-native";
 import {CommonStyle} from "../../../common/CommonStyle";
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
@@ -52,9 +52,9 @@ export default class AddHousingAddress extends BaseComponent {
                     paddingLeft: 5,
                     paddingRight: 5
                 }}>
-                    <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
-                                   color="#bbb"/>
-                    <Text style={{color: CommonStyle.textBlockColor, fontSize: 12}}>请选择正确的小区地址，你可安全、便捷的使用各类生活服务</Text>
+                    <Image source={require('../../../img/notice_icon.png')}
+                           style={{width: 10, height: 10, resizeMode: 'contain'}}/>
+                    <Text style={{color: '#333', fontSize: 12,marginLeft:3}}>请选择正确的小区地址，你可安全、便捷的使用各类生活服务</Text>
                 </View>
                 <View style={{backgroundColor: '#ffffff'}}>
                     <Text style={{color: CommonStyle.textBlockColor, padding: 10}}>所居住的小区</Text>

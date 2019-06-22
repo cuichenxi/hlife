@@ -61,6 +61,9 @@ import LivingPaymentDetail from "./pages/housekeeper/LivingPaymentDetail";
 import BillDetail from "./pages/housekeeper/BillDetail";
 import WaterElectricityPayment from "./pages/housekeeper/WaterElectricityPayment";
 import UsefulPhone from "./pages/housekeeper/UsefulPhone";
+import Payment from "./pages/housekeeper/Payment";
+import MyIntegral from "./pages/user/myintegral/MyIntegral";
+import MyWallet from "./pages/user/MyWallet";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -186,6 +189,9 @@ const App = createStackNavigator(
         BillDetail:{screen:BillDetail},//生活缴费详情
         WaterElectricityPayment:{screen:WaterElectricityPayment},//水电缴费
         UsefulPhone:{screen:UsefulPhone},//常用电话
+        Payment:{screen:Payment},//生活缴费付款页面
+        MyIntegral:{screen:MyIntegral},//我的积分
+        MyWallet:{screen:MyWallet},//我的钱包
     },
     {
         // initialRouteName: 'Splash',

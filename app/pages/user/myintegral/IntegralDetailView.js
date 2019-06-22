@@ -7,11 +7,11 @@ import {PAGE_SIZE} from "../../../constants/AppConstants";
 import {CommonStyle} from "../../../common/CommonStyle";
 
 /**
- * 访客view
+ * 积分明细
  */
 let {width, height} = Dimensions.get('window')
 
-export default class Index extends BaseView {
+export default class IntegralDetailView extends BaseView {
     constructor(props) {
         super(props)
         this.state = {
@@ -21,7 +21,7 @@ export default class Index extends BaseView {
     }
 
     makeRemoteRequest(page = 1, callback) {
-        let param = {status: this.state.index, page: page - 1, pageSize: PAGE_SIZE};
+        let param = {statusBODY: this.state.index, page: page - 1, pageSize: PAGE_SIZE};
 
         console.log('==========')
         console.log(this.props)
@@ -53,8 +53,9 @@ export default class Index extends BaseView {
                 paddingLeft: 30,
                 paddingRight: 30,
             }}>
-                <Text style={{textAlign: 'center', color: CommonStyle.textBlockColor,fontSize:13}}>{item.date}</Text>
-                <Text style={{textAlign: 'center', color: CommonStyle.textBlockColor, fontSize: 13}}>{item.name}</Text>
+                <Text style={{textAlign: 'center', color: '#333',fontSize:17}}>+10</Text>
+                <Text style={{textAlign: 'center', color: '#333', fontSize: 15}}>签到积分</Text>
+                <Text style={{textAlign: 'center', color: '#999', fontSize: 11}}>2019-06-22</Text>
             </View>
 
         )
@@ -68,20 +69,6 @@ export default class Index extends BaseView {
                 backgroundColor: 'white',
                 flexDirection: 'column'
             }}>
-                <View style={{
-                    height:40,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent:'space-between',
-                    // padding: 10,
-                    backgroundColor:CommonStyle.bgColor,
-                    paddingLeft: 30,
-                    paddingRight: 30,
-                }}>
-                    <Text style={{textAlign: 'center', color: CommonStyle.textGrayColor,fontSize:13}}>到访日期</Text>
-                    <Text style={{textAlign: 'center', color: CommonStyle.textGrayColor, fontSize: 13}}>姓名</Text>
-                </View>
-                <View style={{height: 0.5, backgroundColor: CommonStyle.textGrayColor, width: width}}/>
                 <GiftedListView
                     style={{with: width, flex: 1}}
                     rowView={this._renderRowView.bind(this)}
