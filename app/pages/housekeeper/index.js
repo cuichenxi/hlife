@@ -1,5 +1,16 @@
 import React from 'react';
-import {Image, FlatList, Linking,ScrollView, StyleSheet, Text, View, TouchableOpacity, RefreshControl} from 'react-native';
+import {
+    Image,
+    FlatList,
+    Linking,
+    ScrollView,
+    StyleSheet,
+    Text,
+    View,
+    TouchableOpacity,
+    RefreshControl,
+    ImageBackground, Dimensions
+} from 'react-native';
 import {BaseComponent} from "../../components/base/BaseComponent";
 import GridView from "../../components/GridView";
 import TouchableView from "../../components/TouchableView";
@@ -7,6 +18,7 @@ import QIcon from "../../components/icon";
 import {CommonStyle} from "../../common/CommonStyle";
 import Icon from "react-native-vector-icons/Ionicons";
 import Request from "../../utils/Request";
+let {width, height} = Dimensions.get('window')
 
 export default class Housekeeper extends BaseComponent {
     navigationBarProps() {
@@ -48,7 +60,7 @@ export default class Housekeeper extends BaseComponent {
                 }, {
                     name: '房屋租售',
                     imageUrl: require('../../img/menu_fwzs.png'),
-                    active: 'Login'
+                    active: 'HouseSellRent'
                 }, {
                     name: '投诉表扬',
                     imageUrl: require('../../img/menu_tsby.png'),
@@ -201,6 +213,7 @@ export default class Housekeeper extends BaseComponent {
                     <Text  style={{color: '#999',fontSize:14 ,marginTop:10}}>24小时在线</Text>
                 </View>
                 </TouchableView>
+
             </View>
 
         )

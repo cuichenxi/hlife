@@ -64,6 +64,10 @@ import UsefulPhone from "./pages/housekeeper/UsefulPhone";
 import Payment from "./pages/housekeeper/Payment";
 import MyIntegral from "./pages/user/myintegral/MyIntegral";
 import MyWallet from "./pages/user/MyWallet";
+import HouseSellRent from "./pages/housekeeper/HouseSellRent";
+import PublishHouseInfo from "./pages/housekeeper/PublishHouseInfo";
+import HouseholdServerList from "./pages/shopping/HouseholdServerList";
+import HouseholdServer from "./pages/shopping/HouseholdServer";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -192,6 +196,10 @@ const App = createStackNavigator(
         Payment:{screen:Payment},//生活缴费付款页面
         MyIntegral:{screen:MyIntegral},//我的积分
         MyWallet:{screen:MyWallet},//我的钱包
+        HouseSellRent:{screen:HouseSellRent},//服务租售
+        PublishHouseInfo:{screen:PublishHouseInfo},//发布房源
+        HouseholdServerList:{screen:HouseholdServerList},//家政服务列表
+        HouseholdServer:{screen:HouseholdServer},//家政服务详情
     },
     {
         // initialRouteName: 'Splash',

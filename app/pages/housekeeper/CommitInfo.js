@@ -1,8 +1,7 @@
 import {BaseComponent} from "../../components/base/BaseComponent";
 import React from "react";
-import {Image, Text, TextInput, View} from "react-native";
+import {Image, Text, TextInput, View,} from "react-native";
 import {ActionSheet} from "antd-mobile-rn";
-import ImagePicker from "react-native-image-crop-picker";
 import TouchableView from "../../components/TouchableView";
 import {CommonStyle} from "../../common/CommonStyle";
 import GridView from "../../components/GridView";
@@ -16,11 +15,13 @@ export default class CommitInfo extends BaseComponent {
         }
     }
 
+
+
     _render() {
         return (
             <View>
                 <TextInput
-                    ref="login_name"
+                    ref="commit_info"
                     placeholder='您对我们的工作有什么建议'
                     style={{
                         width: '100%',
@@ -38,6 +39,8 @@ export default class CommitInfo extends BaseComponent {
                 <View style={{height: 100}}>
                     {this._renderGridView(this.state.images)}
                 </View>
+
+
 
                 <View style={{
                     height: 40,

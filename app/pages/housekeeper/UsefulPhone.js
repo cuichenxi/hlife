@@ -92,7 +92,7 @@ export default class UsefulPhone extends BaseComponent{
 
         Request.post('/api/life/contactList', param,
             {
-                mock: false,
+                mock: true,
                 mockId: 1184127,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {

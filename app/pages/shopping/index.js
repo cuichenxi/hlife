@@ -38,7 +38,7 @@ export default class Shopping extends BaseComponent {
                 }, {
                     name: '家政服务',
                     imageUrl: require('../../img/menu_jzfw.png'),
-                    active: 'Login'
+                    active: 'HouseholdServerList'
                 }, {
                     name: '快递查询',
                     imageUrl: require('../../img/menu_kdcx.png'),
