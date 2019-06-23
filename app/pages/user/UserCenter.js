@@ -45,7 +45,7 @@ export default class UserCenter extends BaseComponent {
             signVisible: false,
         }
         this.config = [
-            {icon: "ios-pin", name: "我的订单", first: true, onPress: this.goPage.bind(this, "address")},
+            {icon: "ios-pin", name: "我的订单", first: true, onPress: this.goPage.bind(this, "MyOrder")},
             {
                 icon: "ios-heart",
                 name: "我的收藏",

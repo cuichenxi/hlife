@@ -49,15 +49,15 @@ export default class Main extends BaseComponent {
                 {
                     name: '报修报事',
                     imageUrl: require('../../img/menu_bxbs.png'),
-                    active: 'Register'
+                    active: 'RepairsSelect'
                 }, {
                     name: '电子钥匙',
                     imageUrl: require('../../img/menu_dzcx.png'),
-                    active: 'ContactList'
+                    active: 'GuestPassKey'
                 }, {
                     name: '物业缴费',
                     imageUrl: require('../../img/menu_wyjf.png'),
-                    active: 'Login'
+                    active: 'LivingPayment'
                 }, {
                     name: '违章查询',
                     imageUrl: require('../../img/menu_wzcx.png'),
@@ -180,7 +180,8 @@ export default class Main extends BaseComponent {
     }
 
     _jumpRouter(typeItem) {
-        this.push(typeItem.active, {title: typeItem.name});
+        this.navigate('ProductDetail',{id:typeItem.id})
+        // this.push(typeItem.active, {title: typeItem.name});
     }
 
     onScanClick() {

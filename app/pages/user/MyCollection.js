@@ -59,7 +59,7 @@ export default class MyCollection extends BaseComponent{
                     padding: 5
                 }}>
                     <Image
-                        source={imageUrl}
+                        source={{uri:item.goodsImage}}
                         style={{
                             width: 100,
                             height: 90,

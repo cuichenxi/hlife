@@ -68,6 +68,7 @@ import HouseSellRent from "./pages/housekeeper/HouseSellRent";
 import PublishHouseInfo from "./pages/housekeeper/PublishHouseInfo";
 import HouseholdServerList from "./pages/shopping/HouseholdServerList";
 import HouseholdServer from "./pages/shopping/HouseholdServer";
+import MyOrder from "./pages/user/myorder/MyOrder";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -200,6 +201,7 @@ const App = createStackNavigator(
         PublishHouseInfo:{screen:PublishHouseInfo},//发布房源
         HouseholdServerList:{screen:HouseholdServerList},//家政服务列表
         HouseholdServer:{screen:HouseholdServer},//家政服务详情
+        MyOrder:{screen:MyOrder},//我的订单
     },
     {
         // initialRouteName: 'Splash',

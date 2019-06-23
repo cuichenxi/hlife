@@ -27,7 +27,8 @@ export default class ProductDetail extends BaseComponent {
         super(props);
         this.state = {
             data: null,
-            headerUrl:''
+            headerUrl:'',
+            id:this.props.navigation.state.params.id
         }
     }
 
@@ -223,8 +224,8 @@ export default class ProductDetail extends BaseComponent {
 
     }
 
-    makeRemoteRequest(id, callback) {
-        let param = {statusBODY: this.state.index, id: id};
+    makeRemoteRequest() {
+        let param = {statusBODY: this.state.index, id: this.state.id};
 
         Request.post('api/goods/detail', param,
             {
