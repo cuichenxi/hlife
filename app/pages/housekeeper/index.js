@@ -18,6 +18,7 @@ import QIcon from "../../components/icon";
 import {CommonStyle} from "../../common/CommonStyle";
 import Icon from "react-native-vector-icons/Ionicons";
 import Request from "../../utils/Request";
+
 let {width, height} = Dimensions.get('window')
 
 export default class Housekeeper extends BaseComponent {
@@ -27,6 +28,7 @@ export default class Housekeeper extends BaseComponent {
             title: '管家',
         }
     }
+
     constructor(props) {
         super(props);
         this.state = {
@@ -89,9 +91,11 @@ export default class Housekeeper extends BaseComponent {
             ]
         };
     }
-    onReady(){
+
+    onReady() {
         this.requestData();
     }
+
     requestData() {
         Request.post('/api/steward/basci', {},
             {
@@ -135,9 +139,13 @@ export default class Housekeeper extends BaseComponent {
     canExitApp() {
         return true;
     }
+
     _jumpRouter(typeItem) {
-        // Linking.openURL("alipays://platformapi/startapp?appId=20000193");
+        if (typeItem.active.indexOf('alipays://') == 0) {
+            Linking.openURL(typeItem.active);
+        } else {
             this.push(typeItem.active, {title: typeItem.name});
+        }
     }
 
     _render() {
@@ -155,7 +163,7 @@ export default class Housekeeper extends BaseComponent {
                         <Icon name="ios-arrow-forward-outline" size={16} color='#999'/>
                         <Text style={{fontSize: 14, color: CommonStyle.color_333}}>小区活动</Text>
                     </View>
-                    <View >
+                    <View>
                         {this._renderBottomItem(activities)}
                     </View>
                 </View>
@@ -185,7 +193,7 @@ export default class Housekeeper extends BaseComponent {
                 this._jumpRouter(item)
             }}>
                 <View style={[{flex: 1}, styles.typesItem]}>
-                    <Image source={item.imageUrl} style={{width: 30, height: 30, marginTop: 20, resizeMode:'center'}}/>
+                    <Image source={item.imageUrl} style={{width: 30, height: 30, marginTop: 20, resizeMode: 'center'}}/>
                     <Text style={{fontSize: 14, color: "#333", marginTop: 10}}>{item.name}</Text>
                 </View>
             </TouchableView>
@@ -195,23 +203,43 @@ export default class Housekeeper extends BaseComponent {
     _rendCardView() {
         return (
             <View style={{flexDirection: 'row', flex: 1, marginTop: 20}}>
-                <TouchableView style={{flex: 1}}onPress={()=>{
+                <TouchableView style={{flex: 1}} onPress={() => {
                     this.showShort("查一查")
                 }}>
-                <View style={{borderRadius:3,backgroundColor:'#fff',borderColor:'#eee',height:80,marginHorizontal: 10 , flex: 1 ,justifyContent:'center'}}>
-                    <Image source={require('../../img/bg_cyc.png')} style={{position:'absolute',top:0,left:0,right:0, bottom: 0}}/>
-                    <Text style={{color:'#333',fontWeight: 'bold',fontSize:16}}>查一查</Text>
-                    <Text  style={{color: '#999',fontSize:14 ,marginTop:10}}>物业知识共分享</Text>
-                </View>
+                    <ImageBackground source={require('../../img/bg_cyc.png')} style={{
+                        borderRadius: 3,
+                        backgroundColor: '#fff',
+                        borderColor: '#eee',
+                        height: 80,
+                        marginHorizontal: 10,
+                        flex: 1,
+                        justifyContent: 'center'
+                    }}>
+                        <Text style={{
+                            color: '#333',
+                            fontWeight: 'bold',
+                            marginLeft: 10,
+                            marginLeft: 10,
+                            fontSize: 16
+                        }}>查一查</Text>
+                        <Text style={{color: '#999', fontSize: 14, marginLeft: 10, marginTop: 10}}>物业知识共分享</Text>
+                    </ImageBackground>
                 </TouchableView>
-                <TouchableView style={{flex: 1}}onPress={()=>{
+                <TouchableView style={{flex: 1}} onPress={() => {
                     this.showShort("电话物业")
                 }}>
-                <View style={{borderRadius:3,backgroundColor:'#fff',borderColor:'#eee',height:80,marginHorizontal: 10 , flex: 1 ,justifyContent:'center'}}>
-                    <Image source={require('../../img/bg_dhwy.png')} style={{position:'absolute',top:0,left:0,right:0, bottom: 0}}/>
-                    <Text style={{color:'#333',fontWeight: 'bold',fontSize:16}}>电话物业</Text>
-                    <Text  style={{color: '#999',fontSize:14 ,marginTop:10}}>24小时在线</Text>
-                </View>
+                    <ImageBackground source={require('../../img/bg_dhwy.png')} style={{
+                        borderRadius: 3,
+                        backgroundColor: '#fff',
+                        borderColor: '#eee',
+                        height: 80,
+                        marginHorizontal: 10,
+                        flex: 1,
+                        justifyContent: 'center'
+                    }}>
+                        <Text style={{color: '#333', fontWeight: 'bold', marginLeft: 10, ontSize: 16}}>电话物业</Text>
+                        <Text style={{color: '#999', fontSize: 14, marginLeft: 10, marginTop: 10}}>24小时在线</Text>
+                    </ImageBackground>
                 </TouchableView>
 
             </View>
@@ -297,7 +325,7 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     titleLine: {
-            backgroundColor: '#fff',
+        backgroundColor: '#fff',
         flex: 1,
         flexDirection: 'row',
         height: 40,

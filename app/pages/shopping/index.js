@@ -1,7 +1,7 @@
 import React from 'react';
 import {
     TouchableHighlight, ScrollView, ListView, StyleSheet,
-    Image, View, Text, Dimensions, TextInput, RefreshControl
+    Image, View, Text, Dimensions, TextInput, RefreshControl, Linking
 } from "react-native";
 import Swiper from 'react-native-swiper'
 import {BaseComponent} from "../../components/base/BaseComponent";
@@ -42,7 +42,7 @@ export default class Shopping extends BaseComponent {
                 }, {
                     name: '快递查询',
                     imageUrl: require('../../img/menu_kdcx.png'),
-                    active: 'ContactList'
+                    active: 'alipays://platformapi/startapp?appId=20000754'
                 }, {
                     name: '违章查询',
                     imageUrl: require('../../img/menu_wzcx.png'),
@@ -50,7 +50,7 @@ export default class Shopping extends BaseComponent {
                 }, {
                     name: '手机充值',
                     imageUrl: require('../../img/menu_sjcx.png'),
-                    active: 'Register'
+                    active: 'alipays://platformapi/startapp?appId=20000987'//充值中心
                 }, {
                     name: '日用百货',
                     imageUrl: require('../../img/menu_rcbh.png'),
@@ -151,7 +151,11 @@ export default class Shopping extends BaseComponent {
     }
 
     _jumpRouter(typeItem) {
-        this.push(typeItem.active, {title: typeItem.name});
+        if (typeItem.active.indexOf('alipays://') == 0) {
+            Linking.openURL(typeItem.active);
+        }else {
+            this.navigate(typeItem.active);
+        }
     }
 
     onScanClick() {
@@ -206,9 +210,11 @@ export default class Shopping extends BaseComponent {
                     <TouchableView style={{alignItems: 'center', justifyContent: 'center'}} onPress={() => {
                         this.showShort("购物车")
                     }}>
-                        <QIcon style={{textAlign: 'center', paddingLeft: 15, paddingRight: 15}} name={'icon-home'}
-                               size={16}
-                               color="#333"></QIcon>
+                        <Image style={{
+                            width: 18,
+                            height: 18,
+                            marginHorizontal:15
+                        }} source={require("../../img/icon_gwc.png")}/>
                     </TouchableView>
                     <TouchableView style={{
                         flex: 1,
@@ -224,32 +230,34 @@ export default class Shopping extends BaseComponent {
                             backgroundColor: 'rgba(255,255,255,.5)',
                             borderRadius: 15
                         }}>
-                            <QIcon style={{textAlign: 'center', width: 20, width: 20, marginLeft: 8}} name={'icon-home'}
-                                   size={12}
-                                   color={CommonStyle.color_666}></QIcon>
-                            <Text style={{
-                                color: "#fff",
-                                fontSize: 14,
-                                flex: 1,
-                                marginLeft: 5
-                            }}>{this.state.searchHint}</Text>
-                            <TouchableView style={{width: 60, alignItems: 'center', justifyContent: 'center'}}
-                                           onPress={() => {
-                                               this.onScanClick()
-                                           }}>
-                                <QIcon style={{textAlign: 'center', marginLeft: 8}} name={'icon-home'}
-                                       size={16}
-                                       color="#333"></QIcon>
+                            <Image style={{
+                                width: 12,
+                                height: 12,
+                                marginLeft:10
+                            }} source={require("../../img/icon_search.png")}/>
+                            <Text style={{color: "#fff", fontSize: 14,flex:1, marginLeft: 5}}>{this.state.searchHint}</Text>
+                            <TouchableView style={{width: 60, alignItems: 'center',justifyContent:'center'}} onPress={() => {
+                                this.onScanClick()
+                            }}>
+                                <Image style={{
+                                    width: 16,
+                                    height: 16,marginLeft: 8
+                                }} source={require("../../img/icon_scan_w.png")}/>
                             </TouchableView>
                         </View>
                     </TouchableView>
-                    <TouchableView style={{alignItems: 'center', justifyContent: 'center', height: 50}} onPress={() => {
+                    <TouchableView style={{ alignItems: 'center',justifyContent:'center', height: 50}} onPress={() => {
                         this.showShort("消息")
+                        this.navigate("MessageList")
                     }}>
-                        <Badge text={this.state.unreadMessageCount} overflowCount={99} small>
-                            <QIcon style={{textAlign: 'center', paddingLeft: 15, paddingRight: 15}} name={'icon-home'}
-                                   size={16}
-                                   color="#333"></QIcon>
+                        <Badge text={this.state.unreadMessageCount} overflowCount={99} small >
+                            <Image style={{
+                                width: 48,
+                                height: 16,
+                                paddingLeft:8,
+                                paddingRight:18,
+                                resizeMode:'center'
+                            }} source={require("../../img/icon_msg_w.png")}/>
                         </Badge>
                     </TouchableView>
                 </View>

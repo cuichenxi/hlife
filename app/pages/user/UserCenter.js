@@ -1,15 +1,7 @@
 import React from 'react'
-import {
-    Text,
-    View,
-    Linking,
-    StyleSheet,
-    ScrollView, Image,
-    Modal as ModalView
-} from 'react-native'
+import {Image, Linking, Modal as ModalView, ScrollView, StyleSheet, Text, View} from 'react-native'
 
 import FIcon from 'react-native-vector-icons/Feather'
-import Icon from 'react-native-vector-icons/Ionicons'
 import {BaseComponent} from "../../components/base/BaseComponent";
 import {CommonStyle} from "../../common/CommonStyle";
 import QIcon from '../../components/icon';
@@ -18,9 +10,7 @@ import ItemArrow from "../../components/ItemArrow";
 import UserStore from "../../store/UserStore";
 import ImageView from "../../components/ImageView";
 import {Modal} from "antd-mobile-rn/lib/index.native";
-import ToastUtil from "../../utils/ToastUtil";
 import TouchableView from "../../components/TouchableView";
-import NavigationUtil from "../../utils/NavigationUtil";
 import Request from "../../utils/Request";
 
 
@@ -45,27 +35,27 @@ export default class UserCenter extends BaseComponent {
             signVisible: false,
         }
         this.config = [
-            {icon: "ios-pin", name: "我的订单", first: true, onPress: this.goPage.bind(this, "MyOrder")},
+            {icon: require('../../img/icon_uc_wddd.png'), name: "我的订单", first: true, onPress: this.goPage.bind(this, "MyOrder")},
             {
-                icon: "ios-heart",
+                icon:require('../../img/icon_uc_wdsc.png'),
                 name: "我的收藏",
                 first: true,
                 color: "#fc7b53",
                 onPress: this.goPage.bind(this, "MyCollection")
             },
-            {icon: "ios-pin", name: "我的访客", onPress: this.goPage.bind(this, "MyVisitor")},
-            {icon: "ios-pin", name: "我的小区", onPress: this.goPage.bind(this, "MyAddress")},
-            {icon: "ios-pin", name: "收货地址", onPress: this.goPage.bind(this, "MyShippingAddress")},
-            {icon: "logo-usd", name: "工单记录", onPress: this.goPage.bind(this, "address")},
-            {icon: "ios-cart", name: "缴费记录", onPress: this.goPage.bind(this, "MaintainRecord")},
+            {icon: require('../../img/icon_uc_wdfk.png'), name: "我的访客", onPress: this.goPage.bind(this, "MyVisitor")},
+            {icon: require('../../img/icon_uc_wdxq.png'), name: "我的小区", onPress: this.goPage.bind(this, "MyAddress")},
+            {icon: require('../../img/icon_uc_shdz.png'), name: "收货地址", onPress: this.goPage.bind(this, "MyShippingAddress")},
+            {icon: require('../../img/icon_uc_gdjl.png'), name: "工单记录", onPress: this.goPage.bind(this, "address")},
+            {icon: require('../../img/icon_uc_jfjl.png'), name: "缴费记录", onPress: this.goPage.bind(this, "MaintainRecord")},
             {
-                icon: "ios-heart",
+                icon: require('../../img/icon_uc_wsfp.png'),
                 name: "我的发票",
                 first: true,
                 marginTop: 10,
                 onPress: this.goPage.bind(this, "MyInvoiceList")
             },
-            {icon: "ios-heart", name: "红包", marginTop: 10, onPress: this.goPage.bind(this, "RedPacket")},
+            {icon: require('../../img/icon_uc_wdfk.png'), name: "红包", marginTop: 10, onPress: this.goPage.bind(this, "RedPacket")},
             {icon: "md-flower", name: "支付调试", onPress: this.goPage.bind(this, "PayPage")},
             {icon: "md-flower", name: "CodePushPage", onPress: this.goPage.bind(this, "CodePushPage")},
             {icon: "md-flower", name: "GiftedListDemo", onPress: this.goPage.bind(this, "GiftedListDemo")},
@@ -235,7 +225,6 @@ export default class UserCenter extends BaseComponent {
                                 style={{height: 190}}>
                 </LinearGradient>
                 <TouchableView style={{position: 'absolute', top: 40, right: 0}} onPress={() => {
-                    // this.navigate('AboutPage')
                     this.navigate('MySetting')
                 }}>
                     <View style={{
@@ -295,13 +284,18 @@ export default class UserCenter extends BaseComponent {
                     }}>{this.state.userPhone ? this.state.userPhone : this.state.userName}</Text>
                     <TouchableView style={{
                         marginTop: 5,
+                        flexDirection:'row'
                     }} onPress={() => {
                         this.navigate('UserInfo')
                     }}>
                         <Text style={{
                             color: "#666",
-                            fontSize: 14
+                            fontSize: 12
                         }}>查看/编辑个人资料</Text>
+                        <Image style={{
+                            width: 12,
+                            height: 12, marginLeft: 5
+                     }} source={require("../../img/icon_uc_edit.png")}/>
                     </TouchableView>
                     <View style={{
                         marginTop: 20, flex: 1, width: '80%', flexDirection: 'row', alignItems: 'center',

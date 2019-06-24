@@ -6,7 +6,7 @@ import {
     createBottomTabNavigator,
     StackViewTransitionConfigs
 } from 'react-navigation';
-import {Animated, Easing} from 'react-native'
+import {Animated, Easing, Image, ImageBackground, StyleSheet, Text, View} from 'react-native'
 import Splash from './pages/Splash';
 import MainContainer from './pages/main/MainContainer';
 import Web from './pages/web/index';
@@ -69,14 +69,15 @@ import PublishHouseInfo from "./pages/housekeeper/PublishHouseInfo";
 import HouseholdServerList from "./pages/shopping/HouseholdServerList";
 import HouseholdServer from "./pages/shopping/HouseholdServer";
 import MyOrder from "./pages/user/myorder/MyOrder";
+import {CommonStyle} from "./common/CommonStyle";
 
 const TabContainer = createBottomTabNavigator(
     {
         Main: {
             screen: MainContainer, navigationOptions: {
                 title: '首页',
-                tabBarIcon: ({tintColor}) => (
-                    <QIcon name="icon-home" size={21} color={tintColor}/>
+                tabBarIcon: ({focused, tintColor}) => (
+                    <Image style={styles.tabIcon} source={focused ? require("./img/tab_press_sy.png") : require("./img/tab_unpress_sy.png")}/>
                 )
             }
         },
@@ -84,33 +85,36 @@ const TabContainer = createBottomTabNavigator(
         shopping: {
             screen: Shopping, navigationOptions: {
                 title: '生活',
-                tabBarIcon: ({tintColor}) => (
-                    <QIcon name="icon-shopping" size={22} color={tintColor}/>
+                tabBarIcon: ({focused, tintColor}) => (
+                    <Image style={styles.tabIcon} source={focused ? require("./img/tab_press_sh.png") : require("./img/tab_unpress_sh.png")}/>
                 )
             }
         },
         housekeeper: {
             screen: Housekeeper, navigationOptions: {
                 title: '管家',
-                tabBarIcon: ({tintColor}) => (
-                    <QIcon name="icon-shopping-cart" size={23} color={tintColor}/>
+                tabBarIcon: ({focused, tintColor}) => (
+                    <QIcon name="icon-home" size={21} color={tintColor}/>
                 )
+
             }
         },
         Neighbour: {
             screen: Neighbour, navigationOptions: {
                 title: '邻里',
-                tabBarIcon: ({tintColor}) => (
-                    <QIcon name="icon-shopping-cart" size={23} color={tintColor}/>
+                tabBarIcon: ({focused, tintColor}) => (
+                    <Image style={styles.tabIcon} source={focused ? require("./img/tab_press_ll.png") : require("./img/tab_unpress_ll.png")}/>
                 )
+
             }
         },
         UserCenter: {
             screen: UserCenter, navigationOptions: {
                 title: '我的',
-                tabBarIcon: ({tintColor}) => (
-                    <QIcon name="icon-mine" size={22} color={tintColor}/>
+                tabBarIcon: ({focused, tintColor}) => (
+                    <Image style={styles.tabIcon} source={focused ? require("./img/tab_press_my.png") : require("./img/tab_unpress_my.png")}/>
                 )
+
             }
         },
     },
@@ -119,8 +123,8 @@ const TabContainer = createBottomTabNavigator(
         tabBarPosition: 'bottom',
         backBehavior: "none",
         tabBarOptions: {
-            activeTintColor: '#3e9ce9',
-            inactiveTintColor: '#999999',
+            activeTintColor: CommonStyle.themeColor,
+            inactiveTintColor: '#666',
             showIcon: true,
             style: {
                 backgroundColor: '#fff'
@@ -166,42 +170,42 @@ const App = createStackNavigator(
         ContactList: {screen: ContactList},
         RedPacket: {screen: RedPacket},
         ReportMatter: {screen: ReportMatter},
-        ShoppingCart:{screen:ShoppingCart},
-        MyAddressWithTab:{screen:MyAddressWithTab},
-        MyAddress:{screen:MyAddress},
-        MyShippingAddress:{screen:MyShippingAddress},
-        AddHousingAddress:{screen:AddHousingAddress},//新增小区地址
-        AddShippingAddress:{screen:AddShippingAddress},//新增收货地址
-        HousingAddressList:{screen:HousingAddressList},
-        ElementList:{screen:ElementList},//单元楼列表
-        UnitList:{screen:UnitList},//单元-室
-        ModifyHousingAddress:{screen:ModifyHousingAddress},//修改小区地址
-        MyVisitor:{screen:MyVisitor},//我的访客
-        MyCollection:{screen:MyCollection},//我的收藏
-        AddBillInfo:{screen:AddBillInfo},//增加发票
-        MyInvoiceList:{screen:MyInvoiceList},//我的发票
-        MySetting:{screen:MySetting},//我的设置
-        AuthPage:{screen:AuthPage},//认证
-        MessageList:{screen:MessageList},//消息列表
-        ProductDetail:{screen:ProductDetail},//商品详情
-        GiveAdvice:{screen:GiveAdvice},//咨询建议
-        RepairsSelect:{screen:RepairsSelect},//报修报事
-        CommitInfo:{screen:CommitInfo},//提交报修报事
-        GuestPassKey:{screen:GuestPassKey},//访客通行
-        TrafficPermit:{screen:TrafficPermit},//访客通行证页面
-        LivingPayment:{screen:LivingPayment},//生活缴费
-        LivingPaymentDetail:{screen:LivingPaymentDetail},//生活缴费明细
-        BillDetail:{screen:BillDetail},//生活缴费详情
-        WaterElectricityPayment:{screen:WaterElectricityPayment},//水电缴费
-        UsefulPhone:{screen:UsefulPhone},//常用电话
-        Payment:{screen:Payment},//生活缴费付款页面
-        MyIntegral:{screen:MyIntegral},//我的积分
-        MyWallet:{screen:MyWallet},//我的钱包
-        HouseSellRent:{screen:HouseSellRent},//服务租售
-        PublishHouseInfo:{screen:PublishHouseInfo},//发布房源
-        HouseholdServerList:{screen:HouseholdServerList},//家政服务列表
-        HouseholdServer:{screen:HouseholdServer},//家政服务详情
-        MyOrder:{screen:MyOrder},//我的订单
+        ShoppingCart: {screen: ShoppingCart},
+        MyAddressWithTab: {screen: MyAddressWithTab},
+        MyAddress: {screen: MyAddress},
+        MyShippingAddress: {screen: MyShippingAddress},
+        AddHousingAddress: {screen: AddHousingAddress},//新增小区地址
+        AddShippingAddress: {screen: AddShippingAddress},//新增收货地址
+        HousingAddressList: {screen: HousingAddressList},
+        ElementList: {screen: ElementList},//单元楼列表
+        UnitList: {screen: UnitList},//单元-室
+        ModifyHousingAddress: {screen: ModifyHousingAddress},//修改小区地址
+        MyVisitor: {screen: MyVisitor},//我的访客
+        MyCollection: {screen: MyCollection},//我的收藏
+        AddBillInfo: {screen: AddBillInfo},//增加发票
+        MyInvoiceList: {screen: MyInvoiceList},//我的发票
+        MySetting: {screen: MySetting},//我的设置
+        AuthPage: {screen: AuthPage},//认证
+        MessageList: {screen: MessageList},//消息列表
+        ProductDetail: {screen: ProductDetail},//商品详情
+        GiveAdvice: {screen: GiveAdvice},//咨询建议
+        RepairsSelect: {screen: RepairsSelect},//报修报事
+        CommitInfo: {screen: CommitInfo},//提交报修报事
+        GuestPassKey: {screen: GuestPassKey},//访客通行
+        TrafficPermit: {screen: TrafficPermit},//访客通行证页面
+        LivingPayment: {screen: LivingPayment},//生活缴费
+        LivingPaymentDetail: {screen: LivingPaymentDetail},//生活缴费明细
+        BillDetail: {screen: BillDetail},//生活缴费详情
+        WaterElectricityPayment: {screen: WaterElectricityPayment},//水电缴费
+        UsefulPhone: {screen: UsefulPhone},//常用电话
+        Payment: {screen: Payment},//生活缴费付款页面
+        MyIntegral: {screen: MyIntegral},//我的积分
+        MyWallet: {screen: MyWallet},//我的钱包
+        HouseSellRent: {screen: HouseSellRent},//服务租售
+        PublishHouseInfo: {screen: PublishHouseInfo},//发布房源
+        HouseholdServerList: {screen: HouseholdServerList},//家政服务列表
+        HouseholdServer: {screen: HouseholdServer},//家政服务详情
+        MyOrder: {screen: MyOrder},//我的订单
     },
     {
         // initialRouteName: 'Splash',
@@ -230,5 +234,11 @@ const App = createStackNavigator(
         }),
     }
 );
-
+const styles = StyleSheet.create({
+    tabIcon: {
+        width: 18,
+        height: 18,
+        resizeMode:'center'
+    },
+})
 export default App;

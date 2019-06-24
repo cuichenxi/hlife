@@ -56,6 +56,9 @@ export default class ItemArrow extends Component {
     //   font: '',
     //   onPress: ()=>{}
     // }
+// <Icon name={icon} size={(iconSize || 20)} style={{width: 22, marginRight: 5,
+//     marginTop: 4, textAlign: "center"}}
+// color={color || "#4da6f0"}/>) : null}
     _render() {
         let {icon, iconSize, name, subName, color, first, avatar, disable, font, marginTop} = this.props;
         font = font || "Ionicons"
@@ -63,9 +66,12 @@ export default class ItemArrow extends Component {
         return (
             <View style={[styles.listItem,{marginTop: marginTop}]}>
                 {icon ? (
-                    <Icon name={icon} size={(iconSize || 20)} style={{width: 22, marginRight: 5,
-                        marginTop: 4, textAlign: "center"}}
-                          color={color || "#4da6f0"}/>) : null}
+                    <Image style={{
+                        width: 16,
+                        height: 16,
+                        resizeMode:'center',
+                        marginRight: 12,
+                    }} source={icon}/>): null}
                 <View style={[styles.listInfo, {borderTopWidth: !first ? 1 : 0}]}>
                     <View style={{flex: 1}}><Text>{name}</Text></View>
                     <View style={styles.listInfoRight}>

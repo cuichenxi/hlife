@@ -104,7 +104,8 @@ android {
     useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
-        applicationId "com.qfant.hlife"
+//        applicationId "com.qfant.hlife"
+        applicationId "com.qfant.wuye"
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 7
@@ -185,9 +186,9 @@ andResGuard {   // ./gradlew resguard[BuildType | Flavor]
     keepRoot = false
     // add <yourpackagename>.R.drawable.icon into whitelist.
     whiteList = [
-            "com.qfant.hlife.R.drawable.ic_launcher",
-            "com.qfant.hlife.R.drawable.app_img*",
-            "com.qfant.hlife.R.drawable.node_modules*",
+            "com.qfant.wuye.R.drawable.ic_launcher",
+            "com.qfant.wuye.R.drawable.app_img*",
+            "com.qfant.wuye.R.drawable.node_modules*",
             // for react-native-code-push
             "R.string.CODE_PUSH_APK_BUILD_TIME"
     ]

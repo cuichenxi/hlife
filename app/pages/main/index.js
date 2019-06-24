@@ -1,6 +1,7 @@
 import React from 'react';
 import {
     DeviceEventEmitter,
+    Linking,
     TouchableHighlight, ScrollView, ListView, StyleSheet,
     Image, View, Text, Dimensions, TextInput, RefreshControl
 } from "react-native";
@@ -22,7 +23,6 @@ export default class Main extends BaseComponent {
     navigationBarProps() {
         return {
             hiddenLeftItem: true,
-
             title: '首页',
         }
     }
@@ -61,11 +61,11 @@ export default class Main extends BaseComponent {
                 }, {
                     name: '违章查询',
                     imageUrl: require('../../img/menu_wzcx.png'),
-                    active: 'ContactList'
+                    active: 'alipays://platformapi/startapp?appId=20000987'//充值中心
                 }, {
                     name: '快递查询',
                     imageUrl: require('../../img/menu_kdcx.png'),
-                    active: 'Login'
+                    active: 'alipays://platformapi/startapp?appId=20000754'
                 }
             ],
             dataSource: new ListView.DataSource({
@@ -180,8 +180,11 @@ export default class Main extends BaseComponent {
     }
 
     _jumpRouter(typeItem) {
-        this.navigate('ProductDetail',{id:typeItem.id})
-        // this.push(typeItem.active, {title: typeItem.name});
+        if (typeItem.active.indexOf('alipays://') == 0) {
+            Linking.openURL(typeItem.active);
+        }else {
+            this.navigate('ProductDetail',{id:typeItem.id});
+        }
     }
 
     onScanClick() {
@@ -220,16 +223,19 @@ export default class Main extends BaseComponent {
                         backgroundColor: 'rgba(255,255,255,.5)',
                         borderRadius: 15
                     }}>
-                        <QIcon style={{textAlign: 'center', width: 20, width: 20, marginLeft: 8}} name={'icon-home'}
-                               size={12}
-                               color={CommonStyle.color_666}></QIcon>
+                        <Image style={{
+                            width: 12,
+                            height: 12,
+                            marginLeft:10
+                        }} source={require("../../img/icon_search.png")}/>
                         <Text style={{color: "#fff", fontSize: 14,flex:1, marginLeft: 5}}>{this.state.searchHint}</Text>
                         <TouchableView style={{width: 60, alignItems: 'center',justifyContent:'center'}} onPress={() => {
                             this.onScanClick()
                         }}>
-                            <QIcon style={{textAlign: 'center',  marginLeft: 8}} name={'icon-home'}
-                                   size={16}
-                                   color="#333"></QIcon>
+                            <Image style={{
+                                width: 16,
+                                height: 16,marginLeft: 8
+                            }} source={require("../../img/icon_scan.png")}/>
                         </TouchableView>
                     </View>
                     </TouchableView>
@@ -238,8 +244,13 @@ export default class Main extends BaseComponent {
                         this.navigate("MessageList")
                     }}>
                         <Badge text={this.state.unreadMessageCount} overflowCount={99} small >
-                            <QIcon style={{textAlign: 'center',paddingLeft:15,paddingRight:15}} name={'icon-home'} size={16}
-                                   color="#333"></QIcon>
+                            <Image style={{
+                                width: 48,
+                                height: 16,
+                                paddingLeft:8,
+                                paddingRight:18,
+                                resizeMode:'center'
+                            }} source={require("../../img/icon_msg.png")}/>
                         </Badge>
                     </TouchableView>
                 </View>
