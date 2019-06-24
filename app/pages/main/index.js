@@ -183,7 +183,7 @@ export default class Main extends BaseComponent {
         if (typeItem.active.indexOf('alipays://') == 0) {
             Linking.openURL(typeItem.active);
         }else {
-            this.navigate('ProductDetail',{id:typeItem.id});
+            this.navigate(typeItem.active,{title:typeItem.name});
         }
     }
 
@@ -203,11 +203,16 @@ export default class Main extends BaseComponent {
                     marginTop: CommonStyle.navStatusBarHeight, alignItems: 'center'
                 }}>
                     <TouchableView style={{width: 60, alignItems: 'center',justifyContent:'center'}} onPress={() => {
-                        this.showShort("请认证")
-                        // this.navigate('AuthPage')
-                        this.navigate('ProductDetail')
+                        if (!this.state.isAuth) {
+                            this.navigate('AuthPage',{
+                                params: {from: 1},callback:(e)=>{
+                                   this.setState({
+                                       isAuth: e.isAuth
+                                   })
+                                }});
+                        }
                     }}>
-                        <Text style={{textAlign: 'center',color:'#fff', fontSize: 14}} >{this.state.isAuth?'请认证':'已认证'}</Text>
+                        <Text style={{textAlign: 'center',color:'#fff', fontSize: 14}} >{!this.state.isAuth?'请认证':'已认证'}</Text>
                     </TouchableView>
                     <TouchableView style={{
                         flex: 1,

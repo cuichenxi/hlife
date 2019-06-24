@@ -194,7 +194,8 @@ export default class AuthPage extends BaseComponent {
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
                 UserStore.save(rep.data);
-                NavigationUtil.reset(this.props.navigation, 'Home');
+                this.goBack({isAuth:true})
+                // NavigationUtil.reset(this.props.navigation, 'Home');
             } else {
                 this.showShort(rep.message);
             }

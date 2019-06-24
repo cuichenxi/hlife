@@ -221,7 +221,7 @@ export default class Housekeeper extends BaseComponent {
                             marginLeft: 10,
                             marginLeft: 10,
                             fontSize: 16
-                        }}>查一查</Text>
+                        }}>扫一扫</Text>
                         <Text style={{color: '#999', fontSize: 14, marginLeft: 10, marginTop: 10}}>物业知识共分享</Text>
                     </ImageBackground>
                 </TouchableView>
