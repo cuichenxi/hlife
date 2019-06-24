@@ -130,6 +130,7 @@ class BaseComponent extends React.Component {
 
 
     onRightPress() {
+        console.log('======right=')
         return null
     }
 

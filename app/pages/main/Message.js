@@ -1,17 +1,15 @@
 import React from 'react';
-import {StyleSheet,FlatList,TouchableHighlight, Text, View, Keyboard} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {BaseComponent} from '../../components/base/BaseComponent'
 import {CommonStyle} from "../../common/CommonStyle";
 import Tabs from "antd-mobile-rn/es/tabs/index.native";
-import VisitorView from "../user/myvisitor/VisitorView";
-import NewestView from "./NewestView";
-import TopicView from "./TopicView";
+import MessageListView from "./MessageListView";
 
-export default class Neighbour extends BaseComponent {
+export default class Message extends BaseComponent {
     navigationBarProps() {
         return {
             hiddenLeftItem: true,
-            title: '和谐邻里',
+            title: '通知',
         }
     }
 
@@ -24,8 +22,10 @@ export default class Neighbour extends BaseComponent {
     }
     _render() {
         const tabs = [
-            {title: '最新'},
-            {title: '话题'},
+            {title: '活动'},
+            {title: '关键通知'},
+            {title: '订单'},
+            {title: '服务号'},
         ];
         return (
             <View style={styles.container}>
@@ -33,7 +33,6 @@ export default class Neighbour extends BaseComponent {
                     // index
                 }}
                       tabBarUnderlineStyle={{backgroundColor: CommonStyle.themeColor}} initialPage={0} tabBarPosition="top">
-
                     {this.renderPage.bind(this)}
                 </Tabs>
             </View>
@@ -42,25 +41,15 @@ export default class Neighbour extends BaseComponent {
 
     renderPage(tab,index){
         console.log(index)
-        if (index === 0){
-            return(
-                <NewestView style={{
-                    flex: 1,
-                    backgroundColor: 'white',
-                    flexDirection: 'column'
-                }} tab={tab} index={index} onButtonPress={() =>{
-                    this.navigate('PublishPost')
-                }}/>
-            )
-        } else if (index === 1){
-            return(
-                <TopicView style={{
-                    flex: 1,
-                    backgroundColor: 'white',
-                    flexDirection: 'column'
-                }} tab={tab} index={index}/>
-            )
-        }
+        return(
+            <MessageListView style={{
+                flex: 1,
+                backgroundColor: 'white',
+                flexDirection: 'column'
+            }} tab={tab} index={index} onButtonPress={() =>{
+                this.navigate('PublishPost')
+            }}/>
+        )
     }
 }
 

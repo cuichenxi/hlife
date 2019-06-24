@@ -1,49 +1,92 @@
 import {BaseComponent} from "../../components/base/BaseComponent";
 import React from "react";
 import {Dimensions, FlatList, Image, Keyboard, Text, TextInput, View} from "react-native";
-import {ActionSheet} from "antd-mobile-rn";
-import TouchableView from "../../components/TouchableView";
 import {CommonStyle} from "../../common/CommonStyle";
+import TouchableView from "../../components/TouchableView";
+import {ActionSheet} from "antd-mobile-rn";
 import ImagePicker from "react-native-image-crop-picker";
 import Request from "../../utils/Request";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import ToastUtil from "../../utils/ToastUtil";
 // 一些常量设置
 let {width, height} = Dimensions.get('window')
-
+const Font = {
+    Ionicons,
+    FontAwesome
+}
 const cols = 4; // 列数
 const left = 10; // 左右边距
 const top = 10; // 上下边距
 const ImageWH = (width - (cols + 1) * left) / cols; // 图片大小
+export default class PublishPost extends BaseComponent {
 
-export default class CommitInfo extends BaseComponent {
     navigationBarProps() {
         return {
-            title: this.props.navigation.state.params.title,
+            title: '发布帖子',
+            rightTitle:'发布',
+            onRightPress:()=>{}
         }
     }
+
     constructor(props) {
         super(props);
         this.state = {
             images: ['add'],
-            content:'',
-            type:1,
-            communityId:''
+            content: '',
+            topic:''
         }
     }
 
-
+    onRightPress(){
+        this.publishPost()
+    }
 
     _render() {
+        const {images} = this.state
         return (
-            <View>
+            <View style={{backgroundColor:'#fff',flex: 1}}>
+                <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
+                <TouchableView onPress={() => {
+                    this.navigate('TopicTypeList', {
+                        callback: (data) => {
+                            ToastUtil.showShort(data.name);
+                            this.setState({
+                                topic: data.name
+                            })
+                        }
+                    })
+                }}>
+                    <View style={{
+                        height: 40,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        // padding: 10,
+                        backgroundColor: '#fff',
+                        paddingLeft: 10,
+                        paddingRight: 10,
+                    }}>
+                        <Text style={{textAlign: 'center', color: '#333', fontSize: 15}}>选择发布到</Text>
+                        <View
+                            style={{flexDirection: 'row', justifyContent: 'center'}}>
+                            <Text style={{marginRight: 5, fontSize: 14, color: '#999'}}>{this.state.topic === ''?'请选择':this.state.topic}</Text>
+                            <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
+                                           color="#bbb"/>
+                        </View>
+                    </View>
+                </TouchableView>
+
+                <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
+
                 <TextInput
                     ref="commit_info"
-                    placeholder='您对我们的工作有什么建议'
+                    placeholder='输入内容...'
                     style={{
                         width: '100%',
                         backgroundColor: '#fff',
                         height: 100,
                         marginBottom: 20,
-                        marginTop: 10,
                         padding: 10,
                         alignItems: 'flex-start',
                         justifyContent: 'flex-start',
@@ -52,7 +95,14 @@ export default class CommitInfo extends BaseComponent {
                     }}
                     multiline={true}
                     maxLength={100}
-                    underlineColorAndroid="transparent"/>
+                    underlineColorAndroid="transparent"
+                    value={this.state.content}
+                    onChangeText={(value) => {
+                        this.setState({
+                            content: value
+                        })
+                    }}
+                />
 
                 <FlatList
                     style={{backgroundColor: '#fff'}}
@@ -64,25 +114,9 @@ export default class CommitInfo extends BaseComponent {
                     horizontal={false}
                 />
 
-                <TouchableView onPress={()=>{
-
-                }}>
-                    <View style={{
-                        height: 40,
-                        marginLeft: 30,
-                        marginRight: 30,
-                        marginTop: 20,
-                        borderRadius: 30,
-                        backgroundColor: CommonStyle.themeColor,
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                    }}>
-                        <Text style={{color: '#ffffff', fontSize: 14}}>确认提交</Text>
-                    </View>
-                </TouchableView>
 
             </View>
-        )
+        );
     }
 
     _keyExtractor = (item, index) => {
@@ -90,6 +124,7 @@ export default class CommitInfo extends BaseComponent {
     }
 
     renderRow(rowData) {
+        let that = this
         console.log('rowData', rowData)
         if (rowData.index === 0) {
             return (
@@ -151,6 +186,7 @@ export default class CommitInfo extends BaseComponent {
 
     }
 
+
     _onSelectImage() {
         const {images} = this.state
         const BUTTONS = [
@@ -196,17 +232,17 @@ export default class CommitInfo extends BaseComponent {
         );
     }
 
-    commitInfo() {
+    publishPost() {
         Keyboard.dismiss();
-        let {content, images,communityId,type} = this.state;
+        let {content, images} = this.state;
         if (!content.length) {
             this.showLong('请输入内容');
             return;
         }
-        let param = {content: content, imageList: images, type: 1, title: 'ceshi'};
+        let param = {content: content, imageUrlList: images, type: 1, title: 'ceshi'};
 
         console.log(param)
-        Request.post('/api/steward/complaintpraise', param,
+        Request.post('/api/neighbour/publishinvitation', param,
             {
                 mock: false,
                 mockId: 1095545,
@@ -220,5 +256,4 @@ export default class CommitInfo extends BaseComponent {
             // this.hideLoading();
         })
     }
-
 }

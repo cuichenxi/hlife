@@ -21,3 +21,5 @@ const backRoute = state.routes.find((route: *) => route.key === action.key);
 并且又会带出一个问题: goBack()方法没反应了, 必须加个null进去, 写成goBack(null)...
 ```
 
+解决React Native--_this.*** is not a function 的问题
+https://blog.csdn.net/theVicTory/article/details/80113394

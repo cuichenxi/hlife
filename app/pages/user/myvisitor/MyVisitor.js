@@ -25,7 +25,7 @@ export default class MyVisitor extends BaseComponent {
         return (
             <Tabs style={{marginTop: 10}} tabs={tabs} tabBarActiveTextColor={CommonStyle.themeColor}  onChange={(tab,index)=>{
                 // index
-                ToastUtil.showShort("index = " + index);
+                // ToastUtil.showShort("index = " + index);
             }}
                   tabBarUnderlineStyle={{backgroundColor: CommonStyle.themeColor}} initialPage={0} tabBarPosition="top">
 
@@ -42,12 +42,7 @@ export default class MyVisitor extends BaseComponent {
                 flex: 1,
                 backgroundColor: 'white',
                 flexDirection: 'column'
-            }} tab={tab} index={index}
-                                onItemPress={(item) => {
-                                    // this.goBack(item)
-                                    // this.navigate('ModifyHousingAddress',{address:item})
-                                    // ToastUtil.showShort("index = " + index);
-                                }}/>
+            }} tab={tab} index={index}/>
         )
     }
 

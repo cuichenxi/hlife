@@ -84,6 +84,10 @@ export default class Main extends BaseComponent {
         this.hideHeader(true);
     }
 
+    canExitApp() {
+        return true;
+    }
+
     onReady(param) {
         this.getHomeData();
         this.getUserInfo();
@@ -246,7 +250,7 @@ export default class Main extends BaseComponent {
                     </TouchableView>
                     <TouchableView style={{ alignItems: 'center',justifyContent:'center', height: 50}} onPress={() => {
                         this.showShort("消息")
-                        this.navigate("MessageList")
+                        this.navigate("Message")
                     }}>
                         <Badge text={this.state.unreadMessageCount} overflowCount={99} small >
                             <Image style={{

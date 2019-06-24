@@ -42,6 +42,9 @@ export default class Login extends BaseComponent {
     canBack() {
         return false;
     }
+    onShow() {
+        this.hideHeader(true);
+    }
 
 
     _render() {
@@ -99,13 +102,18 @@ export default class Login extends BaseComponent {
                 </View>
                 <TouchableOpacity style={{
                     height: 40,
+                    width:300,
                     marginLeft: 30,
                     marginRight: 30,
                     marginTop: 20,
                     borderRadius: 30,
                     backgroundColor: CommonStyle.themeColor,
                     justifyContent: 'center',
-                    alignItems: 'center'
+                    alignItems: 'center',
+                    position: 'absolute',
+                    bottom: 0,
+                    marginBottom:50,
+                    alignSelf: 'center'
                 }} onPress={this._login.bind(this)}>
                     <Text style={styles.loginText}>登录</Text>
                 </TouchableOpacity>
@@ -138,7 +146,7 @@ export default class Login extends BaseComponent {
         var param = {phone: this.state.mobile, code: this.state.authCode};
         Request.post('/api/user/login', param,
             {
-                mock: true,
+                mock: false,
                 mockId: 672823,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
@@ -156,10 +164,15 @@ export default class Login extends BaseComponent {
     }
 
     _requestAuthCode(shouldStartCounting) {
+        if (this.state.mobile.length !== 11) {
+            this.showLong('请输入手机号');
+            return;
+        }
         this.setState({
             authState: '正在请求验证码',
             codeRequesting:true
         })
+
         var param = {phone: this.state.mobile};
 
         Request.post('/api/user/getAuthCode', param,
@@ -176,6 +189,8 @@ export default class Login extends BaseComponent {
             this.showShort(rep.message);
 
         }).catch(err => {
+            shouldStartCounting && shouldStartCounting(false)
+            this.showShort('网络异常');
         }).done(() => {
             this.hideLoading();
         })

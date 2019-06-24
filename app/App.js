@@ -70,6 +70,9 @@ import HouseholdServerList from "./pages/shopping/HouseholdServerList";
 import HouseholdServer from "./pages/shopping/HouseholdServer";
 import MyOrder from "./pages/user/myorder/MyOrder";
 import {CommonStyle} from "./common/CommonStyle";
+import PublishPost from "./pages/neighbour/PublishPost";
+import TopicTypeList from "./pages/neighbour/TopicTypeList";
+import Message from "./pages/main/Message";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -170,42 +173,45 @@ const App = createStackNavigator(
         ContactList: {screen: ContactList},
         RedPacket: {screen: RedPacket},
         ReportMatter: {screen: ReportMatter},
-        ShoppingCart: {screen: ShoppingCart},
-        MyAddressWithTab: {screen: MyAddressWithTab},
-        MyAddress: {screen: MyAddress},
-        MyShippingAddress: {screen: MyShippingAddress},
-        AddHousingAddress: {screen: AddHousingAddress},//新增小区地址
-        AddShippingAddress: {screen: AddShippingAddress},//新增收货地址
-        HousingAddressList: {screen: HousingAddressList},
-        ElementList: {screen: ElementList},//单元楼列表
-        UnitList: {screen: UnitList},//单元-室
-        ModifyHousingAddress: {screen: ModifyHousingAddress},//修改小区地址
-        MyVisitor: {screen: MyVisitor},//我的访客
-        MyCollection: {screen: MyCollection},//我的收藏
-        AddBillInfo: {screen: AddBillInfo},//增加发票
-        MyInvoiceList: {screen: MyInvoiceList},//我的发票
-        MySetting: {screen: MySetting},//我的设置
-        AuthPage: {screen: AuthPage},//认证
-        MessageList: {screen: MessageList},//消息列表
-        ProductDetail: {screen: ProductDetail},//商品详情
-        GiveAdvice: {screen: GiveAdvice},//咨询建议
-        RepairsSelect: {screen: RepairsSelect},//报修报事
-        CommitInfo: {screen: CommitInfo},//提交报修报事
-        GuestPassKey: {screen: GuestPassKey},//访客通行
-        TrafficPermit: {screen: TrafficPermit},//访客通行证页面
-        LivingPayment: {screen: LivingPayment},//生活缴费
-        LivingPaymentDetail: {screen: LivingPaymentDetail},//生活缴费明细
-        BillDetail: {screen: BillDetail},//生活缴费详情
-        WaterElectricityPayment: {screen: WaterElectricityPayment},//水电缴费
-        UsefulPhone: {screen: UsefulPhone},//常用电话
-        Payment: {screen: Payment},//生活缴费付款页面
-        MyIntegral: {screen: MyIntegral},//我的积分
-        MyWallet: {screen: MyWallet},//我的钱包
-        HouseSellRent: {screen: HouseSellRent},//服务租售
-        PublishHouseInfo: {screen: PublishHouseInfo},//发布房源
-        HouseholdServerList: {screen: HouseholdServerList},//家政服务列表
-        HouseholdServer: {screen: HouseholdServer},//家政服务详情
-        MyOrder: {screen: MyOrder},//我的订单
+        ShoppingCart:{screen:ShoppingCart},
+        MyAddressWithTab:{screen:MyAddressWithTab},
+        MyAddress:{screen:MyAddress},
+        MyShippingAddress:{screen:MyShippingAddress},
+        AddHousingAddress:{screen:AddHousingAddress},//新增小区地址
+        AddShippingAddress:{screen:AddShippingAddress},//新增收货地址
+        HousingAddressList:{screen:HousingAddressList},
+        ElementList:{screen:ElementList},//单元楼列表
+        UnitList:{screen:UnitList},//单元-室
+        ModifyHousingAddress:{screen:ModifyHousingAddress},//修改小区地址
+        MyVisitor:{screen:MyVisitor},//我的访客
+        MyCollection:{screen:MyCollection},//我的收藏
+        AddBillInfo:{screen:AddBillInfo},//增加发票
+        MyInvoiceList:{screen:MyInvoiceList},//我的发票
+        MySetting:{screen:MySetting},//我的设置
+        AuthPage:{screen:AuthPage},//认证
+        MessageList:{screen:MessageList},//消息列表
+        ProductDetail:{screen:ProductDetail},//商品详情
+        GiveAdvice:{screen:GiveAdvice},//咨询建议
+        RepairsSelect:{screen:RepairsSelect},//报修报事
+        CommitInfo:{screen:CommitInfo},//提交报修报事
+        GuestPassKey:{screen:GuestPassKey},//访客通行
+        TrafficPermit:{screen:TrafficPermit},//访客通行证页面
+        LivingPayment:{screen:LivingPayment},//生活缴费
+        LivingPaymentDetail:{screen:LivingPaymentDetail},//生活缴费明细
+        BillDetail:{screen:BillDetail},//生活缴费详情
+        WaterElectricityPayment:{screen:WaterElectricityPayment},//水电缴费
+        UsefulPhone:{screen:UsefulPhone},//常用电话
+        Payment:{screen:Payment},//生活缴费付款页面
+        MyIntegral:{screen:MyIntegral},//我的积分
+        MyWallet:{screen:MyWallet},//我的钱包
+        HouseSellRent:{screen:HouseSellRent},//服务租售
+        PublishHouseInfo:{screen:PublishHouseInfo},//发布房源
+        HouseholdServerList:{screen:HouseholdServerList},//家政服务列表
+        HouseholdServer:{screen:HouseholdServer},//家政服务详情
+        MyOrder:{screen:MyOrder},//我的订单
+        PublishPost:{screen:PublishPost},//发布帖子
+        TopicTypeList:{screen:TopicTypeList},//话题列表
+        Message:{screen:Message},//通知消息列表
     },
     {
         // initialRouteName: 'Splash',
