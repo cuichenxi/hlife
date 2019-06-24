@@ -50,7 +50,11 @@ export default class Neighbour extends BaseComponent {
                     flexDirection: 'column'
                 }} tab={tab} index={index} onButtonPress={() =>{
                     this.navigate('PublishPost')
-                }}/>
+                }}
+                            onItemPress={()=>{
+                                this.navigate('PostDetail')
+                            }}
+                />
             )
         } else if (index === 1){
             return(

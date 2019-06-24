@@ -8,14 +8,14 @@ import MessageListView from "./MessageListView";
 export default class Message extends BaseComponent {
     navigationBarProps() {
         return {
-            hiddenLeftItem: true,
+            // hiddenLeftItem: true,
             title: '通知',
         }
     }
 
-    onNext = () => {
+    /*onNext = () => {
         this.navigate('Login', {isFirst: true});
-    };
+    };*/
 
     canExitApp(){
         return true;

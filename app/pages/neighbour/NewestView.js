@@ -47,7 +47,9 @@ export default class Index extends BaseView {
 
     _renderRowView(item) {
         return (
-            <View style={{flex: 1}}>
+            <TouchableView style={{flex: 1}} onPress={()=>{
+                this.state.onItemPress()
+            }}>
                 <View style={{
                     backgroundColor: 'white',
                     // height:50,
@@ -124,7 +126,7 @@ export default class Index extends BaseView {
                                }}/>
                     <Text style={{color: '#999', fontSize: 12,}}>{item.commentCount}</Text>
                 </View>
-            </View>
+            </TouchableView>
 
         )
     }

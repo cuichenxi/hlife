@@ -73,6 +73,7 @@ import {CommonStyle} from "./common/CommonStyle";
 import PublishPost from "./pages/neighbour/PublishPost";
 import TopicTypeList from "./pages/neighbour/TopicTypeList";
 import Message from "./pages/main/Message";
+import PostDetail from "./pages/neighbour/PostDetail";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -212,6 +213,7 @@ const App = createStackNavigator(
         PublishPost:{screen:PublishPost},//发布帖子
         TopicTypeList:{screen:TopicTypeList},//话题列表
         Message:{screen:Message},//通知消息列表
+        PostDetail:{screen:PostDetail},//帖子详情
     },
     {
         // initialRouteName: 'Splash',
