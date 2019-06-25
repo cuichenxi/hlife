@@ -1,20 +1,14 @@
 import React from 'react';
-import {
-    TouchableHighlight, ScrollView, ListView, StyleSheet,
-    Image, View, Text, Dimensions, TextInput, RefreshControl, Linking
-} from "react-native";
-import Swiper from 'react-native-swiper'
+import {Dimensions, Image, Linking, StyleSheet, Text, View} from "react-native";
 import {BaseComponent} from "../../components/base/BaseComponent";
 import GridView from "../../components/GridView";
 import TouchableView from "../../components/TouchableView";
 import {CommonStyle} from "../../common/CommonStyle";
 import BarcodePage from "../witget/BarcodePage";
 import Request from "../../utils/Request";
-import QIcon from "../../components/icon";
 import {Badge} from "antd-mobile-rn";
 import {LINK_APIPAYS_CZ, LINK_APIPAYS_EXPRESS, LINK_APIPAYS_WZ} from "../../constants/UrlConstant";
 
-const {width, height} = Dimensions.get('window')
 
 export default class Shopping extends BaseComponent {
     navigationBarProps() {
@@ -145,11 +139,10 @@ export default class Shopping extends BaseComponent {
     onScanClick() {
         this.navigate("BarcodePage", {
             callback: (backData) => {
-                this.showShort(backData)
+                this.navigate('scanInfo',{serialNum: backData})
             }
         });
     }
-
 
     _renderGridView() {
         return (

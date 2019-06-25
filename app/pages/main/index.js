@@ -180,27 +180,12 @@ export default class Main extends BaseComponent {
     onScanClick() {
         // this.navigate("BarcodePage", {
         //     callback: (backData) => {
-        //         this.showShort(backData)
+        //         this.navigate('scanInfo',{serialNum: backData})
         //     }
         // });
-        // this.getScanData();
-        this.navigate('scanInfo',{})
+        this.navigate('scanInfo',{serialNum: 1111111})
     }
-    getScanData(){
-        this.showDLoading()
-        Request.post('/api/home/scan', {serialnum: 0},
-            {
-                mock: false,
-                mockId: 673062,
-            }).then(rep => {
-            if (rep.code == 0 && rep.data) {
 
-            }
-        }).catch(err => {
-        }).done(() => {
-            this.hideLoading()
-        })
-    }
 
 
     _renderHeader() {

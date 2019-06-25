@@ -79,7 +79,7 @@ const post = (url, params = {}, options = {}, cacheCallback) => {
                 resolve(rep);
                 return;
             }
-            console.log("response密文=" + responseData);
+            // console.log("response密文=" + responseData);
             let decryptData = aes.Decrypt(responseData);
             console.log("response明文=" + decryptData);
             responseData = JSON.parse(decryptData);

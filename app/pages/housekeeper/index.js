@@ -1,25 +1,22 @@
 import React from 'react';
 import {
     Image,
-    FlatList,
+    ImageBackground,
     Linking,
+    RefreshControl,
     ScrollView,
     StyleSheet,
     Text,
-    View,
     TouchableOpacity,
-    RefreshControl,
-    ImageBackground, Dimensions
+    View
 } from 'react-native';
 import {BaseComponent} from "../../components/base/BaseComponent";
 import GridView from "../../components/GridView";
 import TouchableView from "../../components/TouchableView";
-import QIcon from "../../components/icon";
 import {CommonStyle} from "../../common/CommonStyle";
 import Icon from "react-native-vector-icons/Ionicons";
 import Request from "../../utils/Request";
 
-let {width, height} = Dimensions.get('window')
 
 export default class Housekeeper extends BaseComponent {
     navigationBarProps() {

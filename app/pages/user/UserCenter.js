@@ -57,7 +57,7 @@ export default class UserCenter extends BaseComponent {
                 marginTop: 10,
                 onPress: this.goPage.bind(this, "MyInvoiceList")
             },
-            {icon: require('../../img/icon_uc_wdfk.png'), name: "红包", marginTop: 10, onPress: this.goPage.bind(this, "RedPacket")},
+            // {icon: require('../../img/icon_uc_wdfk.png'), name: "红包", marginTop: 10, onPress: this.goPage.bind(this, "RedPacket")},
             // {icon: "md-flower", name: "支付调试", onPress: this.goPage.bind(this, "PayPage")},
             // {icon: "md-flower", name: "CodePushPage", onPress: this.goPage.bind(this, "CodePushPage")},
             // {icon: "md-flower", name: "GiftedListDemo", onPress: this.goPage.bind(this, "GiftedListDemo")},
@@ -134,6 +134,8 @@ export default class UserCenter extends BaseComponent {
                     integralCount: this.state.integralCount + rep.data.integralCount,
                 })
                 UserStore.save({integralCount: this.state.integralCount + 1})
+            }else {
+                this.showShort(rep.message)
             }
         }).catch(err => {
         }).done(() => {
@@ -271,8 +273,10 @@ export default class UserCenter extends BaseComponent {
                             this.requestSign.bind(this)
                         }>
 
-                            <QIcon style={{alignSelf: 'center'}} name={'icon-home'} size={14}
-                                   color={'#fff'}></QIcon>
+                            <Image style={{
+                                width: 12,
+                                height: 12,
+                            }} source={require("../../img/icon_uc_qd.png")}/>
                             <Text style={{
                                 color: "#fff",
                                 fontSize: 14,
