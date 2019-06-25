@@ -51,7 +51,7 @@ export default class TopicTypeList extends BaseComponent{
                 mockId: 1095629,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
-                callback(rep.data.rows)
+                callback(rep.data)
             }
         }).catch(err => {
 

@@ -34,7 +34,8 @@ export default class PublishPost extends BaseComponent {
         this.state = {
             images: ['add'],
             content: '',
-            topic:''
+            topic:'',
+            topicId:''
         }
     }
 
@@ -52,7 +53,8 @@ export default class PublishPost extends BaseComponent {
                         callback: (data) => {
                             ToastUtil.showShort(data.name);
                             this.setState({
-                                topic: data.name
+                                topic: data.name,
+                                topicId: data.id,
                             })
                         }
                     })
@@ -234,12 +236,13 @@ export default class PublishPost extends BaseComponent {
 
     publishPost() {
         Keyboard.dismiss();
-        let {content, images} = this.state;
+        let {content, images,topicId} = this.state;
         if (!content.length) {
             this.showLong('请输入内容');
             return;
         }
-        let param = {content: content, imageUrlList: images, type: 1, title: 'ceshi'};
+        images.splice(0, 1)
+        let param = {content: content, imageUrlList: images, type: topicId};
 
         console.log(param)
         Request.post('/api/neighbour/publishinvitation', param,
@@ -249,6 +252,8 @@ export default class PublishPost extends BaseComponent {
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
                 this.goBack()
+            } else {
+                this.showShort(rep.message)
             }
         }).catch(err => {
 
