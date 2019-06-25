@@ -45,12 +45,12 @@ export default class UsefulPhone extends BaseComponent{
         );
     }
 
-    onButtonClick = () => {
+    onButtonClick = (tel) => {
         Modal.alert('提示', '是否拨打电话', [
             { text: '取消', onPress: () => {console.log('cancel')}, style: 'cancel' },
             { text: '确定', onPress: () => {
                 console.log('ok')
-                    Linking.openURL(`tel:${`10086`}`)
+                    Linking.openURL(`tel:${tel}`)
             } },
         ]);
     };
@@ -76,7 +76,7 @@ export default class UsefulPhone extends BaseComponent{
                     </View>
                 </View>
                 <TouchableView onPress={()=>{
-                    this.onButtonClick()
+                    this.onButtonClick(item.tel)
                 }}>
                     <Image source={require('../../img/phone_icon.png')}
                            style={{width: 20, height: 20, resizeMode: 'contain'}}/>
@@ -92,7 +92,7 @@ export default class UsefulPhone extends BaseComponent{
 
         Request.post('/api/life/contactList', param,
             {
-                mock: true,
+                mock: false,
                 mockId: 1184127,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {

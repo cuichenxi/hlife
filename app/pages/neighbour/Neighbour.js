@@ -32,7 +32,7 @@ export default class Neighbour extends BaseComponent {
                 <Tabs tabs={tabs} tabBarActiveTextColor={CommonStyle.themeColor}  onChange={(tab,index)=>{
                     // index
                 }}
-                      tabBarUnderlineStyle={{backgroundColor: CommonStyle.themeColor}} initialPage={0} tabBarPosition="top">
+                      tabBarUnderlineStyle={{backgroundColor: CommonStyle.themeColor}} initialPage={0} tabBarPosition="top" swipeable={false}>
 
                     {this.renderPage.bind(this)}
                 </Tabs>
@@ -51,8 +51,8 @@ export default class Neighbour extends BaseComponent {
                 }} tab={tab} index={index} onButtonPress={() =>{
                     this.navigate('PublishPost')
                 }}
-                            onItemPress={()=>{
-                                this.navigate('PostDetail')
+                            onItemPress={(item)=>{
+                                this.navigate('PostDetail',{id:item.id})
                             }}
                 />
             )

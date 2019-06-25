@@ -76,6 +76,7 @@ export default class Login extends BaseComponent {
                         style={styles.loginInput}
                         underlineColorAndroid="transparent"
                         placeholder='请输入验证码'
+                        keyboardType='numeric'
                         onChangeText={this.onChangeAuth.bind(this)}
                     />
                     <View style={{

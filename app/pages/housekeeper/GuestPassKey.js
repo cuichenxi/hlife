@@ -9,6 +9,8 @@ import RadioModal from "../../components/RadioModal";
 import DatePicker from "antd-mobile-rn/es/date-picker/index.native";
 import List from "antd-mobile-rn/es/list/index.native";
 import Request from "../../utils/Request";
+import UserStore from "../../store/UserStore";
+import util from "../../utils/util";
 
 
 let {width, height} = Dimensions.get('window')
@@ -34,11 +36,28 @@ export default class GuestPassKey extends BaseComponent {
             datetime: '',
             datetime1: '',
             communityId:'',
-            name:''
+            name:'',
+
+            userName:'',
+            userPhone:'',
+            address:''
         }
     }
 
+    onReady(param) {
+        let userInfo = UserStore.get();
+        this.setState({
+            userName: userInfo.userName,
+            userPhone: userInfo.phone,
+            // redCount: userInfo.redCount,
+            // integralCount: userInfo.integralCount,
+            // balance: userInfo.balance,
+            // sign: userInfo.sign,
+        })
+    }
+
     _render() {
+        const {userName,userPhone,address} = this.state
         return (
             <View style={{flex: 1}}>
                 <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
@@ -47,14 +66,14 @@ export default class GuestPassKey extends BaseComponent {
                         <Text style={{
                             fontSize: 17,
                             textAlign: 'left', color: '#666666'
-                        }}>张三丰</Text>
-                        <Text style={{color: '#999999', fontSize: 15, marginLeft: 10}}>188****0000</Text>
+                        }}>{userName}</Text>
+                        <Text style={{color: '#999999', fontSize: 15, marginLeft: 10}}>{userPhone}</Text>
                     </View>
 
                     <Text style={{
                         fontSize: 17,
                         textAlign: 'left', color: '#666666'
-                    }}>地址北京八达岭长城</Text>
+                    }}>地址:{address}</Text>
                 </View>
                 <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
                 <View style={{backgroundColor: '#ffffff'}}>
@@ -185,12 +204,12 @@ export default class GuestPassKey extends BaseComponent {
             this.showLong('请选择到访时间');
             return;
         }
-        let param = {name: name, gender: initId, date: datetime,communityId:''};
+        let param = {name: name, gender: initId, startTime: datetime,communityId:'',lockId:'',validTime:''};
 
         console.log(param)
-        Request.post('api/steward/guestpass', param,
+        Request.post('/api/steward/guestpass', param,
             {
-                mock: true,
+                mock: false,
                 mockId: 1095647,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {

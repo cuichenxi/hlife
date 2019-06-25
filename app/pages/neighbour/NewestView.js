@@ -27,7 +27,6 @@ export default class Index extends BaseView {
     makeRemoteRequest(page = 1, callback) {
         let param = {status: this.state.index, page: page - 1, pageSize: PAGE_SIZE};
 
-        console.log('==========')
         console.log(this.props)
         Request.post('/api/neighbour/invitation/newest', param,
             {
@@ -48,7 +47,7 @@ export default class Index extends BaseView {
     _renderRowView(item) {
         return (
             <TouchableView style={{flex: 1}} onPress={()=>{
-                this.state.onItemPress()
+                this.state.onItemPress(item)
             }}>
                 <View style={{
                     backgroundColor: 'white',
@@ -190,7 +189,7 @@ export default class Index extends BaseView {
                        style={{
                            width: 175,
                            height: 131,
-                           resizeMode: "cover",
+                           resizeMode: "contain",
                            padding: 5,
                        }}/>
         )

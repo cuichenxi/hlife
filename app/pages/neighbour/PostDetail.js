@@ -1,11 +1,11 @@
 import {BaseComponent} from "../../components/base/BaseComponent";
 import React from "react";
-import {Dimensions, FlatList, Image, RefreshControl, ScrollView, StyleSheet, Text, View} from "react-native";
+import {Dimensions, Image, ScrollView, StyleSheet, Text, View} from "react-native";
 import ImageView from "../../components/ImageView";
 import TouchableView from "../../components/TouchableView";
-import {PAGE_SIZE} from "../../constants/AppConstants";
 import Request from "../../utils/Request";
 import {CommonStyle} from "../../common/CommonStyle";
+
 let {width, height} = Dimensions.get('window')
 
 export default class PostDetail extends BaseComponent{
@@ -20,20 +20,24 @@ export default class PostDetail extends BaseComponent{
         super(props);
         this.state={
             data:{
-                title: "",
-                content: "",
-                author: "",
-                authorHeadUrl: "",
-                createDate: "",
+                commentCount: 0,
+                content: "HHH have",
+                gmtCreated: null,
+                id: 1,
                 imageUrlList: [
-
+                    "file:///data/user/0/com.qfant.wuye/cache/react-native-image-crop-picker/IMG_20190624_142834.jpg"
                 ],
-                comment: [
-
-                ],
-                likeCount: 11
+                likeCount: 0,
+                memberAvatar: null,
+                memberId: null,
+                memberName: "13718170483",
+                title: "test",
+                topicId: null,
+                topicName: "测试话题",
+                comment:[]
             },
-            id:this.props.navigation.state.params.id
+            id:this.props.navigation.state.params.id,
+            like:false,
         }
     }
     componentWillMount(){
@@ -41,7 +45,9 @@ export default class PostDetail extends BaseComponent{
     }
 
     _render() {
-        const {data} = this.state
+        const {data,like} = this.state
+        console.log('=====渲染====')
+        console.log(like)
         return (
             <View style={{flex: 1}}>
                 <ScrollView style={{
@@ -60,7 +66,7 @@ export default class PostDetail extends BaseComponent{
                     justifyContent: 'space-between',
                     padding: 5
                 }}>
-                    <ImageView source={{uri: data.authorHeadUrl}}
+                    <ImageView source={{uri: data.memberAvatar}}
                                placeholderSource={require("../../img/default_head.png")}
                                style={{
                                    width: 40,
@@ -73,12 +79,12 @@ export default class PostDetail extends BaseComponent{
                         <Text style={{
                             fontSize: 14,
                             textAlign: 'left', color: '#333'
-                        }}>{data.author}</Text>
+                        }}>{data.memberName}</Text>
                         <View style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center'}}>
                             <Text style={{
                                 fontSize: 12,
                                 textAlign: 'left', color: '#999'
-                            }}>{data.createDate}</Text>
+                            }}>{data.gmtCreated}</Text>
                         </View>
                     </View>
                     <View style={{alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
@@ -95,7 +101,7 @@ export default class PostDetail extends BaseComponent{
                     </View>
                 </View>
                 <Text style={{fontSize: 14, color: '#333', padding: 10,backgroundColor:'#fff'}}>{data.content}</Text>
-                {this._rendrImage(this.state.data.imageUrlList)}
+                {this._rendrImage(data.imageUrlList)}
 
                 <View style={{
                     height: 40,
@@ -107,53 +113,35 @@ export default class PostDetail extends BaseComponent{
                     paddingLeft: 10,
                     paddingRight: 10,
                 }}>
-                    <Text style={{textAlign: 'center', color: '#333', fontSize: 15}}>评论留言</Text>
-                    <Text style={{marginRight: 5, fontSize: 14, color: '#999'}}>共有 条评论</Text>
-                </View>
-                <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: '100%'}}/>
-                {this._renderComment(this.state.data.comment)}
-
-                <View style={{
-                    alignItems: 'center',
-                    justifyContent: 'flex-start',
-                    flexDirection: 'row',
-                    backgroundColor: '#fff',
-                    padding: 10
-                }}>
-                    <TouchableView onPress={() => {
-                        this.setState({
-                            liked: !this.state.liked
-                        })
+                    <View style={{
+                        alignItems: 'center',
+                        justifyContent: 'flex-start',
+                        flexDirection: 'row',
+                        backgroundColor: '#fff'
                     }}>
-                        <ImageView
-                            source={this.state.liked ? require("../../img/unlike_icon.png") : require("../../img/like_icon.png")}
-                            style={{
-                                width: 18,
-                                height: 15,
-                                resizeMode: "cover",
-                                marginRight: 10
-                            }}/>
-                    </TouchableView>
-
-                    <Text style={{color: '#999', fontSize: 12, marginRight: 40}}>{data.likeCount}</Text>
-                    <ImageView source={require("../../img/comment_icon.png")}
-                               style={{
-                                   width: 17,
-                                   height: 15,
-                                   resizeMode: "cover",
-                                   marginRight: 10
-                               }}/>
-                    <Text style={{color: '#999', fontSize: 12,}}>{data.likeCount}</Text>
+                        <Image source={require('../../img/theme_label.png')}
+                               style={{width: 20, height: 20, resizeMode: 'contain'}}/>
+                        <Text style={{textAlign: 'center', color: '#333', fontSize: 15}}>评论留言</Text>
+                    </View>
+                    {/*<Text style={{textAlign: 'center', color: '#333', fontSize: 15}}>评论留言</Text>*/}
+                    <Text style={{marginRight: 5, fontSize: 14, color: '#999'}}>共有{data.commentCount}条评论</Text>
                 </View>
+
+                <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: '100%'}}/>
+
+                {data.comment ?this._renderComment(data.comment):<View/>}
+
                 </ScrollView>
                 <View style={styles.bottomView}>
                     <TouchableView style={{alignItems: 'center',
                         backgroundColor: CommonStyle.white,
                         justifyContent: 'center',
                         height: 40,
-                        width: width / 2,}} onPress={() => this.state.onButtonPress()}>
+                        width: width / 2,}} onPress={() => {
+                            this.clickLike()
+                    }}>
                         <View style={{justifyContent: 'center', alignItems: 'center',flexDirection:'row'}}>
-                            <Image source={require('../../img/like_icon.png')}
+                            <Image source={like===true?require('../../img/like_icon.png'):require('../../img/unlike_icon.png')}
                                    style={styles.bottomIcon}/>
                             <Text style={{color: '#333', fontSize: 16,marginLeft:10}}>点赞</Text>
                         </View>
@@ -193,13 +181,15 @@ export default class PostDetail extends BaseComponent{
     _rendrImage=(images) =>{
         return images.map((item,i) =>{
             return(
-                <ImageView source={{uri: item.imageUrl}}
+                <ImageView source={{uri: item}}
                            style={{
-                               width: width-20,
+                               width: width,
                                height: 213,
-                               resizeMode: "cover",
-                               marginLeft: 10,
-                               marginRight:10
+                               resizeMode: "contain",//contain 等比例缩放 cover 模式只求在显示比例不失真的情况下填充整个显示区域。
+                               // marginLeft: 10,
+                               // marginRight:10,
+                               justifyContent:'center',
+                               alignItems:'center'
                            }}/>
             )
         })
@@ -266,9 +256,9 @@ export default class PostDetail extends BaseComponent{
     makeRemoteRequest() {
         let param = {id: this.state.id};
 
-        Request.post('/api/neighbour/detail',param,
+        Request.post('/api/neighbour/invitation/detail',param,
             {
-                mock: true,
+                mock: false,
                 mockId: 1095701,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
@@ -276,6 +266,32 @@ export default class PostDetail extends BaseComponent{
                 this.setState({
                     data:rep.data
                 })
+            }
+        }).catch(err => {
+
+        }).done(() => {
+        })
+    }
+
+    clickLike() {
+        console.log(this.state.like)
+        this.state.like = !this.state.like
+
+        console.log('=============')
+        console.log(this.state.like)
+        let param = {id: this.state.id,type:this.state.like===true?1:0};
+
+        Request.post('/api/neighbour/like',param,
+            {
+                mock: false,
+                mockId: 1095701,
+            }).then(rep => {
+            if (rep.code === 0) {
+                //失败 将值置回原来值
+                this.setState({
+                    like:this.state.like
+                })
+                this.showShort(rep.message)
             }
         }).catch(err => {
 

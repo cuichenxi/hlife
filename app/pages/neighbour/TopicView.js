@@ -31,7 +31,7 @@ export default class Index extends BaseView {
         console.log(this.props)
         Request.post('/api/neighbour/invitation/list', param,
             {
-                mock: true,
+                mock: false,
                 mockId: 1218198,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {

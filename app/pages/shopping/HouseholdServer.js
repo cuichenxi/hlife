@@ -4,6 +4,8 @@ import {Image, Linking, ScrollView, StyleSheet, Text, View} from "react-native";
 import {CommonStyle} from "../../common/CommonStyle";
 import Modal from "antd-mobile-rn/es/modal/index.native";
 import TouchableView from "../../components/TouchableView";
+import {PAGE_SIZE} from "../../constants/AppConstants";
+import Request from "../../utils/Request";
 
 export default class HouseholdServer extends BaseComponent {
     navigationBarProps() {
@@ -19,6 +21,9 @@ export default class HouseholdServer extends BaseComponent {
         }
     }
 
+    onReady(){
+        this.makeRemoteRequest()
+    }
 
     _render() {
         const {data} = this.state
@@ -158,6 +163,26 @@ export default class HouseholdServer extends BaseComponent {
                 </View>
             </ScrollView>
         );
+    }
+
+    makeRemoteRequest() {
+        let param = { id: this.state.data.id};
+
+        console.log(this.props)
+        Request.post('/api/life/housekeepinginfo', param,
+            {
+                mock: false,
+                mockId: 1095356,
+            }).then(rep => {
+            if (rep.code == 0 ) {
+                // console.log(JSON.stringify(rep))
+                // callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
+            }
+        }).catch(err => {
+
+        }).done(() => {
+            // this.hideLoading();
+        })
     }
 
     onButtonClick = (phone) => {

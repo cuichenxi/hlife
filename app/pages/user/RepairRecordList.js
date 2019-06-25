@@ -2,42 +2,19 @@ import {BaseComponent} from "../../components/base/BaseComponent";
 import React from "react";
 import {Dimensions, Image, Text, View} from "react-native";
 import {CommonStyle} from "../../common/CommonStyle";
+import GiftedListView from "../../components/refreshList/GiftedListView";
 import {PAGE_SIZE} from "../../constants/AppConstants";
 import Request from "../../utils/Request";
 import TouchableView from "../../components/TouchableView";
-import GiftedListView from "../../components/refreshList/GiftedListView";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-
 let {width, height} = Dimensions.get('window')
-const Font = {
-    Ionicons,
-    FontAwesome
-}
 
-export default class HouseholdServerList extends BaseComponent {
+export default class RepairRecordList extends BaseComponent{
     navigationBarProps() {
         return {
-            title: '家政服务',
+            title: '工单记录',
         }
     }
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            invoiceList: [],
-            rows: [],
-            isLoading: false,
-            isRefresh: true,
-        }
-    }
-
-   /* componentWillMount() {
-        this.fetchData()
-    }*/
-
     _render() {
-        const {rows} = this.state
         return (
             <View style={{
                 flex: 1,
@@ -52,7 +29,7 @@ export default class HouseholdServerList extends BaseComponent {
                     loadMore={false}
                 />
             </View>
-        )
+        );
     }
 
     makeRemoteRequest(page = 1, callback) {
@@ -107,15 +84,19 @@ export default class HouseholdServerList extends BaseComponent {
                         </View>
                     </View>
 
-                    <View style={{
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        flexDirection: 'row',
-                        paddingRight: 10
-                    }}>
-                        <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
-                                       color="#bbb"/>
-                    </View>
+                        <Text style={{
+                            color: CommonStyle.white,
+                            borderRadius: 30,
+                            borderWidth: 1,
+                            borderColor: CommonStyle.themeColor,
+                            backgroundColor:CommonStyle.themeColor,
+                            paddingTop:3,
+                            paddingBottom:3,
+                            paddingRight:5,
+                            paddingLeft:5,
+                            fontSize: 12,
+                            marginRight: 12
+                        }}>处理中</Text>
 
                 </View>
             </TouchableView>

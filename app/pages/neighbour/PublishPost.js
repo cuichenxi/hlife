@@ -35,7 +35,8 @@ export default class PublishPost extends BaseComponent {
             images: ['add'],
             content: '',
             topic:'',
-            topicId:''
+            topicId:'',
+            uploadImages:[]
         }
     }
 
@@ -237,13 +238,12 @@ export default class PublishPost extends BaseComponent {
 
     publishPost() {
         Keyboard.dismiss();
-        let {content, images,topicId} = this.state;
+        let {content, uploadImages,topicId} = this.state;
         if (!content.length) {
             this.showLong('请输入内容');
             return;
         }
-        images.splice(0, 1)
-        let param = {content: content, imageUrlList: images, type: topicId,title: 'test'};
+        let param = {content: content, imageUrlList: uploadImages, type: topicId,title: 'test'};
 
         console.log(param)
         Request.post('/api/neighbour/publishinvitation', param,
@@ -269,11 +269,19 @@ export default class PublishPost extends BaseComponent {
      * @param files
      */
     updateFile(files) {
+        const {uploadImages} = this.state
         this.showLoading('上传中...')
         Keyboard.dismiss();
         Request.uploadFile('/api/user/batchUpdateImage', files)
             .then(rep => {
-                // console.log(rep)
+                if (rep.code === 0){
+                    for (var i=0;i<rep.data.length;i++){
+                        uploadImages.push(rep.data[i])
+                    }
+
+                    console.log('=======上传结果=======')
+                    console.log(uploadImages)
+                }
             }).catch(err => {
         }).done(() => {
             this.hideLoading();

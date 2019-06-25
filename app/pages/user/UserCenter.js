@@ -48,7 +48,7 @@ export default class UserCenter extends BaseComponent {
             {icon: require('../../img/icon_uc_wdfk.png'), name: "我的访客", onPress: this.goPage.bind(this, "MyVisitor")},
             {icon: require('../../img/icon_uc_wdxq.png'), name: "我的小区", onPress: this.goPage.bind(this, "MyAddress")},
             {icon: require('../../img/icon_uc_shdz.png'), name: "收货地址", onPress: this.goPage.bind(this, "MyShippingAddress")},
-            {icon: require('../../img/icon_uc_gdjl.png'), name: "工单记录", onPress: this.goPage.bind(this, "address")},
+            {icon: require('../../img/icon_uc_gdjl.png'), name: "工单记录", onPress: this.goPage.bind(this, "RepairRecordList")},
             {icon: require('../../img/icon_uc_jfjl.png'), name: "缴费记录", onPress: this.goPage.bind(this, "MaintainRecord")},
             {
                 icon: require('../../img/icon_uc_wsfp.png'),

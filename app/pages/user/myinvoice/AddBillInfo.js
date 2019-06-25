@@ -36,6 +36,7 @@ export default class AddBillInfo extends BaseComponent {
 
 
     _render() {
+        const {name,no,address,bank,bankNo,phone} = this.state
         return (
             <ScrollView>
                 <KeyboardAvoidingView behavior='position'>
@@ -70,7 +71,7 @@ export default class AddBillInfo extends BaseComponent {
                             underlineColorAndroid="transparent"
                             placeholder=''
                             onChangeText={(text) => this.setState({name: text})}
-                            value={this.state.invoice ? this.state.invoice.name : ''}
+                            value={this.state.invoice ? this.state.invoice.name : name}
                         />
                     </View>
                     <View style={styles.lineStyle}/>
@@ -82,7 +83,7 @@ export default class AddBillInfo extends BaseComponent {
                             underlineColorAndroid="transparent"
                             placeholder=''
                             onChangeText={(text) => this.setState({no: text})}
-                            value={this.state.invoice ? this.state.invoice.no : ''}
+                            value={this.state.invoice ? this.state.invoice.no : no}
                         />
                     </View>
                     <View style={styles.lineStyle}/>
@@ -94,7 +95,7 @@ export default class AddBillInfo extends BaseComponent {
                             underlineColorAndroid="transparent"
                             placeholder=''
                             onChangeText={(text) => this.setState({address: text})}
-                            value={this.state.invoice ? this.state.invoice.address : ''}
+                            value={this.state.invoice ? this.state.invoice.address : address}
                         />
                     </View>
                     <View style={styles.lineStyle}/>
@@ -106,7 +107,7 @@ export default class AddBillInfo extends BaseComponent {
                             underlineColorAndroid="transparent"
                             placeholder=''
                             onChangeText={(text) => this.setState({phone: text})}
-                            value={this.state.invoice ? this.state.invoice.phone : ''}
+                            value={this.state.invoice ? this.state.invoice.phone : phone}
                         />
                     </View>
                     <View style={styles.lineStyle}/>
@@ -118,7 +119,7 @@ export default class AddBillInfo extends BaseComponent {
                             underlineColorAndroid="transparent"
                             placeholder=''
                             onChangeText={(text) => this.setState({bank: text})}
-                            value={this.state.invoice ? this.state.invoice.bank : ''}
+                            value={this.state.invoice ? this.state.invoice.bank : bank}
                         />
                     </View>
                     <View style={styles.lineStyle}/>
@@ -130,7 +131,7 @@ export default class AddBillInfo extends BaseComponent {
                             underlineColorAndroid="transparent"
                             placeholder=''
                             onChangeText={(text) => this.setState({bankNo: text})}
-                            value={this.state.invoice ? this.state.invoice.bankNo : ''}
+                            value={this.state.invoice ? this.state.invoice.bankNo : bankNo}
                         />
                     </View>
                     <View style={styles.lineStyle}/>
@@ -168,9 +169,9 @@ export default class AddBillInfo extends BaseComponent {
         let param = {type: initId, name: name, no: no, address: address, phone: phone, bank: bank, bankNo: bankNo};
 
         console.log(param)
-        Request.post('api/user/addInvoice', param,
+        Request.post('/api/user/addInvoice', param,
             {
-                mock: true,
+                mock: false,
                 mockId: 1095545,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {

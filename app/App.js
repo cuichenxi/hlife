@@ -73,6 +73,7 @@ import TopicTypeList from "./pages/neighbour/TopicTypeList";
 import Message from "./pages/main/Message";
 import PostDetail from "./pages/neighbour/PostDetail";
 import scanInfo from "./pages/main/scanInfo";
+import RepairRecordList from "./pages/user/RepairRecordList";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -212,6 +213,7 @@ const App = createStackNavigator(
         Message:{screen:Message},//通知消息列表
         PostDetail:{screen:PostDetail},//帖子详情
         scanInfo:{screen:scanInfo},//设备详情
+        RepairRecordList:{screen:RepairRecordList},//工单记录
     },
     {
         // initialRouteName: 'Splash',

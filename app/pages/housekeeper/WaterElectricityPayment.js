@@ -23,13 +23,13 @@ export default class WaterElectricityPayment extends BaseComponent {
         super(props);
         this.state = {
             data: [
-                {uri: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1537850063210&di=b936ead7972601ea0c12e8648a8f1df0&imgtype=0&src=http%3A%2F%2Fpic31.photophoto.cn%2F20140403%2F0020033029624335_b.jpg'},
-                {uri: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1537850063216&di=0f4f9bbaaee6bafe24fab3e5f472c481&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201512%2F12%2F20151212120309_BduTC.jpeg'},
-                {uri: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1537850063214&di=f73de557becc9667bb105fdfecd39426&imgtype=0&src=http%3A%2F%2Fimgq.duitang.com%2Fuploads%2Fitem%2F201503%2F22%2F20150322171820_UtwMk.thumb.700_0.jpeg'},
-                {uri: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1537850063210&di=b936ead7972601ea0c12e8648a8f1df0&imgtype=0&src=http%3A%2F%2Fpic31.photophoto.cn%2F20140403%2F0020033029624335_b.jpg'},
-                {uri: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1537850063210&di=b936ead7972601ea0c12e8648a8f1df0&imgtype=0&src=http%3A%2F%2Fpic31.photophoto.cn%2F20140403%2F0020033029624335_b.jpg'},
-                {uri: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1537850155795&di=72f9878782ad4b80ea320111effe0b71&imgtype=0&src=http%3A%2F%2Fpic27.photophoto.cn%2F20130420%2F0005018421916914_b.jpg'},
-                {uri: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1537850155794&di=4efaecca3f367346ff49c42f8f89d9f2&imgtype=0&src=http%3A%2F%2Fimg3.duitang.com%2Fuploads%2Fitem%2F201206%2F26%2F20120626190359_MjB3s.thumb.700_0.jpeg'}
+                {uri: 'http://ww1.sinaimg.cn/large/61e6b52cly1g4demz4797j203q03qmx0.jpg',type:'水费'},
+                {uri: 'http://ww1.sinaimg.cn/large/61e6b52cly1g4demz3xbcj203q03qq2s.jpg',type:'电费'},
+                {uri: 'http://ww1.sinaimg.cn/large/61e6b52cly1g4demz43fyj203q03qjr9.jpg',type:'燃气费'},
+                {uri: 'http://ww1.sinaimg.cn/large/61e6b52cly1g4demz7fuhj203r03rt8k.jpg',type:'有线电视'},
+                {uri: 'http://ww1.sinaimg.cn/large/61e6b52cly1g4demz7c2sj203q03qmx0.jpg',type:'固话'},
+                {uri: 'http://ww1.sinaimg.cn/large/61e6b52cly1g4demz4b5yj203q03qglh.jpg',type:'宽带'},
+                {uri: 'http://ww1.sinaimg.cn/large/61e6b52cly1g4demz3ntaj203r03rq2s.jpg',type:'物业费'}
             ]
         }
     }
@@ -40,7 +40,7 @@ export default class WaterElectricityPayment extends BaseComponent {
 
     _render() {
         return (
-            <View style={{flex: 1}}>
+            <View style={{flex: 1,backgroundColor:'#fff'}}>
                 <ImageBackground
                     style={{alignItems: 'center', justifyContent: 'center', height: 120, flexDirection: 'row'}}
                     source={require('../../img/about_logo.png')}>
@@ -88,7 +88,7 @@ export default class WaterElectricityPayment extends BaseComponent {
                     }}>您可进行下列费用的缴纳</Text>
                 </View>
                 <FlatList
-                    style={{backgroundColor: '#fff'}}
+                    style={{backgroundColor: '#fff',flex:1}}
                     renderItem={this.renderRow}
                     data={this.state.data}
                     keyExtractor={this._keyExtractor}
@@ -105,6 +105,7 @@ export default class WaterElectricityPayment extends BaseComponent {
                         marginLeft: 30,
                         marginRight: 30,
                         borderRadius: 5,
+                        marginBottom:50,
                         backgroundColor: CommonStyle.themeColor,
                         justifyContent: 'center',
                         alignItems: 'center'
@@ -123,17 +124,17 @@ export default class WaterElectricityPayment extends BaseComponent {
         return (
             <View style={{
                 width: ImageWH,
-                height: ImageWH * 0.8 + 20,
+                height: ImageWH + 20,
                 marginLeft: left,
                 marginTop: top,
                 // 文字内容居中对齐
                 alignItems: 'center'
             }}>
                 <Image source={{uri: rowData.item.uri}} style={{
-                    width: ImageWH,
-                    height: ImageWH * 0.8,
+                    width: ImageWH-20,
+                    height: ImageWH-20,
                 }}/>
-                <Text style={{color: CommonStyle.textBlockColor, fontSize: 13}}>水费</Text>
+                <Text style={{color: CommonStyle.textBlockColor, fontSize: 13,marginTop:5}}>{rowData.item.type}</Text>
             </View>
         );
     }
