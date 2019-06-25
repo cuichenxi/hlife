@@ -72,6 +72,7 @@ import PublishPost from "./pages/neighbour/PublishPost";
 import TopicTypeList from "./pages/neighbour/TopicTypeList";
 import Message from "./pages/main/Message";
 import PostDetail from "./pages/neighbour/PostDetail";
+import scanInfo from "./pages/main/scanInfo";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -210,6 +211,7 @@ const App = createStackNavigator(
         TopicTypeList:{screen:TopicTypeList},//话题列表
         Message:{screen:Message},//通知消息列表
         PostDetail:{screen:PostDetail},//帖子详情
+        scanInfo:{screen:scanInfo},//设备详情
     },
     {
         // initialRouteName: 'Splash',

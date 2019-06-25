@@ -109,7 +109,7 @@ const post = (url, params = {}, options = {}, cacheCallback) => {
  * @param options
  * @returns {Promise}
  */
-const uploadFile = (url, files = [], options = {}) => {
+const uploadFile = (url, files = []) => {
     console.log('files', files);
     let formData = new FormData();       //因为需要上传多张图片,所以需要遍历数组,把图片的路径数组放入formData中
     for (var i = 0; i < files.length; i++) {
@@ -127,31 +127,11 @@ const uploadFile = (url, files = [], options = {}) => {
         //这里的files就是后台需要的key
     }
 
-    let isMock = false;
-    if (options) {
-        if (options.mock) {
-            isMock = true;
-            url = 'http://rap2api.taobao.org/app/mock/data/' + options.mockId;
-        }
-    }
 
     if (url.indexOf('http') == -1) {
         url = getHost() + url;
     }
     console.log("url=" + url);
-    let cParam = {
-        deviceId: dInfo.getUniqueID(),
-        versionCode: dInfo.getBuildNumber(),
-        versionName: dInfo.getVersion(),
-        bundleId: dInfo.getBundleId(),
-        platform: Platform.OS,
-        token: ""
-    }
-    let paramJson = {cParam, ...files};
-    let paramString = JSON.stringify(paramJson);
-    console.log("request=" + paramString);
-    let encodeParam = aes.Encrypt(paramString);
-    console.log("request:encodeParam=" + encodeParam);
     let isOk;
     let fetchOptions = {
         method: 'POST',
@@ -161,11 +141,6 @@ const uploadFile = (url, files = [], options = {}) => {
         },
         body: formData
     };
-    if (isMock) {
-        fetchOptions = {
-            method: 'GET',
-        }
-    }
     return new Promise((resolve, reject) => {
         fetch(url, fetchOptions).then((response) => {
             if (response.ok) {
@@ -175,13 +150,8 @@ const uploadFile = (url, files = [], options = {}) => {
             }
             return response.text();
         }).then((responseData) => {
-            if (isMock) {
-                console.log("response=" + responseData);
-                resolve(JSON.parse(responseData));
-                return;
-            }
             let decryptData = aes.Decrypt(responseData);
-            console.log("response解密=" + decryptData);
+            console.log("response明文=" + decryptData);
             responseData = JSON.parse(decryptData);
             if (isOk) {
                 resolve(responseData);

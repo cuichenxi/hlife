@@ -263,13 +263,17 @@ export default class PublishPost extends BaseComponent {
         })
     }
 
+    /**
+     * /api/user/batchUpdateImage
+     * /api/user/updateImage
+     * @param files
+     */
     updateFile(files) {
+        this.showLoading('上传中...')
         Keyboard.dismiss();
-        let param = [{fileType:files[0].fileType, filePath: files[0].filePath}];
-        Request.uploadFile('/api/user/updateImage', param,{})
+        Request.uploadFile('/api/user/batchUpdateImage', files)
             .then(rep => {
-                console.log(rep)
-                // this.showLong(rep.bstatus.desc);
+                // console.log(rep)
             }).catch(err => {
         }).done(() => {
             this.hideLoading();

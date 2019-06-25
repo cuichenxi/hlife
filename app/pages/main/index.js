@@ -183,7 +183,8 @@ export default class Main extends BaseComponent {
         //         this.showShort(backData)
         //     }
         // });
-        this.getScanData();
+        // this.getScanData();
+        this.navigate('scanInfo',{})
     }
     getScanData(){
         this.showDLoading()
