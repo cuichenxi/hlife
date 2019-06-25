@@ -17,7 +17,6 @@ import Feedback from "./pages/Feedback/Feedback";
 import Push from "./pages/About/Push";
 import QIcon from "./components/icon/index";
 import React from 'react';
-import MaintainRecord from "./pages/maintain";
 import GiftedListDemo from "./components/refreshList/demo/GiftedListDemo";
 import GiftedListDemoFree from "./components/refreshList/demo/GiftedListDemoFree";
 import GiftedListDemoNet from "./components/refreshList/demo/GiftedListDemoNet";
@@ -31,7 +30,6 @@ import Register from "./pages/user/Register";
 import RedPacket from "./pages/user/redpacket/RedPacket";
 import Housekeeper from "./pages/housekeeper";
 import ReportMatter from "./pages/housekeeper/ReportMatter";
-import Steward from "./pages/steward/Steward";
 import Neighbour from "./pages/neighbour/Neighbour";
 import ShoppingCart from "./pages/shoppingCart/index";
 import MyAddressWithTab from "./pages/user/myaddress/MyAddressWithTab";
@@ -160,9 +158,7 @@ const App = createStackNavigator(
         Push: {screen: Push},
         Feedback: {screen: Feedback},
         MainIndex: {screen: MainContainer},
-        Steward: {screen: Steward},
         Neighbour: {screen: Neighbour},
-        MaintainRecord: {screen: MaintainRecord},
         GiftedListDemo: {screen: GiftedListDemo},
         GiftedListDemoFree: {screen: GiftedListDemoFree},
         GiftedListDemoNet: {screen: GiftedListDemoNet},

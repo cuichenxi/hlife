@@ -12,6 +12,7 @@ import BarcodePage from "../witget/BarcodePage";
 import Request from "../../utils/Request";
 import QIcon from "../../components/icon";
 import {Badge} from "antd-mobile-rn";
+import {LINK_APIPAYS_CZ, LINK_APIPAYS_EXPRESS, LINK_APIPAYS_WZ} from "../../constants/UrlConstant";
 
 const {width, height} = Dimensions.get('window')
 
@@ -42,15 +43,15 @@ export default class Shopping extends BaseComponent {
                 }, {
                     name: '快递查询',
                     imageUrl: require('../../img/menu_kdcx.png'),
-                    active: 'alipays://platformapi/startapp?appId=20000754'
+                    active: LINK_APIPAYS_EXPRESS
                 }, {
                     name: '违章查询',
                     imageUrl: require('../../img/menu_wzcx.png'),
-                    active: 'Login'
+                    active: LINK_APIPAYS_WZ
                 }, {
                     name: '手机充值',
                     imageUrl: require('../../img/menu_sjcx.png'),
-                    active: 'alipays://platformapi/startapp?appId=20000987'//充值中心
+                    active: LINK_APIPAYS_CZ
                 }, {
                     name: '日用百货',
                     imageUrl: require('../../img/menu_rcbh.png'),
@@ -135,7 +136,7 @@ export default class Shopping extends BaseComponent {
 
     _jumpRouter(typeItem) {
         if (typeItem.active.indexOf('alipays://') == 0) {
-            Linking.openURL(typeItem.active);
+            Linking.openURL(typeItem.active).catch(err => this.showShort("未检测到支付宝"));
         }else {
             this.navigate(typeItem.active);
         }

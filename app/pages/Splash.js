@@ -16,20 +16,18 @@
  *
  */
 import React from 'react';
-import {Dimensions, View, Image, Text, Animated} from 'react-native';
+import {Animated, Dimensions, Image, Text, View} from 'react-native';
 import {registerApp} from 'react-native-wechat';
-import AV from 'leancloud-storage';
 import SplashScreen from 'react-native-splash-screen';
 import UserStore from "../store/UserStore";
+import {BaseComponent} from '../components/base/BaseComponent'
+import ADStore from "../store/ADStore";
+import {CommonStyle} from "../common/CommonStyle";
+import TouchableView from "../components/TouchableView";
 
 const maxHeight = Dimensions.get('window').height;
 const maxWidth = Dimensions.get('window').width;
 const splashImg = require('../img/splash.png');
-import {BaseComponent} from '../components/base/BaseComponent'
-import ADStore from "../store/ADStore";
-import ImageView from "../components/ImageView";
-import {CommonStyle} from "../common/CommonStyle";
-import TouchableView from "../components/TouchableView";
 
 class Splash extends BaseComponent {
     static navigationOptions = {
@@ -66,7 +64,7 @@ class Splash extends BaseComponent {
                     imageUrl: ADInfo.imageUrl,
                     active: ADInfo.active,
                 },
-                // hasAd: ADInfo.imageUrl != null,
+                hasAd: ADStore.isAD(),
                 secondsElapsed: ADInfo.times
             })
             if (this.state.hasAd) {

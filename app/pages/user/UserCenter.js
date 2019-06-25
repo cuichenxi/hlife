@@ -34,6 +34,7 @@ export default class UserCenter extends BaseComponent {
             signCount: 0,
             balance: 0,
             signVisible: false,
+            sign:'',
         }
         this.config = [
             {icon: require('../../img/icon_uc_wddd.png'), name: "我的订单", first: true, onPress: this.goPage.bind(this, "MyOrder")},
@@ -103,6 +104,7 @@ export default class UserCenter extends BaseComponent {
             redCount: userInfo.redCount,
             integralCount: userInfo.integralCount,
             balance: userInfo.balance,
+            sign: userInfo.sign,
         })
     }
 
@@ -121,7 +123,7 @@ export default class UserCenter extends BaseComponent {
         this.showLoading('签到中...');
         Request.post('/api/user/signIn', {},
             {
-                mock: true,
+                mock: false,
                 mockId: 1095514,
             }).then(rep => {
             if (rep.code == 0) {
@@ -293,7 +295,7 @@ export default class UserCenter extends BaseComponent {
                         <Text style={{
                             color: "#666",
                             fontSize: 12
-                        }}>查看/编辑个人资料</Text>
+                        }}>{util.isEmpty(this.state.sign)?'查看/编辑个人资料':this.state.sign}</Text>
                         <Image style={{
                             width: 12,
                             height: 12, marginLeft: 5

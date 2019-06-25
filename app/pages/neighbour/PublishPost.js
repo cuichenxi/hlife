@@ -265,14 +265,9 @@ export default class PublishPost extends BaseComponent {
 
     updateFile(files) {
         Keyboard.dismiss();
-
-        let param = {fileName: files.fileName, filePath: files.filePath};
-
-        console.log(param)
-        Request.uploadFile('/api/user/updateImage', files,
-            {mock: false, mockId: 672823})
+        let param = [{fileType:files[0].fileType, filePath: files[0].filePath}];
+        Request.uploadFile('/api/user/updateImage', param,{})
             .then(rep => {
-                console.log('=======rep=======')
                 console.log(rep)
                 // this.showLong(rep.bstatus.desc);
             }).catch(err => {

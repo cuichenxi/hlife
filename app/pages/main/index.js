@@ -1,23 +1,25 @@
 import React from 'react';
 import {
-    DeviceEventEmitter,
+    Image,
     Linking,
-    TouchableHighlight, ScrollView, ListView, StyleSheet,
-    Image, View, Text, Dimensions, TextInput, RefreshControl
+    ListView,
+    RefreshControl,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableHighlight,
+    View
 } from "react-native";
 import Swiper from 'react-native-swiper'
 import {BaseComponent} from "../../components/base/BaseComponent";
 import GridView from "../../components/GridView";
 import TouchableView from "../../components/TouchableView";
 import {CommonStyle} from "../../common/CommonStyle";
-import QIcon from "../../components/icon";
 import BarcodePage from "../witget/BarcodePage";
-import UserStore from "../../store/UserStore";
-import NavigationUtil from "../../utils/NavigationUtil";
 import Request from "../../utils/Request";
 import {Badge} from "antd-mobile-rn";
+import {LINK_APIPAYS_CZ, LINK_APIPAYS_EXPRESS, LINK_APIPAYS_WZ} from "../../constants/UrlConstant";
 // import ImageUtil from "../../util/ImageUtil";
-
 
 export default class Main extends BaseComponent {
     navigationBarProps() {
@@ -61,11 +63,11 @@ export default class Main extends BaseComponent {
                 }, {
                     name: '违章查询',
                     imageUrl: require('../../img/menu_wzcx.png'),
-                    active: 'alipays://platformapi/startapp?appId=20000987'//充值中心
+                    active: LINK_APIPAYS_WZ
                 }, {
                     name: '快递查询',
                     imageUrl: require('../../img/menu_kdcx.png'),
-                    active: 'alipays://platformapi/startapp?appId=20000754'
+                    active: LINK_APIPAYS_EXPRESS
                 }
             ],
             dataSource: new ListView.DataSource({
@@ -169,19 +171,36 @@ export default class Main extends BaseComponent {
 
     _jumpRouter(typeItem) {
         if (typeItem.active.indexOf('alipays://') == 0) {
-            Linking.openURL(typeItem.active);
+            Linking.openURL(typeItem.active).catch(err => this.showShort("未检测到支付宝"));
         }else {
             this.navigate(typeItem.active,{title:typeItem.name});
         }
     }
 
     onScanClick() {
-        this.navigate("BarcodePage", {
-            callback: (backData) => {
-                this.showShort(backData)
-            }
-        });
+        // this.navigate("BarcodePage", {
+        //     callback: (backData) => {
+        //         this.showShort(backData)
+        //     }
+        // });
+        this.getScanData();
     }
+    getScanData(){
+        this.showDLoading()
+        Request.post('/api/home/scan', {serialnum: 0},
+            {
+                mock: false,
+                mockId: 673062,
+            }).then(rep => {
+            if (rep.code == 0 && rep.data) {
+
+            }
+        }).catch(err => {
+        }).done(() => {
+            this.hideLoading()
+        })
+    }
+
 
     _renderHeader() {
         return (

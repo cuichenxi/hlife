@@ -19,7 +19,7 @@ import { put, call } from 'redux-saga/effects';
 
 import { requestArticleList } from '../read';
 import RequestUtil from '../../utils/RequestUtil';
-import { WEXIN_ARTICLE_LIST } from '../../constants/Urls';
+import { WEXIN_ARTICLE_LIST } from '../../constants/UrlConstant';
 import { fetchArticleList, receiveArticleList } from '../../actions/read';
 
 /* global expect */

@@ -25,6 +25,8 @@ import JPushModule from 'jpush-react-native';
 import Main from "./index";
 import {BaseComponent} from "../../components/base/BaseComponent";
 import ADStore from "../../store/ADStore";
+import UserStore from "../../store/UserStore";
+import Request from "../../utils/Request";
 
 class MainContainer extends BaseComponent {
 
@@ -98,15 +100,27 @@ class MainContainer extends BaseComponent {
         }
         JPushModule.addGetRegistrationIdListener(this.getRegistrationIdListener)
         JPushModule.clearAllNotifications();
-
-        ADStore.save({
-            // imageUrl: 'https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/common/1544009388067/ad_t1.gif',
-            imageUrl: 'https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/common/1544009356352/ad_t2.gif',
-            active: 'https://reactnative.cn/docs/image/',
-            times: 5,
-        });
+        this.getAD();
     }
 
+    getAD(){
+        Request.post('/api/home/advertising', {},
+            {
+                mock: false,
+                mockId: 1095514,
+            }).then(rep => {
+            if (rep.code == 0&&rep.data) {
+                ADStore.save({
+                    // imageUrl: 'https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/common/1544009388067/ad_t1.gif',
+                    imageUrl: rep.data.imgurl,
+                    active: rep.data.link,
+                    times: 3,
+                });
+            }
+        }).catch(err => {
+        }).done(() => {
+        })
+    }
     canExitApp(){
         return true;
     }

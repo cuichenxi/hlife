@@ -21,7 +21,7 @@ import {put, take, call, fork} from 'redux-saga/effects';
 import * as types from '../constants/ActionTypes';
 import ToastUtil from '../utils/ToastUtil';
 import RequestUtil from '../utils/RequestUtil';
-import {WEXIN_ARTICLE_LIST} from '../constants/Urls';
+import {WEXIN_ARTICLE_LIST} from '../constants/UrlConstant';
 import {fetchArticleList, receiveArticleList} from '../actions/read';
 
 export function* requestArticleList(

@@ -1,6 +1,6 @@
 import {BaseComponent} from "../../components/base/BaseComponent";
 import React from "react";
-import {Dimensions, FlatList, Image, ImageBackground, Text, View} from "react-native";
+import {Dimensions, FlatList, Image, ImageBackground, Linking, Text, View} from "react-native";
 import {CommonStyle} from "../../common/CommonStyle";
 import TouchableView from "../../components/TouchableView";
 
@@ -11,7 +11,7 @@ const cols = 4; // 列数
 const left = 10; // 左右边距
 const top = 10; // 上下边距
 const ImageWH = (width - (cols + 1) * left) / cols; // 图片大小
-
+import {LINK_APIPAYS_CZ, LINK_APIPAYS_EXPRESS, LINK_APIPAYS_JF} from "../../constants/UrlConstant";
 export default class WaterElectricityPayment extends BaseComponent {
     navigationBarProps() {
         return {
@@ -98,7 +98,7 @@ export default class WaterElectricityPayment extends BaseComponent {
                 />
 
                 <TouchableView onPress={() => {
-                    this.showShort('打开支付宝')
+                    Linking.openURL(LINK_APIPAYS_JF).catch(err => this.showShort("未检测到支付宝"));
                 }}>
                     <View style={{
                         height: 40,

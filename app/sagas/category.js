@@ -21,7 +21,7 @@ import store from 'react-native-simple-store';
 import * as types from '../constants/ActionTypes';
 import ToastUtil from '../utils/ToastUtil';
 import RequestUtil from '../utils/RequestUtil';
-import { WEXIN_ARTICLE_TYPE } from '../constants/Urls';
+import { WEXIN_ARTICLE_TYPE } from '../constants/UrlConstant';
 import { fetchTypeList, receiveTypeList } from '../actions/category';
 
 export function* requestTypeList() {

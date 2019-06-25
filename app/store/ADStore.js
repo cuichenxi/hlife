@@ -1,4 +1,5 @@
 import store from 'react-native-simple-store';
+import util from "../utils/util";
 
 const ad_info_key = 'ad_info_key';
 //imageUrl: 'https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/common/1544009388067/ad_t1.gif',
@@ -20,8 +21,9 @@ export default ADStore = {
     get() {
         return adInfo;
     },
-    hasAd() {
-        return adInfo.imageUrl;
+    isAD() {
+        // return !util.isEmpty(adInfo.imageUrl);
+        return false;
     },
     save(data = {}) {
         adInfo = Object.assign(adInfo, data);

@@ -20,7 +20,7 @@ import store from 'react-native-simple-store';
 import { requestTypeList } from '../category';
 import { fetchTypeList, receiveTypeList } from '../../actions/category';
 import RequestUtil from '../../utils/RequestUtil';
-import { WEXIN_ARTICLE_TYPE } from '../../constants/Urls';
+import { WEXIN_ARTICLE_TYPE } from '../../constants/UrlConstant';
 
 /* global expect */
 describe('category saga tests', () => {
