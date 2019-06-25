@@ -51,14 +51,14 @@ export default class Login extends BaseComponent {
         const {mobile,codeRequesting} = this.state
         return (
             <View style={styles.container}>
-                <ImageBackground style={{alignItems:'center',justifyContent:'center',height:120}} source={require('../../img/about_logo.png')}>
+                <ImageBackground style={{alignItems:'center',justifyContent:'center',height:200}} source={require('../../img/about_logo.png')}>
                     <Image source={require('../../img/login_logo.png')} style={{width:173,
                         height:66, alignItems:'center'}} resizeMode='cover'/>
                 </ImageBackground>
 
                 <View style={[styles.formInput, styles.formInputSplit]}>
                     <Image source={require('../../img/shouji.png')}
-                           style={{marginTop: 7, width: 20, height: 20, resizeMode: 'contain'}}/>
+                           style={{ width: 20, height: 20, resizeMode: 'contain'}}/>
                     <TextInput
                         ref="login_name"
                         placeholder='请输入您的手机号码'
@@ -70,7 +70,7 @@ export default class Login extends BaseComponent {
                 </View>
                 <View style={[styles.formInput, styles.formInputSplit]}>
                     <Image source={require('../../img/yanzhengma.png')}
-                           style={{marginTop: 7, width: 20, height: 20, resizeMode: 'contain'}}/>
+                           style={{ width: 20, height: 20, resizeMode: 'contain'}}/>
                     <TextInput
                         ref="login_auth"
                         style={styles.loginInput}
@@ -105,14 +105,13 @@ export default class Login extends BaseComponent {
                     width:300,
                     marginLeft: 30,
                     marginRight: 30,
-                    marginTop: 20,
                     borderRadius: 30,
                     backgroundColor: CommonStyle.themeColor,
                     justifyContent: 'center',
                     alignItems: 'center',
                     position: 'absolute',
                     bottom: 0,
-                    marginBottom:50,
+                    marginBottom:150,
                     alignSelf: 'center'
                 }} onPress={this._login.bind(this)}>
                     <Text style={styles.loginText}>登录</Text>
@@ -247,16 +246,19 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         height: 60,
         padding: 20,
+        justifyContent:'center',
+        alignItems:'center'
     },
     formInputSplit: {
         borderBottomWidth: .5,
         borderBottomColor: CommonStyle.lineColor,
     },
     loginInput: {
-        height: 40,
+        height: 42,
         paddingLeft: 10,
         flex: 1,
-        fontSize: 16,
+        fontSize: 18,
+        marginTop:3
     },
 
     loginBtn: {

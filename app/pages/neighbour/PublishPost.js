@@ -212,7 +212,8 @@ export default class PublishPost extends BaseComponent {
                                 fileType: image.mime,
                             }
                         ]
-                        // this._uploadHeader(files);
+                        console.log(image)
+                        this.updateFile(files);
                         images.push(image.path)
                         this.setState({
                             images: images
@@ -242,7 +243,7 @@ export default class PublishPost extends BaseComponent {
             return;
         }
         images.splice(0, 1)
-        let param = {content: content, imageUrlList: images, type: topicId};
+        let param = {content: content, imageUrlList: images, type: topicId,title: 'test'};
 
         console.log(param)
         Request.post('/api/neighbour/publishinvitation', param,
@@ -250,7 +251,7 @@ export default class PublishPost extends BaseComponent {
                 mock: false,
                 mockId: 1095545,
             }).then(rep => {
-            if (rep.code == 0 && rep.data) {
+            if (rep.code == 0) {
                 this.goBack()
             } else {
                 this.showShort(rep.message)
@@ -260,5 +261,24 @@ export default class PublishPost extends BaseComponent {
         }).done(() => {
             // this.hideLoading();
         })
+    }
+
+    updateFile(files) {
+        Keyboard.dismiss();
+
+        let param = {fileName: files.fileName, filePath: files.filePath};
+
+        console.log(param)
+        Request.uploadFile('/api/user/updateImage', files,
+            {mock: false, mockId: 672823})
+            .then(rep => {
+                console.log('=======rep=======')
+                console.log(rep)
+                // this.showLong(rep.bstatus.desc);
+            }).catch(err => {
+        }).done(() => {
+            this.hideLoading();
+        })
+
     }
 }
