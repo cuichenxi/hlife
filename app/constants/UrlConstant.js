@@ -17,3 +17,12 @@
  */
 export const WEXIN_ARTICLE_LIST = 'http://route.showapi.com/582-2';
 export const WEXIN_ARTICLE_TYPE = 'http://route.showapi.com/582-1';
+
+/** 快递查询 **/
+export const LINK_APIPAYS_EXPRESS = 'alipays://platformapi/startapp?appId=20000754';
+/** 违章查询 **/
+export const LINK_APIPAYS_WZ = 'alipays://platformapi/startapp?appId=2017112200094724&chInfo=ch_alipaysearch';
+/** 手机充值 **/
+export const LINK_APIPAYS_CZ = 'alipays://platformapi/startapp?appId=10000003';
+/** 生活缴费 **/
+export const LINK_APIPAYS_JF= 'alipays://platformapi/startapp?appId=20000193';
