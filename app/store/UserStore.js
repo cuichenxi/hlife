@@ -1,27 +1,30 @@
 import store from 'react-native-simple-store';
 
 const user_info_key = 'user_info_key';
-// "avatar": "asdf",
-//     "userName": "张三",
-//     "nickName": "串串",
-//     "phone": "13712345678",
-//     "gender": 0,
-//     "birthday": "2010-10-10",
-//     "sign": "你好啊",
-//     "redCount": 999,
-//     "integralCount": 111111,
-//     "balance": 999
+// avatar: null
+// balance: 0
+// birthday: null
+// gender: 2
+// integralCount: 0
+// isAuth: 0
+// nickName: "15811508404"
+// phone: "15811508404"
+// redCount: 0
+// sign: null
+// token: "113af41a72b9449a938d08fc786ea209"
+// userName: "15811508404"
 let userInfo = {
     isAuth: 0,
-    phone: null,
-    userName: null,
-    token: null,
-    avatar: null,
-    gender: null,
-    birthday: null,
-    redCount: null,
-    integralCount: null,
-    balance: null
+    phone: '',
+    userName: '',
+    token: '',
+    avatar: '',
+    sign: '',
+    gender: 0,
+    birthday: '',
+    redCount: 0,
+    integralCount: 0,
+    balance: 0
 };
 
 export default  UserStore = {

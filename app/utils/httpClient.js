@@ -1,6 +1,6 @@
 // import 'whatwg-fetch';
 // // import fetch from 'dva/fetch';
-// import { getCookie } from './utils';
+// import { getCookie } from './util';
 //
 // const codeMessage = {
 //     200: '服务器成功返回请求的数据',

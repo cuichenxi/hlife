@@ -81,23 +81,6 @@ export default class Shopping extends BaseComponent {
 
 
     getHomeData() {
-        Request.post('/api/user/geuserinfo', {},
-            {
-                mock: true,
-                mockId: 1092531,
-            }, (cacheRep) => {
-                if (cacheRep) {
-                    this.setData(cacheRep.data)
-                }
-            }).then(rep => {
-            if (rep.code == 0 && rep.data) {
-                this.setData(rep.data)
-            }
-        }).catch(err => {
-
-        }).done(() => {
-            this.setState({refreshing: false});
-        })
 
         Request.post('/api/home/goodsRecommend', {page: 0, pageSize: 10},
             {

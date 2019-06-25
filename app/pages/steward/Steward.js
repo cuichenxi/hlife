@@ -80,23 +80,6 @@ export default class Steward extends BaseComponent {
 
 
     getHomeData() {
-        Request.post('/api/user/geuserinfo', {},
-            {
-                mock: true,
-                mockId: 1092531,
-            }, (cacheRep) => {
-                if (cacheRep) {
-                    this.setData(cacheRep.data)
-                }
-            }).then(rep => {
-            if (rep.code == 0 && rep.data) {
-                this.setData(rep.data)
-            }
-        }).catch(err => {
-
-        }).done(() => {
-            this.setState({refreshing: false});
-        })
 
         Request.post('/api/home/goodsRecommend', {page: 0, pageSize: 10},
             {
@@ -259,8 +242,8 @@ export default class Steward extends BaseComponent {
                     padding: 10,
                     borderWidth: .5,}]}>
                     <Image source={{uri:item.goodsImage}} style={{width: '100%', marginTop:10, height: 100,}}/>
-                    <Text style={{flex:1,fontSize: 14, color: "#333", marginTop: 20,
-                        numberOfLines: 1,ellipsizeMode:'tail'}}>{item.goodsName}</Text>
+                    <Text  ellipsizeMode={'tail'} numberOfLines={1} style={{flex:1,fontSize: 14, color: "#333", marginTop: 20,
+                       }}>{item.goodsName}</Text>
                     <View style={{flex:1 ,flexDirection:'row', alignItems: "flex-end", marginTop: 10}}>
                         <Text style={{fontSize: 12, color: CommonStyle.themeColor}}>￥<Text style={{fontSize: 24, color: CommonStyle.themeColor,}}>{item.goodsPrice}</Text></Text>
                         <Text style={{fontSize: 12, color: '#666',marginLeft:5 , marginBottom: 5 }}>{`￥${item.marketPrice}`}</Text>

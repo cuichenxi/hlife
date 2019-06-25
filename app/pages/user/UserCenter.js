@@ -12,6 +12,7 @@ import ImageView from "../../components/ImageView";
 import {Modal} from "antd-mobile-rn/lib/index.native";
 import TouchableView from "../../components/TouchableView";
 import Request from "../../utils/Request";
+import util from "../../utils/util";
 
 
 export default class UserCenter extends BaseComponent {
@@ -56,11 +57,11 @@ export default class UserCenter extends BaseComponent {
                 onPress: this.goPage.bind(this, "MyInvoiceList")
             },
             {icon: require('../../img/icon_uc_wdfk.png'), name: "红包", marginTop: 10, onPress: this.goPage.bind(this, "RedPacket")},
-            {icon: "md-flower", name: "支付调试", onPress: this.goPage.bind(this, "PayPage")},
-            {icon: "md-flower", name: "CodePushPage", onPress: this.goPage.bind(this, "CodePushPage")},
-            {icon: "md-flower", name: "GiftedListDemo", onPress: this.goPage.bind(this, "GiftedListDemo")},
-            {icon: "md-flower", name: "GiftedListDemoNet", onPress: this.goPage.bind(this, "GiftedListDemoNet")},
-            {icon: "md-flower", name: "GiftedListDemoFree", onPress: this.goPage.bind(this, "GiftedListDemoFree")},
+            // {icon: "md-flower", name: "支付调试", onPress: this.goPage.bind(this, "PayPage")},
+            // {icon: "md-flower", name: "CodePushPage", onPress: this.goPage.bind(this, "CodePushPage")},
+            // {icon: "md-flower", name: "GiftedListDemo", onPress: this.goPage.bind(this, "GiftedListDemo")},
+            // {icon: "md-flower", name: "GiftedListDemoNet", onPress: this.goPage.bind(this, "GiftedListDemoNet")},
+            // {icon: "md-flower", name: "GiftedListDemoFree", onPress: this.goPage.bind(this, "GiftedListDemoFree")},
         ]
     }
 
@@ -96,8 +97,7 @@ export default class UserCenter extends BaseComponent {
         this.hideHeader(true);
         let userInfo = UserStore.get();
         this.setState({
-            headerUrl: userInfo.avatar,
-            // headerUrl: 'https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/common/1542198920071/youji.gif',
+            headerUrl: util.stringValue(userInfo.avatar),
             userName: userInfo.userName,
             userPhone: userInfo.phone,
             redCount: userInfo.redCount,
@@ -105,6 +105,8 @@ export default class UserCenter extends BaseComponent {
             balance: userInfo.balance,
         })
     }
+
+
 
     _renderListItem() {
         return this.config.map((item, i) => {

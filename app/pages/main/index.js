@@ -16,7 +16,7 @@ import UserStore from "../../store/UserStore";
 import NavigationUtil from "../../utils/NavigationUtil";
 import Request from "../../utils/Request";
 import {Badge} from "antd-mobile-rn";
-// import ImageUtil from "../../utils/ImageUtil";
+// import ImageUtil from "../../util/ImageUtil";
 
 
 export default class Main extends BaseComponent {
@@ -90,7 +90,6 @@ export default class Main extends BaseComponent {
 
     onReady(param) {
         this.getHomeData();
-        this.getUserInfo();
     }
 
     _loadWeb(title, url) {
@@ -99,23 +98,23 @@ export default class Main extends BaseComponent {
 
 
     getHomeData() {
-        Request.post('/api/user/geuserinfo', {},
-            {
-                mock: true,
-                mockId: 1092531,
-            }, (cacheRep) => {
-                if (cacheRep) {
-                    this.setData(cacheRep.data)
-                }
-            }).then(rep => {
-            if (rep.code == 0 && rep.data) {
-                this.setData(rep.data)
-            }
-        }).catch(err => {
-
-        }).done(() => {
-            this.setState({refreshing: false});
-        })
+        // Request.post('/api/user/geuserinfo', {},
+        //     {
+        //         mock: true,
+        //         mockId: 1092531,
+        //     }, (cacheRep) => {
+        //         if (cacheRep) {
+        //             this.setData(cacheRep.data)
+        //         }
+        //     }).then(rep => {
+        //     if (rep.code == 0 && rep.data) {
+        //         this.setData(rep.data)
+        //     }
+        // }).catch(err => {
+        //
+        // }).done(() => {
+        //     this.setState({refreshing: false});
+        // })
 
         Request.post('/api/home/goodsRecommend', {page: 0, pageSize: 10},
             {
@@ -162,21 +161,6 @@ export default class Main extends BaseComponent {
         });
     }
 
-    getUserInfo() {
-        Request.post('/api/user/geuserinfo', {},
-            {
-                mock: true,
-                mockId: 1124783,
-            }).then(rep => {
-            if (rep.code == 0 && rep.data) {
-                UserStore.save(rep.data);
-            }
-        }).catch(err => {
-
-        }).done(() => {
-
-        })
-    }
 
     _onRefresh = () => {
         this.setState({refreshing: true});
@@ -381,8 +365,8 @@ export default class Main extends BaseComponent {
                     padding: 10,
                     borderWidth: .5,}]}>
                     <Image source={{uri:item.goodsImage}} style={{width: '100%', marginTop:10, height: 100,}}/>
-                    <Text style={{flex:1,fontSize: 14, color: "#333", marginTop: 20,
-                        numberOfLines: 1,ellipsizeMode:'tail'}}>{item.goodsName}</Text>
+                    <Text  ellipsizeMode={'tail'} numberOfLines={1} style={{flex:1,fontSize: 14, color: "#333", marginTop: 20,
+                        }}>{item.goodsName}</Text>
                     <View style={{flex:1 ,flexDirection:'row', alignItems: "flex-end", marginTop: 10}}>
                         <Text style={{fontSize: 12, color: CommonStyle.themeColor}}>￥<Text style={{fontSize: 24, color: CommonStyle.themeColor,}}>{item.goodsPrice}</Text></Text>
                         <Text style={{fontSize: 12, color: '#666',marginLeft:5 , marginBottom: 5 }}>{`￥${item.marketPrice}`}</Text>
@@ -417,7 +401,7 @@ export default class Main extends BaseComponent {
                     }}>
                         <View style={{backgroundColor: CommonStyle.themeColor, height: 18, width: 2}}></View>
                         <Text style={{fontSize: 16, color: CommonStyle.themeColor, marginLeft: 5, flex: 1}}>商品推荐</Text>
-                        <Text style={{fontSize: 14, color: '#666', justifySelf: 'flex-end'}}>更多</Text>
+                        <Text style={{fontSize: 14, color: '#666', }}>更多</Text>
                     </View>
                 </TouchableView>
                 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import {Image, StyleSheet, View, ViewPropTypes} from 'react-native';
 import PropTypes from 'prop-types';
+import util from "../utils/util";
 
 class ImageView extends React.PureComponent {
     static propTypes = {
@@ -17,9 +18,13 @@ class ImageView extends React.PureComponent {
     }
 
     render() {
+        let url = this.props.source;
+        // if (util.isString(url) && url.indexOf('null')>-1) {
+        //     url = url.replace('null', '');
+        // }
         return (
             <View style={this.props.style}>
-                <Image style={[this.props.style, styles.imageStyle]} source={this.props.source} onLoad={() => this.setState({loading: false})}/>
+                <Image style={[this.props.style, styles.imageStyle]} source={url} onLoad={() => this.setState({loading: false})}/>
                 {this.state.loading ? <Image style={[this.props.style, styles.imageStyle]} source={this.props.placeholderSource}/> : null}
             </View>
         );
