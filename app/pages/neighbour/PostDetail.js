@@ -66,7 +66,7 @@ export default class PostDetail extends BaseComponent{
                     justifyContent: 'space-between',
                     padding: 5
                 }}>
-                    <ImageView source={{uri: data.memberAvatar}}
+                    <ImageView source={data.memberAvatar}
                                placeholderSource={require("../../img/default_head.png")}
                                style={{
                                    width: 40,
@@ -89,7 +89,7 @@ export default class PostDetail extends BaseComponent{
                     </View>
                     <View style={{alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
                         <ImageView
-                            placeholderSource={require("../../img/neighbour_share.png")}
+                            defaultSource={require("../../img/neighbour_share.png")}
                             style={{
                                 width: 11,
                                 height: 11,
@@ -167,7 +167,7 @@ export default class PostDetail extends BaseComponent{
 
     _renderItem=(item) =>{
         return(
-            <ImageView source={{uri: item.item.imageUrl}}
+            <ImageView source={item.item.imageUrl}
                        style={{
                            width: width-20,
                            height: 213,
@@ -181,7 +181,7 @@ export default class PostDetail extends BaseComponent{
     _rendrImage=(images) =>{
         return images.map((item,i) =>{
             return(
-                <ImageView source={{uri: item}}
+                <ImageView source={ item}
                            style={{
                                width: width,
                                height: 213,
@@ -207,8 +207,8 @@ export default class PostDetail extends BaseComponent{
                         justifyContent: 'space-between',
                         padding: 5
                     }}>
-                        <ImageView source={{uri: item.headerUrl}}
-                                   placeholderSource={require("../../img/default_head.png")}
+                        <ImageView source={item.headerUrl}
+                                   defaultSource={require("../../img/default_head.png")}
                                    style={{
                                        width: 40,
                                        height: 40,
@@ -230,7 +230,7 @@ export default class PostDetail extends BaseComponent{
                         </View>
                         <View style={{alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
                             <ImageView
-                                placeholderSource={require("../../img/neighbour_share.png")}
+                                defaultSource={require("../../img/neighbour_share.png")}
                                 style={{
                                     width: 11,
                                     height: 0,

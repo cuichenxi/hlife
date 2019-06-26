@@ -57,8 +57,8 @@ export default class Index extends BaseView {
                     justifyContent: 'space-between',
                     padding: 5
                 }}>
-                    <ImageView source={{uri: item.imageUrl}}
-                               placeholderSource={require("../../img/default_head.png")}
+                    <ImageView source={item.imageUrl}
+                               defaultSource={require("../../img/default_head.png")}
                                style={{
                                    width: 40,
                                    height: 40,
@@ -80,7 +80,7 @@ export default class Index extends BaseView {
                     </View>
                     <View style={{alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
                         <ImageView
-                            placeholderSource={require("../../img/neighbour_share.png")}
+                            defaultSource={require("../../img/neighbour_share.png")}
                             style={{
                                 width: 11,
                                 height: 11,
@@ -185,7 +185,7 @@ export default class Index extends BaseView {
 
     _renderGridItem(item, index) {
         return (
-            <ImageView source={{uri: item}}
+            <ImageView source={item}
                        style={{
                            width: 175,
                            height: 131,

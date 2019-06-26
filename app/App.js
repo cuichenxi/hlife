@@ -1,12 +1,8 @@
 /**
  *https://www.jianshu.com/p/2f575cc35780
  */
-import {
-    createStackNavigator,
-    createBottomTabNavigator,
-    StackViewTransitionConfigs
-} from 'react-navigation';
-import {Animated, Easing, Image, ImageBackground, StyleSheet, Text, View} from 'react-native'
+import {createBottomTabNavigator, createStackNavigator, StackViewTransitionConfigs} from 'react-navigation';
+import {Image, StyleSheet} from 'react-native'
 import Splash from './pages/Splash';
 import MainContainer from './pages/main/MainContainer';
 import Web from './pages/web/index';

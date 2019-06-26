@@ -1,39 +1,34 @@
 import React from 'react';
-import {Image, StyleSheet, View, ViewPropTypes} from 'react-native';
+import {Image, StyleSheet, ViewPropTypes} from 'react-native';
 import PropTypes from 'prop-types';
 import util from "../utils/util";
 
 class ImageView extends React.PureComponent {
     static propTypes = {
-        source: PropTypes.object,
+        // source: PropTypes.object,
         style: ViewPropTypes.style,
-        placeholderSource: PropTypes.number.isRequired,
+        defaultSource: PropTypes.number.isRequired,
     };
 
     constructor(props) {
         super(props);
-        this.state = {
-            loading: true,
-        };
     }
 
     render() {
-        let url = this.props.source;
-        // if (util.isString(url) && url.indexOf('null')>-1) {
-        //     url = url.replace('null', '');
-        // }
+        var isNumber = util.isNumber(this.props.source);
         return (
-            <View style={this.props.style}>
-                <Image style={[this.props.style, styles.imageStyle]} source={url} onLoad={() => this.setState({loading: false})}/>
-                {this.state.loading ? <Image style={[this.props.style, styles.imageStyle]} source={this.props.placeholderSource}/> : null}
-            </View>
+            isNumber ?
+                <Image style={[styles.imageDefStyle, this.props.style]}
+                       source={Number(this.props.source)} defaultSource={this.props.defaultSource}/> :
+                <Image style={[ styles.imageDefStyle, this.props.style]}
+                       source={{uri: String(this.props.source)}} defaultSource={this.props.defaultSource}/>
         );
     }
 
 }
 
 const styles = StyleSheet.create({
-    imageStyle: {position: 'absolute', top: 0, right: 0, left: 0, bottom: 0}
+    imageDefStyle: {resizeMode: Image.resizeMode.stretch}
 });
 
 export default ImageView;

@@ -65,8 +65,8 @@ export default class UserInfo extends BaseComponent {
                 }}>
                     <View style={styles.itemStyle}>
                         <Text style={styles.itemTitle}>头像</Text>
-                        <ImageView source={{uri: this.state.headerUrl}}
-                                   placeholderSource={require("../../img/default_head.png")}
+                        <ImageView source={ this.state.headerUrl}
+                                   defaultSource={require("../../img/default_head.png")}
                                    style={{
                                        width: 40,
                                        height: 40,

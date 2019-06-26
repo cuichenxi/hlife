@@ -124,7 +124,7 @@ export default class Index extends BaseView {
 
     _renderGridItem(item, index) {
         return (
-            <ImageView source={{uri: item}}
+            <ImageView source={item}
                        style={{
                            width: 175,
                            height: 131,

@@ -4,7 +4,6 @@ import {Image, Linking, Modal as ModalView, ScrollView, StyleSheet, Text, View} 
 import FIcon from 'react-native-vector-icons/Feather'
 import {BaseComponent} from "../../components/base/BaseComponent";
 import {CommonStyle} from "../../common/CommonStyle";
-import QIcon from '../../components/icon';
 import LinearGradient from 'react-native-linear-gradient';
 import ItemArrow from "../../components/ItemArrow";
 import UserStore from "../../store/UserStore";
@@ -364,8 +363,8 @@ export default class UserCenter extends BaseComponent {
                     }} onPress={() => {
                         this.navigate('UserInfo')
                     }}>
-                        <ImageView source={{uri: this.state.headerUrl}}
-                                   placeholderSource={require("../../img/default_head.png")}
+                        <ImageView source={this.state.headerUrl}
+                                   defaultSource={require("../../img/default_head.png")}
                                    style={{
                                        width: 70,
                                        height: 70,

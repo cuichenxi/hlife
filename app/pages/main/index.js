@@ -19,7 +19,7 @@ import BarcodePage from "../witget/BarcodePage";
 import Request from "../../utils/Request";
 import {Badge} from "antd-mobile-rn";
 import {LINK_APIPAYS_CZ, LINK_APIPAYS_EXPRESS, LINK_APIPAYS_WZ} from "../../constants/UrlConstant";
-// import ImageUtil from "../../util/ImageUtil";
+import ImageView from "../../components/ImageView";
 
 export default class Main extends BaseComponent {
     navigationBarProps() {
@@ -35,8 +35,9 @@ export default class Main extends BaseComponent {
             refreshing: false,
             banners: [
                 {
-                    title: '百度',
-                    url: 'http://www.baidu.com',
+                    title: '',
+                    url: '',
+                    // imagePath: require('../../img/bg_banner.png')
                     imagePath: 'https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/digitalstore/banner_1.png'
                 }
             ],
@@ -143,6 +144,9 @@ export default class Main extends BaseComponent {
                     imagePath: item.imageUrl
                 })
             })
+            this.setState({
+                banners: _banners,
+            });
         }
         let _recommendList = [];
         if (data.recommendList) {
@@ -153,10 +157,11 @@ export default class Main extends BaseComponent {
                     imagePath: item.imageUrl
                 })
             })
+            this.setState({
+                banners: _banners,
+            });
         }
         this.setState({
-            banners: _banners,
-            recommendList: _recommendList,
             isAuth: data.isAuth == 1,
             searchHint: data.searchHint,
             unreadMessageCount: data.unreadMessageCount
@@ -267,7 +272,7 @@ export default class Main extends BaseComponent {
                         <TouchableHighlight key={i} onPress={() => {
                             this._loadWeb(banner.title, banner.url)
                         }}>
-                            <Image style={[styles.slide,]} source={{uri: banner.imagePath}}></Image>
+                            <ImageView style={{height: 255,width:'100%',resizeMode:Image.resizeMode.stretch,}} source={banner.imagePath} defaultSource={require('../../img/bg_banner.png')} ></ImageView>
                         </TouchableHighlight>
                     );
                 })}
@@ -436,7 +441,7 @@ const styles = StyleSheet.create({
     banner: {height: 255,},
     slide: {
         height: 255,
-        resizeMode: Image.resizeMode.stretch,
+        // resizeMode:Image.resizeMode.contain,
     },
     typesItem: {
         backgroundColor: "#fff",
