@@ -172,7 +172,7 @@ class BaseComponent extends React.Component {
     }
 
     showLong(content) {
-        Toast.info(content, 3, () => {
+        Toast.info(content, 1, () => {
         }, true)
     }
 
