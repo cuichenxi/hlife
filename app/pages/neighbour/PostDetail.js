@@ -67,7 +67,7 @@ export default class PostDetail extends BaseComponent{
                     padding: 5
                 }}>
                     <ImageView source={data.memberAvatar}
-                               placeholderSource={require("../../img/default_head.png")}
+                               defaultSource={require("../../img/default_head.png")}
                                style={{
                                    width: 40,
                                    height: 40,

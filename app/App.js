@@ -70,6 +70,7 @@ import Message from "./pages/main/Message";
 import PostDetail from "./pages/neighbour/PostDetail";
 import scanInfo from "./pages/main/scanInfo";
 import RepairRecordList from "./pages/user/RepairRecordList";
+import ElectronicKey from "./pages/housekeeper/ElectronicKey";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -210,6 +211,7 @@ const App = createStackNavigator(
         PostDetail:{screen:PostDetail},//帖子详情
         scanInfo:{screen:scanInfo},//设备详情
         RepairRecordList:{screen:RepairRecordList},//工单记录
+        ElectronicKey:{screen:ElectronicKey},//电子钥匙
     },
     {
         // initialRouteName: 'Splash',

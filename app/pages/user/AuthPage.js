@@ -57,8 +57,8 @@ export default class AuthPage extends BaseComponent {
         const {mobile} = this.state
         return (
             <View style={styles.container}>
-                <ImageBackground style={{alignItems: 'center', justifyContent: 'center', height: 120}}
-                                 source={require('../../img/about_logo.png')}>
+                <ImageBackground style={{alignItems: 'center', justifyContent: 'center', height: 200}}
+                                 source={require('../../img/login_bg.png')}>
                     <Image source={require('../../img/login_logo.png')} style={{
                         width: 173,
                         height: 66, alignItems: 'center'
@@ -66,7 +66,7 @@ export default class AuthPage extends BaseComponent {
                 </ImageBackground>
 
 
-                <View style={{backgroundColor: '#ffffff', height: 60}}>
+                <View style={{backgroundColor: '#ffffff', height: 60,justifyContent:'center',alignItems:'center'}}>
 
                     <TouchableView onPress={() => {
                         this.navigate('HousingAddressList', {
@@ -83,7 +83,7 @@ export default class AuthPage extends BaseComponent {
                     }}>
 
                         <View
-                            style={{flexDirection: 'row', justifyContent: 'space-between', width: width, padding: 10}}>
+                            style={{flexDirection: 'row', justifyContent: 'space-between',alignItems:'center', width: width, padding: 10}}>
                             <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
                                 <Image source={require('../../img/xiaoqu.png')}
                                        style={{width: 20, height: 20, resizeMode: 'contain'}}/>
@@ -95,9 +95,9 @@ export default class AuthPage extends BaseComponent {
                         </View>
                     </TouchableView>
 
-                    <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
                 </View>
-                <View style={{backgroundColor: '#ffffff', height: 60}}>
+                <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
+                <View style={{backgroundColor: '#ffffff', height: 60,justifyContent:'center',alignItems:'center'}}>
 
                     <TouchableView onPress={() => {
                         this.navigate('HousingAddressList', {
@@ -113,7 +113,7 @@ export default class AuthPage extends BaseComponent {
                     }}>
 
                         <View
-                            style={{flexDirection: 'row', justifyContent: 'space-between', width: width, padding: 10}}>
+                            style={{flexDirection: 'row', justifyContent: 'space-between',alignItems:'center', width: width, padding: 10}}>
                             <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
                                 <Image source={require('../../img/danyuan.png')}
                                        style={{width: 20, height: 20, resizeMode: 'contain'}}/>
@@ -126,11 +126,11 @@ export default class AuthPage extends BaseComponent {
                         </View>
                     </TouchableView>
 
-                    <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
                 </View>
+                <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
                 <View style={{
                     backgroundColor: '#ffffff',
-                    height: 40,
+                    height: 60,
                     flexDirection: 'row',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -206,36 +206,6 @@ export default class AuthPage extends BaseComponent {
         })
     }
 
-    _requestAuthCode(shouldStartCounting) {
-        this.setState({
-            authState: '正在请求验证码'
-        })
-        var param = {phone: this.state.mobile};
-
-        Request.post('/api/user/getAuthCode', param,
-            {
-                mock: false,
-                mockId: 1089766,
-            }).then(rep => {
-            let requestSucc = true
-            if (rep.code == 0) {
-                this.setState({
-                    authState: `验证码获取成功`
-                })
-            } else {
-                this.setState({
-                    authState: rep.message
-                })
-                requestSucc = false
-            }
-            shouldStartCounting && shouldStartCounting(requestSucc)
-            this.showShort(rep.message);
-
-        }).catch(err => {
-        }).done(() => {
-            this.hideLoading();
-        })
-    }
 
     onChangeMobile(text) {
         this.state.mobile = text;

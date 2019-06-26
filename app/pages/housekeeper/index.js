@@ -51,7 +51,7 @@ export default class Housekeeper extends BaseComponent {
                 }, {
                     name: '电子钥匙',
                     imageUrl: require('../../img/menu_dzcx.png'),
-                    active: 'GuestPassKey'
+                    active: 'ElectronicKey'
                 }, {
                     name: '常用电话',
                     imageUrl: require('../../img/menu_xydh.png'),
