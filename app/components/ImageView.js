@@ -19,9 +19,9 @@ class ImageView extends React.PureComponent {
         return (
             isNumber ?
                 <Image style={[styles.imageDefStyle, this.props.style]}
-                       source={Number(this.props.source)} defaultSource={this.props.defaultSource}/> :
+                       defaultSource={this.props.defaultSource}/> :
                 <Image style={[ styles.imageDefStyle, this.props.style]}
-                       source={{uri: String(this.props.source)}} defaultSource={this.props.defaultSource}/>
+                       defaultSource={this.props.defaultSource}/>
         );
     }
 

@@ -37,15 +37,15 @@ export default class Main extends BaseComponent {
                 {
                     title: '',
                     url: '',
-                    // imagePath: require('../../img/bg_banner.png')
-                    imagePath: 'https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/digitalstore/banner_1.png'
+                    imagePath: require('../../img/bg_banner.png')
+                    // imagePath: ''
                 }
             ],
             recommendList: [
                 {
                     title: '百度',
                     url: 'http://www.baidu.com',
-                    imagePath: 'https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/digitalstore/banner_1.png'
+                    imagePath: ''
                 }
             ],
             types: [
@@ -322,15 +322,17 @@ export default class Main extends BaseComponent {
                 {this.state.recommendList.map((banner, i) => {
                     return (
                         <TouchableView style={{
-                            paddingRight: 10,
-                            paddingLeft: 10,
+                            // paddingRight: 10,
+                            // paddingLeft: 10,
                         }} key={i} onPress={() => {
                             this._loadWeb(banner.title, banner.url)
                         }}>
-                            <Image style={{
-                                borderRadius: 40,
+                            <ImageView style={{
+                                // borderRadius: 40,
+                                width:'100%',
                                 height: 80,
-                            }} source={{uri: banner.imagePath}}></Image>
+                                resizeMode:Image.resizeMode.cover
+                            }} source={ banner.imagePath} defaultSource={require('../../img/bg_center_banner.png')}></ImageView>
                         </TouchableView>
                     );
                 })}
