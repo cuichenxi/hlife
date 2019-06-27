@@ -9,6 +9,7 @@ import TouchableView from "../../../components/TouchableView";
 import ToastUtil from "../../../utils/ToastUtil";
 import {PAGE_SIZE} from "../../../constants/AppConstants";
 import Request from "../../../utils/Request";
+import globalStore from "../../../store/globalStore";
 
 
 let {width, height} = Dimensions.get('window')
@@ -38,6 +39,7 @@ export default class AddHousingAddress extends BaseComponent {
             elementName:this.props.navigation.state.params.elementName
         }
     }
+
 
     _render() {
         return (
@@ -105,18 +107,23 @@ export default class AddHousingAddress extends BaseComponent {
                 </View>
 
 
-                <View style={{
-                    height: 40,
-                    marginLeft: 30,
-                    marginRight: 30,
-                    marginTop: 20,
-                    borderRadius: 30,
-                    backgroundColor: CommonStyle.themeColor,
-                    justifyContent: 'center',
-                    alignItems: 'center'
+                <TouchableView onPress={()=>{
+
                 }}>
-                    <Text style={{color: '#ffffff', fontSize: 14}}>确认提交</Text>
-                </View>
+                    <View style={{
+                        height: 40,
+                        marginLeft: 30,
+                        marginRight: 30,
+                        marginTop: 20,
+                        borderRadius: 30,
+                        backgroundColor: CommonStyle.themeColor,
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}>
+                        <Text style={{color: '#ffffff', fontSize: 14}}>确认提交</Text>
+                    </View>
+                </TouchableView>
+
                 <View style={{width: width, justifyContent: 'center', alignItems: 'center', marginTop: 10}}>
                     <Text style={{fontSize: 12, color: CommonStyle.textGrayColor}}>提交小区地址之后，我们会在一个工作日内核实你的申请</Text>
                 </View>

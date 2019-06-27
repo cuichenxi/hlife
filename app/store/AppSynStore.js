@@ -1,12 +1,13 @@
 import UserStore from "./UserStore";
 import ADStore from "./ADStore";
-import CookieStore from "./CookieStore";
+import globalStore from "./globalStore";
 
 export default AppSynStore = {
 
     initData() {
         UserStore.initData()
         ADStore.initData()
-        CookieStore.initData()
+        globalStore.initData()
+        // CookieStore.initData()
     },
 }

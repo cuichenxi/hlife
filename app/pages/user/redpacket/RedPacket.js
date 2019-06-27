@@ -1,10 +1,9 @@
 import {BaseComponent} from "../../../components/base/BaseComponent";
 import React from "react";
-import {Text, StyleSheet, View} from "react-native";
+import {StyleSheet} from "react-native";
 import Tabs from "antd-mobile-rn/es/tabs/index.native";
 import {CommonStyle} from "../../../common/CommonStyle";
 import RedPacketView from "./RedPacketView";
-import ToastUtil from "../../../utils/ToastUtil";
 
 export default class RedPacket extends BaseComponent {
 

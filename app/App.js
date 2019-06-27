@@ -70,6 +70,7 @@ import Message from "./pages/main/Message";
 import PostDetail from "./pages/neighbour/PostDetail";
 import scanInfo from "./pages/main/scanInfo";
 import RepairRecordList from "./pages/user/RepairRecordList";
+import goodsList from "./pages/shopping/goodsList";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -94,7 +95,7 @@ const TabContainer = createBottomTabNavigator(
             screen: Housekeeper, navigationOptions: {
                 title: '管家',
                 tabBarIcon: ({focused, tintColor}) => (
-                    <QIcon name="icon-home" size={21} color={tintColor}/>
+                    <Image style={styles.tabIcon} source={focused ? require("./img/tab_press_gj.png") : require("./img/tab_unpress_gj.png")}/>
                 )
 
             }
@@ -210,6 +211,7 @@ const App = createStackNavigator(
         PostDetail:{screen:PostDetail},//帖子详情
         scanInfo:{screen:scanInfo},//设备详情
         RepairRecordList:{screen:RepairRecordList},//工单记录
+        goodsList:{screen:goodsList},//商品列表
     },
     {
         // initialRouteName: 'Splash',

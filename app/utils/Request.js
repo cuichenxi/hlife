@@ -10,6 +10,7 @@ import store from 'react-native-simple-store';
 import UserStore from "../store/UserStore";
 
 const post = (url, params = {}, options = {}, cacheCallback) => {
+    let urlpath = url;
     var isMock = false;
     var isCache = false;
     var cache_key = url;
@@ -79,9 +80,10 @@ const post = (url, params = {}, options = {}, cacheCallback) => {
                 resolve(rep);
                 return;
             }
-            // console.log("response密文=" + responseData);
+            console.log("response密文=" + responseData);
             let decryptData = aes.Decrypt(responseData);
-            console.log("response明文=" + decryptData);
+            console.log("urlPath=" + urlpath);
+            console.log("response=" + decryptData);
             responseData = JSON.parse(decryptData);
             if (isOk) {
                 if (isCache) {
@@ -110,6 +112,7 @@ const post = (url, params = {}, options = {}, cacheCallback) => {
  * @returns {Promise}
  */
 const uploadFile = (url, files = []) => {
+
     console.log('files', files);
     let formData = new FormData();       //因为需要上传多张图片,所以需要遍历数组,把图片的路径数组放入formData中
     for (var i = 0; i < files.length; i++) {

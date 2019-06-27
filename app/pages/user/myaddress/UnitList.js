@@ -6,6 +6,7 @@ import TouchableView from "../../../components/TouchableView";
 import {Text, View} from "react-native";
 import {PAGE_SIZE} from "../../../constants/AppConstants";
 import Request from "../../../utils/Request";
+import globalStore from "../../../store/globalStore";
 
 /**
  * 单元室列表
@@ -39,10 +40,11 @@ export default class UnitList extends BaseComponent{
     _renderRowView(rowData){
         return(<TouchableView onPress={() => {
             // this.goBack(rowData)
-            this.push("AddHousingAddress",{elementName:this.state.elementData.name+rowData.name})
+            // this.push("AddHousingAddress",{elementName:this.state.elementData.name+rowData.name})
             // this.goBack("AddHousingAddress",{elementName:this.state.elementData.name+rowData.name})
             // this.props.navigation.goBack("AddHousingAddress");
             // this.props.navigation.goBack(null);
+            this.pop(2,{elementName:this.state.elementData.name+rowData.name})
         }}>
             <View style={{justifyContent: 'center',alignItems:'flex-start',height:40,width: '100%',backgroundColor:'#fff',paddingLeft:15}}>
                 <Text>{rowData.name}</Text>

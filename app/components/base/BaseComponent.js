@@ -1,11 +1,12 @@
 import React from 'react'
-import {View, SafeAreaView, BackHandler, StyleSheet} from 'react-native'
+import {View, DeviceEventEmitter, BackHandler, StyleSheet} from 'react-native'
 import {CommonStyle} from '../../common/CommonStyle'
 import {Toast} from 'antd-mobile-rn';
 import NavigationBar from "../navigationBar/navigationBar";
 import Loading from "../Loading";
 import LoadingView from "../LoadingView";
 import NavigationUtil from "../../utils/NavigationUtil";
+
 
 class BaseComponent extends React.Component {
     static navigationOptions = ({navigation}) => ({
@@ -33,7 +34,7 @@ class BaseComponent extends React.Component {
 
 
     componentWillMount() {
-        this.onShow();
+
     }
 
     componentWillUpdate() {
@@ -53,6 +54,9 @@ class BaseComponent extends React.Component {
     }
 
     componentWillUnmount() {
+        if (this.state.subscription) {
+            this.state.subscription.remove();
+        }
         BackHandler.removeEventListener('hardwareBackPress', this.onBackPressAndroid)
         this.onHide();
         this.onUnload();
@@ -62,7 +66,7 @@ class BaseComponent extends React.Component {
      * 页面准备完成时。通过 this.prorps.param 可以获取 open(name, opts) 时传入的参数。
      * 举例：从 A 页面打开 B 页面，此时 B 页面就准备完成了。
      */
-    onShow() {
+    onShow(param) {
 
     }
 
@@ -106,22 +110,42 @@ class BaseComponent extends React.Component {
         }
         this.props.navigation.goBack();
     }
+    listenerBackEvent(){
+        // 这里的`param`可以不写
+        this.state.subscription = DeviceEventEmitter.addListener("BackEventType", (param)=>{
+            // 刷新界面等
+            this.onShow(param);
+        });
+
+    }
 
     /**
      * navigate('pageScreen',{prams:xxx,callback:()=>{}})
      * @param screenName
      * @param params
      */
-    navigate(screenName, params = {}) {
+    navigate(screenName, params = {},hasBackEventType) {
+        if (hasBackEventType) {
+            this.listenerBackEvent();
+        }
         this.props.navigation.navigate(screenName, params);
     }
 
-    push(screenName, params = {}) {
+    push(screenName, params = {},hasBackEventType) {
+        if (hasBackEventType) {
+            this.listenerBackEvent();
+        }
         this.props.navigation.push(screenName, params);
     }
 
     reset(screenName) {
         NavigationUtil.reset(this.props.navigation, screenName);
+    }
+    pop(index,param) {
+        NavigationUtil.pop(this.props.navigation, index);
+        if (param) {
+            DeviceEventEmitter.emit("BackEventType", param);
+        }
     }
 
     onLeftPress() {

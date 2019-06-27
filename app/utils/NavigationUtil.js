@@ -25,6 +25,15 @@ reset = (navigation, routeName) => {
     navigation.dispatch(resetAction);
 };
 
+pop=(navigation, index) =>{
+    const popAction=StackActions.pop({
+        n: index,
+    })
+    navigation.dispatch(popAction);
+};
+
+
 export default {
-    reset
+    reset,
+    pop,
 };

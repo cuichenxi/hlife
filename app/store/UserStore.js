@@ -24,7 +24,8 @@ let userInfo = {
     birthday: '',
     redCount: 0,
     integralCount: 0,
-    balance: 0
+    balance: 0,
+    messages:0,
 };
 
 export default  UserStore = {

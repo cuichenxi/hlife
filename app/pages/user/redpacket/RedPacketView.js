@@ -1,12 +1,10 @@
 import React from "react";
-import {Text, StyleSheet, View, ImageBackground} from "react-native";
+import {Dimensions, ImageBackground, StyleSheet, Text, View} from "react-native";
 import {BaseView} from "../../../components/base/BaseView";
 import GiftedListView from "../../../components/refreshList/GiftedListView";
 import TouchableView from "../../../components/TouchableView";
 import Request from "../../../utils/Request";
 import {PAGE_SIZE} from "../../../constants/AppConstants";
-import {SwipeAction} from "antd-mobile-rn";
-import ToastUtil from "../../../utils/ToastUtil";
 import {CommonStyle} from "../../../common/CommonStyle";
 
 export default class Index extends BaseView {

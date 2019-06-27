@@ -8,6 +8,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import TouchableView from "../../../components/TouchableView";
 import ToastUtil from "../../../utils/ToastUtil";
 import Request from "../../../utils/Request";
+import globalStore from "../../../store/globalStore";
 
 
 let {width, height} = Dimensions.get('window')
@@ -37,6 +38,10 @@ export default class ModifyHousingAddress extends BaseComponent {
             elementName:this.props.navigation.state.params.elementName,
             address:this.props.navigation.state.params.address
         }
+    }
+
+    onShow(e){
+        this.showShort("onShow" + JSON.stringify(e));
     }
 
     _render() {
@@ -93,7 +98,7 @@ export default class ModifyHousingAddress extends BaseComponent {
                                     element: data.name
                                 })
                             }
-                        })
+                        },true)
                     }}>
                         <View style={{flexDirection: 'row', justifyContent: 'space-between', width: width, padding: 10}}>
                             <Text>{this.state.address.unitName}</Text>

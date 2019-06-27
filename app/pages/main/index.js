@@ -20,6 +20,7 @@ import Request from "../../utils/Request";
 import {Badge} from "antd-mobile-rn";
 import {LINK_APIPAYS_CZ, LINK_APIPAYS_EXPRESS, LINK_APIPAYS_WZ} from "../../constants/UrlConstant";
 import ImageView from "../../components/ImageView";
+import UserStore from "../../store/UserStore";
 
 export default class Main extends BaseComponent {
     navigationBarProps() {
@@ -37,8 +38,8 @@ export default class Main extends BaseComponent {
                 {
                     title: '',
                     url: '',
-                    imagePath: require('../../img/bg_banner.png')
-                    // imagePath: ''
+                    // imagePath: require('../../img/bg_banner.png')
+                    imagePath: 'https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/digitalstore/banner_1.png'
                 }
             ],
             recommendList: [
@@ -83,15 +84,13 @@ export default class Main extends BaseComponent {
         };
     }
 
-    onShow() {
-        this.hideHeader(true);
-    }
 
     canExitApp() {
         return true;
     }
 
     onReady(param) {
+        this.hideHeader(true);
         this.getHomeData();
     }
 
@@ -101,27 +100,30 @@ export default class Main extends BaseComponent {
 
 
     getHomeData() {
-        // Request.post('/api/user/geuserinfo', {},
-        //     {
-        //         mock: true,
-        //         mockId: 1092531,
-        //     }, (cacheRep) => {
-        //         if (cacheRep) {
-        //             this.setData(cacheRep.data)
-        //         }
-        //     }).then(rep => {
-        //     if (rep.code == 0 && rep.data) {
-        //         this.setData(rep.data)
-        //     }
-        // }).catch(err => {
-        //
-        // }).done(() => {
-        //     this.setState({refreshing: false});
-        // })
+        Request.post('/api/user/getuserinfo', {},
+            {
+                mock: false,
+                mockId: 1092531,
+            }).then(rep => {
+            if (rep.code == 0 && rep.data) {
+                this.setState({
+                    isAuth: data.isAuth == 1,
+                    searchHint: data.searchHint,
+                    unreadMessageCount: data.messages
+                });
+                UserStore.save({
+                    messages: data.messages
+                })
+            }
+        }).catch(err => {
+
+        }).done(() => {
+            this.setState({refreshing: false});
+        })
 
         Request.post('/api/home/goodsRecommend', {page: 0, pageSize: 10},
             {
-                mock: true,
+                mock: false,
                 mockId: 673062,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
@@ -161,11 +163,7 @@ export default class Main extends BaseComponent {
                 banners: _banners,
             });
         }
-        this.setState({
-            isAuth: data.isAuth == 1,
-            searchHint: data.searchHint,
-            unreadMessageCount: data.unreadMessageCount
-        });
+
     }
 
 
@@ -183,12 +181,12 @@ export default class Main extends BaseComponent {
     }
 
     onScanClick() {
-        // this.navigate("BarcodePage", {
-        //     callback: (backData) => {
-        //         this.navigate('scanInfo',{serialNum: backData})
-        //     }
-        // });
-        this.navigate('scanInfo',{serialNum: 1111111})
+        this.navigate("BarcodePage", {
+            callback: (backData) => {
+                this.navigate('scanInfo',{serialNum: backData})
+            }
+        });
+        // this.navigate('scanInfo',{serialNum: 1111111})
     }
 
 
@@ -376,7 +374,7 @@ export default class Main extends BaseComponent {
                     borderColor: '#fff',
                     padding: 10,
                     borderWidth: .5,}]}>
-                    <Image source={{uri:item.goodsImage}} style={{width: '100%', marginTop:10, height: 100,}}/>
+                    <ImageView source={item.goodsImage} style={{width: '100%', marginTop:10, height: 100,}} defaultSource={require("../../img/default_image.png")}/>
                     <Text  ellipsizeMode={'tail'} numberOfLines={1} style={{flex:1,fontSize: 14, color: "#333", marginTop: 20,
                         }}>{item.goodsName}</Text>
                     <View style={{flex:1 ,flexDirection:'row', alignItems: "flex-end", marginTop: 10}}>
@@ -404,7 +402,7 @@ export default class Main extends BaseComponent {
                     {this._renderCenterView()}
                 </View>
                 {this.state.goodsRecommend && <TouchableView onPress={() => {
-                    this.showLong("更多")
+                    this.navigate('goodsList', {'from': 0});
                 }}>
                     <View style={{
                         paddingHorizontal: 10, paddingVertical: 15, marginTop: 20, flex: 1, flexDirection: 'row',
