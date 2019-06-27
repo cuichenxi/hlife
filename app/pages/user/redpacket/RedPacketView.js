@@ -1,5 +1,5 @@
 import React from "react";
-import {Dimensions, ImageBackground, StyleSheet, Text, View} from "react-native";
+import {ImageBackground, StyleSheet, Text, View} from "react-native";
 import {BaseView} from "../../../components/base/BaseView";
 import GiftedListView from "../../../components/refreshList/GiftedListView";
 import TouchableView from "../../../components/TouchableView";
@@ -15,17 +15,14 @@ export default class Index extends BaseView {
         };
     }
 
-    componentDidMount() {
-        // this.showLong("index=" + this.state.index);
-    }
 
     _onFetch(page = 1, callback) {
         console.log('page' + page);
         // this.showInDLoading()
         let param = {status: this.state.index, page: page - 1, pageSize: PAGE_SIZE,};
-        Request.post("api/user/redPacket", param,
+        Request.post("/api/user/redPacket", param,
             {
-                mock: true,
+                mock: false,
                 mockId: 1095476,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
@@ -58,7 +55,7 @@ export default class Index extends BaseView {
                             <View style={{flexDirection: 'row',
                                 alignItems: 'center',
                                 justifyContent: 'space-between',}}>
-                            <Text>{rowData.validity}</Text>
+                                <Text>{rowData.validity}</Text>
                                 <TouchableView style={{
                                     height: 17,
                                     borderRadius: 30,

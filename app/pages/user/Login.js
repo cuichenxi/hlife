@@ -51,7 +51,7 @@ export default class Login extends BaseComponent {
         const {mobile,codeRequesting} = this.state
         return (
             <View style={styles.container}>
-                <ImageBackground style={{alignItems:'center',justifyContent:'center',height:200}} source={require('../../img/about_logo.png')}>
+                <ImageBackground style={{alignItems:'center',justifyContent:'center',height:200}} source={require('../../img/login_bg.png')}>
                     <Image source={require('../../img/login_logo.png')} style={{width:173,
                         height:66, alignItems:'center'}} resizeMode='cover'/>
                 </ImageBackground>

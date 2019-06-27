@@ -106,7 +106,7 @@ export default class WaterElectricityPayment extends BaseComponent {
                         marginRight: 30,
                         borderRadius: 5,
                         marginBottom:50,
-                        backgroundColor: CommonStyle.themeColor,
+                        backgroundColor: '#118be3',
                         justifyContent: 'center',
                         alignItems: 'center'
                     }}>

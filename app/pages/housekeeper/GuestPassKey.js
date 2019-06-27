@@ -1,6 +1,6 @@
 import {BaseComponent} from "../../components/base/BaseComponent";
 import React from "react";
-import {Dimensions, Text, TextInput, View,Keyboard} from "react-native";
+import {Dimensions, Text, TextInput, View, Keyboard, TouchableOpacity, Image} from "react-native";
 import {CommonStyle} from "../../common/CommonStyle";
 import TouchableView from "../../components/TouchableView";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -11,6 +11,9 @@ import List from "antd-mobile-rn/es/list/index.native";
 import Request from "../../utils/Request";
 import UserStore from "../../store/UserStore";
 import util from "../../utils/util";
+import {PAGE_SIZE} from "../../constants/AppConstants";
+import CheckBox from "../../components/Checkbox";
+import Picker from "antd-mobile-rn/es/picker/index.native";
 
 
 let {width, height} = Dimensions.get('window')
@@ -19,6 +22,7 @@ const Font = {
     FontAwesome
 }
 
+
 export default class GuestPassKey extends BaseComponent {
 
     navigationBarProps() {
@@ -26,6 +30,7 @@ export default class GuestPassKey extends BaseComponent {
             title: this.props.navigation.state.params.title
         }
     }
+
     constructor(props) {
         super(props);
         this.state = {
@@ -35,12 +40,38 @@ export default class GuestPassKey extends BaseComponent {
             time: '20:00',
             datetime: '',
             datetime1: '',
-            communityId:'',
-            name:'',
+            communityId: '',
+            name: '',
 
-            userName:'',
-            userPhone:'',
-            address:''
+            userName: '',
+            userPhone: '',
+            address: '',
+            lockData: [
+                // {
+                //     label: '2013',
+                //     value: '2013'
+                // },
+                // {
+                //     label: '2014',
+                //     value: '2014'
+                // },
+            ],
+            validTimes:[
+                {
+                    label: '1小时',
+                    value: '1小时'
+                },
+                {
+                    label: '3小时',
+                    value: '3小时'
+                },{
+                    label: '6小时',
+                    value: '6小时'
+                },
+            ],
+            isOneChecked: false,
+            lock: '',
+            validTime:''
         }
     }
 
@@ -54,10 +85,17 @@ export default class GuestPassKey extends BaseComponent {
             // balance: userInfo.balance,
             // sign: userInfo.sign,
         })
+
+        this.makeRemoteRequest()
     }
 
+    onPress = () => {
+        console.log('===========请求列表==========')
+        this.makeRemoteRequest()
+    };
+
     _render() {
-        const {userName,userPhone,address} = this.state
+        const {userName, userPhone, address, lockData, lock,validTimes,validTime} = this.state
         return (
             <View style={{flex: 1}}>
                 <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
@@ -115,28 +153,69 @@ export default class GuestPassKey extends BaseComponent {
 
                 <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
                 <View style={{backgroundColor: '#ffffff'}}>
-                    <Text style={{color: CommonStyle.textBlockColor, padding: 10}}>到访时间</Text>
+                    {/*<Text style={{color: CommonStyle.textBlockColor, padding: 10}}>到访时间</Text>*/}
                     <List>
                         <DatePicker
+                            title={'选择到访日期'}
                             value={this.state.date}
                             mode="date"
-                            minDate={new Date(2016, 6, 1)}
+                            minDate={new Date()}
                             maxDate={new Date(2026, 11, 3)}
                             onChange={this.onChange}
                             format="YYYY-MM-DD"
                             extra=' '
-                            onOk={()=>{
+                            onOk={() => {
                                 console.log('====onOk====')
-                                this.props.extra=' '
+                                this.props.extra = ' '
                             }}
-                            itemStyle={{alignItems:'center',justifyContent:'center'}}
+                            itemStyle={{alignItems: 'center', justifyContent: 'center'}}
                         >
-                            <List.Item arrow="horizontal" extra={' '}><Text>{this.state.datetime}</Text></List.Item>
+                            <List.Item arrow="horizontal" extra={' '}><Text>到访时间</Text></List.Item>
                         </DatePicker>
+                        <Picker title={'选择门锁'}
+                                data={lockData}
+                                cols={1}
+                                value={lock}
+                                onChange={(value) => {
+                                    this.setState({
+                                        lock: value
+                                    })
+                                }}
+                                onOk={
+                                    (value) => {
+                                        this.setState({
+                                            lock: value
+                                        })
+                                    }
+                                }
+                                extra=' '
+                        >
+                            <List.Item arrow="horizontal" extra={' '}><Text>选择门锁</Text></List.Item>
+
+                        </Picker>
+                        <Picker title={'选择有效时间'}
+                                data={validTimes}
+                                cols={1}
+                                value={validTime}
+                                onChange={(value) => {
+                                    this.setState({
+                                        validTime: value
+                                    })
+                                }}
+                                onOk={
+                                    (value) => {
+                                        this.setState({
+                                            validTime: value
+                                        })
+                                    }
+                                }
+                                extra=' '
+                        >
+                            <List.Item arrow="horizontal" extra={' '}><Text>选择有效时间</Text></List.Item>
+
+                        </Picker>
                     </List>
 
-
-                    <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
                 </View>
 
                 <TouchableView style={{
@@ -148,7 +227,7 @@ export default class GuestPassKey extends BaseComponent {
                     backgroundColor: CommonStyle.themeColor,
                     justifyContent: 'center',
                     alignItems: 'center'
-                }} onPress={()=>{
+                }} onPress={() => {
                     this.guestPass()
                 }}>
                     <Text style={{color: '#ffffff', fontSize: 14}}>生成通行证</Text>
@@ -167,13 +246,13 @@ export default class GuestPassKey extends BaseComponent {
 
     onChange = (value) => {
         console.log(value)
-        this.setState({datetime:this.dateToString(value)})
-        this.setState({ date:value });
+        this.setState({datetime: this.dateToString(value)})
+        this.setState({date: value});
     }
 
-    dateToString(date){
+    dateToString(date) {
         var year = date.getFullYear();
-        var month =(date.getMonth() + 1).toString();
+        var month = (date.getMonth() + 1).toString();
         var day = (date.getDate()).toString();
         if (month.length == 1) {
             month = "0" + month;
@@ -186,25 +265,68 @@ export default class GuestPassKey extends BaseComponent {
         return dateTime;
     }
 
+    makeRemoteRequest(page = 1, callback) {
+        let param = {page: page - 1, pageSize: PAGE_SIZE};
+
+        Request.post('/api/steward/lockList', param,
+            {
+                mock: false,
+                mockId: 1095629,
+            }).then(rep => {
+            if (rep.code == 0 && rep.data) {
+                // callback(rep.data)
+                // this.setState({
+                //     lockData: rep.data
+                // })
+                for (var i=0;i<rep.data.length;i++){
+                    var value = rep.data[i].name
+                    var id = rep.data[i].id
+                    var item={label:'',value:'',id:''}
+                    item.label = value
+                    item.value = id
+                    item.id = id
+                    this.state.lockData.push(item)
+                }
+
+            }
+        }).catch(err => {
+
+        }).done(() => {
+        })
+    }
+
+
 
     guestPass() {
         Keyboard.dismiss();
-        let {name, initId, date,communityId,datetime} = this.state;
+        let {name, initId, date, datetime,validTime,lock} = this.state;
 
+        let min = 0
         if (date) {
-            this.setState({datetime:this.dateToString(date)})
+            this.setState({datetime: this.dateToString(date)})
         }
 
         if (!name.length) {
-            this.showLong('请输入访客姓名');
+            this.showShort('请输入访客姓名');
             return;
         }
 
         if (!datetime.length) {
-            this.showLong('请选择到访时间');
+            this.showShort('请选择到访时间');
             return;
         }
-        let param = {name: name, gender: initId, startTime: datetime,communityId:'',lockId:'',validTime:''};
+        if (!validTime.length) {
+            this.showShort('请选择有效时间');
+            return;
+        }
+        if (validTime.join('') === '1小时') {
+            min = 60
+        } else if (validTime.join('') === '3小时'){
+            min = 180
+        } else if (validTime.join('') === '6小时'){
+            min = 360
+        }
+        let param = {name: name, gender: initId, startTime: datetime, lockId: lock.join(''), validTime: min};
 
         console.log(param)
         Request.post('/api/steward/guestpass', param,
@@ -214,7 +336,7 @@ export default class GuestPassKey extends BaseComponent {
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
                 // this.goBack()
-                this.navigate('TrafficPermit',{data:rep.data})
+                this.navigate('TrafficPermit', {data: rep.data})
                 // this.reset('TrafficPermit')
             }
         }).catch(err => {

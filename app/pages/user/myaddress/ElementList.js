@@ -20,7 +20,8 @@ export default class ElementList extends BaseComponent{
     constructor(props) {
         super(props);
         this.state=({
-            api:this.props.navigation.state.params.api
+            api:this.props.navigation.state.params.api,
+            housingId:this.props.navigation.state.params.housingId
         })
     }
 
@@ -30,7 +31,7 @@ export default class ElementList extends BaseComponent{
                 style={{width:'100%'}}
                 rowView={this._renderRowView.bind(this)}
                 onFetch={this.makeRemoteRequest.bind(this)}
-                loadMore={true}
+                loadMore={false}
             />
         )
     }
@@ -39,7 +40,8 @@ export default class ElementList extends BaseComponent{
         return(<TouchableView onPress={() => {
             this.push('UnitList', {
                 title:'选择单元-室',
-                api:'api/user/selectelement',
+                api:'/api/user/selectunit',
+                buildingId:rowData.id,
                 rowData:rowData,
                 // callback: (data) => {
                 //     ToastUtil.showShort(data.name);
@@ -56,15 +58,15 @@ export default class ElementList extends BaseComponent{
     }
 
     makeRemoteRequest(page = 1, callback) {
-        let param = {statusBODY: this.state.index, page: page - 1, pageSize: PAGE_SIZE};
+        let param = {page: page - 1, pageSize: PAGE_SIZE,communityId:this.state.housingId};
 
-        Request.post('api/user/selectunit',param,
+        Request.post('/api/user/selectelement',param,
             {
-                mock: true,
+                mock: false,
                 mockId: 1095629,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
-                callback(rep.data.rows,{allLoaded: page * PAGE_SIZE >= rep.data.total})
+                callback(rep.data,)
             }
         }).catch(err => {
 
