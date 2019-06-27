@@ -43,9 +43,9 @@ export default class Shopping extends BaseComponent {
                     imageUrl: require('../../img/menu_wzcx.png'),
                     active: LINK_APIPAYS_WZ
                 }, {
-                    name: '手机充值',
-                    imageUrl: require('../../img/menu_sjcx.png'),
-                    active: LINK_APIPAYS_CZ
+                    name: '水电缴费',
+                    imageUrl: require('../../img/menu_sdjf.png'),
+                    active: 'WaterElectricityPayment'
                 }, {
                     name: '日用百货',
                     imageUrl: require('../../img/menu_rcbh.png'),

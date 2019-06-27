@@ -36,9 +36,9 @@ export default class Housekeeper extends BaseComponent {
                     imageUrl: require('../../img/menu_wyjf.png'),
                     active: 'LivingPayment'
                 }, {
-                    name: '水电缴费',
+                    name: '访客通行',
                     imageUrl: require('../../img/menu_sdjf.png'),
-                    active: 'WaterElectricityPayment'
+                    active: 'GuestPassKey'
                 }, {
                     name: '报修报事',
                     imageUrl: require('../../img/menu_bxbs.png'),

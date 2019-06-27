@@ -71,7 +71,7 @@ export default class AuthPage extends BaseComponent {
                     <TouchableView onPress={() => {
                         this.navigate('HousingAddressList', {
                             title: '选择小区',
-                            api: 'api/user/selectCommunity',
+                            api: '/api/user/selectCommunity',
                             callback: (data) => {
                                 ToastUtil.showShort(data.name);
                                 this.setState({
@@ -100,9 +100,10 @@ export default class AuthPage extends BaseComponent {
                 <View style={{backgroundColor: '#ffffff', height: 60,justifyContent:'center',alignItems:'center'}}>
 
                     <TouchableView onPress={() => {
-                        this.navigate('HousingAddressList', {
+                        this.navigate('ElementList', {
                             title: '选择楼栋/单元',
-                            api: 'api/user/selectCommunity',
+                            housingId:this.state.housingId,
+                            api: '/api/user/selectelement',
                             callback: (data) => {
                                 ToastUtil.showShort(data.name);
                                 this.setState({

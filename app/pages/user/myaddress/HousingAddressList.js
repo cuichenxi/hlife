@@ -29,7 +29,7 @@ export default class HousingAddressList extends BaseComponent{
                 style={{width:'100%'}}
                 rowView={this._renderRowView.bind(this)}
                 onFetch={this.makeRemoteRequest.bind(this)}
-                loadMore={true}
+                loadMore={false}
             />
         )
     }
@@ -43,16 +43,16 @@ export default class HousingAddressList extends BaseComponent{
     }
 
     makeRemoteRequest(page = 1, callback) {
-        let param = {statusBODY: this.state.index, page: page - 1, pageSize: PAGE_SIZE};
+        let param = {page: page - 1, pageSize: PAGE_SIZE};
 
         console.log(this.state.api)
         Request.post(this.state.api,param,
             {
-                mock: true,
+                mock: false,
                 mockId: 1095630,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
-                callback(rep.data.rows,{allLoaded: page * PAGE_SIZE >= rep.data.total})
+                callback(rep.data)
             }
         }).catch(err => {
 

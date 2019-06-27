@@ -24,9 +24,9 @@ export default class TrafficPermit extends BaseComponent{
         return (
             <View style={{backgroundColor:'#fff',flex: 1}}>
                 <View style={{justifyContent: 'center',alignItems: 'center',marginTop:36}}>
-                    <Text style={{color:CommonStyle.themeColor,fontSize:14}}>{data.community}</Text>
+                    <Text style={{color:CommonStyle.themeColor,fontSize:14}}>{data.lockName}</Text>
                 </View>
-                <Text style={{color:CommonStyle.textBlockColor,padding:10}}>尊敬的{data.visitorName}:</Text>
+                <Text style={{color:CommonStyle.textBlockColor,padding:10}}>尊敬的{data.name}:</Text>
                 <View style={{justifyContent: 'center',alignItems: 'center'}}>
                     <Image source={{uri: data.imageUrl}}
                            style={{width: 182, height: 182, resizeMode: 'contain'}}/>

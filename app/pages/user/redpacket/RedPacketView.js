@@ -1,12 +1,10 @@
 import React from "react";
-import {Text, StyleSheet, View, ImageBackground} from "react-native";
+import {ImageBackground, StyleSheet, Text, View} from "react-native";
 import {BaseView} from "../../../components/base/BaseView";
 import GiftedListView from "../../../components/refreshList/GiftedListView";
 import TouchableView from "../../../components/TouchableView";
 import Request from "../../../utils/Request";
 import {PAGE_SIZE} from "../../../constants/AppConstants";
-import {SwipeAction} from "antd-mobile-rn";
-import ToastUtil from "../../../utils/ToastUtil";
 import {CommonStyle} from "../../../common/CommonStyle";
 
 export default class Index extends BaseView {
@@ -17,17 +15,14 @@ export default class Index extends BaseView {
         };
     }
 
-    componentDidMount() {
-        // this.showLong("index=" + this.state.index);
-    }
 
     _onFetch(page = 1, callback) {
         console.log('page' + page);
         // this.showInDLoading()
         let param = {status: this.state.index, page: page - 1, pageSize: PAGE_SIZE,};
-        Request.post("api/user/redPacket", param,
+        Request.post("/api/user/redPacket", param,
             {
-                mock: true,
+                mock: false,
                 mockId: 1095476,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {

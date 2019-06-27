@@ -165,7 +165,6 @@ export default class PublishPost extends BaseComponent {
                         height: ImageWH ,
                     }}/>
                     <TouchableView onPress={()=>{
-                        this.showShort('shanchu')
                         console.log(this.state.images)
                         this.state.images.splice(rowData.index, 1)
                         this.setState({
