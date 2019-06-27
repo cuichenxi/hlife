@@ -131,6 +131,12 @@ export default class Shopping extends BaseComponent {
     _jumpRouter(typeItem) {
         if (typeItem.active.indexOf('alipays://') == 0) {
             Linking.openURL(typeItem.active).catch(err => this.showShort("未检测到支付宝"));
+        }else if (typeItem.name == '园区超市') {
+            this.navigate('goodsList', {'type': 1, title: '园区超市'});
+        }else if (typeItem.name == '日用百货') {
+            this.navigate('goodsList', {'type': 2, title: '日用百货'});
+        }else if (typeItem.name == '健康养生') {
+            this.navigate('goodsList', {'type': 3, title: '健康养生'});
         }else {
             this.navigate(typeItem.active);
         }
@@ -197,7 +203,7 @@ export default class Shopping extends BaseComponent {
                         flex: 1,
                         height: 30,
                     }} onPress={() => {
-                        this.showShort("搜索")
+                        this.navigate("goodsSearch")
                     }}>
                         <View style={{
                             flex: 1,

@@ -214,7 +214,7 @@ export default class Main extends BaseComponent {
                         flex: 1,
                         height: 30,
                     }} onPress={() => {
-                        this.showShort("搜索")
+                        this.navigate("goodsSearch")
                     }}>
                     <View style={{
                         flex: 1,
@@ -241,7 +241,6 @@ export default class Main extends BaseComponent {
                     </View>
                     </TouchableView>
                     <TouchableView style={{ alignItems: 'center',justifyContent:'center', height: 50}} onPress={() => {
-                        this.showShort("消息")
                         this.navigate("Message")
                     }}>
                         <Badge text={this.state.unreadMessageCount} overflowCount={99} small >
@@ -402,7 +401,7 @@ export default class Main extends BaseComponent {
                     {this._renderCenterView()}
                 </View>
                 {this.state.goodsRecommend && <TouchableView onPress={() => {
-                    this.navigate('goodsList', {'from': 0});
+                    this.navigate('goodsList', {'type': 0,title:'商品列表'});
                 }}>
                     <View style={{
                         paddingHorizontal: 10, paddingVertical: 15, marginTop: 20, flex: 1, flexDirection: 'row',

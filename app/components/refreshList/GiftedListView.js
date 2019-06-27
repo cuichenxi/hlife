@@ -80,6 +80,7 @@ class GiftedListView extends React.Component {
         renderSeparator: PropTypes.func,
 
         rowHasChanged: PropTypes.func,
+        onRef: PropTypes.func,
         distinctRows: PropTypes.func,
 
         spinnerSize: PropTypes.string,
@@ -106,7 +107,7 @@ class GiftedListView extends React.Component {
         onFetch(page, callback, options) {
             callback([]);
         },
-
+        onRef: null,
         paginationFetchingView: null,
         paginationAllLoadedView: null,
         paginationWaitingView: null,
@@ -228,14 +229,22 @@ class GiftedListView extends React.Component {
 
 
     componentDidMount() {
+        if (this.props.onRef) {
+            this.props.onRef(this)
+        }
         this._mounted = true;
-
+        if (!this.props.refreshable) {
+            return;
+        }
         this.props.onFetch(this._getPage(), this._postRefresh.bind(this), {firstLoad: true});
     }
 
     //state change refresh
     componentWillReceiveProps() {
         this._setPage(1);
+        if (!this.props.refreshable) {
+            return;
+        }
         this.props.onFetch(this._getPage(), this._postRefresh.bind(this), {firstLoad: true});
     }
 
@@ -367,7 +376,6 @@ class GiftedListView extends React.Component {
                 renderSectionHeader={this.props.sectionHeaderView}
                 renderHeader={() => this.headerView()}
                 renderFooter={() => this._renderPaginationView()}
-
                 onEndReached={this.props.loadMore ? () => this._onPaginate() : null}
                 onEndReachedThreshold={10}
                 automaticallyAdjustContentInsets={false}

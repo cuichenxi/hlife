@@ -101,7 +101,7 @@ export const CommonStyle = {
     btnFont: 15,
     btnFontSmall: 13,
     // 导航title字体
-    navTitleFont: 20,
+    navTitleFont: 18,
     // tabBar文字字体
     barBarTitleFont: 12,
     // 占位符的默认字体大小

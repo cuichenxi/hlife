@@ -72,6 +72,7 @@ import scanInfo from "./pages/main/scanInfo";
 import RepairRecordList from "./pages/user/RepairRecordList";
 import goodsList from "./pages/shopping/goodsList";
 import ElectronicKey from "./pages/housekeeper/ElectronicKey";
+import goodsSearch from "./pages/shopping/goodsSearch";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -213,6 +214,7 @@ const App = createStackNavigator(
         scanInfo:{screen:scanInfo},//设备详情
         RepairRecordList:{screen:RepairRecordList},//工单记录
         goodsList:{screen:goodsList},//商品列表
+        goodsSearch:{screen:goodsSearch},//商品搜索
         ElectronicKey:{screen:ElectronicKey},//电子钥匙
     },
     {

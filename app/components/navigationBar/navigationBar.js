@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
         fontSize: CommonStyle.navTitleFont,
         color: CommonStyle.navTitleColor,
         textAlign: 'center',
-        fontWeight: 'bold'
+        // fontWeight: 'bold'
     },
     subTitleStyle: {
         fontSize: 11,

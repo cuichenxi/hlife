@@ -62,10 +62,10 @@ export default class Login extends BaseComponent {
                     <TextInput
                         ref="login_name"
                         placeholder='请输入您的手机号码'
+                        underlineColorAndroid="transparent"
                         style={styles.loginInput}
                         keyboardType='numeric'
                         maxLength={11}
-                        underlineColorAndroid="transparent"
                         onChangeText={this.onChangeMobile.bind(this)}/>
                 </View>
                 <View style={[styles.formInput, styles.formInputSplit]}>
