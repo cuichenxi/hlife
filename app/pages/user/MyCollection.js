@@ -32,9 +32,9 @@ export default class MyCollection extends BaseComponent{
     makeRemoteRequest(page = 1, callback) {
         let param = {page: page - 1, pageSize: PAGE_SIZE};
 
-        Request.post('api/user/collectlist', param,
+        Request.post('/api/user/collectlist', param,
             {
-                mock: true,
+                mock: false,
                 mockId: 1095622,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {

@@ -1,3 +1,4 @@
+
 import {BaseComponent} from "../../../components/base/BaseComponent";
 import GiftedListView from "../../../components/refreshList/GiftedListView";
 import React from "react";
@@ -7,9 +8,9 @@ import {PAGE_SIZE} from "../../../constants/AppConstants";
 import Request from "../../../utils/Request";
 
 /**
- * 选择小区
+ * 房号列表
  */
-export default class HousingAddressList extends BaseComponent{
+export default class RoomList extends BaseComponent{
     navigationBarProps() {
         return {
             title: this.props.navigation.state.params.title,//上个页面传递的标题
@@ -19,7 +20,10 @@ export default class HousingAddressList extends BaseComponent{
     constructor(props) {
         super(props);
         this.state=({
-            api:this.props.navigation.state.params.api
+            api:this.props.navigation.state.params.api,
+            elementData:this.props.navigation.state.params.rowData,
+            buildingId:this.props.navigation.state.params.buildingId,
+            unitId:this.props.navigation.state.params.unitId,
         })
     }
 
@@ -35,29 +39,23 @@ export default class HousingAddressList extends BaseComponent{
     }
 
     _renderRowView(rowData){
-        if (this.state.api === '/api/user/mycommunityList') {
-            return(<TouchableView onPress={() => {this.goBack(rowData)}}>
-                <View style={{justifyContent: 'center',alignItems:'flex-start',height:40,width: '100%',backgroundColor:'#fff',paddingLeft:15}}>
-                    <Text>{rowData.communityName}</Text>
-                </View>
-            </TouchableView>)
-        } else {
-            return(<TouchableView onPress={() => {this.goBack(rowData)}}>
-                <View style={{justifyContent: 'center',alignItems:'flex-start',height:40,width: '100%',backgroundColor:'#fff',paddingLeft:15}}>
-                    <Text>{rowData.name}</Text>
-                </View>
-            </TouchableView>)
-        }
+        return(<TouchableView onPress={() => {
+            this.pop(3,{elementName:this.state.elementData.name+'-'+rowData.name,roomId:rowData.id})
+
+        }}>
+            <View style={{justifyContent: 'center',alignItems:'flex-start',height:40,width: '100%',backgroundColor:'#fff',paddingLeft:15}}>
+                <Text>{rowData.name}</Text>
+            </View>
+        </TouchableView>)
     }
 
     makeRemoteRequest(page = 1, callback) {
-        let param = {page: page - 1, pageSize: PAGE_SIZE};
+        let param = {page: page - 1, pageSize: PAGE_SIZE,buildingId:this.state.buildingId,unitId:this.state.unitId};
 
-        console.log(this.state.api)
-        Request.post(this.state.api,param,
+        Request.post('/api/user/selectroom',param,
             {
                 mock: false,
-                mockId: 1095630,
+                mockId: 1095629,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
                 callback(rep.data)

@@ -8,7 +8,7 @@ import Request from "../../../utils/Request";
 import ToastUtil from "../../../utils/ToastUtil";
 
 /**
- * 选择单元列表
+ * 选择苑、栋列表
  */
 export default class ElementList extends BaseComponent{
     navigationBarProps() {
@@ -39,16 +39,10 @@ export default class ElementList extends BaseComponent{
     _renderRowView(rowData){
         return(<TouchableView onPress={() => {
             this.push('UnitList', {
-                title:'选择单元-室',
+                title:'选择单元',
                 api:'/api/user/selectunit',
-                buildingId:rowData.id,
+                buildingId:this.state.housingId,
                 rowData:rowData,
-                // callback: (data) => {
-                //     ToastUtil.showShort(data.name);
-                //     this.setState({
-                //         element: data.name
-                //     })
-                // }
             })
         }}>
             <View style={{justifyContent: 'center',alignItems:'flex-start',height:40,width: '100%',backgroundColor:'#fff',paddingLeft:15}}>
@@ -57,7 +51,7 @@ export default class ElementList extends BaseComponent{
         </TouchableView>)
     }
 
-    makeRemoteRequest(page = 1, callback) {
+    makeRemoteRequest(page = 1,callback) {
         let param = {page: page - 1, pageSize: PAGE_SIZE,communityId:this.state.housingId};
 
         Request.post('/api/user/selectelement',param,

@@ -32,9 +32,9 @@ export default class Housekeeper extends BaseComponent {
             refreshing: false,
             types: [
                 {
-                    name: '物业缴费',
+                    name: '发布房源',
                     imageUrl: require('../../img/menu_wyjf.png'),
-                    active: 'LivingPayment'
+                    active: 'PublishHouseInfo'
                 }, {
                     name: '访客通行',
                     imageUrl: require('../../img/menu_sdjf.png'),

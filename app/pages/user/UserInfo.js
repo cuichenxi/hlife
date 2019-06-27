@@ -146,16 +146,15 @@ export default class UserInfo extends BaseComponent {
                     <DatePicker
                         value={this.state.value}
                         mode="date"
-                        minDate={new Date(2015, 7, 6)}
-                        maxDate={new Date(2026, 11, 3)}
+                        minDate={new Date(1900, 1, 1)}
+                        maxDate={new Date()}
                         onChange={this.onChange}
                         format="YYYY-MM-DD"
                         title={'出生日期'}
                     >
-                        <List.Item arrow="horizontal">出生日期</List.Item>
+                        <List.Item arrow="horizontal" extra={' '}><Text style={{color: CommonStyle.color_333, fontSize: 14}}>出生日期</Text></List.Item>
                     </DatePicker>
                 </List>
-                <View style={{backgroundColor: CommonStyle.lineColor, height: 0.5}}/>
 
                 <View style={{backgroundColor: CommonStyle.lineColor, marginTop: 10, height: 0.5}}/>
                 <TouchableView style={{height: 45}} onPress={() => {

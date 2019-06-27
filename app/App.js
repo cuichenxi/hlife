@@ -73,6 +73,7 @@ import RepairRecordList from "./pages/user/RepairRecordList";
 import goodsList from "./pages/shopping/goodsList";
 import ElectronicKey from "./pages/housekeeper/ElectronicKey";
 import goodsSearch from "./pages/shopping/goodsSearch";
+import RoomList from "./pages/user/myaddress/RoomList";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -216,6 +217,7 @@ const App = createStackNavigator(
         goodsList:{screen:goodsList},//商品列表
         goodsSearch:{screen:goodsSearch},//商品搜索
         ElectronicKey:{screen:ElectronicKey},//电子钥匙
+        RoomList:{screen:RoomList},//房号列表
     },
     {
         // initialRouteName: 'Splash',

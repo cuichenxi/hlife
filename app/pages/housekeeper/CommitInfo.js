@@ -24,19 +24,23 @@ export default class CommitInfo extends BaseComponent {
         super(props);
         this.state = {
             images: ['add'],
-            content:'',
+            contentValue:'',
             type:1,
-            communityId:''
+            communityId:'',
+            uploadImages:[],
+            title:this.props.navigation.state.params.title,
+            hideUpload:this.props.navigation.state.params.hideUpload
+
         }
     }
 
 
 
     _render() {
+        const {hideUpload} = this.state
         return (
             <View>
                 <TextInput
-                    ref="commit_info"
                     placeholder='您对我们的工作有什么建议'
                     style={{
                         width: '100%',
@@ -52,20 +56,26 @@ export default class CommitInfo extends BaseComponent {
                     }}
                     multiline={true}
                     maxLength={100}
-                    underlineColorAndroid="transparent"/>
-
-                <FlatList
-                    style={{backgroundColor: '#fff'}}
-                    renderItem={this.renderRow.bind(this)}
-                    data={this.state.images}
-                    keyExtractor={this._keyExtractor}
-                    numColumns={cols}
-                    // columnWrapperStyle={styles.columnStyle}
-                    horizontal={false}
+                    underlineColorAndroid="transparent"
+                    onChangeText={(value) =>this.setState({contentValue:value})}
+                    value={this.state.contentValue ? this.state.contentValue : ''}
                 />
 
-                <TouchableView onPress={()=>{
+                {
+                    !hideUpload?<FlatList
+                        style={{backgroundColor: '#fff'}}
+                        renderItem={this.renderRow.bind(this)}
+                        data={this.state.images}
+                        keyExtractor={this._keyExtractor}
+                        numColumns={cols}
+                        // columnWrapperStyle={styles.columnStyle}
+                        horizontal={false}
+                    />:<View/>
+                }
 
+
+                <TouchableView onPress={()=>{
+                    this.commitInfo()
                 }}>
                     <View style={{
                         height: 40,
@@ -198,12 +208,18 @@ export default class CommitInfo extends BaseComponent {
 
     commitInfo() {
         Keyboard.dismiss();
-        let {content, images,communityId,type} = this.state;
-        if (!content.length) {
+        let {contentValue,title} = this.state;
+        var type=1
+        if (!contentValue.length) {
             this.showLong('请输入内容');
             return;
         }
-        let param = {content: content, imageList: images, type: 1, title: 'ceshi'};
+        if (title == '我要投诉'){
+            type=1
+        } else if (title == '我要表扬') {
+            type = 2
+        }
+        let param = {content: contentValue, type:type };
 
         console.log(param)
         Request.post('/api/steward/complaintpraise', param,

@@ -93,15 +93,15 @@ export default class MyAddress extends BaseComponent {
     fetchData(page = 1) {
         let param = {statusBODY: this.state.index, page: page - 1, pageSize: PAGE_SIZE};
 
-        Request.post('api/user/goodsaddresslist', param,
+        Request.post('/api/user/mycommunityList', param,
             {
-                mock: true,
+                mock: false,
                 mockId: 1095864,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
                 // console.log(JSON.stringify(rep))
                 this.setState({
-                    rows: rep.data.rows
+                    rows: rep.data
                 })
             }
         }).catch(err => {
@@ -153,17 +153,6 @@ export default class MyAddress extends BaseComponent {
                         alignItems: 'center',
                         padding: 5
                     }}>
-                        <View style={{
-
-                            paddingLeft: 10,
-                            borderRadius: 5,
-                            backgroundColor: CommonStyle.themeColor,
-                            paddingRight: 10
-                        }}>
-                            <Text style={{
-                                textAlign: 'center', color: 'white',
-                            }}>审核</Text>
-                        </View>
                         <View style={{flex: 1, marginLeft: 20}}>
                             <Text style={{
                                 textAlign: 'left',
@@ -176,7 +165,7 @@ export default class MyAddress extends BaseComponent {
                                     color: '#999999',
                                     fontSize: 13,
                                     marginTop: 5
-                                }}>{item.item.unitName}</Text>
+                                }}>{item.item.unitName+item.item.roomName}</Text>
                         </View>
                         <Font.Ionicons style={{marginLeft: 10}} name="ios-arrow-forward-outline" size={(18)}
                                        color="#bbb"/>

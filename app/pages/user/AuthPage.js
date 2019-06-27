@@ -13,12 +13,12 @@ import {
 import Request from "../../utils/Request";
 import UserStore from "../../store/UserStore";
 import {BaseComponent} from '../../components/base/BaseComponent'
-import NavigationUtil from "../../utils/NavigationUtil";
 import {CommonStyle} from "../../common/CommonStyle";
 import TouchableView from "../../components/TouchableView";
 import ToastUtil from "../../utils/ToastUtil";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+
 
 var {width, height} = Dimensions.get('window');
 const Font = {
@@ -45,7 +45,14 @@ export default class AuthPage extends BaseComponent {
             element: '选择楼栋/单元室',
             idType: '选择身份',
             housingId: '',
+            buildingId:''
         };
+    }
+
+    onShow(e){
+        this.setState({
+            elementName:e.elementName
+        })
     }
 
     canBack() {
@@ -105,12 +112,14 @@ export default class AuthPage extends BaseComponent {
                             housingId:this.state.housingId,
                             api: '/api/user/selectelement',
                             callback: (data) => {
+                                console.log('=======回传=========')
+                                console.log(data)
                                 ToastUtil.showShort(data.name);
                                 this.setState({
                                     element: data.name,
                                 })
                             }
-                        })
+                        },true)
                     }}>
 
                         <View
@@ -120,6 +129,40 @@ export default class AuthPage extends BaseComponent {
                                        style={{width: 20, height: 20, resizeMode: 'contain'}}/>
                                 <Text
                                     style={{marginLeft: 5}}>{this.state.elementName ? this.state.elementName : "选择小区的苑、幢、单元室"}</Text>
+                            </View>
+
+                            <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
+                                           color="#bbb"/>
+                        </View>
+                    </TouchableView>
+
+                </View>
+                <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
+                <View style={{backgroundColor: '#ffffff', height: 60,justifyContent:'center',alignItems:'center'}}>
+
+                    <TouchableView onPress={() => {
+                        this.navigate('ElementList', {
+                            title: '选择房间号',
+                            buildingId:this.state.buildingId,
+                            api: '/api/user/selectroom',
+                            callback: (data) => {
+                                console.log('=======回传=========')
+                                console.log(data)
+                                ToastUtil.showShort(data.name);
+                                this.setState({
+                                    element: data.name,
+                                })
+                            }
+                        },true)
+                    }}>
+
+                        <View
+                            style={{flexDirection: 'row', justifyContent: 'space-between',alignItems:'center', width: width, padding: 10}}>
+                            <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                                <Image source={require('../../img/fangjianhao.png')}
+                                       style={{width: 20, height: 20, resizeMode: 'contain'}}/>
+                                <Text
+                                    style={{marginLeft: 5}}>{this.state.elementName ? this.state.elementName : "选择房间号"}</Text>
                             </View>
 
                             <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
@@ -158,7 +201,10 @@ export default class AuthPage extends BaseComponent {
                     backgroundColor: CommonStyle.themeColor,
                     justifyContent: 'center',
                     alignItems: 'center'
-                }} onPress={this._login.bind(this)}>
+                }} onPress={()=>{
+                    // this._auth.bind(this)
+                    this.showShort('接口还没写')
+                }}>
                     <Text style={styles.loginText}>认证</Text>
                 </TouchableOpacity>
             </View>
@@ -174,7 +220,7 @@ export default class AuthPage extends BaseComponent {
         navigate('Feedback', {isFirst: true});
     }
 
-    _login() {
+    _auth() {
         Keyboard.dismiss();
         let {mobile, authCode} = this.state;
 
@@ -188,7 +234,7 @@ export default class AuthPage extends BaseComponent {
         }
         this.showLoading('登录中..');
         var param = {phone: this.state.mobile, code: this.state.authCode};
-        Request.post('/api/user/login', param,
+        Request.post('/api/user/auth', param,
             {
                 mock: false,
                 mockId: 672823,
