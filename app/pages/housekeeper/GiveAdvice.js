@@ -3,6 +3,9 @@ import React from "react";
 import {Image, ImageBackground, RefreshControl, ScrollView, Text, View} from "react-native";
 import {CommonStyle} from "../../common/CommonStyle";
 import TouchableView from "../../components/TouchableView";
+import {COMPLAINTPRAISE, GIVEADVICE} from "../../constants/AppConstants";
+import UserStore from "../../store/UserStore";
+import util from "../../utils/util";
 
 export default class GiveAdvice extends BaseComponent {
     navigationBarProps() {
@@ -14,39 +17,27 @@ export default class GiveAdvice extends BaseComponent {
     constructor(props) {
         super(props);
         this.state = {
-            // title: this.props.navigation.state.params.title,
+            title: this.props.navigation.state.params.title,
             firstType: this.props.navigation.state.params.title === '咨询建议' ? '发表建议' : '我要投诉',
             secondType: this.props.navigation.state.params.title === '咨询建议' ? '我要咨询' : '我要表扬',
-            types: [
-                {
-                    name: '居家报修',
-                    active: 'Register'
-                }, {
-                    name: '小区报修',
-                    active: 'lifePay'
-                }, {
-                    name: '小区卫生',
-                    active: 'Login'
-                }, {
-                    name: '小区绿化',
-                    // active: 'ContactList'
-                    active: 'GiveAdvice'
-                }, {
-                    name: '小区安全',
-                    active: 'Login'
-                }, {
-                    name: '小区安全',
-                    active: 'Login'
-                }
-            ],
+            commitType: this.props.navigation.state.params.title === '咨询建议' ? GIVEADVICE : COMPLAINTPRAISE,
             headerUrl: '',
-            userName: '-',
-            userPhone: '-',
+            userName: '',
+            userPhone: '',
         }
     }
 
+    onReady(param) {
+        let userInfo = UserStore.get();
+        this.setState({
+            headerUrl: util.stringValue(userInfo.avatar),
+            userName: userInfo.userName,
+            userPhone: userInfo.phone,
+        })
+    }
+
     _render() {
-        const {userName,userPhone} = this.state
+        const {userName, userPhone} = this.state
         return (
             <ScrollView style={{
                 flex: 1,
@@ -89,7 +80,7 @@ export default class GiveAdvice extends BaseComponent {
                     }}>
                         <Image source={require('../../img/advice_type.png')}
                                style={{width: 18, height: 15, resizeMode: 'contain'}}/>
-                        <Text>您要选择的类型是？</Text>
+                        <Text style={{color:'#333',fontSize:16,marginLeft:5}}>您要选择的类型是？</Text>
                     </View>
                     <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: '100%'}}/>
                     <View>
@@ -103,13 +94,13 @@ export default class GiveAdvice extends BaseComponent {
     }
 
     _rendCardView() {
-        const {firstType, secondType} = this.state
+        const {firstType, secondType,commitType} = this.state
         return (
 
             <View style={{flexDirection: 'row', flex: 1, paddingTop: 20, paddingBottom: 20, backgroundColor: '#fff'}}>
                 <TouchableView onPress={() => {
                     this.showShort(firstType)
-                    this.navigate('CommitInfo',{title:firstType,hideUpload:true})
+                    this.navigate('CommitInfo', {title: firstType, hideUpload: true,commitType:commitType})
                 }}>
                     <ImageBackground style={{alignItems: 'center', justifyContent: 'center', height: 67, width: 107,}}
                                      source={require('../../img/theme_color_bg.png')}>
@@ -123,7 +114,7 @@ export default class GiveAdvice extends BaseComponent {
                 </TouchableView>
                 <TouchableView onPress={() => {
                     this.showShort(secondType)
-                    this.navigate('CommitInfo',{title:secondType,hideUpload:true})
+                    this.navigate('CommitInfo', {title: secondType, hideUpload: true,commitType:commitType})
                 }}>
                     <ImageBackground style={{alignItems: 'center', justifyContent: 'center', height: 67, width: 107}}
                                      source={require('../../img/white_bg.png')}>

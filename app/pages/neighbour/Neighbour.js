@@ -1,9 +1,8 @@
 import React from 'react';
-import {StyleSheet,FlatList,TouchableHighlight, Text, View, Keyboard} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {BaseComponent} from '../../components/base/BaseComponent'
 import {CommonStyle} from "../../common/CommonStyle";
 import Tabs from "antd-mobile-rn/es/tabs/index.native";
-import VisitorView from "../user/myvisitor/VisitorView";
 import NewestView from "./NewestView";
 import TopicView from "./TopicView";
 
@@ -62,7 +61,13 @@ export default class Neighbour extends BaseComponent {
                     flex: 1,
                     backgroundColor: 'white',
                     flexDirection: 'column'
-                }} tab={tab} index={index}/>
+                }} tab={tab} index={index}
+                           onItemPress={
+                               (item) =>{
+                                   this.navigate('TopicPostList',{id:item.id,title:item.name})
+                               }
+                           }
+                />
             )
         }
     }

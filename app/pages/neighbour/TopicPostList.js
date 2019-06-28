@@ -1,33 +1,37 @@
 import React from "react";
-import {Dimensions, Image, Text, View} from "react-native";
-import {BaseView} from "../../components/base/BaseView";
+import {Dimensions, Text, View} from "react-native";
 import GiftedListView from "../../components/refreshList/GiftedListView";
 import Request from "../../utils/Request";
 import {PAGE_SIZE} from "../../constants/AppConstants";
 import TouchableView from "../../components/TouchableView";
 import ImageView from "../../components/ImageView";
 import GridView from "../../components/GridView";
+import {BaseComponent} from "../../components/base/BaseComponent";
 
 /**
- * 邻里最新view
+ * 话题帖子列表
  */
 let {width, height} = Dimensions.get('window')
 
-export default class Index extends BaseView {
+export default class TopicPostList extends BaseComponent {
+    navigationBarProps() {
+        return {
+            title: this.props.navigation.state.params.title,
+        }
+    }
     constructor(props) {
         super(props)
         this.state = {
-            ...props,
-            liked: false
+            liked: false,
+            id:this.props.navigation.state.params.id,
         };
-        console.log(this.props)
     }
 
     makeRemoteRequest(page = 1, callback) {
-        let param = {status: this.state.index, page: page - 1, pageSize: PAGE_SIZE};
+        let param = {id: this.state.id, page: page - 1, pageSize: PAGE_SIZE};
 
         console.log(this.props)
-        Request.post('/api/neighbour/invitation/newest', param,
+        Request.post('/api/neighbour/invitation/list', param,
             {
                 mock: false,
                 mockId: 1095699,
@@ -48,7 +52,7 @@ export default class Index extends BaseView {
     _renderRowView(item) {
         return (
             <TouchableView style={{flex: 1}} onPress={()=>{
-                this.state.onItemPress(item)
+                this.navigate('PostDetail',{id:item.id})
             }}>
                 <View style={{
                     backgroundColor: 'white',
@@ -139,22 +143,6 @@ export default class Index extends BaseView {
                     onFetch={this.makeRemoteRequest.bind(this)}
                     loadMore={false}
                 />
-                <TouchableView style={{
-                    height: 70,
-                    width: 70,
-                    marginBottom: 10,
-                    position: 'absolute',
-                    bottom: 0,
-                    right: 10,
-                    alignSelf: 'center'
-                }} onPress={() => {
-                    this.state.onButtonPress()
-                }}>
-                    <Image source={require('../../img/green_plus.png')} style={{
-                        width: 65,
-                        height: 65, alignItems: 'center'
-                    }} resizeMode='cover'/>
-                </TouchableView>
             </View>
         );
     }

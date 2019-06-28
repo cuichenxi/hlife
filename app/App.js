@@ -75,6 +75,8 @@ import goodsSearch from "./pages/shopping/goodsSearch";
 import RoomList from "./pages/user/myaddress/RoomList";
 import activeDetail from "./pages/housekeeper/activeDetail";
 import ModifyPhone from "./pages/user/ModifyPhone";
+import TopicPostList from "./pages/neighbour/TopicPostList";
+import PublishComment from "./pages/neighbour/PublishComment";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -221,6 +223,8 @@ const App = createStackNavigator(
         RoomList:{screen:RoomList},//房号列表
         activeDetail:{screen:activeDetail},
         ModifyPhone:{screen:ModifyPhone},//修改手机号
+        TopicPostList:{screen:TopicPostList},//话题帖子列表
+        PublishComment:{screen:PublishComment},//写评论
     },
     {
         // initialRouteName: 'Splash',

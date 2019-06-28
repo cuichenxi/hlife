@@ -1,12 +1,30 @@
 import {BaseComponent} from "../../components/base/BaseComponent";
 import React from "react";
-import {Image, ImageBackground, RefreshControl, ScrollView, Text, TouchableOpacity, View} from "react-native";
+import {
+    Dimensions, FlatList,
+    Image,
+    ImageBackground,
+    RefreshControl,
+    ScrollView,
+    Text,
+    TouchableOpacity,
+    View
+} from "react-native";
 import {CommonStyle} from "../../common/CommonStyle";
 import TouchableView from "../../components/TouchableView";
 import Icon from "react-native-vector-icons/Ionicons";
 import GridView from "../../components/GridView";
+import UserStore from "../../store/UserStore";
+import util from "../../utils/util";
 
-export default class RepairsSelect extends BaseComponent{
+let {width, height} = Dimensions.get('window')
+
+// 一些常量设置
+const cols = 3; // 列数
+const left = 10; // 左右边距
+const top = 10; // 上下边距
+const ImageWH = (width - (cols + 1) * left) / cols; // 图片大小
+export default class RepairsSelect extends BaseComponent {
     navigationBarProps() {
         return {
             title: this.props.navigation.state.params.title,
@@ -15,10 +33,10 @@ export default class RepairsSelect extends BaseComponent{
 
     constructor(props) {
         super(props);
-        this.state={
+        this.state = {
             // title: this.props.navigation.state.params.title,
-            firstType: this.props.navigation.state.params.title === '咨询建议'?'发表建议':'我要投诉',
-            secondType: this.props.navigation.state.params.title === '咨询建议'?'我要咨询':'我要表扬',
+            firstType: this.props.navigation.state.params.title === '咨询建议' ? '发表建议' : '我要投诉',
+            secondType: this.props.navigation.state.params.title === '咨询建议' ? '我要咨询' : '我要表扬',
             types: [
                 {
                     name: '居家报修',
@@ -36,45 +54,59 @@ export default class RepairsSelect extends BaseComponent{
                 }, {
                     name: '小区安全',
                     active: 'Login'
-                },{
-                    name: '小区安全',
-                    active: 'Login'
                 }
             ],
+            headerUrl: '',
+            userName: '',
+            userPhone: '',
         }
     }
 
-    _render(){
-        return(
-            <ScrollView style={{flex: 1,
-                paddingBottom: 68,}} refreshControl={
+    onReady(param) {
+        let userInfo = UserStore.get();
+        this.setState({
+            headerUrl: util.stringValue(userInfo.avatar),
+            userName: userInfo.userName,
+            userPhone: userInfo.phone,
+        })
+    }
+
+    _render() {
+        const {userName, userPhone} = this.state
+        return (
+            <ScrollView style={{
+                flex: 1,
+                paddingBottom: 68,
+            }} refreshControl={
                 <RefreshControl
                     refreshing={this.state.refreshing}
                     onRefresh={this._onRefresh}
                 />}>
 
                 <View>
-                    <View style={{backgroundColor: 'white',
-                        marginTop:5,
+                    <View style={{
+                        backgroundColor: 'white',
+                        marginTop: 5,
                         flexDirection: 'row',
                         alignItems: 'center',
-                        padding: 10}}>
+                        padding: 10
+                    }}>
                         <Image source={require('../../img/address.png')}
                                style={{width: 37, height: 37, resizeMode: 'contain'}}/>
                         <Text></Text>
                         <View style={{flex: 1, marginLeft: 10}}>
-                            <View style={{justifyContent: 'space-between',alignItems:'center',flexDirection:'row'}}>
+                            <View style={{justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row'}}>
                                 <Text style={{
                                     fontSize: 17,
                                     textAlign: 'left', color: '#666666'
-                                }}>张三丰</Text>
-                                <Text style={{ color: '#999999', fontSize: 15}}>电话</Text>
+                                }}>{userName}</Text>
+                                <Text style={{color: '#999999', fontSize: 15}}>{userPhone}</Text>
                             </View>
 
                             <Text style={{
                                 fontSize: 17,
                                 textAlign: 'left', color: '#666666'
-                            }}>地址北京八达岭长城</Text>
+                            }}>地址</Text>
                         </View>
                     </View>
                     <View style={{
@@ -83,12 +115,18 @@ export default class RepairsSelect extends BaseComponent{
                     }}>
                         <Image source={require('../../img/advice_type.png')}
                                style={{width: 18, height: 15, resizeMode: 'contain'}}/>
-                        <Text>您要选择的类型是？</Text>
+                        <Text style={{color:'#333',fontSize:16,marginLeft:5}}>您要选择的类型是？</Text>
                     </View>
                     <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: '100%'}}/>
-                    <View>
-                        {this._rendCardView()}
-                    </View>
+                    <FlatList
+                        style={{backgroundColor: '#fff', flex: 1}}
+                        renderItem={this.renderRow}
+                        data={this.state.types}
+                        keyExtractor={this._keyExtractor}
+                        numColumns={cols}
+                        // columnWrapperStyle={styles.columnStyle}
+                        horizontal={false}
+                    />
 
                 </View>
             </ScrollView>
@@ -96,87 +134,35 @@ export default class RepairsSelect extends BaseComponent{
         )
     }
 
-    _rendCardView() {
-        const {firstType,secondType} = this.state
-        return (
-            <View>
-                <View style={{flexDirection: 'row', flex: 1, paddingTop: 20,paddingBottom:10,backgroundColor:'#fff',justifyContent:'space-between'}}>
-
-                    <TouchableView onPress={()=>{
-                        this.showShort(firstType)
-                    }}>
-                        <ImageBackground style={{alignItems:'center',justifyContent:'center',height: 67 ,width:107,}} source={require('../../img/theme_color_bg.png')}>
-                            <Text style={{color:'#fff',fontWeight: 'bold',fontSize:16,marginBottom: 5}}>居家报修</Text>
-                        </ImageBackground>
-                    </TouchableView>
-                    <TouchableView onPress={()=>{
-                        this.showShort(firstType)
-                    }}>
-                        <ImageBackground style={{alignItems:'center',justifyContent:'center',height: 67 ,width:107,}} source={require('../../img/white_bg.png')}>
-                            <Text style={{color:'#333',fontWeight: 'bold',fontSize:16,marginBottom: 5}}>小区报修</Text>
-                        </ImageBackground>
-                    </TouchableView>
-                    <TouchableView onPress={()=>{
-                        this.showShort(secondType)
-                    }}>
-                        <ImageBackground style={{alignItems:'center',justifyContent:'center',height: 67 ,width:107}} source={require('../../img/white_bg.png')}>
-                            <Text style={{color:'#333',fontWeight: 'bold',fontSize:16,marginBottom: 5}}>小区卫生</Text>
-                        </ImageBackground>
-                    </TouchableView>
-
-                </View>
-                <View style={{flexDirection: 'row', flex: 1, paddingTop: 10,paddingBottom: 20,backgroundColor:'#fff',justifyContent:'space-between'}}>
-                    <TouchableView onPress={()=>{
-                        this.showShort(firstType)
-                    }}>
-                        <ImageBackground style={{alignItems:'center',justifyContent:'center',height: 67 ,width:107,}} source={require('../../img/white_bg.png')}>
-                            <Text style={{color:'#333',fontWeight: 'bold',fontSize:16,marginBottom: 5}}>小区绿化</Text>
-                        </ImageBackground>
-                    </TouchableView>
-                    <TouchableView onPress={()=>{
-                        this.showShort(secondType)
-                    }}>
-                        <ImageBackground style={{alignItems:'center',justifyContent:'center',height: 67 ,width:107}} source={require('../../img/white_bg.png')}>
-                            <Text style={{color:'#333',fontWeight: 'bold',fontSize:16,marginBottom: 5}}>小区安全</Text>
-                        </ImageBackground>
-                    </TouchableView>
-                    <TouchableView style={{backgroundColor:'transparent'}}>
-                        <ImageBackground style={{alignItems:'center',justifyContent:'center',height: 67 ,width:107,backgroundColor:'#ffffffff'}} >
-                        </ImageBackground>
-                    </TouchableView>
-
-                </View>
-            </View>
-
-
-        )
+    _keyExtractor = (item, index) => {
+        return item.uri + index
     }
 
-    _renderGridView() {
+    // 返回cell
+    renderRow(rowData) {
+        console.log('rowData', rowData)
         return (
-            <GridView
-                style={{
-                    flex: 1,
-                    paddingBottom: 20,
-                    marginTop: 10,
-                    backgroundColor: '#fff'
-                }}
-                items={this.state.types}
-                num={3}
-                renderItem={this._renderGridItem.bind(this)}
-            />
+            <TouchableView onPress={() => {
+                // this
+                this.navigate('ReportMatter',{title: rowData.item.name})
+            }}>
+                <View style={{
+                    width: ImageWH,
+                    height: ImageWH - 20,
+                    marginLeft: left,
+                    marginTop: top,
+                    // 文字内容居中对齐
+                    alignItems: 'center'
+                }}>
+
+                    <ImageBackground style={{alignItems: 'center', justifyContent: 'center', height: 67, width: 107,}}
+                                     source={require('../../img/theme_color_bg.png')}>
+                        <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 16, marginBottom: 5}}>{rowData.item.name}</Text>
+                    </ImageBackground>
+
+                </View>
+            </TouchableView>
         );
     }
 
-    _renderGridItem(item, index) {
-        return (
-            <TouchableView style={{flex: 1}} key={index} onPress={() => {
-                this._jumpRouter(item)
-            }}>
-                <ImageBackground style={{alignItems:'center',justifyContent:'center'}} source={require('../../img/white_bg.png')}>
-                    <Text style={{color:'#333',fontWeight: 'bold',fontSize:16,marginBottom: 5}}>{item.name}</Text>
-                </ImageBackground>
-            </TouchableView>
-        )
-    }
 }

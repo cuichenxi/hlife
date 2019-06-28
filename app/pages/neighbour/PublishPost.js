@@ -8,7 +8,6 @@ import ImagePicker from "react-native-image-crop-picker";
 import Request from "../../utils/Request";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import ToastUtil from "../../utils/ToastUtil";
 // 一些常量设置
 let {width, height} = Dimensions.get('window')
 const Font = {
@@ -52,7 +51,6 @@ export default class PublishPost extends BaseComponent {
                 <TouchableView onPress={() => {
                     this.navigate('TopicTypeList', {
                         callback: (data) => {
-                            ToastUtil.showShort(data.name);
                             this.setState({
                                 topic: data.name,
                                 topicId: data.id,

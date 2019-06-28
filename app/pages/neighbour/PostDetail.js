@@ -5,10 +5,12 @@ import ImageView from "../../components/ImageView";
 import TouchableView from "../../components/TouchableView";
 import Request from "../../utils/Request";
 import {CommonStyle} from "../../common/CommonStyle";
+import GiftedListView from "../../components/refreshList/GiftedListView";
+import {PAGE_SIZE} from "../../constants/AppConstants";
 
 let {width, height} = Dimensions.get('window')
 
-export default class PostDetail extends BaseComponent{
+export default class PostDetail extends BaseComponent {
     navigationBarProps() {
         return {
             // hiddenLeftItem: true,
@@ -18,34 +20,33 @@ export default class PostDetail extends BaseComponent{
 
     constructor(props) {
         super(props);
-        this.state={
-            data:{
+        this.state = {
+            data: {
                 commentCount: 0,
-                content: "HHH have",
+                content: "",
                 gmtCreated: null,
-                id: 1,
-                imageUrlList: [
-                    "file:///data/user/0/com.qfant.wuye/cache/react-native-image-crop-picker/IMG_20190624_142834.jpg"
-                ],
+                id: null,
+                imageUrlList: [],
                 likeCount: 0,
                 memberAvatar: null,
                 memberId: null,
-                memberName: "13718170483",
-                title: "test",
+                memberName: "",
+                title: "",
                 topicId: null,
-                topicName: "测试话题",
-                comment:[]
+                topicName: "",
+                comment: []
             },
-            id:this.props.navigation.state.params.id,
-            like:false,
+            id: this.props.navigation.state.params.id,
+            like: false,
         }
     }
-    componentWillMount(){
+
+    componentWillMount() {
         this.makeRemoteRequest()
     }
 
     _render() {
-        const {data,like} = this.state
+        const {data, like} = this.state
         console.log('=====渲染====')
         console.log(like)
         return (
@@ -57,148 +58,7 @@ export default class PostDetail extends BaseComponent{
                 }}>
 
 
-                <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: '100%'}}/>
-                <View style={{
-                    backgroundColor: 'white',
-                    // height:50,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: 5
-                }}>
-                    <ImageView source={data.memberAvatar}
-                               defaultSource={require("../../img/default_head.png")}
-                               style={{
-                                   width: 40,
-                                   height: 40,
-                                   resizeMode: "cover",
-                                   overflow: "hidden",
-                                   borderRadius: 20
-                               }}/>
-                    <View style={{flex: 1, marginLeft: 10, justifyContent: 'flex-end'}}>
-                        <Text style={{
-                            fontSize: 14,
-                            textAlign: 'left', color: '#333'
-                        }}>{data.memberName}</Text>
-                        <View style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center'}}>
-                            <Text style={{
-                                fontSize: 12,
-                                textAlign: 'left', color: '#999'
-                            }}>{data.gmtCreated}</Text>
-                        </View>
-                    </View>
-                    <View style={{alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
-                        <ImageView
-                            defaultSource={require("../../img/neighbour_share.png")}
-                            style={{
-                                width: 11,
-                                height: 11,
-                                resizeMode: "cover",
-                                overflow: "hidden",
-                                marginRight: 8
-                            }}/>
-                        <Text style={{color: '#999', fontSize: 12}}>爱分享</Text>
-                    </View>
-                </View>
-                <Text style={{fontSize: 14, color: '#333', padding: 10,backgroundColor:'#fff'}}>{data.content}</Text>
-                {this._rendrImage(data.imageUrlList)}
-
-                <View style={{
-                    height: 40,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    // padding: 10,
-                    backgroundColor: '#fff',
-                    paddingLeft: 10,
-                    paddingRight: 10,
-                }}>
-                    <View style={{
-                        alignItems: 'center',
-                        justifyContent: 'flex-start',
-                        flexDirection: 'row',
-                        backgroundColor: '#fff'
-                    }}>
-                        <Image source={require('../../img/theme_label.png')}
-                               style={{width: 20, height: 20, resizeMode: 'contain'}}/>
-                        <Text style={{textAlign: 'center', color: '#333', fontSize: 15}}>评论留言</Text>
-                    </View>
-                    {/*<Text style={{textAlign: 'center', color: '#333', fontSize: 15}}>评论留言</Text>*/}
-                    <Text style={{marginRight: 5, fontSize: 14, color: '#999'}}>共有{data.commentCount}条评论</Text>
-                </View>
-
-                <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: '100%'}}/>
-
-                {data.comment ?this._renderComment(data.comment):<View/>}
-
-                </ScrollView>
-                <View style={styles.bottomView}>
-                    <TouchableView style={{alignItems: 'center',
-                        backgroundColor: CommonStyle.white,
-                        justifyContent: 'center',
-                        height: 40,
-                        width: width / 2,}} onPress={() => {
-                            this.clickLike()
-                    }}>
-                        <View style={{justifyContent: 'center', alignItems: 'center',flexDirection:'row'}}>
-                            <Image source={like===true?require('../../img/like_icon.png'):require('../../img/unlike_icon.png')}
-                                   style={styles.bottomIcon}/>
-                            <Text style={{color: '#333', fontSize: 16,marginLeft:10}}>点赞</Text>
-                        </View>
-                    </TouchableView>
-                    <View style={{height: 40, width: 0.5, backgroundColor: CommonStyle.lineColor,marginTop:10,marginBottom:10}}/>
-
-                    <TouchableView style={{alignItems: 'center',
-                        backgroundColor: CommonStyle.white,
-                        justifyContent: 'center',
-                        height: 40,
-                        width: width / 2,}} onPress={() => this.state.onButtonPress()}>
-                        <View style={{justifyContent: 'center', alignItems: 'center',flexDirection:'row'}}>
-                            <Image source={require('../../img/comment_icon.png')}
-                                   style={styles.bottomIcon}/>
-                            <Text style={{color: '#333', fontSize: 16,marginLeft:10}}>评论</Text>
-                        </View>
-                    </TouchableView>
-                </View>
-            </View>
-        );
-    }
-
-
-    _renderItem=(item) =>{
-        return(
-            <ImageView source={item.item.imageUrl}
-                       style={{
-                           width: width-20,
-                           height: 213,
-                           resizeMode: "cover",
-                           marginLeft: 10,
-                           marginRight:10
-                       }}/>
-        )
-    }
-
-    _rendrImage=(images) =>{
-        return images.map((item,i) =>{
-            return(
-                <ImageView source={ item}
-                           style={{
-                               width: width,
-                               height: 213,
-                               resizeMode: "contain",//contain 等比例缩放 cover 模式只求在显示比例不失真的情况下填充整个显示区域。
-                               // marginLeft: 10,
-                               // marginRight:10,
-                               justifyContent:'center',
-                               alignItems:'center'
-                           }}/>
-            )
-        })
-    }
-
-    _renderComment=(comment) =>{
-        return comment.map((item,i) =>{
-            return(
-                <View style={{}}>
+                    <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: '100%'}}/>
                     <View style={{
                         backgroundColor: 'white',
                         // height:50,
@@ -207,7 +67,7 @@ export default class PostDetail extends BaseComponent{
                         justifyContent: 'space-between',
                         padding: 5
                     }}>
-                        <ImageView source={item.headerUrl}
+                        <ImageView source={data.memberAvatar}
                                    defaultSource={require("../../img/default_head.png")}
                                    style={{
                                        width: 40,
@@ -220,12 +80,12 @@ export default class PostDetail extends BaseComponent{
                             <Text style={{
                                 fontSize: 14,
                                 textAlign: 'left', color: '#333'
-                            }}>{item.name}</Text>
+                            }}>{data.memberName}</Text>
                             <View style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center'}}>
                                 <Text style={{
                                     fontSize: 12,
                                     textAlign: 'left', color: '#999'
-                                }}>{item.time}</Text>
+                                }}>{data.gmtCreated}</Text>
                             </View>
                         </View>
                         <View style={{alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
@@ -233,30 +93,203 @@ export default class PostDetail extends BaseComponent{
                                 defaultSource={require("../../img/neighbour_share.png")}
                                 style={{
                                     width: 11,
-                                    height: 0,
+                                    height: 11,
                                     resizeMode: "cover",
                                     overflow: "hidden",
                                     marginRight: 8
                                 }}/>
-                            <Text style={{color: '#999', fontSize: 0}}>爱分享</Text>
+                            <Text style={{color: '#999', fontSize: 12}}>{data.topicName}</Text>
                         </View>
                     </View>
-                    <View style={{flexDirection:'row',backgroundColor:'#fff'}}>
-                        <View style={{width:40,height:40}}/>
-                        <View style={{flex:1}}>
-                            <Text style={{fontSize:14,color:'#333',padding:5}}>{item.content}</Text>
-                            <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: '100%'}}/>
+                    <Text style={{
+                        fontSize: 14,
+                        color: '#333',
+                        padding: 10,
+                        backgroundColor: '#fff'
+                    }}>{data.content}</Text>
+                    {this._rendrImage(data.imageUrlList)}
+
+                    <View style={{
+                        height: 40,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        // padding: 10,
+                        backgroundColor: '#fff',
+                        paddingLeft: 10,
+                        paddingRight: 10,
+                    }}>
+                        <View style={{
+                            alignItems: 'center',
+                            justifyContent: 'flex-start',
+                            flexDirection: 'row',
+                            backgroundColor: '#fff'
+                        }}>
+                            <Image source={require('../../img/theme_label.png')}
+                                   style={{width: 20, height: 20, resizeMode: 'contain'}}/>
+                            <Text style={{textAlign: 'center', color: '#333', fontSize: 15}}>评论留言</Text>
                         </View>
+                        {/*<Text style={{textAlign: 'center', color: '#333', fontSize: 15}}>评论留言</Text>*/}
+                        <Text style={{marginRight: 5, fontSize: 14, color: '#999'}}>共有{data.commentCount}条评论</Text>
                     </View>
+
+                    <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: '100%'}}/>
+
+                    <GiftedListView
+                        style={{with: width, flex: 1}}
+                        rowView={this.renderComment.bind(this)}
+                        onFetch={this.makeCommentRequest.bind(this)}
+                        loadMore={false}
+                        // refreshable={}
+                        // renderRefreshControl={}
+                    />
+
+                </ScrollView>
+                <View style={styles.bottomView}>
+                    <TouchableView style={{
+                        alignItems: 'center',
+                        backgroundColor: CommonStyle.white,
+                        justifyContent: 'center',
+                        height: 40,
+                        width: width / 2,
+                    }} onPress={() => {
+                        this.clickLike()
+                    }}>
+                        <View style={{justifyContent: 'center', alignItems: 'center', flexDirection: 'row'}}>
+                            <Image
+                                source={like === true ? require('../../img/like_icon.png') : require('../../img/unlike_icon.png')}
+                                style={styles.bottomIcon}/>
+                            <Text style={{color: '#333', fontSize: 16, marginLeft: 10}}>点赞</Text>
+                        </View>
+                    </TouchableView>
+                    <View style={{
+                        height: 40,
+                        width: 0.5,
+                        backgroundColor: CommonStyle.lineColor,
+                        marginTop: 10,
+                        marginBottom: 10
+                    }}/>
+
+                    <TouchableView style={{
+                        alignItems: 'center',
+                        backgroundColor: CommonStyle.white,
+                        justifyContent: 'center',
+                        height: 40,
+                        width: width / 2,
+                    }} onPress={() => {
+                        this.navigate('PublishComment', {
+                            id: data.id,
+                            callback: (message) => {
+                                console.log('=======go back======' + message)
+                                this.makeRemoteRequest()
+                                // this.makeCommentRequest()
+                            }
+                        })
+                    }
+                    }>
+                        <View style={{justifyContent: 'center', alignItems: 'center', flexDirection: 'row'}}>
+                            <Image source={require('../../img/comment_icon.png')}
+                                   style={styles.bottomIcon}/>
+                            <Text style={{color: '#333', fontSize: 16, marginLeft: 10}}>评论</Text>
+                        </View>
+                    </TouchableView>
                 </View>
+            </View>
+        );
+    }
+
+
+    _renderItem = (item) => {
+        return (
+            <ImageView source={item.item.imageUrl}
+                       style={{
+                           width: width - 20,
+                           height: 213,
+                           resizeMode: "cover",
+                           marginLeft: 10,
+                           marginRight: 10
+                       }}/>
+        )
+    }
+
+    _rendrImage = (images) => {
+        return images.map((item, i) => {
+            return (
+                <ImageView source={item}
+                           style={{
+                               width: width,
+                               height: 213,
+                               resizeMode: "contain",//contain 等比例缩放 cover 模式只求在显示比例不失真的情况下填充整个显示区域。
+                               // marginLeft: 10,
+                               // marginRight:10,
+                               justifyContent: 'center',
+                               alignItems: 'center'
+                           }}/>
             )
         })
     }
 
+    renderComment (item){
+        return(
+            <View style={{}}>
+                <View style={{
+                    backgroundColor: 'white',
+                    // height:50,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: 5
+                }}>
+                    <ImageView source={item.memberAvatar}
+                               defaultSource={require("../../img/default_head.png")}
+                               style={{
+                                   width: 40,
+                                   height: 40,
+                                   resizeMode: "cover",
+                                   overflow: "hidden",
+                                   borderRadius: 20
+                               }}/>
+                    <View style={{flex: 1, marginLeft: 10, justifyContent: 'flex-end'}}>
+                        <Text style={{
+                            fontSize: 14,
+                            textAlign: 'left', color: '#333'
+                        }}>{item.memberName}</Text>
+                        <View style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center'}}>
+                            <Text style={{
+                                fontSize: 12,
+                                textAlign: 'left', color: '#999'
+                            }}>{item.gmtCreated}</Text>
+                        </View>
+                    </View>
+                    <View style={{alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
+                        <ImageView
+                            defaultSource={require("../../img/neighbour_share.png")}
+                            style={{
+                                width: 11,
+                                height: 0,
+                                resizeMode: "cover",
+                                overflow: "hidden",
+                                marginRight: 8
+                            }}/>
+                        <Text style={{color: '#999', fontSize: 0}}>爱分享</Text>
+                    </View>
+                </View>
+                <View style={{flexDirection: 'row', backgroundColor: '#fff'}}>
+                    <View style={{width: 40, height: 40}}/>
+                    <View style={{flex: 1}}>
+                        <Text style={{fontSize: 14, color: '#333', padding: 5}}>{item.content}</Text>
+                        <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: '100%'}}/>
+                    </View>
+                </View>
+            </View>
+        )
+    }
+
+
     makeRemoteRequest() {
         let param = {id: this.state.id};
 
-        Request.post('/api/neighbour/invitation/detail',param,
+        Request.post('/api/neighbour/invitation/detail', param,
             {
                 mock: false,
                 mockId: 1095701,
@@ -264,12 +297,43 @@ export default class PostDetail extends BaseComponent{
             if (rep.code == 0 && rep.data) {
                 //todo
                 this.setState({
-                    data:rep.data
+                    data: rep.data
                 })
+                if (rep.data.likeStatus === 1) {
+                    this.setState({
+                        like: true
+                    })
+                } else if (rep.data.likeStatus === 0) {
+                    this.setState({
+                        like: false
+                    })
+                }
             }
         }).catch(err => {
 
         }).done(() => {
+        })
+    }
+
+    makeCommentRequest(page = 1, callback) {
+        let param = {id: this.state.id, page: page - 1, pageSize: PAGE_SIZE};
+
+        console.log(this.props)
+        Request.post('/api/neighbour/comment/list', param,
+            {
+                mock: false,
+                mockId: 1095699,
+            }).then(rep => {
+            if (rep.code == 0 && rep.data) {
+                callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
+            }else {
+                this.showShort(rep.message);
+                callback(null,{emptyTitle: rep.message})
+            }
+        }).catch(err => {
+            callback(null,{emptyTitle: err})
+        }).done(() => {
+            this.hideLoading();
         })
     }
 
@@ -279,9 +343,9 @@ export default class PostDetail extends BaseComponent{
 
         console.log('=============')
         console.log(this.state.like)
-        let param = {id: this.state.id,type:this.state.like===true?1:0};
+        let param = {id: this.state.id, type: this.state.like === true ? 1 : 0};
 
-        Request.post('/api/neighbour/like',param,
+        Request.post('/api/neighbour/like', param,
             {
                 mock: false,
                 mockId: 1095701,
@@ -289,7 +353,7 @@ export default class PostDetail extends BaseComponent{
             if (rep.code === 0) {
                 //失败 将值置回原来值
                 this.setState({
-                    like:this.state.like
+                    like: this.state.like
                 })
                 this.showShort(rep.message)
             }
@@ -330,7 +394,7 @@ const styles = StyleSheet.create({
     marginBottom: {
         marginBottom: 20
     },
-    marginTop:{
-        marginTop:20
+    marginTop: {
+        marginTop: 20
     }
 });

@@ -35,7 +35,7 @@ export default class Index extends BaseView {
                 mockId: 1218198,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
-                callback(rep.data, {allLoaded: page * PAGE_SIZE >= rep.data.total})
+                callback(rep.data, {allLoaded: true})
             } else {
                 this.showShort(rep.message);
                 callback(null, {emptyTitle: rep.message})
@@ -49,7 +49,9 @@ export default class Index extends BaseView {
 
     _renderRowView(item) {
         return (
-            <TouchableView>
+            <TouchableView onPress={()=>{
+                this.state.onItemPress(item)
+            }}>
                 <View style={{
                     backgroundColor: 'white',
                     // height:50,
@@ -64,9 +66,10 @@ export default class Index extends BaseView {
                             width: 118,
                             height: 86,
                             marginLeft: 10,
+                            resizeMode: "contain",//contain 等比例缩放 cover 模式只求在显示比例不失真的情况下填充整个显示区域。
                         }}
                     />
-                    <View style={{flex: 1, marginLeft: 10, justifyContent: 'flex-start', alignItems: 'flex-start'}}>
+                    <View style={{flex: 1, marginLeft: 10,paddingLeft:10, justifyContent: 'flex-start', alignItems: 'flex-start'}}>
                         <Text style={{
                             fontSize: 14,
                             textAlign: 'left', color: '#333'

@@ -6,6 +6,7 @@ import TouchableView from "../../components/TouchableView";
 import {CommonStyle} from "../../common/CommonStyle";
 import ImagePicker from "react-native-image-crop-picker";
 import Request from "../../utils/Request";
+import {COMPLAINTPRAISE, GIVEADVICE} from "../../constants/AppConstants";
 // 一些常量设置
 let {width, height} = Dimensions.get('window')
 
@@ -29,7 +30,8 @@ export default class CommitInfo extends BaseComponent {
             communityId:'',
             uploadImages:[],
             title:this.props.navigation.state.params.title,
-            hideUpload:this.props.navigation.state.params.hideUpload
+            hideUpload:this.props.navigation.state.params.hideUpload,
+            commitType:this.props.navigation.state.params.commitType
 
         }
     }
@@ -208,26 +210,35 @@ export default class CommitInfo extends BaseComponent {
 
     commitInfo() {
         Keyboard.dismiss();
-        let {contentValue,title} = this.state;
+        let {contentValue,title,commitType} = this.state;
         var type=1
         if (!contentValue.length) {
             this.showLong('请输入内容');
             return;
         }
-        if (title == '我要投诉'){
-            type=1
-        } else if (title == '我要表扬') {
-            type = 2
+        if (commitType === COMPLAINTPRAISE) {
+            if (title == '我要投诉'){
+                type=1
+            } else if (title == '我要表扬') {
+                type = 2
+            }
+        } else if (commitType === GIVEADVICE) {
+            if (title == '发表建议'){
+                type=1
+            } else if (title == '我要咨询') {
+                type = 2
+            }
         }
+
         let param = {content: contentValue, type:type };
 
         console.log(param)
-        Request.post('/api/steward/complaintpraise', param,
+        Request.post(commitType === COMPLAINTPRAISE ?'/api/steward/complaintpraise':'/api/steward/consultsuggest', param,
             {
                 mock: false,
                 mockId: 1095545,
             }).then(rep => {
-            if (rep.code == 0 && rep.data) {
+            if (rep.code == 0) {
                 this.goBack()
             }
         }).catch(err => {
