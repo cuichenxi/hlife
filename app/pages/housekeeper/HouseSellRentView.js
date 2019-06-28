@@ -26,7 +26,6 @@ export default class HouseSellRentView extends BaseView {
     makeRemoteRequest(page = 1, callback) {
         let param = {type: this.state.index, page: page - 1, pageSize: PAGE_SIZE};
 
-        console.log(this.props)
         Request.post('/api/steward/housingList', param,
             {
                 mock: false,
@@ -35,11 +34,14 @@ export default class HouseSellRentView extends BaseView {
             if (rep.code == 0 && rep.data) {
                 // console.log(JSON.stringify(rep))
                 callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
+            } else {
+                this.showShort(rep.message);
+                callback(null, {emptyTitle: rep.message})
             }
         }).catch(err => {
-
+            callback(null, {emptyTitle: err})
         }).done(() => {
-            // this.hideLoading();
+            this.hideLoading();
         })
     }
 

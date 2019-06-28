@@ -40,10 +40,14 @@ export default class ElectronicKey extends BaseComponent{
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
                 callback(rep.data)
+            } else {
+                this.showShort(rep.message);
+                callback(null, {emptyTitle: rep.message})
             }
         }).catch(err => {
-
+            callback(null, {emptyTitle: err})
         }).done(() => {
+            this.hideLoading()
         })
     }
 }

@@ -3,6 +3,7 @@ import React from "react";
 import {Image, Keyboard, KeyboardAvoidingView, StyleSheet, Text, TextInput, View} from "react-native";
 import {CommonStyle} from "../../../common/CommonStyle";
 import Request from "../../../utils/Request";
+import TouchableView from "../../../components/TouchableView";
 
 
 /**
@@ -30,7 +31,7 @@ export default class AddShippingAddress extends BaseComponent {
             <View style={{flex: 1}}>
                 <KeyboardAvoidingView behavior='position'>
                     <View style={styles.inputRow}>
-                        <Image source={require('../../../img/user.png')}
+                        <Image source={require('../../../img/icon_shouhuoren.png')}
                                style={styles.imgIcon}/>
                         <View style={{justifyContent: 'center', alignItems: 'center'}}>
                             <Text style={{textAlign: 'center'}}>收货人</Text>
@@ -45,28 +46,28 @@ export default class AddShippingAddress extends BaseComponent {
                         />
                     </View>
                     <View style={styles.inputRow}>
-                        <Image source={require('../../../img/passicon.png')}
+                        <Image source={require('../../../img/icon_dianhua.png')}
                                style={styles.imgIcon}/>
                         <View style={{justifyContent: 'center', alignItems: 'center'}}>
                             <Text style={{textAlign: 'center'}}>电话</Text>
                         </View>
                         <TextInput
-                            ref="phone"
                             style={styles.textInput}
                             underlineColorAndroid="transparent"
                             placeholder='请输入电话'
+                            maxLength={11}
+                            keyboardType='numeric'
                             onChangeText={(text) => this.setState({tel: text})}
                             value={this.state.tel ? this.state.tel : ''}
                         />
                     </View>
                     <View style={styles.inputRow}>
-                        <Image source={require('../../../img/passicon.png')}
+                        <Image source={require('../../../img/icon_address.png')}
                                style={styles.imgIcon}/>
                         <View style={{justifyContent: 'center', alignItems: 'center'}}>
                             <Text style={{textAlign: 'center', fontSize: 16,}}>收货地址</Text>
                         </View>
                         <TextInput
-                            ref="phone"
                             style={styles.textInput}
                             underlineColorAndroid="transparent"
                             placeholder='请输入楼号、门牌号'
@@ -74,19 +75,22 @@ export default class AddShippingAddress extends BaseComponent {
                             value={this.state.detail ? this.state.detail : ''}/>
                     </View>
 
-
-                    <View style={{
-                        height: 40,
-                        marginLeft: 30,
-                        marginRight: 30,
-                        marginTop: 20,
-                        borderRadius: 30,
-                        backgroundColor: CommonStyle.themeColor,
-                        justifyContent: 'center',
-                        alignItems: 'center'
+                    <TouchableView onPress={()=>{
+                        this.addShippingAddress()
                     }}>
-                        <Text style={{color: '#ffffff', fontSize: 14}}>保存</Text>
-                    </View>
+                        <View style={{
+                            height: 40,
+                            marginLeft: 30,
+                            marginRight: 30,
+                            marginTop: 20,
+                            borderRadius: 30,
+                            backgroundColor: CommonStyle.themeColor,
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        }}>
+                            <Text style={{color: '#ffffff', fontSize: 14}}>保存</Text>
+                        </View>
+                    </TouchableView>
                 </KeyboardAvoidingView>
             </View>
         )
@@ -115,7 +119,7 @@ export default class AddShippingAddress extends BaseComponent {
         let param = {name: name, tel: tel, detail: detail};
 
         console.log(param)
-        Request.post('api/user/shippingAddress', param,
+        Request.post('/api/user/shippingAddress', param,
             {
                 mock: true,
                 mockId: 1095545,
@@ -150,6 +154,7 @@ const styles = StyleSheet.create(
             paddingLeft: 10,
             flex: 1,
             fontSize: 16,
+            marginTop: 3
         }
     }
 )

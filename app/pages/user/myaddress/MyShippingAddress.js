@@ -96,9 +96,9 @@ export default class MyShippingAddress extends BaseComponent {
     fetchData(page = 1) {
         let param = {statusBODY: this.state.index, page: page - 1, pageSize: PAGE_SIZE};
 
-        Request.post('api/user/goodsaddresslist', param,
+        Request.post('/api/user/goodsaddresslist', param,
             {
-                mock: true,
+                mock: false,
                 mockId: 1095864,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
@@ -106,11 +106,14 @@ export default class MyShippingAddress extends BaseComponent {
                 this.setState({
                     rows: rep.data.rows
                 })
+            } else {
+                this.showShort(rep.message);
             }
         }).catch(err => {
 
         }).done(() => {
             // this.hideLoading();
+            this.hideLoading();
         })
     }
 

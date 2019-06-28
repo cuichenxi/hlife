@@ -12,6 +12,7 @@ import {
 var Dimensions = require('Dimensions');
 var width=Dimensions.get('window').width;
 var height=Dimensions.get('window').height;
+var radioWidth=45
 export default class RadioModal extends Component{
     constructor(props){
         super(props);
@@ -19,6 +20,7 @@ export default class RadioModal extends Component{
             clicked:true,
             radioInit:this.props.radioInit,
             indexa:this.props.selectedValue===undefined?'0':this.props.selectedValue,
+            radioWidth:this.props.radioWidth === undefined?45:this.props.radioWidth,
         }
     }
     click(id,item){
@@ -51,6 +53,7 @@ export default class RadioModal extends Component{
             seledImg={this.props.seledImg}
             selImg={this.props.selImg}
             selnoneImg={this.props.selnoneImg}
+            radioWidth={this.props.radioWidth}
         />
     }
     render(){
@@ -86,7 +89,7 @@ class Raio2 extends Component{
         return(
             <TouchableHighlight
                 underlayColor='transparent'
-                style={[{marginRight:15,width:90,height:24},this.props.initStyle]}
+                style={[{marginRight:15,width:this.props.radioWidth,height:24},this.props.initStyle]}
                 onPress={this.click.bind(this,this.props.value,this.props.child)}>
                 <View  style={{flex:1,flexDirection:'row',alignItems:'center'}} >
                     {this.props.disabled&&!this.props.hightlight&&<Image source={imgUrlNone} style={{width:14,height:14,marginRight:7}}/>}

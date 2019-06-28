@@ -100,6 +100,7 @@ export default class PublishHouseInfo extends BaseComponent{
                                     flex: 1,
                                     backgroundColor: CommonStyle.white,
                                 }}
+                                radioWidth={90}
                             >
                                 <Text value="1">房屋出租</Text>
                                 <Text value="2">房屋出售</Text>

@@ -35,19 +35,21 @@ export default class Index extends BaseView {
                 mockId: 1218198,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
-                // console.log(JSON.stringify(rep))
                 callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
+            } else {
+                this.showShort(rep.message);
+                callback(null, {emptyTitle: rep.message})
             }
         }).catch(err => {
-
+            callback(null, {emptyTitle: err})
         }).done(() => {
-            // this.hideLoading();
+            this.hideLoading();
         })
     }
 
     _renderRowView(item) {
         return (
-            <TouchableView >
+            <TouchableView>
                 <View style={{
                     backgroundColor: 'white',
                     // height:50,
@@ -56,19 +58,19 @@ export default class Index extends BaseView {
                     padding: 5
                 }}>
                     <Image
-                        source={{uri:item.pic}}
+                        source={{uri: item.pic}}
                         style={{
                             width: 118,
                             height: 86,
                             marginLeft: 10,
                         }}
                     />
-                    <View style={{flex: 1, marginLeft: 10,justifyContent:'flex-start',alignItems:'flex-start'}}>
+                    <View style={{flex: 1, marginLeft: 10, justifyContent: 'flex-start', alignItems: 'flex-start'}}>
                         <Text style={{
                             fontSize: 14,
                             textAlign: 'left', color: '#333'
                         }}>{item.name}</Text>
-                        <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
+                        <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                             <Text style={{
                                 fontSize: 12,
                                 textAlign: 'left', color: '#999'

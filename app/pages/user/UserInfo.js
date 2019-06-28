@@ -1,14 +1,5 @@
 import React from 'react'
-import {
-    Text,
-    View,
-    Image,
-    StyleSheet,
-    ScrollView,
-    Dimensions,
-    SafeAreaView,
-    TouchableOpacity,
-} from 'react-native'
+import {StyleSheet, Text, TouchableOpacity, View,} from 'react-native'
 import {BaseComponent} from "../../components/base/BaseComponent";
 import {CommonStyle} from "../../common/CommonStyle";
 import TouchableView from "../../components/TouchableView";
@@ -144,7 +135,7 @@ export default class UserInfo extends BaseComponent {
                 <View style={{backgroundColor: CommonStyle.lineColor, height: 0.5}}/>
                 <List>
                     <DatePicker
-                        value={this.state.value}
+                        value={this.state.date}
                         mode="date"
                         minDate={new Date(1900, 1, 1)}
                         maxDate={new Date()}
@@ -288,18 +279,10 @@ const styles = StyleSheet.create({
     },
     itemSubTitle: {
         color: CommonStyle.color_666,
-        fontSize: 13
-        ,
+        fontSize: 14,
         marginRight: 10
     },
     loginOutBtn: {
-        // marginTop: 120,
-        // width: '80%',
-        // height: 44,
-        // alignSelf: 'center',
-        // justifyContent: 'center',
-        // backgroundColor: CommonStyle.themeColor,
-        // alignItems: 'center',
         borderRadius: 30,
         alignItems: 'center',
         backgroundColor: CommonStyle.themeColor,

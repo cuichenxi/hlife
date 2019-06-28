@@ -117,7 +117,7 @@ export default class AddHousingAddress extends BaseComponent {
 
 
                 <TouchableView onPress={()=>{
-
+                    this.commitRequest()
                 }}>
                     <View style={{
                         height: 40,
@@ -146,7 +146,7 @@ export default class AddHousingAddress extends BaseComponent {
      * @param page
      * @param callback
      */
-    commitRequest(callback) {
+    commitRequest() {
         let param = {roomId: this.state.roomId};
 
         Request.post('/api/user/addCommunity',param,
@@ -155,7 +155,8 @@ export default class AddHousingAddress extends BaseComponent {
                 mockId: 1095626,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
-                callback(rep.data)
+                // callback(rep.data)
+                this.goBack()
             }
         }).catch(err => {
 

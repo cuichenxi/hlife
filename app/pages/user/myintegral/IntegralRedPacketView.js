@@ -34,13 +34,15 @@ export default class IntegralRedPacketView extends BaseView {
                 mockId: 1095607,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
-                // console.log(JSON.stringify(rep))
                 callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
+            } else {
+                this.showShort(rep.message);
+                callback(null, {emptyTitle: rep.message})
             }
         }).catch(err => {
-
+            callback(null, {emptyTitle: err})
         }).done(() => {
-            // this.hideLoading();
+            this.hideLoading();
         })
     }
 

@@ -46,16 +46,7 @@ export default class GuestPassKey extends BaseComponent {
             userName: '',
             userPhone: '',
             address: '',
-            lockData: [
-                // {
-                //     label: '2013',
-                //     value: '2013'
-                // },
-                // {
-                //     label: '2014',
-                //     value: '2014'
-                // },
-            ],
+            lockData: [],
             validTimes:[
                 {
                     label: '1小时',
@@ -80,17 +71,12 @@ export default class GuestPassKey extends BaseComponent {
         this.setState({
             userName: userInfo.userName,
             userPhone: userInfo.phone,
-            // redCount: userInfo.redCount,
-            // integralCount: userInfo.integralCount,
-            // balance: userInfo.balance,
-            // sign: userInfo.sign,
         })
 
         this.makeRemoteRequest()
     }
 
     onPress = () => {
-        console.log('===========请求列表==========')
         this.makeRemoteRequest()
     };
 

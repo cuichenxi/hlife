@@ -44,7 +44,7 @@ export default class UnitList extends BaseComponent{
                 api:'/api/user/selectroom',
                 unitId:rowData.id,
                 rowData:rowData,
-                buildingId:this.state.buildingId
+                buildingId:this.state.elementData.id
             })
             // this.pop(2,{elementName:this.state.elementData.name+'-'+rowData.name,roomId:rowData.id})
         }}>
