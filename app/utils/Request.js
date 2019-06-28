@@ -8,6 +8,8 @@ import dInfo from 'react-native-device-info';
 import {Platform} from 'react-native';
 import store from 'react-native-simple-store';
 import UserStore from "../store/UserStore";
+import NavigationUtil from "./NavigationUtil";
+import ToastUtil from "./ToastUtil";
 
 const post = (url, params = {}, options = {}, cacheCallback) => {
     let urlpath = url;
@@ -90,12 +92,17 @@ const post = (url, params = {}, options = {}, cacheCallback) => {
                     store.save(cache_key, responseData);
                 }
                 resolve(responseData);
+                if (responseData.code == 405) {
+                    ToastUtil.showShort(responseData.message)
+                    NavigationUtil.navigate('AuthPage');
+                }
             } else {
                 reject(responseData);
             }
 
         }).catch((error) => {
             console.log("error=" + error);
+            ToastUtil.showShort(error)
             reject(error);
         });
     });

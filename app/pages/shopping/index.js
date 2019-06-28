@@ -8,6 +8,7 @@ import BarcodePage from "../witget/BarcodePage";
 import Request from "../../utils/Request";
 import {Badge} from "antd-mobile-rn";
 import {LINK_APIPAYS_CZ, LINK_APIPAYS_EXPRESS, LINK_APIPAYS_WZ} from "../../constants/UrlConstant";
+import ImageView from "../../components/ImageView";
 
 
 export default class Shopping extends BaseComponent {
@@ -248,18 +249,25 @@ export default class Shopping extends BaseComponent {
         );
     }
 
-    _renderBottomView(index){
+    _renderBottomView(index,image){
         return (
             <TouchableView style={{
                 margin: 10,
                 flex: 1
             }} onPress={() => {
-                this.showShort("xx" + index);
+                if (index == 0) {
+                    this.navigate('goodsList', {'type': 4, title: '家用电器'});
+                }else if (index == 1) {
+                    this.showShort('送水上门')
+                    // this.navigate('HouseholdServerList')
+                }else if (index == 2) {
+                    this.navigate('HouseholdServerList')
+                }
             }}>
-                <Image style={{
-                    flex: 1
+                <ImageView style={{
+                    flex: 1,width:'100%'
                 }}
-                       source={{uri: 'https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/digitalstore/banner_1.png'}}></Image>
+                       source={image}></ImageView>
             </TouchableView>
         )
     }
@@ -271,10 +279,10 @@ export default class Shopping extends BaseComponent {
                 <View style={{marginTop: 100, position: CommonStyle.absolute, top: 0, left: 0, right: 0, flex: 1}}>
                     {this._renderGridView()}
                 </View>
-                <View style={{marginTop: 310,backgroundColor:'#fff', position: CommonStyle.absolute, bottom:0,top: 0, left: 0, right: 0, flex: 1,}}>
-                    {this._renderBottomView(0)}
-                    {this._renderBottomView(1)}
-                    {this._renderBottomView(2)}
+                <View style={{marginTop: 290,paddingTop:10,backgroundColor:'#fff', position: CommonStyle.absolute, bottom:0,top: 0, left: 0, right: 0, flex: 1,}}>
+                    {this._renderBottomView(0,require('../../img/bg_live_dq.png'))}
+                    {this._renderBottomView(1,require('../../img/bg_live_ss.png'))}
+                    {this._renderBottomView(2,require('../../img/bg_live_jz.png'))}
                 </View>
                 <View style={{position: CommonStyle.absolute, left: 0, top: 0, right: 0,}}>
                     {this._renderHeader()}

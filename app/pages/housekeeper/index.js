@@ -201,7 +201,11 @@ export default class Housekeeper extends BaseComponent {
         return (
             <View style={{flexDirection: 'row', flex: 1, marginTop: 20}}>
                 <TouchableView style={{flex: 1}} onPress={() => {
-                    this.showShort("查一查")
+                    this.navigate("BarcodePage", {
+                        callback: (backData) => {
+                            this.navigate('scanInfo',{serialNum: backData})
+                        }
+                    });
                 }}>
                     <ImageBackground source={require('../../img/bg_cyc.png')} style={{
                         borderRadius: 3,

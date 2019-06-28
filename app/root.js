@@ -21,6 +21,7 @@ import configureStore from './store/configure-store';
 import rootSaga from './sagas/index';
 import App from './App';
 import AppSynStore from './store/AppSynStore';
+import NavigationUtil from "./utils/NavigationUtil";
 console.ignoredYellowBox = ['Warning: BackAndroid is deprecated. Please use BackHandler instead.','source.uri should not be an empty string','Invalid props.style key'];
 console.disableYellowBox = true // 关闭全部黄色警告
 AppSynStore.initData();
@@ -32,7 +33,9 @@ store.runSaga(rootSaga);
 
 const Root = () => (
     <Provider store={store}>
-        <App/>
+        <App ref={navigatorRef => {
+            NavigationUtil.init(navigatorRef);
+        }}/>
     </Provider>
 );
 

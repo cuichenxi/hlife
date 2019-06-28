@@ -75,12 +75,12 @@ export default class Index extends BaseComponent {
                 }
             }else {
                 this.showShort(rep.message);
-                callback([], {firstLoad: false, allLoaded: true})
+                callback(null,{emptyTitle: rep.message})
             }
         }).catch(err => {
-
+            callback(null,{emptyTitle: err})
         }).done(() => {
-            // this.hideLoading();
+            this.hideLoading();
         })
     }
     //

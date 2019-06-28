@@ -41,6 +41,7 @@ class GiftedListView extends React.Component {
                 dataSource: ds.cloneWithRowsAndSections(this._getRows()),
                 isRefreshing: false,
                 paginationStatus: 'firstLoad',
+                emptyTitle: this.props.emptyTitle,
             };
         } else {
             ds = new ListView.DataSource({
@@ -50,6 +51,7 @@ class GiftedListView extends React.Component {
                 dataSource: ds.cloneWithRows(this._getRows()),
                 isRefreshing: false,
                 paginationStatus: 'firstLoad',
+                emptyTitle: this.props.emptyTitle,
             };
         }
     }
@@ -85,6 +87,7 @@ class GiftedListView extends React.Component {
 
         spinnerSize: PropTypes.string,
         spinnerColor: PropTypes.string,
+        emptyTitle: PropTypes.string,
     };
     static defaultProps = {
         customStyles: {},
@@ -112,6 +115,7 @@ class GiftedListView extends React.Component {
         paginationAllLoadedView: null,
         paginationWaitingView: null,
         emptyView: null,
+        emptyTitle: ' 对不起，没有要显示的内容',
         renderSeparator: null,
         rowHasChanged: null,
         distinctRows: null,
@@ -201,7 +205,7 @@ class GiftedListView extends React.Component {
         return (
             <View style={[styles.defaultView, this.props.customStyles.defaultView]}>
                 <Text style={[styles.defaultViewTitle, this.props.customStyles.defaultViewTitle]}>
-                    对不起，没有要显示的内容
+                    {this.state.emptyTitle}
                 </Text>
 
                 <TouchableHighlight
@@ -330,6 +334,7 @@ class GiftedListView extends React.Component {
             this.setState({
                 isRefreshing: false,
                 paginationStatus: (options.allLoaded === true ? 'allLoaded' : 'waiting'),
+                emptyTitle: (options.emptyTitle !== null ? options.emptyTitle : this.state.emptyTitle),
             });
         }
     }

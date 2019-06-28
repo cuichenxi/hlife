@@ -16,7 +16,7 @@
  *
  */
 import {NavigationActions, StackActions} from 'react-navigation';
-
+let _navigator
 reset = (navigation, routeName) => {
     const resetAction = StackActions.reset({
         index: 0,
@@ -32,8 +32,23 @@ pop=(navigation, index) =>{
     navigation.dispatch(popAction);
 };
 
+navigate = (routeName, params = {}) => {
+    _navigator.dispatch(
+        NavigationActions.navigate({
+            routeName,
+            params,
+        })
+    );
+};
+
+init=(navigator)=>{
+    _navigator = navigator;
+}
+
 
 export default {
+    init,
     reset,
     pop,
+    navigate
 };

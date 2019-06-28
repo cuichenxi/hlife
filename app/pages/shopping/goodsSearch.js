@@ -57,14 +57,14 @@ export default class Index extends BaseComponent {
                         };
                         gridData.push(item)
                     }
-                    callback(gridData, {firstLoad: false,allLoaded: page * PAGE_SIZE >= rep.data.total})
+                    callback(gridData, {firstLoad: false, allLoaded: page * PAGE_SIZE >= rep.data.total});
                 }
             }else {
                 this.showShort(rep.message);
-                callback([], {firstLoad: false, allLoaded: true})
+                callback(null,{emptyTitle: rep.message})
             }
         }).catch(err => {
-
+            callback(null,{emptyTitle: err})
         }).done(() => {
             this.hideLoading();
         })

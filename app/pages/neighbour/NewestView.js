@@ -34,11 +34,13 @@ export default class Index extends BaseView {
                 mockId: 1095699,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
-                // console.log(JSON.stringify(rep))
                 callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
+            }else {
+                this.showShort(rep.message);
+                callback(null,{emptyTitle: rep.message})
             }
         }).catch(err => {
-            this.hideLoading();
+            callback(null,{emptyTitle: err})
         }).done(() => {
             this.hideLoading();
         })

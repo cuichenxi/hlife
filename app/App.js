@@ -11,7 +11,6 @@ import UserCenter from './pages/user/UserCenter';
 import Login from './pages/user/Login';
 import Feedback from "./pages/Feedback/Feedback";
 import Push from "./pages/About/Push";
-import QIcon from "./components/icon/index";
 import React from 'react';
 import GiftedListDemo from "./components/refreshList/demo/GiftedListDemo";
 import GiftedListDemoFree from "./components/refreshList/demo/GiftedListDemoFree";
