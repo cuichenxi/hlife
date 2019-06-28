@@ -49,7 +49,7 @@ const post = (url, params = {}, options = {}, cacheCallback) => {
     let paramString = JSON.stringify(paramJson);
     console.log("request=" + paramString);
     let encodeParam = aes.Encrypt(paramString);
-    // console.log("request:encodeParam=" + encodeParam);
+    console.log("request:encodeParam=" + encodeParam);
     let isOk;
     let fetchOptions = {
         method: 'POST',

@@ -74,6 +74,7 @@ import ElectronicKey from "./pages/housekeeper/ElectronicKey";
 import goodsSearch from "./pages/shopping/goodsSearch";
 import RoomList from "./pages/user/myaddress/RoomList";
 import activeDetail from "./pages/housekeeper/activeDetail";
+import ModifyPhone from "./pages/user/ModifyPhone";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -218,7 +219,8 @@ const App = createStackNavigator(
         goodsSearch:{screen:goodsSearch},//商品搜索
         ElectronicKey:{screen:ElectronicKey},//电子钥匙
         RoomList:{screen:RoomList},//房号列表
-        activeDetail:{screen:activeDetail},//房号列表
+        activeDetail:{screen:activeDetail},
+        ModifyPhone:{screen:ModifyPhone},//修改手机号
     },
     {
         // initialRouteName: 'Splash',

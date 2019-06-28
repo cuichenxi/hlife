@@ -1,5 +1,14 @@
 import React from 'react'
-import {StyleSheet, Text, TouchableOpacity, View,} from 'react-native'
+import {
+    Text,
+    View,
+    Image,
+    StyleSheet,
+    ScrollView,
+    Dimensions,
+    SafeAreaView,
+    TouchableOpacity, Keyboard,
+} from 'react-native'
 import {BaseComponent} from "../../components/base/BaseComponent";
 import {CommonStyle} from "../../common/CommonStyle";
 import TouchableView from "../../components/TouchableView";
@@ -18,33 +27,68 @@ export default class UserInfo extends BaseComponent {
     navigationBarProps() {
         return {
             title: '个人资料',
+            rightTitle:(
+                '保存'
+            ),
         }
     }
 
     constructor(props) {
         super(props)
         this.state = {
-            headerUrl: '',
+            avatar: '',
             userName: '-',
+            nickName: '-',
             userPhone: '-',
-            initItem: '男',
-            initId: '0',
-            date: undefined
+            gender: 1,
+            sign: '',
+            birthday: '',
         };
     }
 
     onReady(param) {
         let userInfo = UserStore.get();
         this.setState({
-            headerUrl: 'https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/common/1542198920071/youji.gif',
-            // headerUrl: userInfo.headerUrl,
+            gender: userInfo.gender,
+            sign: userInfo.sign,
+            birthday: userInfo.birthday,
+            avatar: userInfo.avatar,
             userName: userInfo.userName,
             userPhone: userInfo.phone,
+            nickName: userInfo.nickName,
         })
     }
+    onRightPress(){
+        this.updateUserInfo();
+    }
+    updateUserInfo(){
+        this.showLoading('保存信息中...')
+        var param ={
+            gender: this.state.gender,
+            sign: this.state.sign,
+            birthday: this.state.birthday,
+            avatar: this.state.avatar,
+            userName: this.state.userName,
+            userPhone: this.state.phone,
+            nickName: this.state.nickName,
+        }
+        Request.post('/api/user/userInfoUpdate', param)
+            .then(rep => {
+                if (rep.code == 0 && rep.data) {
+                    // this.setData(rep.data)
+                }
+            }).catch(err => {
 
-    onChange = (value) => {
-        this.setState({date: value});
+        }).done(() => {
+            this.hideLoading()
+        })
+    }
+    onUpdatePhone(){
+        this.navigate('ModifyPhone',{callback:(e)=>{
+                this.setState({
+                    userPhone: e.phone,
+                })
+            }})
     }
 
     _render() {
@@ -56,7 +100,7 @@ export default class UserInfo extends BaseComponent {
                 }}>
                     <View style={styles.itemStyle}>
                         <Text style={styles.itemTitle}>头像</Text>
-                        <ImageView source={ this.state.headerUrl}
+                        <ImageView source={ this.state.avatar}
                                    defaultSource={require("../../img/default_head.png")}
                                    style={{
                                        width: 40,
@@ -72,7 +116,7 @@ export default class UserInfo extends BaseComponent {
                 <View style={{backgroundColor: CommonStyle.lineColor, height: 0.5}}/>
 
                 <TouchableView style={{height: 45,}} onPress={() => {
-                    this._onUpdateNickName()
+                    this._onUpdateUserName()
                 }}>
                     <View style={styles.itemStyle}>
                         <Text style={styles.itemTitle}>姓名</Text>
@@ -83,18 +127,18 @@ export default class UserInfo extends BaseComponent {
                 </TouchableView>
                 <View style={{backgroundColor: CommonStyle.lineColor, height: 0.5}}/>
                 <TouchableView style={{height: 45,}} onPress={() => {
-                    this._onUpdateNickName()
+                    this.onUpdateNickName()
                 }}>
                     <View style={styles.itemStyle}>
                         <Text style={styles.itemTitle}>昵称</Text>
-                        <Text style={styles.itemSubTitle}>{this.state.userName}</Text>
+                        <Text style={styles.itemSubTitle}>{this.state.nickName}</Text>
                         <Icon style={{marginTop: 2}} name="ios-arrow-forward-outline" size={20}
                               color={CommonStyle.color_999}/>
                     </View>
                 </TouchableView>
                 <View style={{backgroundColor: CommonStyle.lineColor, height: 0.5, marginLeft: 16,}}/>
                 <TouchableView style={{height: 45}} onPress={() => {
-                    // this._on()
+                    this.onUpdatePhone();
                 }}>
                     <View style={styles.itemStyle}>
                         <Text style={styles.itemTitle}>手机号</Text>
@@ -104,48 +148,43 @@ export default class UserInfo extends BaseComponent {
                     </View>
                 </TouchableView>
                 <View style={{backgroundColor: CommonStyle.lineColor, height: 0.5}}/>
-
-                <View style={{backgroundColor: CommonStyle.lineColor, marginTop: 10, height: 0.5}}/>
                 <TouchableView style={{height: 45}} onPress={() => {
-                    // this._on()
+                    this.onUpdateGender()
                 }}>
                     <View style={styles.itemStyle}>
                         <Text style={styles.itemTitle}>性别</Text>
-                        <RadioModal
-                            selectedValue={this.state.initId}
-                            onValueChange={(id, item) => {
-                                this.setState({initId: id, initItem: item})
-
-                            }}
-                            style={{
-                                flexDirection: 'row',
-                                // flexWrap:'wrap',
-                                alignItems: 'flex-end',
-                                justifyContent: 'flex-end',
-                                flex: 1,
-                                backgroundColor: CommonStyle.white,
-                            }}
-                        >
-                            <Text value="0">男</Text>
-                            <Text value="1">女</Text>
-                        </RadioModal>
+                        <Text style={styles.itemSubTitle}>{this.state.gender==1?'男':'女'}</Text>
+                        <Icon style={{marginTop: 2}} name="ios-arrow-forward-outline" size={20}
+                              color={CommonStyle.color_999}/>
                     </View>
 
                 </TouchableView>
-                <View style={{backgroundColor: CommonStyle.lineColor, height: 0.5}}/>
                 <List>
                     <DatePicker
-                        value={this.state.date}
+                        value={this.state.birthday}
                         mode="date"
                         minDate={new Date(1900, 1, 1)}
                         maxDate={new Date()}
-                        onChange={this.onChange}
+                        onChange={(value)=>{
+                            this.setState({birthday: value});
+                        }}
                         format="YYYY-MM-DD"
                         title={'出生日期'}
                     >
                         <List.Item arrow="horizontal" extra={' '}><Text style={{color: CommonStyle.color_333, fontSize: 14}}>出生日期</Text></List.Item>
                     </DatePicker>
                 </List>
+                <View style={{backgroundColor: CommonStyle.lineColor, marginTop: 10, height: 0.5}}/>
+                <TouchableView style={{height: 45}} onPress={() => {
+                    this.onSign();
+                }}>
+                    <View style={styles.itemStyle}>
+                        <Text style={styles.itemTitle}>个性签名</Text>
+                        <Text style={styles.itemSubTitle}>{this.state.sign?this.state.sign:'更新签名'}</Text>
+                        <Icon style={{marginTop: 2}} name="ios-arrow-forward-outline" size={20}
+                              color={CommonStyle.color_999}/>
+                    </View>
+                </TouchableView>
 
                 <View style={{backgroundColor: CommonStyle.lineColor, marginTop: 10, height: 0.5}}/>
                 <TouchableView style={{height: 45}} onPress={() => {
@@ -153,7 +192,7 @@ export default class UserInfo extends BaseComponent {
                 }}>
                     <View style={styles.itemStyle}>
                         <Text style={styles.itemTitle}>支付密码</Text>
-                        <Text style={styles.itemSubTitle}>{this.state.userPhone}</Text>
+                        <Text style={styles.itemSubTitle}>  </Text>
                         <Icon style={{marginTop: 2}} name="ios-arrow-forward-outline" size={20}
                               color={CommonStyle.color_999}/>
                     </View>
@@ -204,10 +243,6 @@ export default class UserInfo extends BaseComponent {
                             }
                         ]
                         this._uploadHeader(files);
-                        console.log(image);
-                        this.setState({
-                            headerUrl: image.path
-                        })
                     });
                 } else if (buttonIndex == 1) {
                     ImagePicker.openCamera({
@@ -223,29 +258,90 @@ export default class UserInfo extends BaseComponent {
     }
 
     _uploadHeader(files) {
-        this.showDLoading();
-        Request.uploadFile('login.do', files,
-            {mock: false, mockId: 672823})
+        this.showLoading('上传中...')
+        Keyboard.dismiss();
+        Request.uploadFile('/api/user/batchUpdateImage', files)
             .then(rep => {
-                this.showLong(rep.bstatus.desc);
+                if (rep.code === 0&&rep.data){
+                    this.setState({
+                        avatar: rep.data[0]
+                    })
+                }else {
+                    this.showShort(rep.message)
+                }
             }).catch(err => {
+            this.showShort(err)
         }).done(() => {
             this.hideLoading();
         })
-    }
 
-    _onUpdateNickName() {
+    }
+    _onUpdateUserName() {
+        Modal.prompt(
+            null,
+            '修改姓名',
+            (value) => {
+                this.setState({
+                    userName: value
+                })
+            },
+            'default',
+            null,
+            ['请输入姓名'],
+        );
+    }
+    onUpdateNickName() {
         Modal.prompt(
             null,
             '修改昵称',
-            (nickName) => {
+            (value) => {
                 this.setState({
-                    userName: nickName
+                    nickName: value
                 })
             },
             'default',
             null,
             ['请输入昵称'],
+        );
+    }
+    onSign() {
+        Modal.prompt(
+            null,
+            '更新签名',
+            (value) => {
+                this.setState({
+                    sign: value
+                })
+            },
+            'default',
+            null,
+            ['请输入签名'],
+        );
+    }
+    onUpdateGender(){
+        const BUTTONS = [
+            '男',
+            '女',
+            '取消',
+        ];
+        ActionSheet.showActionSheetWithOptions(
+            {
+                options: BUTTONS,
+                cancelButtonIndex: 2,
+            },
+            (buttonIndex) => {
+                if (buttonIndex == 0) {
+                    this.setState({
+                            gender:1
+                        }
+                    )
+                } else if (buttonIndex == 1) {
+                    this.setState({
+                            gender:2
+                        }
+                    )
+                }
+            },
         );
     }
 
@@ -279,10 +375,18 @@ const styles = StyleSheet.create({
     },
     itemSubTitle: {
         color: CommonStyle.color_666,
-        fontSize: 14,
+        fontSize: 13
+        ,
         marginRight: 10
     },
     loginOutBtn: {
+        // marginTop: 120,
+        // width: '80%',
+        // height: 44,
+        // alignSelf: 'center',
+        // justifyContent: 'center',
+        // backgroundColor: CommonStyle.themeColor,
+        // alignItems: 'center',
         borderRadius: 30,
         alignItems: 'center',
         backgroundColor: CommonStyle.themeColor,

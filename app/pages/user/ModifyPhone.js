@@ -17,14 +17,12 @@ import NavigationUtil from "../../utils/NavigationUtil";
 import {CommonStyle} from "../../common/CommonStyle";
 import CountDownButton from "../../components/CountDownButton";
 
-var { width, height } = Dimensions.get('window');
+var {width, height} = Dimensions.get('window');
 
-export default class Login extends BaseComponent {
+export default class ModifyPhone extends BaseComponent {
     navigationBarProps() {
         return {
-            hiddenLeftItem: true,
-            title: '用户登录',
-            gesturesEnabled: false
+            title: '修改手机号',
         }
     }
 
@@ -35,42 +33,56 @@ export default class Login extends BaseComponent {
             password: '',
             authCode: '',
             authState: '显示请求的状态',
-            codeRequesting:false
+            codeRequesting: false,
+            oldPhone: ''
         };
     }
 
-    canBack() {
-        return false;
+    onReady(e) {
+        let userInfo = UserStore.get();
+        this.setState({
+            // gender: userInfo.gender,
+            // sign: userInfo.sign,
+            // birthday: userInfo.birthday,
+            // avatar: userInfo.avatar,
+            // userName: userInfo.userName,
+            // userPhone: userInfo.phone,
+            // nickName: userInfo.nickName,
+            oldPhone: userInfo.phone,
+        })
     }
-    onReady(e){
-        this.hideHeader(true);
-    }
-
 
     _render() {
-        const {mobile,codeRequesting} = this.state
+        const {mobile, codeRequesting} = this.state
         return (
             <View style={styles.container}>
-                <ImageBackground style={{alignItems:'center',justifyContent:'center',height:200}} source={require('../../img/login_bg.png')}>
-                    <Image source={require('../../img/login_logo.png')} style={{width:173,
-                        height:66, alignItems:'center'}} resizeMode='cover'/>
-                </ImageBackground>
-
-                <View style={[styles.formInput, styles.formInputSplit]}>
-                    <Image source={require('../../img/shouji.png')}
-                           style={{ width: 20, height: 20, resizeMode: 'contain'}}/>
+                <View style={{backgroundColor:CommonStyle.bgColor,height:10, width: '100%'}}/>
+                <Text style={{fontSize: 12, marginLeft: 20,marginTop:15, color: '#333'}}>旧号码</Text>
+                <View style={[{
+                    height: 45,
+                    justifyContent: 'center',
+                    marginLeft: 20,
+                }, styles.formInputSplit]}>
+                    <Text style={[{ fontSize: 18, color: '#333'
+                    }, styles.formInputSplit]}>{this.state.oldPhone}</Text>
+                </View>
+                <Text style={{fontSize: 12, marginLeft: 20, marginTop:15,color: '#333'}}>新号码</Text>
+                <View style={[{
+                    height: 45,
+                    justifyContent: 'center',
+                    marginLeft: 20,
+                }, styles.formInputSplit]}>
                     <TextInput
                         ref="login_name"
-                        placeholder='请输入手机号码'
+                        placeholder='请输入手机号'
                         underlineColorAndroid="transparent"
                         style={styles.loginInput}
                         keyboardType='numeric'
                         maxLength={11}
                         onChangeText={this.onChangeMobile.bind(this)}/>
                 </View>
+                <Text style={{fontSize: 12, marginLeft: 20, marginTop:15,color: '#333'}}>验证码</Text>
                 <View style={[styles.formInput, styles.formInputSplit]}>
-                    <Image source={require('../../img/yanzhengma.png')}
-                           style={{ width: 20, height: 20, resizeMode: 'contain'}}/>
                     <TextInput
                         ref="login_auth"
                         style={styles.loginInput}
@@ -80,10 +92,10 @@ export default class Login extends BaseComponent {
                         onChangeText={this.onChangeAuth.bind(this)}
                     />
                     <View style={{
-                        height: 30, justifyContent: 'center', marginRight: 10
+                        height: 30, justifyContent: 'center', marginRight: 0
                     }}>
                         <CountDownButton
-                            executeFunc={(shouldStartCounting)=>{
+                            executeFunc={(shouldStartCounting) => {
                                 // 组件加载完成后 回吐开始倒计时的function 把这个function绑定到当前对象
                                 this.shouldStartCounting = shouldStartCounting;
                             }}
@@ -103,7 +115,7 @@ export default class Login extends BaseComponent {
                 </View>
                 <TouchableOpacity style={{
                     height: 40,
-                    width:300,
+                    width: 300,
                     marginLeft: 30,
                     marginRight: 30,
                     borderRadius: 30,
@@ -112,10 +124,10 @@ export default class Login extends BaseComponent {
                     alignItems: 'center',
                     position: 'absolute',
                     bottom: 0,
-                    marginBottom:150,
+                    marginBottom: 150,
                     alignSelf: 'center'
-                }} onPress={this._login.bind(this)}>
-                    <Text style={styles.loginText}>登录</Text>
+                }} onPress={this._save.bind(this)}>
+                    <Text style={styles.loginText}>保存</Text>
                 </TouchableOpacity>
             </View>
         )
@@ -130,7 +142,7 @@ export default class Login extends BaseComponent {
         navigate('Feedback', {isFirst: true});
     }
 
-    _login() {
+    _save() {
         Keyboard.dismiss();
         let {mobile, authCode} = this.state;
 
@@ -142,22 +154,18 @@ export default class Login extends BaseComponent {
             this.showLong('请输入验证码');
             return;
         }
-        this.showLoading('登录中..');
+        this.showLoading('保存中..');
         var param = {phone: this.state.mobile, code: this.state.authCode};
-        Request.post('/api/user/login', param,
-            {
-                mock: false,
-                mockId: 672823,
-            }).then(rep => {
+        Request.post('/api/user/phoneChange', param).then(rep => {
             if (rep.code == 0 && rep.data) {
-                UserStore.save(rep.data);
-                console.log('====登录成功=====')
-                NavigationUtil.reset(this.props.navigation, 'Home');
+                UserStore.save({phone:rep.data});
+                this.goBack()
             } else {
                 this.showShort(rep.message);
             }
 
         }).catch(err => {
+
         }).done(() => {
             this.hideLoading();
         })
@@ -170,7 +178,7 @@ export default class Login extends BaseComponent {
         }
         this.setState({
             authState: '正在请求验证码',
-            codeRequesting:true
+            codeRequesting: true
         })
 
         var param = {phone: this.state.mobile};
@@ -182,10 +190,10 @@ export default class Login extends BaseComponent {
             }).then(rep => {
             let requestSucc = true
             this.setState({
-                authState: `验证码获取${rep.code===0?'成功':'失败'}`,
-                codeRequesting:false
+                authState: `验证码获取${rep.code === 0 ? '成功' : '失败'}`,
+                codeRequesting: false
             })
-            shouldStartCounting && shouldStartCounting(rep.code===0)
+            shouldStartCounting && shouldStartCounting(rep.code === 0)
             this.showShort(rep.message);
 
         }).catch(err => {
@@ -206,7 +214,7 @@ export default class Login extends BaseComponent {
         // this.setState({'password': text});
     }
 
-    onChangeAuth(text){
+    onChangeAuth(text) {
         this.state.authCode = text;
     }
 }
@@ -214,7 +222,7 @@ export default class Login extends BaseComponent {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff'
+        backgroundColor:'#fff'
     },
 
     headerWrap: {
@@ -245,10 +253,10 @@ const styles = StyleSheet.create({
 
     formInput: {
         flexDirection: 'row',
-        height: 60,
+        height: 45,
         padding: 20,
-        justifyContent:'center',
-        alignItems:'center'
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     formInputSplit: {
         borderBottomWidth: .5,
@@ -256,10 +264,10 @@ const styles = StyleSheet.create({
     },
     loginInput: {
         height: 42,
-        paddingLeft: 10,
         flex: 1,
         fontSize: 18,
-        marginTop:3
+        marginTop: 3,
+        color:'#333'
     },
 
     loginBtn: {
