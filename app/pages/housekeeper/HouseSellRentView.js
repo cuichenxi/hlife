@@ -24,12 +24,12 @@ export default class HouseSellRentView extends BaseView {
     }
 
     makeRemoteRequest(page = 1, callback) {
-        let param = {statusBODY: this.state.index, page: page - 1, pageSize: PAGE_SIZE};
+        let param = {type: this.state.index, page: page - 1, pageSize: PAGE_SIZE};
 
         console.log(this.props)
-        Request.post('api/user/visitor', param,
+        Request.post('/api/steward/housingList', param,
             {
-                mock: true,
+                mock: false,
                 mockId: 1095607,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {

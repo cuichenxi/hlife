@@ -36,8 +36,16 @@ export default class AddHousingAddress extends BaseComponent {
             element:'选择小区的苑、幢、单元室',
             idType:'选择身份',
             housingId:'',
-            elementName:this.props.navigation.state.params.elementName
+            elementName:this.props.navigation.state.params.elementName,
+            roomId: ''
         }
+    }
+
+    onShow(e){
+        this.setState({
+            elementName:e.elementName,
+            roomId:e.roomId
+        })
     }
 
 
@@ -63,7 +71,7 @@ export default class AddHousingAddress extends BaseComponent {
                     <TouchableView onPress={() => {
                         this.navigate('HousingAddressList', {
                             title:'选择小区',
-                            api:'api/user/selectCommunity',
+                            api:'/api/user/selectCommunity',
                             callback: (data) => {
                                 ToastUtil.showShort(data.name);
                                 this.setState({
@@ -88,14 +96,15 @@ export default class AddHousingAddress extends BaseComponent {
                     <TouchableView onPress={() => {
                         this.navigate('ElementList', {
                             title:'选择苑、幢',
-                            api:'api/user/selectelement',
+                            api:'/api/user/selectelement',
+                            housingId:this.state.housingId,
                             callback: (data) => {
                                 ToastUtil.showShort(data.name);
                                 this.setState({
                                     element: data.name
                                 })
                             }
-                        })
+                        },true)
                     }}>
                         <View style={{flexDirection: 'row', justifyContent: 'space-between', width: width, padding: 10}}>
                             <Text>{this.state.elementName?this.state.elementName:"选择小区的苑、幢、单元室"}</Text>
@@ -138,11 +147,11 @@ export default class AddHousingAddress extends BaseComponent {
      * @param callback
      */
     commitRequest(callback) {
-        let param = {roomId: 2, identityId: 1};
+        let param = {roomId: this.state.roomId};
 
-        Request.post('api/user/addCommunity',param,
+        Request.post('/api/user/addCommunity',param,
             {
-                mock: true,
+                mock: false,
                 mockId: 1095626,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {

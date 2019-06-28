@@ -39,10 +39,14 @@ export default class GiveAdvice extends BaseComponent {
                     active: 'Login'
                 }
             ],
+            headerUrl: '',
+            userName: '-',
+            userPhone: '-',
         }
     }
 
     _render() {
+        const {userName,userPhone} = this.state
         return (
             <ScrollView style={{
                 flex: 1,
@@ -69,14 +73,14 @@ export default class GiveAdvice extends BaseComponent {
                                 <Text style={{
                                     fontSize: 17,
                                     textAlign: 'left', color: '#666666'
-                                }}>张三丰</Text>
-                                <Text style={{color: '#999999', fontSize: 15}}>电话</Text>
+                                }}>{userName}</Text>
+                                <Text style={{color: '#999999', fontSize: 15}}>{userPhone}</Text>
                             </View>
 
                             <Text style={{
                                 fontSize: 17,
                                 textAlign: 'left', color: '#666666'
-                            }}>地址北京八达岭长城</Text>
+                            }}>地址:{}</Text>
                         </View>
                     </View>
                     <View style={{
@@ -105,7 +109,7 @@ export default class GiveAdvice extends BaseComponent {
             <View style={{flexDirection: 'row', flex: 1, paddingTop: 20, paddingBottom: 20, backgroundColor: '#fff'}}>
                 <TouchableView onPress={() => {
                     this.showShort(firstType)
-                    this.navigate('CommitInfo',{title:firstType})
+                    this.navigate('CommitInfo',{title:firstType,hideUpload:true})
                 }}>
                     <ImageBackground style={{alignItems: 'center', justifyContent: 'center', height: 67, width: 107,}}
                                      source={require('../../img/theme_color_bg.png')}>
@@ -119,7 +123,7 @@ export default class GiveAdvice extends BaseComponent {
                 </TouchableView>
                 <TouchableView onPress={() => {
                     this.showShort(secondType)
-                    this.navigate('CommitInfo',{title:firstType})
+                    this.navigate('CommitInfo',{title:secondType,hideUpload:true})
                 }}>
                     <ImageBackground style={{alignItems: 'center', justifyContent: 'center', height: 67, width: 107}}
                                      source={require('../../img/white_bg.png')}>

@@ -1,6 +1,6 @@
 import {BaseComponent} from "../../../components/base/BaseComponent";
 import React from "react";
-import {Dimensions, Text, View} from "react-native";
+import {Dimensions, Image, Text, View} from "react-native";
 import {CommonStyle} from "../../../common/CommonStyle";
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
@@ -42,6 +42,9 @@ export default class ModifyHousingAddress extends BaseComponent {
 
     onShow(e){
         this.showShort("onShow" + JSON.stringify(e));
+        this.setState({
+            elementName:e.elementName
+        })
     }
 
     _render() {
@@ -57,9 +60,11 @@ export default class ModifyHousingAddress extends BaseComponent {
                     paddingLeft: 5,
                     paddingRight: 5
                 }}>
-                    <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
-                                   color="#bbb"/>
-                    <Text style={{color: CommonStyle.textBlockColor, fontSize: 12}}>请选择正确的小区地址，你可安全、便捷的使用各类生活服务</Text>
+                    <View style={{justifyContent:'center',alignItems:'center',marginLeft:9}}>
+                        <Image source={require('../../../img/notice_icon.png')}
+                               style={{width: 10, height: 10, resizeMode: 'contain'}}/>
+                    </View>
+                    <Text style={{color: CommonStyle.textBlockColor, fontSize: 12,marginLeft:9}}>请选择正确的小区地址，你可安全、便捷的使用各类生活服务</Text>
                 </View>
                 <View style={{backgroundColor: '#ffffff'}}>
                     <Text style={{color: CommonStyle.textBlockColor, padding: 10}}>所居住的小区</Text>
@@ -84,14 +89,14 @@ export default class ModifyHousingAddress extends BaseComponent {
                         </View>
                     </TouchableView>
 
-                    <View style={{height: 0.5, backgroundColor: CommonStyle.textGrayColor, width: width}}/>
+                    <View style={{height: 0.5, backgroundColor: CommonStyle.lightGray, width: width}}/>
                 </View>
                 <View style={{backgroundColor: '#ffffff'}}>
                     <Text style={{color: CommonStyle.textBlockColor, padding: 10}}>苑、栋、单元室</Text>
                     <TouchableView onPress={() => {
                         this.navigate('ElementList', {
                             title:'选择苑、幢',
-                            api:'api/user/selectelement',
+                            api:'/api/user/selectelement',
                             callback: (data) => {
                                 ToastUtil.showShort(data.name);
                                 this.setState({
@@ -106,7 +111,7 @@ export default class ModifyHousingAddress extends BaseComponent {
                                            color="#bbb"/>
                         </View>
                     </TouchableView>
-                    <View style={{height: 0.5, backgroundColor: CommonStyle.textGrayColor, width: width}}/>
+                    <View style={{height: 0.5, backgroundColor: CommonStyle.lightGray, width: width}}/>
                 </View>
 
 

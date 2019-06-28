@@ -8,7 +8,7 @@ import {PAGE_SIZE} from "../../../constants/AppConstants";
 import Request from "../../../utils/Request";
 
 /**
- * 单元室列表
+ * 单元列表
  */
 export default class UnitList extends BaseComponent{
     navigationBarProps() {
@@ -21,7 +21,8 @@ export default class UnitList extends BaseComponent{
         super(props);
         this.state=({
             api:this.props.navigation.state.params.api,
-            elementData:this.props.navigation.state.params.rowData
+            elementData:this.props.navigation.state.params.rowData,
+            buildingId:this.props.navigation.state.params.buildingId
         })
     }
 
@@ -38,13 +39,14 @@ export default class UnitList extends BaseComponent{
 
     _renderRowView(rowData){
         return(<TouchableView onPress={() => {
-            // this.goBack(rowData)
-            // this.push("AddHousingAddress",{elementName:this.state.elementData.name+rowData.name})
-            // this.push("AuthPage",{elementName:this.state.elementData.name+rowData.name})
-            // this.goBack("AddHousingAddress",{elementName:this.state.elementData.name+rowData.name})
-            // this.props.navigation.goBack("AddHousingAddress");
-            // this.props.navigation.goBack(null);
-            this.pop(2,{elementName:this.state.elementData.name+rowData.name})
+            this.push('RoomList', {
+                title:'选择房号',
+                api:'/api/user/selectroom',
+                unitId:rowData.id,
+                rowData:rowData,
+                buildingId:this.state.buildingId
+            })
+            // this.pop(2,{elementName:this.state.elementData.name+'-'+rowData.name,roomId:rowData.id})
         }}>
             <View style={{justifyContent: 'center',alignItems:'flex-start',height:40,width: '100%',backgroundColor:'#fff',paddingLeft:15}}>
                 <Text>{rowData.name}</Text>
