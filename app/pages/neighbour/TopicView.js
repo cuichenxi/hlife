@@ -29,13 +29,13 @@ export default class Index extends BaseView {
 
         console.log('==========')
         console.log(this.props)
-        Request.post('/api/neighbour/invitation/list', param,
+        Request.post('/api/neighbour/topic', param,
             {
                 mock: false,
                 mockId: 1218198,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
-                callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
+                callback(rep.data, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             } else {
                 this.showShort(rep.message);
                 callback(null, {emptyTitle: rep.message})
@@ -57,8 +57,9 @@ export default class Index extends BaseView {
                     alignItems: 'flex-start',
                     padding: 5
                 }}>
-                    <Image
-                        source={{uri: item.pic}}
+                    <ImageView
+                        source={item.pic}
+                        defaultSource={require("../../img/about_logo.png")}
                         style={{
                             width: 118,
                             height: 86,
