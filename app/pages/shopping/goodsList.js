@@ -1,5 +1,5 @@
 import React from "react";
-import {Dimensions, Image, StyleSheet, Text, View} from "react-native";
+import {Dimensions, Image, Linking, StyleSheet, Text, View} from "react-native";
 import GiftedListView from "../../components/refreshList/GiftedListView";
 import TouchableView from "../../components/TouchableView";
 import Request from "../../utils/Request";
@@ -47,8 +47,8 @@ export default class Index extends BaseComponent {
         let param = {
             orderColumn: this.state.params.orderColumn,
             orderRule:this.state.params.orderRule,
-            type: this.state.type,
-            page: page=1 ,
+            // type: this.state.type,
+            page: page-1 ,
             pageSize: PAGE_SIZE,};
         Request.post("/api/goods/basic", param,
             {
@@ -147,7 +147,9 @@ export default class Index extends BaseComponent {
             </View>
         );
     }
-
+    _jumpRouter(typeItem) {
+        this.navigate('ProductDetail',typeItem);
+    }
     _renderItemView(item) {
         return (
             <TouchableView style={{
@@ -186,7 +188,6 @@ export default class Index extends BaseComponent {
     }
 
     _render() {
-        var that = this;
         return (
             <View>
                 <View style={{

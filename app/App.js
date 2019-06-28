@@ -43,7 +43,7 @@ import AddShippingAddress from "./pages/user/myaddress/AddShippingAddress";
 import MySetting from "./pages/user/MySetting";
 import AuthPage from "./pages/user/AuthPage";
 import MessageList from "./pages/main/MessageList";
-import ProductDetail from "./pages/main/ProductDetail";
+import ProductDetail from "./pages/shopping/ProductDetail";
 import GiveAdvice from "./pages/housekeeper/GiveAdvice";
 import RepairsSelect from "./pages/housekeeper/RepairsSelect";
 import CommitInfo from "./pages/housekeeper/CommitInfo";
@@ -73,6 +73,7 @@ import goodsList from "./pages/shopping/goodsList";
 import ElectronicKey from "./pages/housekeeper/ElectronicKey";
 import goodsSearch from "./pages/shopping/goodsSearch";
 import RoomList from "./pages/user/myaddress/RoomList";
+import activeDetail from "./pages/housekeeper/activeDetail";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -217,6 +218,7 @@ const App = createStackNavigator(
         goodsSearch:{screen:goodsSearch},//商品搜索
         ElectronicKey:{screen:ElectronicKey},//电子钥匙
         RoomList:{screen:RoomList},//房号列表
+        activeDetail:{screen:activeDetail},//房号列表
     },
     {
         // initialRouteName: 'Splash',

@@ -14,8 +14,8 @@ import {BaseComponent} from "../../components/base/BaseComponent";
 import GridView from "../../components/GridView";
 import TouchableView from "../../components/TouchableView";
 import {CommonStyle} from "../../common/CommonStyle";
-import Icon from "react-native-vector-icons/Ionicons";
 import Request from "../../utils/Request";
+import ImageView from "../../components/ImageView";
 
 
 export default class Housekeeper extends BaseComponent {
@@ -30,6 +30,7 @@ export default class Housekeeper extends BaseComponent {
         super(props);
         this.state = {
             refreshing: false,
+            phone:10086,
             types: [
                 {
                     name: '发布房源',
@@ -67,23 +68,23 @@ export default class Housekeeper extends BaseComponent {
                 }
             ],
             activities: [
+
                 {
-                    imageUrl: require('../../img/menu_dzcx.png'),
-                    activityName: '端午节龙舟赛',
-                    date: '06月07日举办',
-                    joinPeople: 12
-                },
-                {
-                    imageUrl: require('../../img/menu_dzcx.png'),
-                    activityName: '社区文化艺术节',
-                    date: '06月08日举办',
-                    joinPeople: 19
-                },
-                {
-                    imageUrl: require('../../img/menu_dzcx.png'),
-                    activityName: '三月八日女神节',
-                    date: '03月08日举办',
-                    joinPeople: 100
+                    imageUrl: "",
+                    activityName: "三月八日女神节",
+                    activityDate: "03月08日",
+                    activityContent: "三月八日女神节,三月八日女神节,三月八日女神节 三月八日女神节三月八日女神节三月八日女神节",
+                    activityNum: 100,
+                    id: 0,
+                    status: 1
+                },{
+                    imageUrl: "",
+                    activityName: "三月八日女神节",
+                    activityDate: "03月08日",
+                    activityContent: "三月八日女神节,三月八日女神节,三月八日女神节 三月八日女神节三月八日女神节三月八日女神节",
+                    activityNum: 100,
+                    id: 0,
+                    status: 0
                 },
             ]
         };
@@ -157,8 +158,8 @@ export default class Housekeeper extends BaseComponent {
                     {this._renderGridView()}
                     {this._rendCardView()}
                     <View style={[styles.titleLine, {marginTop: 20}]}>
-                        <Icon name="ios-arrow-forward-outline" size={16} color='#999'/>
-                        <Text style={{fontSize: 14, color: CommonStyle.color_333}}>小区活动</Text>
+                        <Image style={{width:16,height:16}} source={require('../../img/icon_xqhd.png')}/>
+                        <Text style={{fontSize: 16, marginLeft:5,color: CommonStyle.color_333}}>小区活动</Text>
                     </View>
                     <View>
                         {this._renderBottomItem(activities)}
@@ -227,7 +228,7 @@ export default class Housekeeper extends BaseComponent {
                     </ImageBackground>
                 </TouchableView>
                 <TouchableView style={{flex: 1}} onPress={() => {
-                    this.showShort("电话物业")
+                    Linking.openURL(`tel:${this.state.phone}`)
                 }}>
                     <ImageBackground source={require('../../img/bg_dhwy.png')} style={{
                         borderRadius: 3,
@@ -251,42 +252,39 @@ export default class Housekeeper extends BaseComponent {
     _renderBottomItem = (data) => {
         return data.map((item, i) => {
             return (<TouchableOpacity style={{
-                backgroundColor: 'white',
-                // height:50,
+                backgroundColor: '#fff',
+                height: 100,
+                paddingVertical: 5,
                 flexDirection: 'row',
-                alignItems: 'center',
-                padding: 5
-            }}>
-                <Image
+                padding: 5,
+                borderColor: CommonStyle.lineColor,
+                borderTopWidth: 1
+            }} onPress={()=>{
+                this.navigate('activeDetail', item);
+             }
+            }>
+                <ImageView
                     source={item.imageUrl}
                     style={{
-                        width: 100,
+                        width: 90,
                         height: 90,
                         marginLeft: 10,
                     }}
+                    defaultSource={require('../../img/default_image.png')}
                 />
                 <View style={{flex: 1, marginLeft: 10}}>
                     <Text style={{
                         fontSize: 17,
                         marginBottom: 8,
+                        marginTop:10,
                         textAlign: 'left', color: '#666666'
                     }}>{item.activityName}</Text>
-                    <View style={{flexDirection: 'row'}}>
-                        <Image source={item.imageUrl}
-                               style={{
-                                   width: 20,
-                                   height: 20,
-                               }}/>
-                    </View>
-                </View>
-                <View>
-                    <Text style={{textAlign: 'left', color: '#999999', fontSize: 15}}>{item.date}</Text>
-                    <Text style={{textAlign: 'left', color: '#999999', fontSize: 15}}>已有{item.joinPeople}人参加活动</Text>
+                    <Text style={{textAlign: 'left', marginTop:5,color: '#999999', fontSize: 15}}>{item.activityDate}</Text>
+                    <Text style={{textAlign: 'left', marginTop:5,color: '#999999', fontSize: 15}}>已有{item.activityNum}人参加活动</Text>
                 </View>
             </TouchableOpacity>)
         })
     };
-
     goReportMatter() {
         this.navigate('MyAddressWithTab')
     }

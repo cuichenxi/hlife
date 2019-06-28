@@ -26,11 +26,11 @@ export default class Shopping extends BaseComponent {
                 {
                     name: '送水上门',
                     imageUrl: require('../../img/menu_sssm.png'),
-                    active: 'Register'
+                    active: 'goodsList'
                 }, {
                     name: '园区超市',
                     imageUrl: require('../../img/menu_yqcs.png'),
-                    active: 'ContactList'
+                    active: 'goodsList'
                 }, {
                     name: '家政服务',
                     imageUrl: require('../../img/menu_jzfw.png'),
@@ -50,11 +50,11 @@ export default class Shopping extends BaseComponent {
                 }, {
                     name: '日用百货',
                     imageUrl: require('../../img/menu_rcbh.png'),
-                    active: 'ContactList'
+                    active: 'goodsList'
                 }, {
                     name: '健康养生',
                     imageUrl: require('../../img/menu_jkys.png'),
-                    active: 'Login'
+                    active: 'goodsList'
                 }
             ],
             typeIds: [],
@@ -77,7 +77,6 @@ export default class Shopping extends BaseComponent {
 
 
     getHomeData() {
-
         Request.post('/api/home/goodsRecommend', {page: 0, pageSize: 10},
             {
                 mock: true,
@@ -138,6 +137,8 @@ export default class Shopping extends BaseComponent {
             this.navigate('goodsList', {'type': 2, title: '日用百货'});
         }else if (typeItem.name == '健康养生') {
             this.navigate('goodsList', {'type': 3, title: '健康养生'});
+        }else if (typeItem.name == '送水上门') {
+            this.navigate('goodsList', {'type': 4, title: '送水上门'});
         }else {
             this.navigate(typeItem.active);
         }

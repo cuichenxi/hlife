@@ -4,17 +4,11 @@ import {Dimensions, Image, RefreshControl, ScrollView, StyleSheet, Text, Touchab
 import {CommonStyle} from "../../common/CommonStyle";
 import Swiper from "react-native-swiper";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
 import TouchableView from "../../components/TouchableView";
 import Request from "../../utils/Request";
-import ImageView from "../../components/ImageView";
 
 let {width, height} = Dimensions.get('window')
 
-const Font = {
-    Ionicons,
-    FontAwesome
-}
 
 export default class ProductDetail extends BaseComponent {
     navigationBarProps() {
@@ -28,14 +22,68 @@ export default class ProductDetail extends BaseComponent {
         this.state = {
             data: null,
             headerUrl:'',
-            id:this.props.navigation.state.params.id
+            leaveMessage: null,
+            goodId: null,
+            num: 0,
+            redPacketId: 0,
+            addressId: 1,
         }
     }
 
-    onReady(param) {
-        this.makeRemoteRequest();
+    onReady(e) {
+        this.setState({
+            goodId: e.id
+        });
+        this.makeRemoteRequest(e);
     }
+    makeRemoteRequest(e) {
+        let param = { id: e.id};
+        Request.post('/api/goods/detail', param,
+            {
+                mock: false,
+                mockId: 1095374,
+            }).then(rep => {
+            if (rep.code == 0 && rep.data) {
+                this.setState(
+                    {
+                        data: rep.data
+                    }
+                )
+            }
+        }).catch(err => {
 
+        }).done(() => {
+        })
+    }
+    onSubmit(){
+        let param = {
+            addressId: this.state.addressId,
+            leaveMessage: this.state.leaveMessage,
+            orderDetailList:[
+                {
+                    goodId: this.state.goodId,
+                    num: this.state.num
+                }
+            ],
+            redPacketId: this.state.redPacketId
+        };
+        Request.post('/api/goods/createOrder', param,
+            {
+                mock: false,
+                mockId: 1095374,
+            }).then(rep => {
+            if (rep.code == 0 && rep.data) {
+                this.setState(
+                    {
+                        data: rep.data
+                    }
+                )
+            }
+        }).catch(err => {
+
+        }).done(() => {
+        })
+    }
 
     _render() {
         const {data} = this.state
@@ -120,7 +168,7 @@ export default class ProductDetail extends BaseComponent {
                         height: 50, alignItems: 'center', paddingRight: 10, paddingLeft: 10, backgroundColor: '#fff'
                     }}>
                         <Text>数据参数</Text>
-                        <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
+                        <Ionicons name="ios-arrow-forward-outline" size={(18)}
                                        color="#bbb"/>
                     </View>
 
@@ -191,7 +239,7 @@ export default class ProductDetail extends BaseComponent {
                         justifyContent: 'center',
                         height: 40,
                         width: width / 2,
-                    }} onPress={() => this.state.onButtonPress()}>
+                    }} onPress={() => this.onSubmit()}>
                         <Text style={{color: 'white'}}>立即购买</Text>
                     </TouchableView>
                 </View>
@@ -224,26 +272,7 @@ export default class ProductDetail extends BaseComponent {
 
     }
 
-    makeRemoteRequest() {
-        let param = {statusBODY: this.state.index, id: this.state.id};
 
-        Request.post('api/goods/detail', param,
-            {
-                mock: true,
-                mockId: 1095374,
-            }).then(rep => {
-            if (rep.code == 0 && rep.data) {
-                this.setState(
-                    {
-                        data: rep.data
-                    }
-                )
-            }
-        }).catch(err => {
-
-        }).done(() => {
-        })
-    }
 }
 const styles = StyleSheet.create({
     container: {
