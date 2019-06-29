@@ -183,7 +183,10 @@ export default class Main extends BaseComponent {
     onScanClick() {
         this.navigate("BarcodePage", {
             callback: (backData) => {
-                this.navigate('scanInfo',{serialNum: backData})
+                setTimeout(() => {
+                    this.navigate('scanInfo',{serialNum: backData})
+                }, 500);
+
             }
         });
         // this.navigate('scanInfo',{serialNum: 1111111})
@@ -198,7 +201,7 @@ export default class Main extends BaseComponent {
                     flex: 1, flexDirection: 'row', height: CommonStyle.navContentHeight,
                     marginTop: CommonStyle.navStatusBarHeight, alignItems: 'center'
                 }}>
-                    <TouchableView style={{width: 60, alignItems: 'center',justifyContent:'center'}} onPress={() => {
+                    <TouchableView style={{width: 60,height:50, alignItems: 'center',justifyContent:'center'}} onPress={() => {
                         if (!this.state.isAuth) {
                             this.navigate('AuthPage',{
                                 params: {from: 1},callback:(e)=>{
@@ -210,17 +213,15 @@ export default class Main extends BaseComponent {
                     }}>
                         <Text style={{textAlign: 'center',color:'#fff', fontSize: 14}} >{!this.state.isAuth?'请认证':'已认证'}</Text>
                     </TouchableView>
-                    <TouchableView style={{
+                    <View style={{
                         flex: 1,
                         height: 30,
-                    }} onPress={() => {
-                        this.navigate("goodsSearch")
                     }}>
                     <View style={{
                         flex: 1,
                         alignItems: 'center',
-                        height: 30,
                         flexDirection: 'row',
+                        height: 30,
                         backgroundColor: 'rgba(255,255,255,.5)',
                         borderRadius: 15
                     }}>
@@ -229,7 +230,16 @@ export default class Main extends BaseComponent {
                             height: 12,
                             marginLeft:10
                         }} source={require("../../img/icon_search.png")}/>
-                        <Text style={{color: "#fff", fontSize: 14,flex:1, marginLeft: 5}}>{this.state.searchHint}</Text>
+                        <TouchableView style={{
+                            flex: 1,
+                            height: 30,
+                            alignItems: 'center',
+                            flexDirection: 'row',
+                        }} onPress={() => {
+                            this.navigate("goodsSearch")
+                        }}>
+                          <Text style={{color: "#fff", fontSize: 14,flex:1, marginLeft: 5}}>{this.state.searchHint}</Text>
+                        </TouchableView>
                         <TouchableView style={{width: 60, alignItems: 'center',justifyContent:'center'}} onPress={() => {
                             this.onScanClick()
                         }}>
@@ -239,7 +249,7 @@ export default class Main extends BaseComponent {
                             }} source={require("../../img/icon_scan.png")}/>
                         </TouchableView>
                     </View>
-                    </TouchableView>
+                    </View>
                     <TouchableView style={{ alignItems: 'center',justifyContent:'center', height: 50}} onPress={() => {
                         this.navigate("Message")
                     }}>
@@ -267,7 +277,9 @@ export default class Main extends BaseComponent {
                 {this.state.banners.map((banner, i) => {
                     return (
                         <TouchableHighlight key={i} onPress={() => {
-                            this._loadWeb(banner.title, banner.url)
+                            if (banner.url) {
+                                this._loadWeb(banner.title, banner.url);
+                            }
                         }}>
                             <ImageView style={{height: 255,width:'100%',resizeMode:Image.resizeMode.stretch,}} source={banner.imagePath} defaultSource={require('../../img/bg_banner.png')} ></ImageView>
                         </TouchableHighlight>
@@ -312,7 +324,7 @@ export default class Main extends BaseComponent {
 
     _renderCenterView() {
         return (
-            <Swiper style={{height: 80, marginTop: 20}} paginationStyle={{bottom: 10, left: 100}}
+            <Swiper style={{height: 80, marginTop: 15}} paginationStyle={{bottom: 10, left: 100}}
                     dotStyle={{backgroundColor: 'rgba(200,200,200,.2)', width: 6, height: 6}}
                     activeDotStyle={{backgroundColor: 'rgba(100,100,100,.5)', width: 6, height: 6}} showsButtons={false}
                     autoplay={true} showsPagination={true}>
@@ -322,7 +334,9 @@ export default class Main extends BaseComponent {
                             // paddingRight: 10,
                             // paddingLeft: 10,
                         }} key={i} onPress={() => {
-                            this._loadWeb(banner.title, banner.url)
+                            if (banner.url) {
+                                this._loadWeb(banner.title, banner.url);
+                            }
                         }}>
                             <ImageView style={{
                                 // borderRadius: 40,
@@ -397,14 +411,14 @@ export default class Main extends BaseComponent {
                 <View style={{position: CommonStyle.absolute, left: 0, right: 0, top: 200,}}>
                     {this._renderGridView()}
                 </View>
-                <View style={{marginTop: 50}}>
+                <View style={{marginTop: 45}}>
                     {this._renderCenterView()}
                 </View>
                 {this.state.goodsRecommend && <TouchableView onPress={() => {
                     this.navigate('goodsList', {'type': 0,title:'商品列表'});
                 }}>
                     <View style={{
-                        paddingHorizontal: 10, paddingVertical: 15, marginTop: 20, flex: 1, flexDirection: 'row',
+                        paddingHorizontal: 10, paddingVertical: 15, marginTop: 10, flex: 1, flexDirection: 'row',
                         alignItems: 'center', backgroundColor: '#fff', borderColor: CommonStyle.lineColor,
                         borderBottomWidth: .5
                     }}>

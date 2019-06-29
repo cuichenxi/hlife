@@ -9,6 +9,7 @@ import {
 
 import Barcode from 'react-native-smart-barcode'
 import {BaseComponent} from "../../components/base/BaseComponent";
+// import Barcode from "../../components/Barcode";
 // import TimerEnhance from 'react-native-smart-timer-enhance'
 
 export default class BarcodePage extends BaseComponent {
@@ -18,7 +19,7 @@ export default class BarcodePage extends BaseComponent {
         }
     }
 
-    onShow() {
+    onReady(e) {
         InteractionManager.runAfterInteractions(() => {
             this.setState({
                 viewAppear: true,
@@ -55,7 +56,7 @@ export default class BarcodePage extends BaseComponent {
 
     _render() {
         return (
-            <View style={{flex: 1, backgroundColor: 'black',}}>
+            <View style={{flex: 1, backgroundColor: '#333',}}>
                 {this.state.viewAppear ? <Barcode style={{flex: 1,}}
                                                   ref={component => this._barCode = component}
                                                   onBarCodeRead={this._onBarCodeRead}/> : null}

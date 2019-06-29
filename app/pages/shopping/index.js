@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dimensions, Image, Linking, StyleSheet, Text, View} from "react-native";
+import {Dimensions, Image, Linking, ScrollView, StyleSheet, Text, View} from "react-native";
 import {BaseComponent} from "../../components/base/BaseComponent";
 import GridView from "../../components/GridView";
 import TouchableView from "../../components/TouchableView";
@@ -9,7 +9,8 @@ import Request from "../../utils/Request";
 import {Badge} from "antd-mobile-rn";
 import {LINK_APIPAYS_CZ, LINK_APIPAYS_EXPRESS, LINK_APIPAYS_WZ} from "../../constants/UrlConstant";
 import ImageView from "../../components/ImageView";
-
+let {width, height} = Dimensions.get('window')
+let bottomHeight = 0;
 
 export default class Shopping extends BaseComponent {
     navigationBarProps() {
@@ -69,6 +70,7 @@ export default class Shopping extends BaseComponent {
     onReady(param) {
         // this.getHomeData();
         this.hideHeader(this);
+        bottomHeight = (height - 290 - 10 - 60) / 3 ;
     }
 
     _loadWeb(title, url) {
@@ -147,7 +149,10 @@ export default class Shopping extends BaseComponent {
     onScanClick() {
         this.navigate("BarcodePage", {
             callback: (backData) => {
-                this.navigate('scanInfo',{serialNum: backData})
+                setTimeout(() => {
+                    this.navigate('scanInfo',{serialNum: backData})
+                }, 500);
+
             }
         });
     }
@@ -253,20 +258,21 @@ export default class Shopping extends BaseComponent {
     _renderBottomView(index,image){
         return (
             <TouchableView style={{
-                margin: 10,
-                flex: 1
+                marginHorizontal:10,
+                marginVertical: 5,
+                flex:1
             }} onPress={() => {
                 if (index == 0) {
-                    this.navigate('goodsList', {'type': 4, title: '家用电器'});
+                    this.navigate('goodsList', {'type': 5, title: '家用电器'});
                 }else if (index == 1) {
                     this.showShort('送水上门')
-                    // this.navigate('HouseholdServerList')
+                    this.navigate('goodsList', {'type': 4, title: '送水上门'});
                 }else if (index == 2) {
                     this.navigate('HouseholdServerList')
                 }
             }}>
                 <ImageView style={{
-                    flex: 1,width:'100%'
+                    height:bottomHeight, width: (width - 20),resizeMode: Image.resizeMode.cover
                 }}
                        source={image}></ImageView>
             </TouchableView>
@@ -274,6 +280,7 @@ export default class Shopping extends BaseComponent {
     }
 
     _render() {
+
         return (
             <View style={styles.container} >
                 <View style={{backgroundColor: CommonStyle.themeColor, height: 140}}></View>

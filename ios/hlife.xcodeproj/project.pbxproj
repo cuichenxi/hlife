@@ -1673,7 +1673,7 @@
 					"\"$(SRCROOT)/hlife\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.qfant.hlife;
+				PRODUCT_BUNDLE_IDENTIFIER = com.qfant.wuyu;
 				PRODUCT_NAME = hlife;
 				PROVISIONING_PROFILE = "";
 			};
@@ -1710,7 +1710,7 @@
 					"\"$(SRCROOT)/hlife\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.qfant.hlife;
+				PRODUCT_BUNDLE_IDENTIFIER = com.qfant.wuyu;
 				PRODUCT_NAME = hlife;
 				PROVISIONING_PROFILE = "";
 			};

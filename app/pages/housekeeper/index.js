@@ -157,7 +157,7 @@ export default class Housekeeper extends BaseComponent {
                 <View>
                     {this._renderGridView()}
                     {this._rendCardView()}
-                    <View style={[styles.titleLine, {marginTop: 20}]}>
+                    <View style={[styles.titleLine, {marginTop: 5}]}>
                         <Image style={{width:16,height:16}} source={require('../../img/icon_xqhd.png')}/>
                         <Text style={{fontSize: 16, marginLeft:5,color: CommonStyle.color_333}}>小区活动</Text>
                     </View>
@@ -200,47 +200,41 @@ export default class Housekeeper extends BaseComponent {
 
     _rendCardView() {
         return (
-            <View style={{flexDirection: 'row', flex: 1, marginTop: 20}}>
-                <TouchableView style={{flex: 1}} onPress={() => {
-                    this.navigate("BarcodePage", {
-                        callback: (backData) => {
-                            this.navigate('scanInfo',{serialNum: backData})
-                        }
-                    });
+            <View style={{flexDirection: 'row', flex: 1, marginTop: 10}}>
+                <TouchableView style={{flex: 1,}} onPress={() => {
+                        this.navigate("BarcodePage", {
+                            callback: (backData) => {
+                                setTimeout(() => {
+                                    this.navigate('scanInfo',{serialNum: backData})
+                                }, 500);
+
+                            }
+                        });
                 }}>
                     <ImageBackground source={require('../../img/bg_cyc.png')} style={{
-                        borderRadius: 3,
-                        backgroundColor: '#fff',
-                        borderColor: '#eee',
                         height: 80,
-                        marginHorizontal: 10,
                         flex: 1,
                         justifyContent: 'center'
                     }}>
                         <Text style={{
                             color: '#333',
                             fontWeight: 'bold',
-                            marginLeft: 10,
-                            marginLeft: 10,
+                            marginLeft: 20,
                             fontSize: 16
                         }}>扫一扫</Text>
-                        <Text style={{color: '#999', fontSize: 14, marginLeft: 10, marginTop: 10}}>物业知识共分享</Text>
+                        <Text style={{color: '#999', fontSize: 14, marginLeft: 20, marginTop: 10}}>物业知识共分享</Text>
                     </ImageBackground>
                 </TouchableView>
                 <TouchableView style={{flex: 1}} onPress={() => {
                     Linking.openURL(`tel:${this.state.phone}`)
                 }}>
                     <ImageBackground source={require('../../img/bg_dhwy.png')} style={{
-                        borderRadius: 3,
-                        backgroundColor: '#fff',
-                        borderColor: '#eee',
                         height: 80,
-                        marginHorizontal: 10,
                         flex: 1,
                         justifyContent: 'center'
                     }}>
-                        <Text style={{color: '#333', fontWeight: 'bold', marginLeft: 10, ontSize: 16}}>电话物业</Text>
-                        <Text style={{color: '#999', fontSize: 14, marginLeft: 10, marginTop: 10}}>24小时在线</Text>
+                        <Text style={{color: '#333', fontWeight: 'bold', marginLeft: 20, fontSize: 16}}>电话物业</Text>
+                        <Text style={{color: '#999', fontSize: 14, marginLeft: 20, marginTop: 10}}>24小时在线</Text>
                     </ImageBackground>
                 </TouchableView>
 
@@ -254,11 +248,11 @@ export default class Housekeeper extends BaseComponent {
             return (<TouchableOpacity style={{
                 backgroundColor: '#fff',
                 height: 100,
-                paddingVertical: 5,
                 flexDirection: 'row',
-                padding: 5,
+                paddingHorizontal:10,
+                paddingVertical:5,
                 borderColor: CommonStyle.lineColor,
-                borderTopWidth: 1
+                borderTopWidth: .5
             }} onPress={()=>{
                 this.navigate('activeDetail', item);
              }
@@ -268,14 +262,13 @@ export default class Housekeeper extends BaseComponent {
                     style={{
                         width: 90,
                         height: 90,
-                        marginLeft: 10,
+                        paddingLeft:10
                     }}
                     defaultSource={require('../../img/default_image.png')}
                 />
-                <View style={{flex: 1, marginLeft: 10}}>
+                <View style={{flex: 1, paddingLeft: 10}}>
                     <Text style={{
                         fontSize: 17,
-                        marginBottom: 8,
                         marginTop:10,
                         textAlign: 'left', color: '#666666'
                     }}>{item.activityName}</Text>
