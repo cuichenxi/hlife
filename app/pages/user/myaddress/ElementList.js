@@ -21,7 +21,8 @@ export default class ElementList extends BaseComponent{
         super(props);
         this.state=({
             api:this.props.navigation.state.params.api,
-            housingId:this.props.navigation.state.params.housingId
+            housingId:this.props.navigation.state.params.housingId,
+            from:this.props.navigation.state.params.from
         })
     }
 
@@ -43,6 +44,7 @@ export default class ElementList extends BaseComponent{
                 api:'/api/user/selectunit',
                 buildingId:this.state.housingId,
                 rowData:rowData,
+                from:this.state.from,
             })
         }}>
             <View style={{justifyContent: 'center',alignItems:'flex-start',height:40,width: '100%',backgroundColor:'#fff',paddingLeft:15}}>

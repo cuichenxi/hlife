@@ -20,3 +20,4 @@ export const WEXIN_ARTICLE_TYPE = 'http://route.showapi.com/582-1';
 export const PAGE_SIZE = 20;
 export const GIVEADVICE = 11;
 export const COMPLAINTPRAISE = 22;
+export const FROMAUTH = 33;

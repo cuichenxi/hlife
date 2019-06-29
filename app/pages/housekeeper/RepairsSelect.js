@@ -1,19 +1,8 @@
 import {BaseComponent} from "../../components/base/BaseComponent";
 import React from "react";
-import {
-    Dimensions, FlatList,
-    Image,
-    ImageBackground,
-    RefreshControl,
-    ScrollView,
-    Text,
-    TouchableOpacity,
-    View
-} from "react-native";
+import {Dimensions, FlatList, Image, ImageBackground, RefreshControl, ScrollView, Text, View} from "react-native";
 import {CommonStyle} from "../../common/CommonStyle";
 import TouchableView from "../../components/TouchableView";
-import Icon from "react-native-vector-icons/Ionicons";
-import GridView from "../../components/GridView";
 import UserStore from "../../store/UserStore";
 import util from "../../utils/util";
 

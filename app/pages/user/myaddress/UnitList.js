@@ -4,7 +4,7 @@ import GiftedListView from "../../../components/refreshList/GiftedListView";
 import React from "react";
 import TouchableView from "../../../components/TouchableView";
 import {Text, View} from "react-native";
-import {PAGE_SIZE} from "../../../constants/AppConstants";
+import {FROMAUTH, PAGE_SIZE} from "../../../constants/AppConstants";
 import Request from "../../../utils/Request";
 
 /**
@@ -22,7 +22,8 @@ export default class UnitList extends BaseComponent{
         this.state=({
             api:this.props.navigation.state.params.api,
             elementData:this.props.navigation.state.params.rowData,
-            buildingId:this.props.navigation.state.params.buildingId
+            buildingId:this.props.navigation.state.params.buildingId,
+            from:this.props.navigation.state.params.from,
         })
     }
 
@@ -39,14 +40,18 @@ export default class UnitList extends BaseComponent{
 
     _renderRowView(rowData){
         return(<TouchableView onPress={() => {
-            this.push('RoomList', {
-                title:'选择房号',
-                api:'/api/user/selectroom',
-                unitId:rowData.id,
-                rowData:rowData,
-                buildingId:this.state.elementData.id
-            })
-            // this.pop(2,{elementName:this.state.elementData.name+'-'+rowData.name,roomId:rowData.id})
+            if (this.state.from !== FROMAUTH) {
+                this.push('RoomList', {
+                    title:'选择房号',
+                    api:'/api/user/selectroom',
+                    unitId:rowData.id,
+                    rowData:rowData,
+                    buildingId:this.state.elementData.id
+                })
+            } else {
+                this.pop(2,{elementName:this.state.elementData.name+'-'+rowData.name,unitId:rowData.id,buildingId:this.state.elementData.id})
+            }
+
         }}>
             <View style={{justifyContent: 'center',alignItems:'flex-start',height:40,width: '100%',backgroundColor:'#fff',paddingLeft:15}}>
                 <Text>{rowData.name}</Text>

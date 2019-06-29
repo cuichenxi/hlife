@@ -4,7 +4,7 @@ import GiftedListView from "../../../components/refreshList/GiftedListView";
 import React from "react";
 import TouchableView from "../../../components/TouchableView";
 import {Text, View} from "react-native";
-import {PAGE_SIZE} from "../../../constants/AppConstants";
+import {FROMAUTH, PAGE_SIZE} from "../../../constants/AppConstants";
 import Request from "../../../utils/Request";
 
 /**
@@ -24,6 +24,7 @@ export default class RoomList extends BaseComponent{
             elementData:this.props.navigation.state.params.rowData,
             buildingId:this.props.navigation.state.params.buildingId,
             unitId:this.props.navigation.state.params.unitId,
+            from:this.props.navigation.state.params.from,
         })
     }
 
@@ -40,7 +41,11 @@ export default class RoomList extends BaseComponent{
 
     _renderRowView(rowData){
         return(<TouchableView onPress={() => {
-            this.pop(3,{elementName:this.state.elementData.name+'-'+rowData.name,roomId:rowData.id})
+            if (this.state.from !== FROMAUTH) {
+                this.pop(3,{elementName:this.state.elementData.name+'-'+rowData.name,roomId:rowData.id})
+            } else {
+                this.goBack(rowData)
+            }
 
         }}>
             <View style={{justifyContent: 'center',alignItems:'flex-start',height:40,width: '100%',backgroundColor:'#fff',paddingLeft:15}}>

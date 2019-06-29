@@ -3,7 +3,7 @@ import {
     Dimensions,
     Image,
     ImageBackground,
-    Keyboard,
+    Keyboard, KeyboardAvoidingView,
     StyleSheet,
     Text,
     TextInput,
@@ -18,6 +18,7 @@ import TouchableView from "../../components/TouchableView";
 import ToastUtil from "../../utils/ToastUtil";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import {FROMAUTH} from "../../constants/AppConstants";
 
 
 var {width, height} = Dimensions.get('window');
@@ -38,20 +39,22 @@ export default class AuthPage extends BaseComponent {
     constructor(props) {
         super(props);
         this.state = {
-            mobile: '',
-            password: '',
-            authCode: '',
+            name: '',
             housingAddress: '选择你所居住的小区',
-            element: '选择楼栋/单元室',
-            idType: '选择身份',
+            elementName: '选择楼栋/单元',
             housingId: '',
-            buildingId:''
+            buildingId: '',
+            unitId: '',
+            roomName: '',
+            roomId: ''
         };
     }
 
-    onShow(e){
+    onShow(e) {
         this.setState({
-            elementName:e.elementName
+            elementName: e.elementName,
+            buildingId: e.buildingId,
+            unitId: e.unitId,
         })
     }
 
@@ -61,19 +64,19 @@ export default class AuthPage extends BaseComponent {
 
 
     _render() {
-        const {mobile} = this.state
         return (
             <View style={styles.container}>
+                <KeyboardAvoidingView behavior='position'>
                 <ImageBackground style={{alignItems: 'center', justifyContent: 'center', height: 200}}
                                  source={require('../../img/login_bg.png')}>
                     <Image source={require('../../img/login_logo.png')} style={{
-                        width: 173,
-                        height: 66, alignItems: 'center'
+                        width: 116,
+                        height: 44, alignItems: 'center'
                     }} resizeMode='cover'/>
                 </ImageBackground>
 
 
-                <View style={{backgroundColor: '#ffffff', height: 60,justifyContent:'center',alignItems:'center'}}>
+                <View style={{backgroundColor: '#ffffff', height: 50, justifyContent: 'center', alignItems: 'center'}}>
 
                     <TouchableView onPress={() => {
                         this.navigate('HousingAddressList', {
@@ -90,7 +93,13 @@ export default class AuthPage extends BaseComponent {
                     }}>
 
                         <View
-                            style={{flexDirection: 'row', justifyContent: 'space-between',alignItems:'center', width: width, padding: 10}}>
+                            style={{
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                width: width,
+                                padding: 10
+                            }}>
                             <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
                                 <Image source={require('../../img/xiaoqu.png')}
                                        style={{width: 20, height: 20, resizeMode: 'contain'}}/>
@@ -104,13 +113,18 @@ export default class AuthPage extends BaseComponent {
 
                 </View>
                 <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
-                <View style={{backgroundColor: '#ffffff', height: 60,justifyContent:'center',alignItems:'center'}}>
+                <View style={{backgroundColor: '#ffffff', height: 50, justifyContent: 'center', alignItems: 'center'}}>
 
                     <TouchableView onPress={() => {
+                        if (this.state.housingAddress == '选择你所居住的小区') {
+                            this.showShort('请选择小区');
+                            return;
+                        }
                         this.navigate('ElementList', {
                             title: '选择楼栋/单元',
-                            housingId:this.state.housingId,
+                            housingId: this.state.housingId,
                             api: '/api/user/selectelement',
+                            from: FROMAUTH,
                             callback: (data) => {
                                 console.log('=======回传=========')
                                 console.log(data)
@@ -119,16 +133,22 @@ export default class AuthPage extends BaseComponent {
                                     element: data.name,
                                 })
                             }
-                        },true)
+                        }, true)
                     }}>
 
                         <View
-                            style={{flexDirection: 'row', justifyContent: 'space-between',alignItems:'center', width: width, padding: 10}}>
+                            style={{
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                width: width,
+                                padding: 10
+                            }}>
                             <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
                                 <Image source={require('../../img/danyuan.png')}
                                        style={{width: 20, height: 20, resizeMode: 'contain'}}/>
                                 <Text
-                                    style={{marginLeft: 5}}>{this.state.elementName ? this.state.elementName : "选择小区的苑、幢、单元室"}</Text>
+                                    style={{marginLeft: 5}}>{this.state.elementName ? this.state.elementName : "选择楼栋/单元"}</Text>
                             </View>
 
                             <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
@@ -138,31 +158,42 @@ export default class AuthPage extends BaseComponent {
 
                 </View>
                 <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
-                <View style={{backgroundColor: '#ffffff', height: 60,justifyContent:'center',alignItems:'center'}}>
+                <View style={{backgroundColor: '#ffffff', height: 50, justifyContent: 'center', alignItems: 'center'}}>
 
                     <TouchableView onPress={() => {
-                        this.navigate('ElementList', {
+                        if (this.state.elementName == '选择楼栋/单元') {
+                            this.showShort('请选择楼栋/单元');
+                            return;
+                        }
+                        this.navigate('RoomList', {
                             title: '选择房间号',
-                            buildingId:this.state.buildingId,
+                            buildingId: this.state.buildingId,
                             api: '/api/user/selectroom',
+                            unitId: this.state.unitId,
+                            from: FROMAUTH,
                             callback: (data) => {
-                                console.log('=======回传=========')
-                                console.log(data)
                                 ToastUtil.showShort(data.name);
                                 this.setState({
-                                    element: data.name,
+                                    roomName: data.name,
+                                    roomId: data.id
                                 })
                             }
-                        },true)
+                        }, true)
                     }}>
 
                         <View
-                            style={{flexDirection: 'row', justifyContent: 'space-between',alignItems:'center', width: width, padding: 10}}>
+                            style={{
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                width: width,
+                                padding: 10
+                            }}>
                             <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
                                 <Image source={require('../../img/fangjianhao.png')}
                                        style={{width: 20, height: 20, resizeMode: 'contain'}}/>
                                 <Text
-                                    style={{marginLeft: 5}}>{this.state.elementName ? this.state.elementName : "选择房间号"}</Text>
+                                    style={{marginLeft: 5}}>{this.state.roomName ? this.state.roomName : "选择房间号"}</Text>
                             </View>
 
                             <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
@@ -174,7 +205,7 @@ export default class AuthPage extends BaseComponent {
                 <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
                 <View style={{
                     backgroundColor: '#ffffff',
-                    height: 60,
+                    height: 50,
                     flexDirection: 'row',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -183,13 +214,15 @@ export default class AuthPage extends BaseComponent {
                     <Image source={require('../../img/auth_name.png')}
                            style={{width: 20, height: 20, resizeMode: 'contain'}}/>
                     <TextInput
-                        ref="login_name"
                         placeholder='输入姓名'
                         style={styles.loginInput}
-                        keyboardType='numeric'
                         maxLength={11}
                         underlineColorAndroid="transparent"
-                        onChangeText={this.onChangeMobile.bind(this)}/>
+                        value={this.state.name}
+                        onChangeText={(value) => {
+                            this.setState({name: value})
+                        }}/>
+
                 </View>
                 <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
                 <TouchableOpacity style={{
@@ -201,12 +234,16 @@ export default class AuthPage extends BaseComponent {
                     backgroundColor: CommonStyle.themeColor,
                     justifyContent: 'center',
                     alignItems: 'center'
-                }} onPress={()=>{
-                    // this._auth.bind(this)
-                    this.showShort('接口还没写')
+                }} onPress={() => {
+                    this._auth()
                 }}>
-                    <Text style={styles.loginText}>认证</Text>
+                    <Text style={styles.loginText}>提交审核</Text>
                 </TouchableOpacity>
+                    <View style={{justifyContent:'center',alignItems:'center',marginTop:5}}>
+                        <Text style={{fontSize:11,color:'#999'}}>提交申请后，我们会在一个工作日之内完成审核</Text>
+                    </View>
+                </KeyboardAvoidingView>
+
             </View>
         )
     }
@@ -222,26 +259,34 @@ export default class AuthPage extends BaseComponent {
 
     _auth() {
         Keyboard.dismiss();
-        let {mobile, authCode} = this.state;
+        let {housingAddress,elementName,roomName,roomId, name} = this.state;
 
-        if (!mobile.length) {
-            this.showLong('请输入正确的手机号');
+        if (housingAddress == '选择你所居住的小区') {
+            this.showShort('请选择小区');
             return;
         }
-        if (!authCode.length) {
-            this.showLong('请输入验证码');
+        if (elementName == '选择楼栋/单元') {
+            this.showShort('请选择楼栋/单元');
             return;
         }
-        this.showLoading('登录中..');
-        var param = {phone: this.state.mobile, code: this.state.authCode};
+        if (roomName == '选择房间号') {
+            this.showShort('请选择房号');
+            return;
+        }
+        if (!name.length) {
+            this.showShort('请输入姓名');
+            return;
+        }
+        this.showLoading('认证中..');
+        var param = {roomId: roomId, name: name};
         Request.post('/api/user/auth', param,
             {
                 mock: false,
                 mockId: 672823,
             }).then(rep => {
-            if (rep.code == 0 && rep.data) {
-                UserStore.save(rep.data);
-                this.goBack({isAuth:true})
+            if (rep.code == 0) {
+                // UserStore.save(rep.data);
+                this.goBack({isAuth: true})
                 // NavigationUtil.reset(this.props.navigation, 'Home');
             } else {
                 this.showShort(rep.message);
@@ -274,41 +319,10 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff'
     },
-
-    headerWrap: {
-        alignItems: 'center',
-        height: 44,
-        backgroundColor: '#ff7419',
-    },
-    header: {
-        color: '#fff',
-        paddingTop: 22,
-        fontSize: 17,
-    },
-
-    loginWrap: {
-        backgroundColor: '#FCE9D4',
-    },
-    imgWrap: {
-        flexDirection: 'row',
-        flex: 1,
-    },
-    loginMain: {
-        flex: 1,
-    },
-    comCulture: {
-        width: 320,
-        marginTop: 50,
-    },
-
     formInput: {
         flexDirection: 'row',
         height: 60,
         padding: 20,
-    },
-    formInputSplit: {
-        borderBottomWidth: .5,
-        borderBottomColor: CommonStyle.lineColor,
     },
     loginInput: {
         height: 40,
@@ -331,11 +345,4 @@ const styles = StyleSheet.create({
         fontSize: 17,
     },
 
-    registerWrap: {
-        flexDirection: 'row',
-        marginTop: 20,
-        marginBottom: 20,
-        marginLeft: 10,
-        marginRight: 10,
-    },
 });
