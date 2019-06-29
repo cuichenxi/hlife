@@ -77,6 +77,8 @@ import activeDetail from "./pages/housekeeper/activeDetail";
 import ModifyPhone from "./pages/user/ModifyPhone";
 import TopicPostList from "./pages/neighbour/TopicPostList";
 import PublishComment from "./pages/neighbour/PublishComment";
+import PaymentVerification from "./pages/user/paymentmanager/PaymentVerification";
+import PaymentCodeCommit from "./pages/user/paymentmanager/PaymentCodeCommit";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -225,6 +227,8 @@ const App = createStackNavigator(
         ModifyPhone:{screen:ModifyPhone},//修改手机号
         TopicPostList:{screen:TopicPostList},//话题帖子列表
         PublishComment:{screen:PublishComment},//写评论
+        PaymentVerification:{screen:PaymentVerification},//支付密码获取验证码
+        PaymentCodeCommit:{screen:PaymentCodeCommit},//支付密码提交
     },
     {
         // initialRouteName: 'Splash',

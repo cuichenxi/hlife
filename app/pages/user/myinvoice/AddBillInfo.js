@@ -22,14 +22,27 @@ export default class AddBillInfo extends BaseComponent {
         super(props);
         this.state = {
             initItem: '个人',
-            initId: '0',
-            name: '',
-            no: '',
-            address: '',
-            phone: '',
-            bank: '',
-            bankNo: '',
-            invoice: this.props.navigation.state.params.invoice
+            // initId: '0',
+            name: this.props.navigation.state.params.invoice?this.props.navigation.state.params.invoice.name:'',
+            no: this.props.navigation.state.params.invoice?this.props.navigation.state.params.invoice.no:'',
+            address: this.props.navigation.state.params.invoice?this.props.navigation.state.params.invoice.address:'',
+            phone: this.props.navigation.state.params.invoice?this.props.navigation.state.params.invoice.phone:'',
+            bank: this.props.navigation.state.params.invoice?this.props.navigation.state.params.invoice.bank:'',
+            bankNo: this.props.navigation.state.params.invoice?this.props.navigation.state.params.invoice.bankNo:'',
+            // invoice: this.props.navigation.state.params.invoice?this.props.navigation.state.params.invoice:{
+            //     address: "",
+            //     bank: "",
+            //     bankNo: "",
+            //     createdTime: null,
+            //     id: 1,
+            //     name: "",
+            //     no: "",
+            //     phone: "",
+            //     type: 0,
+            //     initItem:'个人'
+            // }
+            initId: this.props.navigation.state.params.invoice?this.props.navigation.state.params.invoice.type:'0',
+            type: this.props.navigation.state.params.invoice?this.props.navigation.state.params.invoice.type:''
         }
         console.log(this.state.invoice)
     }
@@ -47,7 +60,11 @@ export default class AddBillInfo extends BaseComponent {
                         <RadioModal
                             selectedValue={this.state.initId}
                             onValueChange={(id, item) => {
-                                this.setState({initId: id, initItem: item})
+                                this.setState(
+                                    {
+                                        initId: id,
+                                        initItem: item,
+                                    })
 
                             }}
                             style={{
@@ -70,8 +87,9 @@ export default class AddBillInfo extends BaseComponent {
                             style={styles.inputItem}
                             underlineColorAndroid="transparent"
                             placeholder=''
+                            maxLength={30}
                             onChangeText={(text) => this.setState({name: text})}
-                            value={this.state.invoice ? this.state.invoice.name : name}
+                            value={name}
                         />
                     </View>
                     <View style={styles.lineStyle}/>
@@ -83,7 +101,7 @@ export default class AddBillInfo extends BaseComponent {
                             underlineColorAndroid="transparent"
                             placeholder=''
                             onChangeText={(text) => this.setState({no: text})}
-                            value={this.state.invoice ? this.state.invoice.no : no}
+                            value={no}
                         />
                     </View>
                     <View style={styles.lineStyle}/>
@@ -94,8 +112,9 @@ export default class AddBillInfo extends BaseComponent {
                             style={styles.inputItem}
                             underlineColorAndroid="transparent"
                             placeholder=''
+                            maxLength={30}
                             onChangeText={(text) => this.setState({address: text})}
-                            value={this.state.invoice ? this.state.invoice.address : address}
+                            value={address}
                         />
                     </View>
                     <View style={styles.lineStyle}/>
@@ -106,8 +125,10 @@ export default class AddBillInfo extends BaseComponent {
                             style={styles.inputItem}
                             underlineColorAndroid="transparent"
                             placeholder=''
+                            maxLength={11}
+                            keyboardType='numeric'
                             onChangeText={(text) => this.setState({phone: text})}
-                            value={this.state.invoice ? this.state.invoice.phone : phone}
+                            value={phone}
                         />
                     </View>
                     <View style={styles.lineStyle}/>
@@ -118,8 +139,9 @@ export default class AddBillInfo extends BaseComponent {
                             style={styles.inputItem}
                             underlineColorAndroid="transparent"
                             placeholder=''
+                            maxLength={20}
                             onChangeText={(text) => this.setState({bank: text})}
-                            value={this.state.invoice ? this.state.invoice.bank : bank}
+                            value={bank}
                         />
                     </View>
                     <View style={styles.lineStyle}/>
@@ -130,8 +152,9 @@ export default class AddBillInfo extends BaseComponent {
                             style={styles.inputItem}
                             underlineColorAndroid="transparent"
                             placeholder=''
+                            keyboardType='numeric'
                             onChangeText={(text) => this.setState({bankNo: text})}
-                            value={this.state.invoice ? this.state.invoice.bankNo : bankNo}
+                            value={bankNo}
                         />
                     </View>
                     <View style={styles.lineStyle}/>
@@ -148,14 +171,14 @@ export default class AddBillInfo extends BaseComponent {
                     }} onPress={() => {
                         this.addBillInfo()
                     }}>
-                        <Text style={{color: '#ffffff', fontSize: 14}}>{this.state.invoice ? '修改' : '添加'}</Text>
+                        <Text style={{color: '#ffffff', fontSize: 14}}>{this.props.navigation.state.params.invoice ? '修改' : '添加'}</Text>
                     </TouchableView>
                 </KeyboardAvoidingView>
             </ScrollView>
         )
     }
 
-    addBillInfo(callback) {
+    addBillInfo() {
         Keyboard.dismiss();
         let {initId, name, no, address, phone, bank, bankNo} = this.state;
         if (!name.length) {
@@ -166,7 +189,8 @@ export default class AddBillInfo extends BaseComponent {
             this.showLong('请输入税号');
             return;
         }
-        let param = {type: initId, name: name, no: no, address: address, phone: phone, bank: bank, bankNo: bankNo};
+        let param = {type: initId, name: name, no: no, address: address, phone: phone,
+            bank: bank, bankNo: bankNo};
 
         console.log(param)
         Request.post('/api/user/addInvoice', param,
@@ -174,8 +198,8 @@ export default class AddBillInfo extends BaseComponent {
                 mock: false,
                 mockId: 1095545,
             }).then(rep => {
-            if (rep.code == 0 && rep.data) {
-                this.goBack()
+            if (rep.code == 0) {
+                this.goBack(rep.message)
             }
         }).catch(err => {
 

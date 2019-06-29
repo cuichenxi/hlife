@@ -56,9 +56,9 @@ export default class IntegralDetailView extends BaseView {
                 paddingLeft: 30,
                 paddingRight: 30,
             }}>
-                <Text style={{textAlign: 'center', color: '#333',fontSize:17}}>+10</Text>
-                <Text style={{textAlign: 'center', color: '#333', fontSize: 15}}>签到积分</Text>
-                <Text style={{textAlign: 'center', color: '#999', fontSize: 11}}>2019-06-22</Text>
+                <Text style={{textAlign: 'center', color: '#333',fontSize:17}}>+{item.score}</Text>
+                <Text style={{textAlign: 'center', color: '#333', fontSize: 15}}>{item.type === 1?'签到积分':'分享积分'}</Text>
+                <Text style={{textAlign: 'center', color: '#999', fontSize: 11}}>{item.createtime}</Text>
             </View>
 
         )

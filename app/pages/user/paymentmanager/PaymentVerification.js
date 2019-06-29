@@ -1,86 +1,68 @@
-import React from 'react';
-import {
-    Dimensions,
-    Image,
-    ImageBackground,
-    Keyboard,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View
-} from 'react-native';
-import Request from "../../utils/Request";
-import UserStore from "../../store/UserStore";
-import {BaseComponent} from '../../components/base/BaseComponent'
-import NavigationUtil from "../../utils/NavigationUtil";
-import {CommonStyle} from "../../common/CommonStyle";
-import CountDownButton from "../../components/CountDownButton";
+import {BaseComponent} from "../../../components/base/BaseComponent";
+import React from "react";
+import {Image, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+import CountDownButton from "../../../components/CountDownButton";
+import {CommonStyle} from "../../../common/CommonStyle";
+import UserStore from "../../../store/UserStore";
+import util from "../../../utils/util";
+import Request from "../../../utils/Request";
 
-var { width, height } = Dimensions.get('window');
-
-export default class Login extends BaseComponent {
+export default class PaymentVerification extends BaseComponent{
     navigationBarProps() {
         return {
-            hiddenLeftItem: true,
-            title: '用户登录',
-            gesturesEnabled: false
+            title: '重置支付密码',
         }
     }
 
     constructor(props) {
         super(props);
-        this.state = {
-            mobile: '',
-            password: '',
-            authCode: '',
+        this.state={
+            userPhone:'',
+            authCode:'',
             authState: '显示请求的状态',
             codeRequesting:false
-        };
+        }
     }
 
-    canBack() {
-        return false;
+    onReady(){
+        let userInfo = UserStore.get();
+        this.setState({
+            userPhone: userInfo.phone,
+        })
     }
-    onReady(e){
-        this.hideHeader(true);
-    }
-
-
     _render() {
-        const {mobile,codeRequesting} = this.state
+        const {userPhone,codeRequesting} = this.state
         return (
-            <View style={styles.container}>
-                <ImageBackground style={{alignItems:'center',justifyContent:'center',height:200}} source={require('../../img/login_bg.png')}>
-                    <Image source={require('../../img/login_logo.png')} style={{width:173,
-                        height:66, alignItems:'center'}} resizeMode='cover'/>
-                </ImageBackground>
-
+            <View style={{backgroundColor:CommonStyle.white,flex: 1,marginTop:10}}>
                 <View style={[styles.formInput, styles.formInputSplit]}>
-                    <Image source={require('../../img/shouji.png')}
+                    <Image source={require('../../../img/shouji.png')}
                            style={{ width: 20, height: 20, resizeMode: 'contain'}}/>
                     <TextInput
-                        ref="login_name"
                         placeholder='请输入手机号码'
                         underlineColorAndroid="transparent"
                         style={styles.loginInput}
                         keyboardType='numeric'
                         maxLength={11}
-                        onChangeText={this.onChangeMobile.bind(this)}/>
+                        editable={false}
+                        value={this.state.userPhone}/>
                 </View>
                 <View style={[styles.formInput, styles.formInputSplit]}>
-                    <Image source={require('../../img/yanzhengma.png')}
+                    <Image source={require('../../../img/yanzhengma.png')}
                            style={{ width: 20, height: 20, resizeMode: 'contain'}}/>
                     <TextInput
-                        ref="login_auth"
                         style={styles.loginInput}
                         underlineColorAndroid="transparent"
                         placeholder='请输入验证码'
                         keyboardType='numeric'
-                        onChangeText={this.onChangeAuth.bind(this)}
+                        maxLength={6}
+                        onChangeText={(value) =>{
+                            this.setState({
+                                authCode:value
+                            })
+                        }}
                     />
                     <View style={{
-                        height: 30, justifyContent: 'center',
+                        height: 30, justifyContent: 'center', marginRight: 10
                     }}>
                         <CountDownButton
                             executeFunc={(shouldStartCounting)=>{
@@ -90,7 +72,7 @@ export default class Login extends BaseComponent {
                             textStyle={{color: CommonStyle.themeColor}}
                             disableColor={CommonStyle.gray}
                             timerTitle={'获取验证码'}
-                            enable={mobile.length > 10 && !codeRequesting}
+                            enable={userPhone.length > 10 && !codeRequesting}
                             onClick={(shouldStartCounting) => {
                                 this._requestAuthCode(shouldStartCounting)
                             }}
@@ -101,6 +83,7 @@ export default class Login extends BaseComponent {
                             }}/>
                     </View>
                 </View>
+
                 <TouchableOpacity style={{
                     height: 40,
                     width:300,
@@ -110,58 +93,14 @@ export default class Login extends BaseComponent {
                     backgroundColor: CommonStyle.themeColor,
                     justifyContent: 'center',
                     alignItems: 'center',
-                    position: 'absolute',
-                    bottom: 0,
-                    marginBottom:80,
-                    alignSelf: 'center',
-
-                }} onPress={this._login.bind(this)}>
-                    <Text style={styles.loginText}>登录</Text>
+                    marginTop:30
+                }} onPress={()=>{
+                    this.navigate('PaymentCodeCommit')
+                }}>
+                    <Text style={styles.loginText}>下一步</Text>
                 </TouchableOpacity>
             </View>
-        )
-    }
-
-    _register() {
-        this.push("Register");
-    }
-
-    _forgetPassword() {
-        const {navigate} = this.props.navigation;
-        navigate('Feedback', {isFirst: true});
-    }
-
-    _login() {
-        Keyboard.dismiss();
-        let {mobile, authCode} = this.state;
-
-        if (!mobile.length) {
-            this.showLong('请输入正确的手机号');
-            return;
-        }
-        if (!authCode.length) {
-            this.showLong('请输入验证码');
-            return;
-        }
-        this.showLoading('登录中..');
-        var param = {phone: this.state.mobile, code: this.state.authCode};
-        Request.post('/api/user/login', param,
-            {
-                mock: false,
-                mockId: 672823,
-            }).then(rep => {
-            if (rep.code == 0 && rep.data) {
-                UserStore.save(rep.data);
-                console.log('====登录成功=====')
-                NavigationUtil.reset(this.props.navigation, 'Home');
-            } else {
-                this.showShort(rep.message);
-            }
-
-        }).catch(err => {
-        }).done(() => {
-            this.hideLoading();
-        })
+        );
     }
 
     _requestAuthCode(shouldStartCounting) {
@@ -197,52 +136,9 @@ export default class Login extends BaseComponent {
         })
     }
 
-    onChangeMobile(text) {
-        this.state.mobile = text;
-        // this.setState({'mobile': text});
-    }
-
-    onChangePassword(text) {
-        this.state.password = text;
-        // this.setState({'password': text});
-    }
-
-    onChangeAuth(text){
-        this.state.authCode = text;
-    }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff'
-    },
-
-    headerWrap: {
-        alignItems: 'center',
-        height: 44,
-        backgroundColor: '#ff7419',
-    },
-    header: {
-        color: '#fff',
-        paddingTop: 22,
-        fontSize: 17,
-    },
-
-    loginWrap: {
-        backgroundColor: '#FCE9D4',
-    },
-    imgWrap: {
-        flexDirection: 'row',
-        flex: 1,
-    },
-    loginMain: {
-        flex: 1,
-    },
-    comCulture: {
-        width: 320,
-        marginTop: 50,
-    },
 
     formInput: {
         flexDirection: 'row',
@@ -259,7 +155,7 @@ const styles = StyleSheet.create({
         height: 42,
         paddingLeft: 10,
         flex: 1,
-        fontSize: 16,
+        fontSize: 18,
         marginTop:3
     },
 
@@ -277,11 +173,6 @@ const styles = StyleSheet.create({
         fontSize: 17,
     },
 
-    registerWrap: {
-        flexDirection: 'row',
-        marginTop: 20,
-        marginBottom: 20,
-        marginLeft: 10,
-        marginRight: 10,
-    },
+
 });
+

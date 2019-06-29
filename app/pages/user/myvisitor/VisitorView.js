@@ -23,21 +23,22 @@ export default class Index extends BaseView {
     makeRemoteRequest(page = 1, callback) {
         let param = {status: this.state.index, page: page - 1, pageSize: PAGE_SIZE};
 
-        console.log('==========')
-        console.log(this.props)
-        Request.post('api/user/visitor', param,
+        Request.post('/api/user/visitor', param,
             {
-                mock: true,
+                mock: false,
                 mockId: 1095607,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
                 // console.log(JSON.stringify(rep))
                 callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
+            } else {
+                this.showShort(rep.message);
+                callback(null,{emptyTitle: rep.message})
             }
         }).catch(err => {
-
+            callback(null,{emptyTitle: err})
         }).done(() => {
-            // this.hideLoading();
+            this.hideLoading();
         })
     }
 
@@ -53,7 +54,7 @@ export default class Index extends BaseView {
                 paddingLeft: 30,
                 paddingRight: 30,
             }}>
-                <Text style={{textAlign: 'center', color: CommonStyle.textBlockColor,fontSize:13}}>{item.date}</Text>
+                <Text style={{textAlign: 'center', color: CommonStyle.textBlockColor,fontSize:13}}>{item.createdate}</Text>
                 <Text style={{textAlign: 'center', color: CommonStyle.textBlockColor, fontSize: 13}}>{item.name}</Text>
             </View>
 
@@ -81,7 +82,7 @@ export default class Index extends BaseView {
                     <Text style={{textAlign: 'center', color: CommonStyle.textGrayColor,fontSize:13}}>到访日期</Text>
                     <Text style={{textAlign: 'center', color: CommonStyle.textGrayColor, fontSize: 13}}>姓名</Text>
                 </View>
-                <View style={{height: 0.5, backgroundColor: CommonStyle.textGrayColor, width: width}}/>
+                <View style={{height: 0.5, backgroundColor: CommonStyle.lightGray, width: width}}/>
                 <GiftedListView
                     style={{with: width, flex: 1}}
                     rowView={this._renderRowView.bind(this)}

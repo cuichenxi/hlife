@@ -6,6 +6,7 @@ import {PAGE_SIZE} from "../../../constants/AppConstants";
 import Request from "../../../utils/Request";
 import TouchableView from "../../../components/TouchableView";
 import {SwipeAction} from "antd-mobile-rn";
+import ToastUtil from "../../../utils/ToastUtil";
 
 let {width, height} = Dimensions.get('window')
 
@@ -105,7 +106,10 @@ export default class MyInvoiceList extends BaseComponent {
                          ]}
             >
                 <TouchableView onPress={()=>{
-                    this.navigate('AddBillInfo', {invoice: item.item})
+                    this.navigate('AddBillInfo', {invoice: item.item,callback:(data) => {
+                            ToastUtil.showShort(data);
+                            this.fetchData()
+                        }})
                 }}>
                     <View style={{
                         backgroundColor: 'white',
@@ -139,11 +143,11 @@ export default class MyInvoiceList extends BaseComponent {
 
 
     fetchData(page = 1) {
-        let param = {statusBODY: this.state.index, page: page - 1, pageSize: PAGE_SIZE};
+        let param = { page: page - 1, pageSize: PAGE_SIZE};
 
-        Request.post('api/user/invoiceList', param,
+        Request.post('/api/user/invoiceList', param,
             {
-                mock: true,
+                mock: false,
                 mockId: 1125915,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
@@ -155,7 +159,7 @@ export default class MyInvoiceList extends BaseComponent {
         }).catch(err => {
 
         }).done(() => {
-            // this.hideLoading();
+            this.hideLoading();
         })
     }
 

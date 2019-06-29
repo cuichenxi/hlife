@@ -5,6 +5,8 @@ import {CommonStyle} from "../../common/CommonStyle";
 import LinearGradient from "react-native-linear-gradient";
 import TouchableView from "../../components/TouchableView";
 import RadioModal from "../../components/RadioModal";
+import ImageView from "../../components/ImageView";
+import UserStore from "../../store/UserStore";
 let {width, height} = Dimensions.get('window')
 
 export default class MyWallet extends BaseComponent{
@@ -21,21 +23,77 @@ export default class MyWallet extends BaseComponent{
             money:0,
             aliPay:true,
             weChatPay:false,
+            balance:''
         }
     }
+    _renderHeader() {
+        return (
+            <View style={{height: CommonStyle.navHeight}}>
+                <View style={{
+                    flex: 1, flexDirection: 'row', height: CommonStyle.navContentHeight,
+                    marginTop: CommonStyle.navStatusBarHeight, alignItems: 'center', marginLeft: 10, marginRight: 10,justifyContent:'space-between'
+                }}>
+                    <TouchableView onPress={() => {
+                        this.goBack()
+                    }}
+                                   style={{flex:1}}
+                    >
+                        <ImageView
+                            defaultSource={require("../../img/icon_back.png")}
+                            style={{
+                                width: 12,
+                                height: 16,
+                                resizeMode: "cover",
+                            }}/>
+                    </TouchableView>
+
+                    <View style={{flex: 1, height: 50, alignItems: 'center', justifyContent: 'center'}}>
+                        <Text style={{textAlign: 'center', color: '#fff', fontSize: 17}}>钱包</Text>
+                    </View>
+                    <TouchableView onPress={() => {
+                        this.goBack()
+                    }} style={{flex:1}}>
+                        <View style={{flexDirection:'row',justifyContent:'flex-end',alignItems:'center',flex:1}}>
+                            <ImageView
+                                defaultSource={require("../../img/icon_jifen_yiwen.png")}
+                                style={{
+                                    width: 15,
+                                    height: 15,
+                                    resizeMode: "cover",
+                                }}/>
+                            <Text style={{textAlign: 'center', color: '#fff', fontSize: 11,marginLeft:5}}>钱包明细</Text>
+                        </View>
+
+                    </TouchableView>
+                </View>
+
+            </View>
+        );
+    }
+    onReady(param) {
+        this.hideHeader(true);
+        let userInfo = UserStore.get();
+        this.setState({
+            balance: userInfo.balance,
+        })
+    }
+
     _render() {
-        const {aliPay,weChatPay} = this.state
+        const {aliPay,weChatPay,balance} = this.state
         return (
             <View style={{flex: 1}}>
                 <LinearGradient start={{x: 0.0, y: 0}} end={{x: 0, y: .8}}
                                 colors={['#63D5A2', CommonStyle.themeColor]}
                                 style={{height: 150,justifyContent: 'center',alignItems: 'center'}}>
-                    <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',padding:8}}>
+                    <View style={{position: CommonStyle.absolute, left: 0, top: 0, right: 0,}}>
+                        {this._renderHeader()}
+                    </View>
+                    <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',padding:8,marginTop: 50}}>
                         <Text style={{fontSize:12,color:'#fff'}}>我的余额(元)</Text>
                         <Image source={require('../../img/money_icon.png')}
                                style={{width: 11, height: 9, resizeMode: 'contain'}}/>
                     </View>
-                    <Text style={{fontSize:33,color:'#fff'}}>999999</Text>
+                    <Text style={{fontSize:33,color:'#fff'}}>{balance}</Text>
                 </LinearGradient>
                 <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',backgroundColor:CommonStyle.white}}>
                     <Text style={{fontSize:10,color:'#7e7e7e'}}>钱包充值</Text>
@@ -114,12 +172,12 @@ export default class MyWallet extends BaseComponent{
                     height: 40,
                     marginLeft: 30,
                     marginRight: 30,
-                    marginTop: 10,
-                    marginBottom:10,
+                    marginBottom:60,
                     borderRadius: 30,
                     backgroundColor: CommonStyle.themeColor,
                     justifyContent: 'center',
-                    alignItems: 'center'
+                    alignItems: 'center',
+                    position: CommonStyle.absolute, left: 0, bottom: 0, right: 0,
                 }} onPress={()=>{
                     this.showShort('立即充值')
                 }}>
