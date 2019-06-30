@@ -79,6 +79,7 @@ import TopicPostList from "./pages/neighbour/TopicPostList";
 import PublishComment from "./pages/neighbour/PublishComment";
 import PaymentVerification from "./pages/user/paymentmanager/PaymentVerification";
 import PaymentCodeCommit from "./pages/user/paymentmanager/PaymentCodeCommit";
+import ProductShoppingCart from "./pages/shopping/ProductShoppingCart";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -229,6 +230,7 @@ const App = createStackNavigator(
         PublishComment:{screen:PublishComment},//写评论
         PaymentVerification:{screen:PaymentVerification},//支付密码获取验证码
         PaymentCodeCommit:{screen:PaymentCodeCommit},//支付密码提交
+        ProductShoppingCart:{screen:ProductShoppingCart},//购物车
     },
     {
         // initialRouteName: 'Splash',

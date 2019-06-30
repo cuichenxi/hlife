@@ -226,7 +226,7 @@ export default class ProductDetail extends BaseComponent {
                         </View>
                     </TouchableView>
                     <View style={{height: 40, width: 0.5, backgroundColor: CommonStyle.lineColor,}}/>
-                    <TouchableView style={styles.bottomLeftBt} onPress={() => {this.navigate('ShoppingCart')}}>
+                    <TouchableView style={styles.bottomLeftBt} onPress={() => {this.navigate('ProductShoppingCart')}}>
                         <View style={{justifyContent: 'center', alignItems: 'center'}}>
                             <Image source={require('../../img/shopping_cart.png')}
                                    style={styles.bottomIcon}/>

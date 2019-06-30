@@ -189,7 +189,7 @@ export default class Index extends BaseComponent {
 
     _render() {
         return (
-            <View>
+            <View style={{flex:1}}>
                 <View style={{
                     height: 44, flexDirection: 'row', borderBottomWidth: 1,
                     borderColor: CommonStyle.lightGray, backgroundColor: '#fff'

@@ -34,7 +34,7 @@ export default class GuestPassKey extends BaseComponent {
     constructor(props) {
         super(props);
         this.state = {
-            initItem: '男',
+            initItem: '先生',
             initId: '1',
             date: undefined,
             time: '20:00',
@@ -130,9 +130,10 @@ export default class GuestPassKey extends BaseComponent {
                                 flex: 1,
                                 backgroundColor: CommonStyle.white,
                             }}
+                            radioWidth={90}
                         >
-                            <Text value="1">男</Text>
-                            <Text value="2">女</Text>
+                            <Text value="1">先生</Text>
+                            <Text value="2">女士</Text>
                         </RadioModal>
                     </View>
                 </View>

@@ -23,3 +23,6 @@ const backRoute = state.routes.find((route: *) => route.key === action.key);
 
 解决React Native--_this.*** is not a function 的问题
 https://blog.csdn.net/theVicTory/article/details/80113394
+
+
+TextInput设置了宽高后，输入内容无法显示的问题，解决办法：如果要想使其看起来和iOS上尽量一致，则需要设置padding: 0，同时设置underlineColorAndroid="transparent"来去掉底边框。
