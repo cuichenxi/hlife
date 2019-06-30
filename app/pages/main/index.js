@@ -57,7 +57,7 @@ export default class Main extends BaseComponent {
                 }, {
                     name: '电子钥匙',
                     imageUrl: require('../../img/menu_dzcx.png'),
-                    active: 'GuestPassKey'
+                    active: 'ElectronicKey'
                 }, {
                     name: '物业缴费',
                     imageUrl: require('../../img/menu_wyjf.png'),

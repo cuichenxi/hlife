@@ -36,7 +36,7 @@ export default class MyInvoiceList extends BaseComponent {
         const {rows} = this.state
         return (
             <View style={{flex: 1}}>
-                <View style={{flex: 1}}>
+                <View style={{flex: 1,marginTop: 10}}>
                     <FlatList ref={(flatList) => this._flatList = flatList}
                               ItemSeparatorComponent={this._separator}
                               renderItem={this._renderItem}
@@ -62,7 +62,13 @@ export default class MyInvoiceList extends BaseComponent {
                     paddingLeft: 30,
                     paddingRight: 30,
                 }} onPress={() => {
-                    this.navigate('AddBillInfo')
+                    this.navigate('AddBillInfo',{
+                        callback: (data) => {
+                            ToastUtil.showShort(data);
+                            //刷新列表
+                            this.fetchData()
+                        }
+                    })
                 }}>
                     <Text style={{textAlign: 'center', color: CommonStyle.themeColor, fontSize: 13}}>+添加发票抬头</Text>
                 </TouchableView>
@@ -89,17 +95,7 @@ export default class MyInvoiceList extends BaseComponent {
                              {
                                  text: '删除',
                                  onPress: () => {
-                                     let list = this.state.rows
-                                     // 删除指定位置元素
-                                     list.splice(item.index, 1)
-                                     console.log(list)
-                                     //todo 删除逻辑
-                                     this.setState(
-                                         {
-                                             row: list
-                                         }
-                                     )
-
+                                     this.deleteData(item.item.id,item.index)
                                  },
                                  style: {backgroundColor: 'red', color: 'white'},
                              },
@@ -151,10 +147,35 @@ export default class MyInvoiceList extends BaseComponent {
                 mockId: 1125915,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
-                // console.log(JSON.stringify(rep))
                 this.setState({
                     rows: rep.data.rows
                 })
+            }
+        }).catch(err => {
+
+        }).done(() => {
+            this.hideLoading();
+        })
+    }
+
+    deleteData(id,index) {
+        let param = { id: id};
+
+        Request.post('/api/user/invoicedel', param,
+            {
+                mock: false,
+                mockId: 1125915,
+            }).then(rep => {
+            if (rep.code == 0 ) {
+                // console.log(JSON.stringify(rep))
+                let list = this.state.rows
+                // 删除指定位置元素
+                list.splice(index, 1)
+                console.log(list)
+                //todo 删除逻辑
+                this.setState({row: list})
+            } else {
+                this.showShort(rep.message)
             }
         }).catch(err => {
 

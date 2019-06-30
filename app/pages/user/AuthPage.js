@@ -19,7 +19,6 @@ import ToastUtil from "../../utils/ToastUtil";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import {FROMAUTH} from "../../constants/AppConstants";
-import {Badge} from "antd-mobile-rn";
 import ImageView from "../../components/ImageView";
 
 

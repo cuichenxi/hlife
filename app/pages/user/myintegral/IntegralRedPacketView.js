@@ -26,8 +26,6 @@ export default class IntegralRedPacketView extends BaseView {
     makeRemoteRequest(page = 1, callback) {
         let param = {statusBODY: this.state.index, page: page - 1, pageSize: PAGE_SIZE};
 
-        console.log('==========')
-        console.log(this.props)
         Request.post('api/user/visitor', param,
             {
                 mock: true,

@@ -43,7 +43,7 @@ export default class WaterElectricityPayment extends BaseComponent {
             <View style={{flex: 1,backgroundColor:'#fff'}}>
                 <ImageBackground
                     style={{alignItems: 'center', justifyContent: 'center', height: 120, flexDirection: 'row'}}
-                    source={require('../../img/about_logo.png')}>
+                    source={require('../../img/login_bg.png')}>
                     <Image source={require('../../img/yiju_logo.png')} style={{
                         width: 85,
                         height: 33, alignItems: 'center'

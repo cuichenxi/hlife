@@ -36,7 +36,7 @@ export default class RepairRecordList extends BaseComponent{
         let param = { page: page - 1, pageSize: PAGE_SIZE};
 
         console.log(this.props)
-        Request.post('/api/life/housekeeping', param,
+        Request.post('/api/user/repairList', param,
             {
                 mock: false,
                 mockId: 1095356,
@@ -44,18 +44,21 @@ export default class RepairRecordList extends BaseComponent{
             if (rep.code == 0 && rep.data) {
                 // console.log(JSON.stringify(rep))
                 callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
+            } else {
+                this.showShort(rep.message);
+                callback(null,{emptyTitle: rep.message})
             }
         }).catch(err => {
-
+            callback(null,{emptyTitle: err})
         }).done(() => {
-            // this.hideLoading();
+            this.hideLoading();
         })
     }
 
     _renderRowView(item) {
         return (
             <TouchableView onPress={() => {
-                this.navigate("HouseholdServer", {data: item})
+                // this.navigate("HouseholdServer", {data: item})
             }}>
                 <View style={{
                     backgroundColor: 'white',
