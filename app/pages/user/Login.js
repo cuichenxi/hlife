@@ -90,10 +90,11 @@ export default class Login extends BaseComponent {
                             textStyle={{color: CommonStyle.themeColor}}
                             disableColor={CommonStyle.gray}
                             timerTitle={'获取验证码'}
-                            enable={mobile.length > 10 && !codeRequesting}
+                            enable={!codeRequesting}
                             onClick={(shouldStartCounting) => {
                                 this._requestAuthCode(shouldStartCounting)
                             }}
+                            counting={codeRequesting}
                             timerEnd={() => {
                                 this.setState({
                                     authState: '倒计时结束'
@@ -166,13 +167,13 @@ export default class Login extends BaseComponent {
 
     _requestAuthCode(shouldStartCounting) {
         if (this.state.mobile.length !== 11) {
-            this.showLong('请输入手机号');
+            this.showShort('请输入有效的手机号');
             return;
         }
-        this.setState({
+        /*this.setState({
             authState: '正在请求验证码',
             codeRequesting:true
-        })
+        })*/
 
         var param = {phone: this.state.mobile};
 
