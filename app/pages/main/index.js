@@ -44,8 +44,8 @@ export default class Main extends BaseComponent {
             ],
             recommendList: [
                 {
-                    title: '百度',
-                    url: 'http://www.baidu.com',
+                    title: '',
+                    url: '',
                     imagePath: ''
                 }
             ],

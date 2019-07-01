@@ -233,19 +233,20 @@ export default class GiftedListDemoFree extends BaseComponent {
                     initialListSize={12} // the maximum number of rows displayable without scrolling (height of the listview / height of row)
 
                     firstLoader={true} // display a loader for the first fetching
-
+                    loadMore={false}
                     pagination={true} // enable infinite scrolling using touch to load more
+                    refreshable={true} // enable pull-to-refresh for iOS and touch-to-refresh for Android
+
                     paginationFetchigView={this._renderPaginationFetchingView}
                     paginationAllLoadedView={this._renderPaginationAllLoadedView}
                     paginationWaitingView={this._renderPaginationWaitingView}
 
-                    refreshable={true} // enable pull-to-refresh for iOS and touch-to-refresh for Android
+
                     refreshableViewHeight={50} // correct height is mandatory
                     refreshableDistance={40} // the distance to trigger the pull-to-refresh - better to have it lower than refreshableViewHeight
                     refreshableFetchingView={this._renderRefreshableFetchingView}
                     refreshableWillRefreshView={this._renderRefreshableWillRefreshView}
                     refreshableWaitingView={this._renderRefreshableWaitingView}
-                    loadMore={false}
 
                     emptyView={this._renderEmptyView}
 

@@ -65,7 +65,7 @@ export default class Payment extends BaseComponent {
                 <TouchableView style={{
                     position: CommonStyle.absolute,
                     bottom: 100,
-                    height: 50,
+                    height: 45,
                     left: 20,
                     right: 20,
                     justifyContent: 'center',

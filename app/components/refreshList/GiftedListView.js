@@ -299,6 +299,7 @@ class GiftedListView extends React.Component {
         }
     }
 
+
     _postPaginate(rows = [], options = {}) {
         this._setPage(this._getPage() + 1);
         var mergedRows = null;
@@ -315,8 +316,12 @@ class GiftedListView extends React.Component {
         this._updateRows(mergedRows, options);
     }
 
+    _updateData(rows = []) {
+        this._setPage(1);
+        this._updateRows(rows, {});
+    }
     _updateRows(rows = [], options = {}) {
-        if (rows !== null&&rows.length>0) {
+        if (rows !== null && rows.length > 0) {
             this._setRows(rows);
             if (this.props.withSections === true) {
                 this.setState({
