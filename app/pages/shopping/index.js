@@ -131,7 +131,7 @@ export default class Shopping extends BaseComponent {
     }
 
     _jumpRouter(typeItem) {
-        if (typeItem.active.indexOf('alipays://') == 0) {
+        if (typeItem&&typeItem.active.indexOf('alipays://') === 0) {
             Linking.openURL(typeItem.active).catch(err => this.showShort("未检测到支付宝"));
         }else if (typeItem.name == '园区超市') {
             this.navigate('goodsList', {'type': 1, title: '园区超市'});
@@ -183,7 +183,7 @@ export default class Shopping extends BaseComponent {
                 this._jumpRouter(item)
             }}>
                 <View style={[{flex: 1}, styles.typesItem]}>
-                    <Image source={item.imageUrl} style={{width: 30, height: 30, marginTop: 20, resizeMode:'center'}}/>
+                    <Image source={item.imageUrl} style={{width: 30, height: 30, marginTop: 20, }}/>
                     <Text style={{fontSize: 14, color: "#333", marginTop: 10}}>{item.name}</Text>
                 </View>
             </TouchableView>
@@ -241,12 +241,11 @@ export default class Shopping extends BaseComponent {
                         this.navigate("MessageList")
                     }}>
                         <Badge text={this.state.unreadMessageCount} overflowCount={99} small >
-                            <Image style={{
+                            <ImageView style={{
                                 width: 48,
                                 height: 16,
                                 paddingLeft:8,
                                 paddingRight:18,
-                                resizeMode:'center'
                             }} source={require("../../img/icon_msg_w.png")}/>
                         </Badge>
                     </TouchableView>

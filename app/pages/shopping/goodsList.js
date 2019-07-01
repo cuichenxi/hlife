@@ -147,8 +147,8 @@ export default class Index extends BaseComponent {
             </View>
         );
     }
-    _jumpRouter(typeItem) {
-        this.navigate('ProductDetail',typeItem);
+    _jumpRouter(item) {
+        this.navigate('ProductDetail',item);
     }
     _renderItemView(item) {
         return (

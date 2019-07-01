@@ -112,7 +112,7 @@ android {
         versionName "1.0.0"
         manifestPlaceholders = [
                 JPUSH_PKGNAME: applicationId,
-                JPUSH_APPKEY : "51ddc724d55234b62777f08a",
+                JPUSH_APPKEY : "3effae24fc73e3023b01a251",
                 APP_CHANNEL  : "default"
         ]
 

@@ -59,7 +59,7 @@ public class MainApplication extends Application implements ReactApplication {
         super.onCreate();
         SoLoader.init(this, /* native exopackage */ false);
         if (!BuildConfig.DEBUG) {
-            CrashReport.initCrashReport(getApplicationContext(), "900019562", false);
+            CrashReport.initCrashReport(getApplicationContext(), "5f469102f1", false);
         }
     }
 

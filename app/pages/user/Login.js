@@ -110,11 +110,11 @@ export default class Login extends BaseComponent {
                     backgroundColor: CommonStyle.themeColor,
                     justifyContent: 'center',
                     alignItems: 'center',
-                    position: 'absolute',
-                    bottom: 0,
-                    marginBottom:80,
-                    alignSelf: 'center',
-
+                    marginTop:50,
+                    // position: 'absolute',
+                    // bottom: 0,
+                    // marginBottom:150,
+                    alignSelf: 'center'
                 }} onPress={this._login.bind(this)}>
                     <Text style={styles.loginText}>登录</Text>
                 </TouchableOpacity>

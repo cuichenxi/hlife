@@ -139,7 +139,7 @@ export default class Housekeeper extends BaseComponent {
     }
 
     _jumpRouter(typeItem) {
-        if (typeItem.active.indexOf('alipays://') == 0) {
+        if (typeItem&&typeItem.active.indexOf('alipays://') === 0) {
             Linking.openURL(typeItem.active);
         } else {
             this.push(typeItem.active, {title: typeItem.name});
@@ -191,7 +191,7 @@ export default class Housekeeper extends BaseComponent {
                 this._jumpRouter(item)
             }}>
                 <View style={[{flex: 1}, styles.typesItem]}>
-                    <Image source={item.imageUrl} style={{width: 30, height: 30, marginTop: 20, resizeMode: 'center'}}/>
+                    <ImageView source={item.imageUrl} style={{width: 30, height: 30, marginTop: 20, }}/>
                     <Text style={{fontSize: 14, color: "#333", marginTop: 10}}>{item.name}</Text>
                 </View>
             </TouchableView>

@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
     tabIcon: {
         width: 18,
         height: 18,
-        resizeMode:'center'
+        resizeMode:'contain'
     },
 })
 export default App;

@@ -173,7 +173,7 @@ export default class Main extends BaseComponent {
     }
 
     _jumpRouter(typeItem) {
-        if (typeItem.active.indexOf('alipays://') == 0) {
+        if (typeItem&&typeItem.active.indexOf('alipays://') === 0) {
             Linking.openURL(typeItem.active).catch(err => this.showShort("未检测到支付宝"));
         }else {
             this.navigate(typeItem.active,{title:typeItem.name});
@@ -254,13 +254,18 @@ export default class Main extends BaseComponent {
                         this.navigate("Message")
                     }}>
                         <Badge text={this.state.unreadMessageCount} overflowCount={99} small >
-                            <Image style={{
+                            <View style={{
                                 width: 48,
-                                height: 16,
+                                height: 20,
                                 paddingLeft:8,
                                 paddingRight:18,
-                                resizeMode:'center'
-                            }} source={require("../../img/icon_msg.png")}/>
+                            }}>
+                                <ImageView style={{
+                                    width: 20,
+                                    height: 20,
+                                }} source={require("../../img/icon_msg.png")}/>
+                            </View>
+
                         </Badge>
                     </TouchableView>
                 </View>
@@ -315,7 +320,7 @@ export default class Main extends BaseComponent {
                 this._jumpRouter(item)
             }}>
                 <View style={[{flex: 1}, styles.typesItem]}>
-                    <Image source={item.imageUrl} style={{width: 30, height: 30,  resizeMode:'center',marginTop: 6}}/>
+                    <ImageView source={item.imageUrl} style={{width: 30, height: 30,marginTop: 6}}/>
                     <Text style={{fontSize: 12, color: "#333", marginTop: 10}}>{item.name}</Text>
                 </View>
             </TouchableView>

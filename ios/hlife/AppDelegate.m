@@ -72,7 +72,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  [JPUSHService setupWithOption:launchOptions appKey:@"51ddc724d55234b62777f08a"
+  [JPUSHService setupWithOption:launchOptions appKey:@"3effae24fc73e3023b01a251"
                         channel:nil apsForProduction:nil];
 
   NSURL *jsCodeLocation;
@@ -83,7 +83,7 @@
 //   jsCodeLocation = [CodePush bundleURL];
 #else
   jsCodeLocation = [CodePush bundleURL];
-  [Bugly startWithAppId:@"b0c9343009"];
+  [Bugly startWithAppId:@"6a53ff7338"];
 #endif
   
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation

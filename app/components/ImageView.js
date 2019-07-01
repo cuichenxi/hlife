@@ -7,7 +7,7 @@ class ImageView extends React.PureComponent {
     static propTypes = {
         // source: PropTypes.object,
         style: ViewPropTypes.style,
-        defaultSource: PropTypes.number.isRequired,
+        defaultSource: PropTypes.number,
     };
 
     constructor(props) {
@@ -43,9 +43,9 @@ class ImageView extends React.PureComponent {
 }
 
 const styles = StyleSheet.create({
-    imageDefStyle: {resizeMode: Image.resizeMode.stretch ,},
+    imageDefStyle: {resizeMode: Image.resizeMode.contain ,},
     content: {},
-    imageAndStyle: {position: 'absolute', top: 0, right: 0, left: 0, bottom: 0,resizeMode:Image.resizeMode.stretch}
+    imageAndStyle: {position: 'absolute', top: 0, right: 0, left: 0, bottom: 0,resizeMode:Image.resizeMode.contain}
 });
 
 export default ImageView;
