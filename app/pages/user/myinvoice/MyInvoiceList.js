@@ -142,12 +142,12 @@ export default class MyInvoiceList extends BaseComponent {
                 mock: false,
                 mockId: 1125915,
             }).then(rep => {
-            if (rep.code == 0 && rep.data && !util.isArrayEmpty(rep.data.row)) {
+            if (rep.code == 0 && rep.data && !util.isArrayEmpty(rep.data.rows)) {
 
-                this.setState({
+                /*this.setState({
                     rows: rep.data.rows
-                })
-                callback(this.state.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
+                })*/
+                callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             } else {
                 callback(null,{emptyTitle: rep.message})
             }
