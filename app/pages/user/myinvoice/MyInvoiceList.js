@@ -7,6 +7,8 @@ import Request from "../../../utils/Request";
 import TouchableView from "../../../components/TouchableView";
 import {SwipeAction} from "antd-mobile-rn";
 import ToastUtil from "../../../utils/ToastUtil";
+import GiftedListView from "../../../components/refreshList/GiftedListView";
+import util from "../../../utils/util";
 
 let {width, height} = Dimensions.get('window')
 
@@ -29,29 +31,22 @@ export default class MyInvoiceList extends BaseComponent {
     }
 
     componentWillMount(){
-        this.fetchData()
+        // this.fetchData()
     }
 
     _render() {
-        const {rows} = this.state
         return (
             <View style={{flex: 1}}>
                 <View style={{flex: 1,marginTop: 10}}>
-                    <FlatList ref={(flatList) => this._flatList = flatList}
-                              ItemSeparatorComponent={this._separator}
-                              renderItem={this._renderItem}
-
-                              onRefresh={() => this.refreshing()}
-                              refreshing={this.state.isLoading}
-
-                              onEndReachedThreshold={0.1}
-                        // onEndReached={
-                        //     () => this._onLoadMore()
-                        // }
-
-                              data={rows}>
-
-                    </FlatList>
+                    <GiftedListView
+                        onRef={(ref)=>{
+                            this.listRef = ref;
+                        }}
+                        style={{with: width, flex: 1}}
+                        rowView={this.renderItem.bind(this)}
+                        onFetch={this.fetchData.bind(this)}
+                        loadMore={false}
+                    />
                 </View>
                 <TouchableView style={{
                     backgroundColor: 'white',
@@ -66,7 +61,8 @@ export default class MyInvoiceList extends BaseComponent {
                         callback: (data) => {
                             ToastUtil.showShort(data);
                             //刷新列表
-                            this.fetchData()
+                            // this.fetchData()
+                            this.listRef._refresh();
                         }
                     })
                 }}>
@@ -79,8 +75,8 @@ export default class MyInvoiceList extends BaseComponent {
     _separator = () => {
         return <View style={{height: 0.5, backgroundColor: CommonStyle.lightGray}}/>;
     }
-
-    _renderItem =(item) =>{
+    renderItem (item,sectionId,index){
+        console.log(index)
         return (
             <SwipeAction style={{
                 backgroundColor: 'transparent',
@@ -89,22 +85,22 @@ export default class MyInvoiceList extends BaseComponent {
             }}
                          onClose={() => console.log('close')}
                          onPress={() => {
-                             this.navigate('AddBillInfo', {invoice: item.item})
+                             this.navigate('AddBillInfo', {invoice: item})
                          }}
                          right={[
                              {
                                  text: '删除',
                                  onPress: () => {
-                                     this.deleteData(item.item.id,item.index)
+                                     this.deleteData(item.id,index)
                                  },
                                  style: {backgroundColor: 'red', color: 'white'},
                              },
                          ]}
             >
                 <TouchableView onPress={()=>{
-                    this.navigate('AddBillInfo', {invoice: item.item,callback:(data) => {
+                    this.navigate('AddBillInfo', {invoice: item,callback:(data) => {
                             ToastUtil.showShort(data);
-                            this.fetchData()
+                            this.listRef._refresh();
                         }})
                 }}>
                     <View style={{
@@ -122,13 +118,13 @@ export default class MyInvoiceList extends BaseComponent {
                             fontSize: 14,
                             flex: 1,
                             marginTop: 10
-                        }}>{item.item.name}</Text>
+                        }}>{item.name}</Text>
                         <Text style={{
                             textAlign: 'center',
                             color: CommonStyle.textGrayColor,
                             fontSize: 14,
                             flex: 1
-                        }}>税号：{item.item.no}</Text>
+                        }}>税号：{item.no}</Text>
                     </View>
                 </TouchableView>
 
@@ -138,7 +134,7 @@ export default class MyInvoiceList extends BaseComponent {
     }
 
 
-    fetchData(page = 1) {
+    fetchData(page = 1,callback) {
         let param = { page: page - 1, pageSize: PAGE_SIZE};
 
         Request.post('/api/user/invoiceList', param,
@@ -146,19 +142,23 @@ export default class MyInvoiceList extends BaseComponent {
                 mock: false,
                 mockId: 1125915,
             }).then(rep => {
-            if (rep.code == 0 && rep.data) {
+            if (rep.code == 0 && rep.data && !util.isArrayEmpty(rep.data.row)) {
+
                 this.setState({
                     rows: rep.data.rows
                 })
+                callback(this.state.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
+            } else {
+                callback(null,{emptyTitle: rep.message})
             }
         }).catch(err => {
-
+            callback(null,{emptyTitle: err})
         }).done(() => {
             this.hideLoading();
         })
     }
 
-    deleteData(id,index) {
+    deleteData(id) {
         let param = { id: id};
 
         Request.post('/api/user/invoicedel', param,
@@ -168,12 +168,14 @@ export default class MyInvoiceList extends BaseComponent {
             }).then(rep => {
             if (rep.code == 0 ) {
                 // console.log(JSON.stringify(rep))
-                let list = this.state.rows
-                // 删除指定位置元素
-                list.splice(index, 1)
-                console.log(list)
-                //todo 删除逻辑
-                this.setState({row: list})
+                // let list = this.state.rows
+                // // 删除指定位置元素
+                // list.splice(index, 1)
+                // console.log(list)
+                // //todo 删除逻辑
+                // this.setState({row: list})
+                this.listRef._refresh();
+
             } else {
                 this.showShort(rep.message)
             }

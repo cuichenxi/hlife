@@ -7,6 +7,7 @@ import {PAGE_SIZE} from "../../constants/AppConstants";
 import TouchableView from "../../components/TouchableView";
 import ImageView from "../../components/ImageView";
 import GridView from "../../components/GridView";
+import util from "../../utils/util";
 
 /**
  * 邻里最新view
@@ -32,7 +33,7 @@ export default class Index extends BaseView {
                 mock: false,
                 mockId: 1095699,
             }).then(rep => {
-            if (rep.code == 0 && rep.data) {
+            if (rep.code == 0 && rep.data && !util.isArrayEmpty(rep.data.rows)) {
                 callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             } else {
                 // this.showShort(rep.message);

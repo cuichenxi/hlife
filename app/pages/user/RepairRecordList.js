@@ -6,6 +6,7 @@ import GiftedListView from "../../components/refreshList/GiftedListView";
 import {PAGE_SIZE} from "../../constants/AppConstants";
 import Request from "../../utils/Request";
 import TouchableView from "../../components/TouchableView";
+import util from "../../utils/util";
 let {width, height} = Dimensions.get('window')
 
 export default class RepairRecordList extends BaseComponent{
@@ -41,7 +42,7 @@ export default class RepairRecordList extends BaseComponent{
                 mock: false,
                 mockId: 1095356,
             }).then(rep => {
-            if (rep.code == 0 && rep.data) {
+            if (rep.code == 0 && rep.data && !util.isArrayEmpty(rep.data.rows)) {
                 // console.log(JSON.stringify(rep))
                 callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             } else {
