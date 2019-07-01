@@ -237,16 +237,21 @@ export default class Shopping extends BaseComponent {
                         </View>
                     </TouchableView>
                     <TouchableView style={{ alignItems: 'center',justifyContent:'center', height: 50}} onPress={() => {
-                        this.showShort("消息")
-                        this.navigate("MessageList")
+                        this.navigate("Message")
                     }}>
                         <Badge text={this.state.unreadMessageCount} overflowCount={99} small >
-                            <ImageView style={{
+                            <View style={{
                                 width: 48,
-                                height: 16,
+                                height: 20,
                                 paddingLeft:8,
                                 paddingRight:18,
-                            }} source={require("../../img/icon_msg_w.png")}/>
+                            }}>
+                                <ImageView style={{
+                                    width: 20,
+                                    height: 20,
+                                }} source={require("../../img/icon_msg_w.png")}/>
+                            </View>
+
                         </Badge>
                     </TouchableView>
                 </View>

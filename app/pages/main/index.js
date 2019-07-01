@@ -39,7 +39,7 @@ export default class Main extends BaseComponent {
                     title: '',
                     url: '',
                     // imagePath: require('../../img/bg_banner.png')
-                    imagePath: 'https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/digitalstore/banner_1.png'
+                    // imagePath: 'https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/digitalstore/banner_1.png'
                 }
             ],
             recommendList: [
@@ -173,10 +173,10 @@ export default class Main extends BaseComponent {
     }
 
     _jumpRouter(typeItem) {
-        if (typeItem&&typeItem.active.indexOf('alipays://') === 0) {
+        if (typeItem && typeItem.active.indexOf('alipays://') === 0) {
             Linking.openURL(typeItem.active).catch(err => this.showShort("未检测到支付宝"));
-        }else {
-            this.navigate(typeItem.active,{title:typeItem.name});
+        } else {
+            this.navigate(typeItem.active, {title: typeItem.name});
         }
     }
 
@@ -386,7 +386,7 @@ export default class Main extends BaseComponent {
                 borderWidth: .5,
                 margin: 5
             }} key={index} onPress={() => {
-                this._jumpRouter(item)
+                this.navigate('ProductDetail',item);
             }}>
                 <View style={[{flex: 1, borderRadius: 3, backgroundColor: '#fff',
                     borderColor: '#fff',

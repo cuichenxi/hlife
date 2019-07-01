@@ -1,15 +1,9 @@
-import React, {
-    Component,
-} from 'react'
-import {
-    View,
-    StyleSheet,
-    Alert, InteractionManager,
-} from 'react-native'
+import React from 'react'
+import {Alert, InteractionManager, View,} from 'react-native'
 
-import Barcode from 'react-native-smart-barcode'
+// import Barcode from 'react-native-smart-barcode'
 import {BaseComponent} from "../../components/base/BaseComponent";
-// import Barcode from "../../components/Barcode";
+import Barcode from "../../components/Barcode";
 // import TimerEnhance from 'react-native-smart-timer-enhance'
 
 export default class BarcodePage extends BaseComponent {
@@ -32,9 +26,6 @@ export default class BarcodePage extends BaseComponent {
         console.log(`e.nativeEvent.data.type = ${e.nativeEvent.data.type}, e.nativeEvent.data.code = ${e.nativeEvent.data.code}`)
         this._stopScan()
         this.goBack(e.nativeEvent.data.code);
-        // Alert.alert(e.nativeEvent.data.type, e.nativeEvent.data.code, [
-        //     {text: 'OK', onPress: () => this._startScan()},
-        // ])
     }
 
     _startScan = (e) => {
@@ -56,7 +47,7 @@ export default class BarcodePage extends BaseComponent {
 
     _render() {
         return (
-            <View style={{flex: 1, backgroundColor: '#333',}}>
+            <View style={{flex: 1, backgroundColor: '#000',}}>
                 {this.state.viewAppear ? <Barcode style={{flex: 1,}}
                                                   ref={component => this._barCode = component}
                                                   onBarCodeRead={this._onBarCodeRead}/> : null}

@@ -1,5 +1,15 @@
 import React from 'react'
-import {Image, Linking, Modal as ModalView, ScrollView, StyleSheet, Text, View} from 'react-native'
+import {
+    Image,
+    Linking,
+    Modal as ModalView,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableHighlight,
+    TouchableOpacity,
+    View
+} from 'react-native'
 
 import FIcon from 'react-native-vector-icons/Feather'
 import {BaseComponent} from "../../components/base/BaseComponent";
@@ -53,11 +63,10 @@ export default class UserCenter extends BaseComponent {
                 icon: require('../../img/icon_uc_wsfp.png'),
                 name: "我的发票",
                 first: true,
-                marginTop: 10,
                 onPress: this.goPage.bind(this, "MyInvoiceList")
             },
             // {icon: require('../../img/icon_uc_wdfk.png'), name: "红包", marginTop: 10, onPress: this.goPage.bind(this, "RedPacket")},
-            // {icon: "md-flower", name: "支付调试", onPress: this.goPage.bind(this, "PayPage")},
+            {icon: "md-flower", name: "支付调试", onPress: this.goPage.bind(this, "PayPage")},
             // {icon: "md-flower", name: "CodePushPage", onPress: this.goPage.bind(this, "CodePushPage")},
             // {icon: "md-flower", name: "GiftedListDemo", onPress: this.goPage.bind(this, "GiftedListDemo")},
             // {icon: "md-flower", name: "GiftedListDemoNet", onPress: this.goPage.bind(this, "GiftedListDemoNet")},
@@ -229,18 +238,7 @@ export default class UserCenter extends BaseComponent {
                                 colors={['#63D5A2', CommonStyle.themeColor]}
                                 style={{height: 190}}>
                 </LinearGradient>
-                <TouchableView style={{position: 'absolute', top: 40, right: 0}} onPress={() => {
-                    this.navigate('MySetting')
-                }}>
-                    <View style={{
-                        justifyContent: 'center',
-                        flex: 1,
-                        alignItems: 'flex-end', width: 40
-                    }}>
-                        <FIcon style={{alignSelf: 'center'}} name={'settings'} size={21}
-                               color={CommonStyle.white}></FIcon>
-                    </View>
-                </TouchableView>
+
                 <View style={{
                     position: 'absolute',
                     alignItems: 'center',
@@ -254,35 +252,7 @@ export default class UserCenter extends BaseComponent {
                     borderColor: CommonStyle.lightGray,
                     borderWidth: 1
                 }}>
-                    <TouchableView style={{
-                        position: 'absolute',
-                        top: 15,
-                        right: -1,
-                        width: 70,
-                    }} onPress={
-                        this.requestSign.bind(this)
-                    }>
-                        <LinearGradient start={{x: 0.0, y: 0}} end={{x: 1, y: 0}}
-                                        colors={[CommonStyle.themeColor, '#63D5A2']}
-                                        style={{
-                                            height: 30, flex: 1, flexDirection: 'row', alignItems: 'center',
-                                            justifyContent: 'center', borderTopLeftRadius: 15,
-                                            borderBottomLeftRadius: 15
-                                        }} onPress={
-                            this.requestSign.bind(this)
-                        }>
 
-                            <Image style={{
-                                width: 12,
-                                height: 12,
-                            }} source={require("../../img/icon_uc_qd.png")}/>
-                            <Text style={{
-                                color: "#fff",
-                                fontSize: 14,
-                                marginLeft: 5
-                            }}>签到</Text>
-                        </LinearGradient>
-                    </TouchableView>
 
                     <Text style={{
                         marginTop: 45,
@@ -350,12 +320,40 @@ export default class UserCenter extends BaseComponent {
                             }}>积分</Text>
                         </TouchableView>
                     </View>
+                    <TouchableView style={{
+                        position: 'absolute',
+                        top: 15,
+                        right: -1,
+                        width: 70,
+                    }} onPress={()=>{
+                        this.requestSign()
+                    }
+                    }>
+                        <LinearGradient start={{x: 0.0, y: 0}} end={{x: 1, y: 0}}
+                                        colors={[CommonStyle.themeColor, '#63D5A2']}
+                                        style={{
+                                            height: 30, flex: 1, flexDirection: 'row', alignItems: 'center',
+                                            justifyContent: 'center', borderTopLeftRadius: 15,
+                                            borderBottomLeftRadius: 15
+                                        }}>
+
+                            <Image style={{
+                                width: 12,
+                                height: 12,
+                            }} source={require("../../img/icon_uc_qd.png")}/>
+                            <Text style={{
+                                color: "#fff",
+                                fontSize: 14,
+                                marginLeft: 5
+                            }}>签到</Text>
+                        </LinearGradient>
+                    </TouchableView>
                 </View>
                 <View style={{
                     position: 'absolute',
                     top: 45,
-                    left: 0,
-                    right: 0,
+                    left: 100,
+                    right: 100,
                     alignSelf: 'center'
                 }}>
                     <TouchableView style={{
@@ -373,8 +371,20 @@ export default class UserCenter extends BaseComponent {
                                        borderRadius: 35
                                    }} onPress={() => {
                         }}/>
-                    </TouchableView></View>
-
+                    </TouchableView>
+                </View>
+                <TouchableOpacity style={{position: 'absolute', top: 40, right: 0}} onPress={() => {
+                    this.navigate('MySetting')
+                }}>
+                    <View style={{
+                        justifyContent: 'center',
+                        flex: 1,
+                        alignItems: 'flex-end', width: 40
+                    }}>
+                        <FIcon style={{alignSelf: 'center'}} name={'settings'} size={21}
+                               color={CommonStyle.white}></FIcon>
+                    </View>
+                </TouchableOpacity>
                 <View style={{flex: 1, marginTop: 80}}>
                     {this._renderListItem()}
                 </View>

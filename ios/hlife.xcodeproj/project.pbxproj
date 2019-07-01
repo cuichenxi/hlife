@@ -12,7 +12,6 @@
 		00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; };
 		00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
 		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
-		09F12A3A0B524A7CBE6937E8 /* libRCTBarcode.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB9E9D97D70841AEB82C4DAC /* libRCTBarcode.a */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
 		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
@@ -57,6 +56,7 @@
 		D745F78022C7D31100FA95CC /* menu_dzcx.png in Resources */ = {isa = PBXBuildFile; fileRef = D745F77022C7D31100FA95CC /* menu_dzcx.png */; };
 		D745F78122C7D31100FA95CC /* menu_sssm.png in Resources */ = {isa = PBXBuildFile; fileRef = D745F77122C7D31100FA95CC /* menu_sssm.png */; };
 		D745F78222C7D31100FA95CC /* menu_sjcx.png in Resources */ = {isa = PBXBuildFile; fileRef = D745F77222C7D31100FA95CC /* menu_sjcx.png */; };
+		D745F7E722C9D3DB00FA95CC /* libRCTBarcode.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D7E298DA21BA756800A49223 /* libRCTBarcode.a */; };
 		D747B3B821B4D85200253FF0 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D747B37F21B4D85100253FF0 /* Foundation.ttf */; };
 		D747B3B921B4D85200253FF0 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D747B3AF21B4D85100253FF0 /* FontAwesome.ttf */; };
 		D747B3BA21B4D85200253FF0 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D747B3B021B4D85100253FF0 /* Feather.ttf */; };
@@ -587,6 +587,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D745F7E722C9D3DB00FA95CC /* libRCTBarcode.a in Frameworks */,
 				D7DC69CE21BF7B7F00DE3040 /* libc.tbd in Frameworks */,
 				176D7ACE1C61D315004C465D /* libc++.tbd in Frameworks */,
 				176D7ACA1C61D302004C465D /* CoreTelephony.framework in Frameworks */,
@@ -625,7 +626,6 @@
 				3597C0A703934BAEAA3EA427 /* libBVLinearGradient.a in Frameworks */,
 				A0CA388864A04500A3050622 /* libimageCropPicker.a in Frameworks */,
 				D7ADA86E21B78F5B00E6C209 /* QBImagePicker.framework in Frameworks */,
-				09F12A3A0B524A7CBE6937E8 /* libRCTBarcode.a in Frameworks */,
 				73DA2B01ADEC4F77BB14D556 /* libAlipayModule.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1719,7 +1719,7 @@
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)";
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
-					"$(SRCROOT)/../node_modules/react-native/React",
+					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule",
 					"$(SRCROOT)/../node_modules/react-native-yunpeng-alipay/ios/AlipayModule",
 				);
@@ -1757,7 +1757,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 					"$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule",
-					"$(SRCROOT)/../node_modules/react-native/React",
+					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-yunpeng-alipay/ios/AlipayModule",
 				);
 				INFOPLIST_FILE = hlife/Info.plist;
