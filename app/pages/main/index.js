@@ -281,13 +281,13 @@ export default class Main extends BaseComponent {
                     autoplay={true} showsPagination={true}>
                 {this.state.banners.map((banner, i) => {
                     return (
-                        <TouchableHighlight key={i} onPress={() => {
+                        <TouchableView key={i} onPress={() => {
                             if (banner.url) {
                                 this._loadWeb(banner.title, banner.url);
                             }
                         }}>
                             <ImageView style={{height: 255,width:'100%',resizeMode:Image.resizeMode.stretch,}} source={banner.imagePath} defaultSource={require('../../img/bg_banner.png')} ></ImageView>
-                        </TouchableHighlight>
+                        </TouchableView>
                     );
                 })}
             </Swiper>

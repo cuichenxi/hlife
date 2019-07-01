@@ -76,7 +76,7 @@ export default class NavigationBar extends Component {
             )
         } else {
             tempComponent = (
-                <QIcon name={'nav_back_o'} size={20} color={CommonStyle.iconGray}/>
+                <QIcon name={'nav_back_o'} size={18} color={CommonStyle.iconGray}/>
             )
         }
         return (

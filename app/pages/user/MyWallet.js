@@ -41,8 +41,8 @@ export default class MyWallet extends BaseComponent{
                         <ImageView
                             defaultSource={require("../../img/icon_back.png")}
                             style={{
-                                width: 12,
-                                height: 16,
+                                width: 20,
+                                height: 20,
                                 resizeMode: "cover",
                             }}/>
                     </TouchableView>
@@ -120,7 +120,7 @@ export default class MyWallet extends BaseComponent{
                 </View>
                 <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',backgroundColor:CommonStyle.white,padding:36}}>
                     <TouchableView style={{
-                        height: 17,
+                        height: 30,
                         borderRadius: 30,
                         backgroundColor: aliPay?'#09C7F7':CommonStyle.gray,
                         justifyContent: 'center',
@@ -142,7 +142,7 @@ export default class MyWallet extends BaseComponent{
                                style={{width: 10, height: aliPay?10:0, resizeMode: 'contain',marginLeft:5}}/>
                     </TouchableView>
                     <TouchableView style={{
-                        height: 17,
+                        height: 30,
                         borderRadius: 30,
                         backgroundColor: weChatPay?CommonStyle.themeColor:CommonStyle.gray,
                         justifyContent: 'center',

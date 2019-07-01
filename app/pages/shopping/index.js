@@ -269,7 +269,6 @@ export default class Shopping extends BaseComponent {
                 if (index == 0) {
                     this.navigate('goodsList', {'type': 5, title: '家用电器'});
                 }else if (index == 1) {
-                    this.showShort('送水上门')
                     this.navigate('goodsList', {'type': 4, title: '送水上门'});
                 }else if (index == 2) {
                     this.navigate('HouseholdServerList')

@@ -11,6 +11,7 @@ import {
     ActivityIndicator, StyleSheet,
 } from 'react-native';
 import {CommonStyle} from "../../common/CommonStyle";
+import util from "../../utils/util";
 
 
 // small helper function which merged two objects into one
@@ -315,7 +316,7 @@ class GiftedListView extends React.Component {
     }
 
     _updateRows(rows = [], options = {}) {
-        if (rows !== null) {
+        if (rows !== null&&rows.length>0) {
             this._setRows(rows);
             if (this.props.withSections === true) {
                 this.setState({
@@ -334,7 +335,7 @@ class GiftedListView extends React.Component {
             this.setState({
                 isRefreshing: false,
                 paginationStatus: (options.allLoaded === true ? 'allLoaded' : 'waiting'),
-                emptyTitle: (options.emptyTitle !== null ? options.emptyTitle : this.state.emptyTitle),
+                emptyTitle: (!util.isEmpty(options.emptyTitle) ? options.emptyTitle : this.state.emptyTitle),
             });
         }
     }

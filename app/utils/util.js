@@ -20,9 +20,13 @@ const util = {
     isString(obj) {
         return this.typeOf(obj, 'string')
     },
+    isArrayEmpty(obj) {
+        return (!this.typeOf(obj, 'array'))||( obj.length == 0);
+    },
     isArray(obj) {
         return this.typeOf(obj, 'array')
     },
+
     isDate(obj) {
         return this.typeOf(obj, 'date')
     },
