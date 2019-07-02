@@ -44,7 +44,7 @@ export default class MyOrder extends BaseComponent {
 
         console.log('==========')
         console.log(this.props)
-        Request.post('api/goods/orderList', param,
+        Request.post('/api/goods/orderList', param,
             {
                 mock: false,
                 mockId: 1095582,
