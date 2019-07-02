@@ -13,7 +13,7 @@ let {width, height} = Dimensions.get('window')
 export default class ProductDetail extends BaseComponent {
     navigationBarProps() {
         return {
-            title: '商品详情',
+            title: '订单详情',
         }
     }
 
@@ -34,7 +34,7 @@ export default class ProductDetail extends BaseComponent {
         this.setState({
             goodId: e.id
         });
-        this.makeRemoteRequest(e);
+        // this.makeRemoteRequest(e);
     }
     makeRemoteRequest(e) {
         let param = { id: e.id};

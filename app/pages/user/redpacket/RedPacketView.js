@@ -20,24 +20,21 @@ export default class Index extends BaseView {
     _onFetch(page = 1, callback) {
         // this.showInDLoading()
         let param = {status: this.state.index, page: page - 1, pageSize: PAGE_SIZE,};
-        Request.post("/api/user/redPacket", param,
-            {
-                mock: false,
-                mockId: 1095476,
-            }).then(rep => {
+        Request.post("/api/user/redPacket", param
+        ).then(rep => {
             if (rep.code == 0 && rep.data && !util.isArrayEmpty(rep.data.rows)) {
                 callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             } else {
-                callback(null,{emptyTitle: rep.message})
+                callback(null,{emptyTitle: '暂无红包'})
             }
         }).catch(err => {
-            callback(null,{emptyTitle: err})
+            callback(null, {emptyTitle: err})
         }).done(() => {
             this.hideLoading();
-        })
+        });
     }
 
-    _renderRowView(rowData) {
+    _renderRowView(item) {
         let index = this.state.index
         if (index === 0){//未使用
             return (
@@ -46,18 +43,18 @@ export default class Index extends BaseView {
                     source={require('../../../img/jifen_bg.png')}>
                     <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start'}}>
                         <View style={{marginLeft: 20}}>
-                            <Text style={{fontSize:24,color:'#FF5D5D'}}>{rowData.price}</Text>
-                            <Text style={{color:'#FF5D5D'}}>{rowData.title}</Text>
+                            <Text style={{fontSize:24,color:'#FF5D5D'}}>{item.price}</Text>
+                            <Text style={{color:'#FF5D5D'}}>{item.title}</Text>
 
                         </View>
                         <View style={{height: 90, with: 0.5, backgroundColor: CommonStyle.lightGray}}>
                         </View>
                         <View style={{flex: 1,paddingLeft:20}}>
-                            <Text style={{color:'#FF5D5D'}}>{rowData.des}</Text>
+                            <Text style={{color:'#FF5D5D'}}>{item.des}</Text>
                             <View style={{flexDirection: 'row',
                                 alignItems: 'center',
                                 justifyContent: 'space-between',}}>
-                                <Text>{rowData.validity}</Text>
+                                <Text>{item.validity}</Text>
                                 <TouchableView style={{
                                     height: 17,
                                     borderRadius: 30,
@@ -74,7 +71,7 @@ export default class Index extends BaseView {
                                 </TouchableView>
                             </View>
                             {/*<View style={{height: 0.5,  backgroundColor: CommonStyle.lightGray}}/>*/}
-                            <Text style={{marginTop:3,fontSize:11,color:'#999'}}>使用说明:{rowData.instructions}</Text>
+                            <Text style={{marginTop:3,fontSize:11,color:'#999'}}>使用说明:{item.instructions}</Text>
                         </View>
 
                     </View>
@@ -87,17 +84,17 @@ export default class Index extends BaseView {
                     source={require('../../../img/jifen_bg.png')}>
                     <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start'}}>
                         <View style={{marginLeft: 20}}>
-                            <Text style={{fontSize:24,color:'#666'}}>{rowData.price}</Text>
-                            <Text>{rowData.title}</Text>
+                            <Text style={{fontSize:24,color:'#666'}}>{item.price}</Text>
+                            <Text>{item.title}</Text>
 
                         </View>
                         <View style={{height: 90, with: 0.5, backgroundColor: CommonStyle.lightGray}}>
                         </View>
                         <View style={{flex: 1,paddingLeft:20}}>
-                            <Text>{rowData.des}</Text>
-                            <Text>{rowData.validity}</Text>
+                            <Text>{item.des}</Text>
+                            <Text>{item.validity}</Text>
                             {/*<View style={{height: 0.5,  backgroundColor: CommonStyle.lightGray}}/>*/}
-                            <Text style={{marginTop:3,fontSize:11,color:'#999'}}>使用说明:{rowData.instructions}</Text>
+                            <Text style={{marginTop:3,fontSize:11,color:'#999'}}>使用说明:{item.instructions}</Text>
                         </View>
                     </View>
                 </ImageBackground>
@@ -106,7 +103,7 @@ export default class Index extends BaseView {
 
     }
 
-    // _renderRowView(rowData) {
+    // _renderRowView(item) {
     //     return (
     //         <SwipeAction
     //             autoClose={true}
@@ -114,15 +111,15 @@ export default class Index extends BaseView {
     //             right={[{
     //                 text: '删除',
     //                 onPress: () => {
-    //                     ToastUtil.showShort(rowData.title)
+    //                     ToastUtil.showShort(item.title)
     //                 },
     //                 style: {backgroundColor: 'red', color: 'white'},
     //             }]}
     //             onOpen={() => console.log('open')}
     //             onClose={() => console.log('close')}
-    //             onPress={() => this.state.onItemPress(rowData)}
+    //             onPress={() => this.state.onItemPress(item)}
     //         >
-    //             <Text>{rowData.title}</Text>
+    //             <Text>{item.title}</Text>
     //         </SwipeAction>
     //     );
     // }
@@ -134,6 +131,7 @@ export default class Index extends BaseView {
                 rowView={this._renderRowView.bind(this)}
                 onFetch={this._onFetch.bind(this)}
                 loadMore={true}
+                pagination={false} // enable infinite scrolling using touch to load more
                 renderSeparator={() => {return (null);}}
             />
         );

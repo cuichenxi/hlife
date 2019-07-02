@@ -17,10 +17,10 @@
  */
 import {NavigationActions, StackActions} from 'react-navigation';
 let _navigator
-reset = (navigation, routeName) => {
+reset = (navigation, routeName,params = {}) => {
     const resetAction = StackActions.reset({
         index: 0,
-        actions: [NavigationActions.navigate({routeName})]
+        actions: [NavigationActions.navigate({routeName, params})]
     });
     navigation.dispatch(resetAction);
 };

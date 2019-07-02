@@ -6,8 +6,8 @@ import ItemArrow from "../../components/ItemArrow";
 import * as WeChat from "react-native-wechat";
 import AliPay from '../../utils/AilPay';
 import DeviceInfo from "react-native-device-info/deviceinfo";
-import UserStore from "../../store/UserStore";
 import Request from "../../utils/Request";
+import {PAY_FROM_CREATE_ORDER} from "../../constants/ActionTypes";
 
 /**
  * 微信支付文档
@@ -16,13 +16,33 @@ import Request from "../../utils/Request";
 export default class PayPage extends BaseComponent {
     navigationBarProps() {
         return ({
-            title: '支付'
+            title: '选择支付方式',
+            gesturesEnabled: false,
+            leftTitle: (
+                '稍后付款'
+            ),
         })
     }
 
+    canBack() {
+        return false;
+    }
+
+    onLeftPress() {
+        switch (this.state.from) {
+            case PAY_FROM_CREATE_ORDER:
+                this.navigate('OrderDetail')
+                break;
+        }
+    }
 
     constructor(props) {
         super(props)
+        this.state = {
+            id: 0,
+            orderno: 0,
+            from: PAY_FROM_CREATE_ORDER
+        }
         this.config = [
             {icon: "ios-pin", name: "微信支付", onPress: this.goPage.bind(this, "wx_pay")},
             {icon: "ios-heart", name: "微信分享", color: "#fc7b53", onPress: this.goPage.bind(this, "wx_share")},
@@ -102,7 +122,7 @@ export default class PayPage extends BaseComponent {
                                 prepayId: rep.data.prepayId,   // 预支付订单
                                 nonceStr: rep.data.nonceStr,   // 随机串，防重发
                                 timeStamp: rep.data.timeStamp,  // 时间戳，防重发
-                                package: rep.data.packageContent ,   // 商家根据财付通文档填写的数据和签名
+                                package: rep.data.packageContent,   // 商家根据财付通文档填写的数据和签名
                                 sign: rep.data.sign        // 商家根据微信开放平台文档对数据做的签名
                             }).catch((error) => {
                                 this.showShort(error.message);
@@ -171,7 +191,6 @@ export default class PayPage extends BaseComponent {
                 this.hideLoading();
             })
             let partner = 'app_id=2015052600090779&biz_content=%7B%22timeout_express%22%3A%2230m%22%2C%22seller_id%22%3A%22%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%2C%22total_amount%22%3A%220.02%22%2C%22subject%22%3A%221%22%2C%22body%22%3A%22%E6%88%91%E6%98%AF%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE%22%2C%22out_trade_no%22%3A%22314VYGIAGG7ZOYY%22%7D&charset=utf-8&method=alipay.trade.app.pay&sign_type=RSA2&timestamp=2016-08-15%2012%3A12%3A15&version=1.0&sign=MsbylYkCzlfYLy9PeRwUUIg9nZPeN9SfXPNavUCroGKR5Kqvx0nEnd3eRmKxJuthNUx4ERCXe552EV9PfwexqW%2B1wbKOdYtDIb4%2B7PL3Pc94RZL0zKaWcaY3tSL89%2FuAVUsQuFqEJdhIukuKygrXucvejOUgTCfoUdwTi7z%2BZzQ%3D';
-
 
 
         }

@@ -26,7 +26,6 @@ import RedPacket from "./pages/user/redpacket/RedPacket";
 import Housekeeper from "./pages/housekeeper";
 import ReportMatter from "./pages/housekeeper/ReportMatter";
 import Neighbour from "./pages/neighbour/Neighbour";
-import ShoppingCart from "./pages/shoppingCart/index";
 import MyAddressWithTab from "./pages/user/myaddress/MyAddressWithTab";
 import AddHousingAddress from "./pages/user/myaddress/AddHousingAddress";
 import HousingAddressList from "./pages/user/myaddress/HousingAddressList";
@@ -80,6 +79,7 @@ import PublishComment from "./pages/neighbour/PublishComment";
 import PaymentVerification from "./pages/user/paymentmanager/PaymentVerification";
 import PaymentCodeCommit from "./pages/user/paymentmanager/PaymentCodeCommit";
 import ProductShoppingCart from "./pages/shopping/ProductShoppingCart";
+import OrderDetail from "./pages/shopping/OrderDetail";
 import MyPaymentRecord from "./pages/user/MyPaymentRecord";
 
 const TabContainer = createBottomTabNavigator(
@@ -179,7 +179,6 @@ const App = createStackNavigator(
         ContactList: {screen: ContactList},
         RedPacket: {screen: RedPacket},
         ReportMatter: {screen: ReportMatter},
-        ShoppingCart:{screen:ShoppingCart},
         MyAddressWithTab:{screen:MyAddressWithTab},
         MyAddress:{screen:MyAddress},
         MyShippingAddress:{screen:MyShippingAddress},
@@ -232,7 +231,6 @@ const App = createStackNavigator(
         PaymentVerification:{screen:PaymentVerification},//支付密码获取验证码
         PaymentCodeCommit:{screen:PaymentCodeCommit},//支付密码提交
         ProductShoppingCart:{screen:ProductShoppingCart},//购物车
-        MyPaymentRecord:{screen:MyPaymentRecord},//缴费记录
     },
     {
         // initialRouteName: 'Splash',
