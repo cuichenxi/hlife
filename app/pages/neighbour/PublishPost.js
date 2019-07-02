@@ -130,7 +130,11 @@ export default class PublishPost extends BaseComponent {
         if (rowData.index === 0) {
             return (
                 <TouchableView onPress={() => {
-                    this._onSelectImage()
+                    if (this.state.uploadImages.length <= 2){
+                        this._onSelectImage()
+                    } else {
+                        this.showShort('最多只能选择3张图片')
+                    }
                 }}>
                     <View style={{
                         width: ImageWH,
@@ -223,6 +227,14 @@ export default class PublishPost extends BaseComponent {
                         // height: 300,
                         cropping: false
                     }).then(image => {
+                        let files = [
+                            {
+                                filePath: image.path,
+                                fileType: image.mime,
+                            }
+                        ]
+                        console.log(image)
+                        this.updateFile(files);
                         images.push(image.path)
                         this.setState({
                             images: images

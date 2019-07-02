@@ -145,7 +145,7 @@ export default class ModifyHousingAddress extends BaseComponent {
 
         Request.post('api/user/addCommunity',param,
             {
-                mock: true,
+                mock: false,
                 mockId: 1095626,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {

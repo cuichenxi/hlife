@@ -6,6 +6,7 @@ import React from "react";
 import {PAGE_SIZE} from "../../constants/AppConstants";
 import Request from "../../utils/Request";
 import TouchableView from "../../components/TouchableView";
+import util from "../../utils/util";
 const imageUrl=require('../../img/about_logo.png');
 
 let {width, height} = Dimensions.get('window')
@@ -37,10 +38,9 @@ export default class MyCollection extends BaseComponent{
                 mock: false,
                 mockId: 1095622,
             }).then(rep => {
-            if (rep.code == 0 && rep.data) {
+            if (rep.code == 0 && rep.data && !util.isArrayEmpty(rep.data.row)) {
                 callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             } else {
-                this.showShort(rep.message);
                 callback(null, {emptyTitle: rep.message})
             }
         }).catch(err => {

@@ -41,7 +41,6 @@ export default class ElectronicKey extends BaseComponent{
             if (rep.code == 0 && rep.data) {
                 callback(rep.data)
             } else {
-                this.showShort(rep.message);
                 callback(null, {emptyTitle: rep.message})
             }
         }).catch(err => {

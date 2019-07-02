@@ -46,7 +46,7 @@ export default class MyOrder extends BaseComponent {
         console.log(this.props)
         Request.post('api/goods/orderList', param,
             {
-                mock: true,
+                mock: false,
                 mockId: 1095582,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {

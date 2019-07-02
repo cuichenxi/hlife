@@ -29,20 +29,24 @@ export default class RepairsSelect extends BaseComponent {
             types: [
                 {
                     name: '居家报修',
-                    active: 'Register'
+                    active: 'Register',
+                    repairType:1
                 }, {
                     name: '小区报修',
-                    active: 'lifePay'
+                    active: 'lifePay',
+                    repairType:2
                 }, {
                     name: '小区卫生',
-                    active: 'Login'
+                    active: 'Login',
+                    repairType:3,
                 }, {
                     name: '小区绿化',
-                    // active: 'ContactList'
-                    active: 'GiveAdvice'
+                    active: 'GiveAdvice',
+                    repairType:4
                 }, {
                     name: '小区安全',
-                    active: 'Login'
+                    active: 'Login',
+                    repairType:5
                 }
             ],
             headerUrl: '',
@@ -133,7 +137,7 @@ export default class RepairsSelect extends BaseComponent {
         return (
             <TouchableView onPress={() => {
                 // this
-                this.navigate('ReportMatter',{title: rowData.item.name})
+                this.navigate('ReportMatter',{title: rowData.item.name,repairType:rowData.item.repairType})
             }}>
                 <View style={{
                     width: ImageWH,
