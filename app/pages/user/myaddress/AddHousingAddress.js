@@ -41,11 +41,13 @@ export default class AddHousingAddress extends BaseComponent {
         }
     }
 
-    onShow(e){
-        this.setState({
-            elementName:e.elementName,
-            roomId:e.roomId
-        })
+    onBackParam(e){
+        if (e) {
+            this.setState({
+                elementName:e.elementName,
+                roomId:e.roomId
+            })
+        }
     }
 
 
@@ -73,7 +75,6 @@ export default class AddHousingAddress extends BaseComponent {
                             title:'选择小区',
                             api:'/api/user/selectCommunity',
                             callback: (data) => {
-                                ToastUtil.showShort(data.name);
                                 this.setState({
                                     housingAddress: data.name,
                                     housingId:data.id

@@ -1,4 +1,4 @@
-package com.qfant.hlife.wxapi;
+package com.qfant.wuye.wxapi;
 
 
 import android.app.Activity;

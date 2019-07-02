@@ -9,6 +9,7 @@ import Request from "../../utils/Request";
 import {Badge} from "antd-mobile-rn";
 import {LINK_APIPAYS_CZ, LINK_APIPAYS_EXPRESS, LINK_APIPAYS_WZ} from "../../constants/UrlConstant";
 import ImageView from "../../components/ImageView";
+import UserStore from "../../store/UserStore";
 let {width, height} = Dimensions.get('window')
 let bottomHeight = 0;
 
@@ -60,7 +61,6 @@ export default class Shopping extends BaseComponent {
             ],
             typeIds: [],
             typeList: {},
-            goodsRecommend: [],
             searchHint: '请搜索',
             unreadMessageCount: 0
         };
@@ -68,7 +68,6 @@ export default class Shopping extends BaseComponent {
 
 
     onReady(param) {
-        // this.getHomeData();
         this.hideHeader(this);
         bottomHeight = (height - 290 - 10 - 60) / 3 ;
     }
@@ -77,22 +76,37 @@ export default class Shopping extends BaseComponent {
         this.push('Web', {article: {title: title, url: url}})
     }
 
-
-    getHomeData() {
-        Request.post('/api/home/goodsRecommend', {page: 0, pageSize: 10},
-            {
-                mock: true,
-                mockId: 673062,
-            }).then(rep => {
-            if (rep.code == 0 && rep.data) {
+    onShow(e){
+        Request.post('/api/user/getuserinfo', {}).then(rep => {
+            if (rep.code === 0 && rep.data) {
+                UserStore.save({
+                    isAuth:rep.data.isAuth,
+                    messages: rep.data.messageCount,
+                    searchHint: rep.data.searchHint,
+                    userName: rep.data.userName,
+                    phone:rep.data.phone,
+                    avatar: rep.data.avatar,
+                    sign: rep.data.sign,
+                    gender: rep.data.gender,
+                    birthday: rep.data.birthday,
+                    redCount: rep.data.redCount,
+                    integralCount: rep.data.integralCount,
+                    balance: rep.data.balance,
+                    tenementPhone: rep.data.tenementPhone,
+                });
                 this.setState({
-                    goodsRecommend: rep.data.rows,
+                    isAuth: rep.data.isAuth,
+                    searchHint: rep.data.searchHint,
+                    messages: rep.data.messageCount
                 });
             }
         }).catch(err => {
+
         }).done(() => {
+            this.setState({refreshing: false});
         })
     }
+
 
     setData(data) {
         let _banners = [];

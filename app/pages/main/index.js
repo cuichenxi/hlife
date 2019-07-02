@@ -80,7 +80,7 @@ export default class Main extends BaseComponent {
             goodsRecommend: [],
             isAuth: 0,
             searchHint:'请搜索',
-            unreadMessageCount: 0
+            messages: 0
         };
     }
 
@@ -91,10 +91,46 @@ export default class Main extends BaseComponent {
 
     onReady(param) {
         this.hideHeader(true);
-        this.getHomeData();
-        let userInfo = UserStore.get();
-        this.setState({
-            isAuth: userInfo.isAuth,
+        Request.post('/api/home/goodsRecommend', {page: 0, pageSize: 10})
+            .then(rep => {
+                if (rep.code == 0 && rep.data) {
+                    this.setState({
+                        goodsRecommend: rep.data.rows,
+                    });
+                }
+            }).catch(err => {
+        }).done(() => {
+        })
+    }
+
+    onShow(e){
+        Request.post('/api/user/getuserinfo', {}).then(rep => {
+            if (rep.code === 0 && rep.data) {
+                UserStore.save({
+                    isAuth:rep.data.isAuth,
+                    messages: rep.data.messageCount,
+                    searchHint: rep.data.searchHint,
+                    userName: rep.data.userName,
+                    phone:rep.data.phone,
+                    avatar: rep.data.avatar,
+                    sign: rep.data.sign,
+                    gender: rep.data.gender,
+                    birthday: rep.data.birthday,
+                    redCount: rep.data.redCount,
+                    integralCount: rep.data.integralCount,
+                    balance: rep.data.balance,
+                    tenementPhone: rep.data.tenementPhone,
+                });
+                this.setState({
+                    isAuth: rep.data.isAuth,
+                    searchHint: rep.data.searchHint,
+                    messages: rep.data.messageCount
+                });
+            }
+        }).catch(err => {
+
+        }).done(() => {
+            this.setState({refreshing: false});
         })
     }
 
@@ -102,45 +138,6 @@ export default class Main extends BaseComponent {
         this.push('Web', {article: {title: title, url: url}})
     }
 
-
-    getHomeData() {
-        Request.post('/api/user/getuserinfo', {},
-            {
-                mock: false,
-                mockId: 1092531,
-            }).then(rep => {
-            if (rep.code == 0 && rep.data) {
-                UserStore.save({isAuth:rep.data.isAuth});
-                this.setState({
-                    isAuth: rep.data.isAuth,
-                    searchHint: data.searchHint,
-                    unreadMessageCount: data.messages
-                });
-                UserStore.save({
-                    messages: data.messages
-                })
-
-            }
-        }).catch(err => {
-
-        }).done(() => {
-            this.setState({refreshing: false});
-        })
-
-        Request.post('/api/home/goodsRecommend', {page: 0, pageSize: 10},
-            {
-                mock: false,
-                mockId: 673062,
-            }).then(rep => {
-            if (rep.code == 0 && rep.data) {
-                this.setState({
-                    goodsRecommend: rep.data.rows,
-                });
-            }
-        }).catch(err => {
-        }).done(() => {
-        })
-    }
 
     setData(data) {
         let _banners = [];
@@ -219,14 +216,12 @@ export default class Main extends BaseComponent {
                     marginTop: CommonStyle.navStatusBarHeight, alignItems: 'center'
                 }}>
                     <TouchableView style={{width: 60,height:50, alignItems: 'center',justifyContent:'center'}} onPress={() => {
-                        if (this.state.isAuth === 1) {
                             this.navigate('AuthPage',{
                                 params: {from: 1},callback:(e)=>{
                                    this.setState({
                                        isAuth: e.isAuth
                                    })
                                 }});
-                        }
                     }}>
                         <Text style={{textAlign: 'center',color:'#fff', fontSize: 14}} >{authText}</Text>
                     </TouchableView>
@@ -270,7 +265,7 @@ export default class Main extends BaseComponent {
                     <TouchableView style={{ alignItems: 'center',justifyContent:'center', height: 50}} onPress={() => {
                         this.navigate("Message")
                     }}>
-                        <Badge text={this.state.unreadMessageCount} overflowCount={99} small >
+                        <Badge text={this.state.messages} overflowCount={99} small >
                             <View style={{
                                 width: 48,
                                 height: 20,

@@ -52,13 +52,15 @@ export default class AuthPage extends BaseComponent {
         };
     }
 
-    onShow(e) {
-        this.setState({
-            elementName: e.elementName,
-            buildingId: e.buildingId,
-            unitId: e.unitId,
-            roomName: '选择房间号',
-        })
+    onBackParam(e) {
+        if (e) {
+            this.setState({
+                elementName: e.elementName,
+                buildingId: e.buildingId,
+                unitId: e.unitId,
+                roomName: '选择房间号',
+            })
+        }
     }
 
     onReady(param) {
@@ -122,7 +124,6 @@ export default class AuthPage extends BaseComponent {
                                 title: '选择小区',
                                 api: '/api/user/selectCommunity',
                                 callback: (data) => {
-                                    ToastUtil.showShort(data.name);
                                     this.setState({
                                         housingAddress: data.name,
                                         housingId: data.id,
@@ -174,7 +175,6 @@ export default class AuthPage extends BaseComponent {
                                 callback: (data) => {
                                     console.log('=======回传=========')
                                     console.log(data)
-                                    ToastUtil.showShort(data.name);
                                     this.setState({
                                         element: data.name,
                                         roomName: '选择房间号',
@@ -224,13 +224,12 @@ export default class AuthPage extends BaseComponent {
                                 unitId: this.state.unitId,
                                 from: FROMAUTH,
                                 callback: (data) => {
-                                    ToastUtil.showShort(data.name);
                                     this.setState({
                                         roomName: data.name,
                                         roomId: data.id
                                     })
                                 }
-                            }, true)
+                            })
                         }}>
 
                             <View
@@ -338,11 +337,7 @@ export default class AuthPage extends BaseComponent {
         }
         this.showLoading('认证中..');
         var param = {roomId: roomId, name: name};
-        Request.post('/api/user/auth', param,
-            {
-                mock: false,
-                mockId: 672823,
-            }).then(rep => {
+        Request.post('/api/user/auth', param).then(rep => {
             if (rep.code == 0) {
                 // UserStore.save(rep.data);
                 this.goBack({isAuth: true})

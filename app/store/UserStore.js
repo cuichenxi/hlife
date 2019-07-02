@@ -26,6 +26,7 @@ let userInfo = {
     integralCount: 0,
     balance: 0,
     messages:0,
+    tenementPhone:'',
 };
 
 export default  UserStore = {

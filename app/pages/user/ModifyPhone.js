@@ -156,9 +156,9 @@ export default class ModifyPhone extends BaseComponent {
         }
         this.showLoading('保存中..');
         var param = {phone: this.state.mobile, code: this.state.authCode};
-        Request.post('/api/user/phoneChange', param).then(rep => {
-            if (rep.code == 0 && rep.data) {
-                UserStore.save({phone:rep.data});
+        Request.post('/api/user/resetPhone', param).then(rep => {
+            if (rep.code == 0) {
+                UserStore.save({phone: this.state.mobile});
                 this.goBack()
             } else {
                 this.showShort(rep.message);
@@ -181,14 +181,13 @@ export default class ModifyPhone extends BaseComponent {
             codeRequesting: true
         })
 
-        var param = {phone: this.state.mobile};
+        var param = {phone: this.state.mobile, type: 5};
 
         Request.post('/api/user/getAuthCode', param,
             {
                 mock: false,
                 mockId: 1089766,
             }).then(rep => {
-            let requestSucc = true
             this.setState({
                 authState: `验证码获取${rep.code === 0 ? '成功' : '失败'}`,
                 codeRequesting: false

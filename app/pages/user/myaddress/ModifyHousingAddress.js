@@ -40,11 +40,12 @@ export default class ModifyHousingAddress extends BaseComponent {
         }
     }
 
-    onShow(e){
-        this.showShort("onShow" + JSON.stringify(e));
-        this.setState({
-            elementName:e.elementName
-        })
+    onBackParam(e){
+        if (e) {
+            this.setState({
+                elementName:e.elementName
+            })
+        }
     }
 
     _render() {
@@ -71,9 +72,8 @@ export default class ModifyHousingAddress extends BaseComponent {
                     <TouchableView onPress={() => {
                         this.navigate('HousingAddressList', {
                             title:'选择小区',
-                            api:'api/user/selectCommunity',
+                            api:'/api/user/selectCommunity',
                             callback: (data) => {
-                                ToastUtil.showShort(data.name);
                                 this.setState({
                                     housingAddress: data.name,
                                     housingId:data.id
@@ -98,7 +98,6 @@ export default class ModifyHousingAddress extends BaseComponent {
                             title:'选择苑、幢',
                             api:'/api/user/selectelement',
                             callback: (data) => {
-                                ToastUtil.showShort(data.name);
                                 this.setState({
                                     element: data.name
                                 })

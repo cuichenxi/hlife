@@ -62,16 +62,13 @@ export default class ProductDetail extends BaseComponent {
             orderDetailList:[
                 {
                     goodId: this.state.goodId,
-                    num: this.state.num
+                    // num: this.state.num
+                    num: 1
                 }
             ],
             redPacketId: this.state.redPacketId
         };
-        Request.post('/api/goods/createOrder', param,
-            {
-                mock: false,
-                mockId: 1095374,
-            }).then(rep => {
+        Request.post('/api/goods/createOrder', param).then(rep => {
             if (rep.code == 0 && rep.data) {
                 this.setState(
                     {

@@ -90,11 +90,6 @@ export default class UserCenter extends BaseComponent {
     }
 
     goProfile() {
-        // this.navigate("RedPacket", {
-        //     callback: (data) => {
-        //         ToastUtil.showShort(data.price)
-        //     }
-        // })
         this.navigate('UserInfo')
     }
 
@@ -104,6 +99,9 @@ export default class UserCenter extends BaseComponent {
 
     onReady(param) {
         this.hideHeader(true);
+    }
+
+    onShow(param){
         let userInfo = UserStore.get();
         this.setState({
             headerUrl: util.stringValue(userInfo.avatar),
@@ -115,8 +113,6 @@ export default class UserCenter extends BaseComponent {
             sign: userInfo.sign,
         })
     }
-
-
 
     _renderListItem() {
         return this.config.map((item, i) => {
@@ -258,7 +254,7 @@ export default class UserCenter extends BaseComponent {
                         marginTop: 45,
                         color: "#333",
                         fontSize: 16
-                    }}>{this.state.userPhone ? this.state.userPhone : this.state.userName}</Text>
+                    }}>{util.isEmpty(this.state.userName) ? this.state.userPhone : this.state.userName}</Text>
                     <TouchableView style={{
                         marginTop: 5,
                         flexDirection:'row'

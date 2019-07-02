@@ -61,6 +61,14 @@ export default class UserInfo extends BaseComponent {
     onRightPress(){
         this.updateUserInfo();
     }
+    //{"avatar":"http://115.28.21.13/images/1561829802433.jpg",
+    // "birthday":null
+    // ,"gender":1,"isAuth":1,
+    // "nickName":"Tracy",
+    // "phone":"15811508401",
+    // "sign":"你在哪里呀",
+    // "token":null,"
+    // userName":"15811508404"}
     updateUserInfo(){
         this.showLoading('保存信息中...')
         var param ={
@@ -75,7 +83,24 @@ export default class UserInfo extends BaseComponent {
         Request.post('/api/user/userInfoUpdate', param)
             .then(rep => {
                 if (rep.code == 0 && rep.data) {
-                    // this.setData(rep.data)
+                    UserStore.save({
+                        isAuth:rep.data.isAuth,
+                        userName: rep.data.userName,
+                        phone:rep.data.phone,
+                        avatar: rep.data.avatar,
+                        sign: rep.data.sign,
+                        gender: rep.data.gender,
+                        birthday: rep.data.birthday,
+                    });
+                    this.setState({
+                        gender: rep.data.gender,
+                        sign: rep.data.sign,
+                        birthday: rep.data.birthday,
+                        avatar: rep.data.avatar,
+                        userName: rep.data.userName,
+                        userPhone: rep.data.phone,
+                        nickName: rep.data.nickName,
+                    })
                 }
             }).catch(err => {
 

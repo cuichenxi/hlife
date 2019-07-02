@@ -70,11 +70,13 @@ export default class PublishHouseInfo extends BaseComponent{
 
 
     }
-    onShow(e){
-        this.setState({
-            elementName:e.elementName,
-            roomId:e.roomId
-        })
+    onBackParam(e){
+        if (e) {
+            this.setState({
+                elementName:e.elementName,
+                roomId:e.roomId
+            });
+        }
     }
 
     _render() {

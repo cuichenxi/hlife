@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.qfant.hlife.wxapi;
+package com.qfant.wuye.wxapi;
 
 import android.app.Activity;
 import android.os.Bundle;

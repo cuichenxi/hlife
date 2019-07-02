@@ -34,7 +34,6 @@ class BaseComponent extends React.Component {
 
 
     componentWillMount() {
-
     }
 
     componentWillUpdate() {
@@ -48,9 +47,11 @@ class BaseComponent extends React.Component {
     componentDidMount() {
         BackHandler.addEventListener('hardwareBackPress', this.onBackPressAndroid)
         this.onReady(this.props.navigation.state.params);
+        this.onShow(this.props.navigation.state.params);
         this.setState({
             gesturesEnabled: this.canBack()
         })
+        this.addBackEvent();
     }
 
     componentWillUnmount() {
@@ -63,7 +64,7 @@ class BaseComponent extends React.Component {
     }
 
     /**
-     * 页面准备完成时。通过 this.prorps.param 可以获取 open(name, opts) 时传入的参数。
+     * 页面准备完成时。通过
      * 举例：从 A 页面打开 B 页面，此时 B 页面就准备完成了。
      */
     onShow(param) {
@@ -103,49 +104,55 @@ class BaseComponent extends React.Component {
         this.state.hideHeader = hideHeader;
     }
 
-
-    goBack(params) {
-        if (params && this.props.navigation.state.params && this.props.navigation.state.params.callback) {
-            this.props.navigation.state.params.callback(params);
-        }
-        this.props.navigation.goBack();
-    }
-    listenerBackEvent(){
-        // 这里的`param`可以不写
-        this.state.subscription = DeviceEventEmitter.addListener("BackEventType", (param)=>{
-            // 刷新界面等
-            this.onShow(param);
-        });
-
-    }
-
     /**
      * navigate('pageScreen',{prams:xxx,callback:()=>{}})
      * @param screenName
      * @param params
      */
-    navigate(screenName, params = {},hasBackEventType) {
-        if (hasBackEventType) {
-            this.listenerBackEvent();
-        }
+    navigate(screenName, params = {},hasBackEvent) {
+        this.hasBackEvent = hasBackEvent;
         this.props.navigation.navigate(screenName, params);
     }
 
-    push(screenName, params = {},hasBackEventType) {
-        if (hasBackEventType) {
-            this.listenerBackEvent();
-        }
+    push(screenName, params = {},hasBackEvent) {
+        this.hasBackEvent = hasBackEvent;
         this.props.navigation.push(screenName, params);
     }
 
     reset(screenName) {
         NavigationUtil.reset(this.props.navigation, screenName);
     }
+
     pop(index,param) {
         NavigationUtil.pop(this.props.navigation, index);
-        if (param) {
-            DeviceEventEmitter.emit("BackEventType", param);
+        this.sendBackParam(param);
+    }
+
+    goBack(params) {
+        if (params && this.props.navigation.state.params && this.props.navigation.state.params.callback) {
+            this.props.navigation.state.params.callback(params);
         }
+        this.props.navigation.goBack();
+        this.sendBackParam(params);
+    }
+
+    sendBackParam(param){
+        DeviceEventEmitter.emit("BackEventType", param);
+    }
+
+    onBackParam(param){
+
+    }
+
+    addBackEvent(){
+        // 这里的`param`可以不写
+        this.state.subscription = DeviceEventEmitter.addListener("BackEventType", (param)=>{
+            // 刷新界面等
+            this.onShow(this.props.navigation.state.params);
+            if (this.hasBackEvent) {
+                this.onBackParam(param);
+            }
+        });
     }
 
     onLeftPress() {
