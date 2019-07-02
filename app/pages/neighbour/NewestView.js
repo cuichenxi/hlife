@@ -60,7 +60,7 @@ export default class Index extends BaseView {
                     padding: 5
                 }}>
                     <ImageView source={item.imageUrl}
-                               defaultSource={require("../../img/default_head.png")}
+                               defaultSource={require("../../img/default_image.png")}
                                style={{
                                    width: 40,
                                    height: 40,

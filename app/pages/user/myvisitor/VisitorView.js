@@ -32,7 +32,6 @@ export default class Index extends BaseView {
                 // console.log(JSON.stringify(rep))
                 callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             } else {
-                this.showShort(rep.message);
                 callback(null,{emptyTitle: rep.message})
             }
         }).catch(err => {

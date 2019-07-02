@@ -1,28 +1,25 @@
-import {BaseComponent} from "../../../components/base/BaseComponent";
+import {BaseComponent} from "../../components/base/BaseComponent";
 import React from "react";
-import {Dimensions, Image, Text, TouchableOpacity, View} from "react-native";
-import {PAGE_SIZE} from "../../../constants/AppConstants";
-import Request from "../../../utils/Request";
-import TouchableView from "../../../components/TouchableView";
-import GiftedListView from "../../../components/refreshList/GiftedListView";
-import {CommonStyle} from "../../../common/CommonStyle";
-import ImageView from "../../../components/ImageView";
+import {Dimensions, Text, View} from "react-native";
+import {PAGE_SIZE} from "../../constants/AppConstants";
+import Request from "../../utils/Request";
+import GiftedListView from "../../components/refreshList/GiftedListView";
+import ImageView from "../../components/ImageView";
 
 let {width, height} = Dimensions.get('window')
 
 /**
- *我的订单
+ *我的缴费记录
  */
-export default class MyOrder extends BaseComponent {
+export default class MyPaymentRecord extends BaseComponent {
     navigationBarProps() {
         return {
-            title: '我的订单',
+            title: '我的缴费记录',
         }
     }
 
 
     _render() {
-
         return (
             <View style={{
                 flex: 1,
@@ -83,7 +80,7 @@ export default class MyOrder extends BaseComponent {
                 }}>
                     <ImageView
                         source={item.pic}
-                        defaultSource={require("../../../img/default_image.png")}
+                        defaultSource={require("../../img/default_image.png")}
                         style={{
                             width: 100,
                             height: 90,
@@ -115,7 +112,7 @@ export default class MyOrder extends BaseComponent {
                 </View>
 
 
-           )
+            )
         })
     };
 

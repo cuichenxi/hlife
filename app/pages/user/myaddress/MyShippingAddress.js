@@ -45,29 +45,11 @@ export default class MyShippingAddress extends BaseComponent {
     }
 
     _render() {
-        const {rows} = this.state
         return (
             <View style={{
                 flex: 1,
                 flexDirection: 'column'
             }}>
-                {/*<View style={{flex: 1}}>
-                    <FlatList ref={(flatList) => this._flatList = flatList}
-                              ItemSeparatorComponent={this._separator}
-                              renderItem={this._renderItem}
-
-                              onRefresh={() => this.refreshing()}
-                              refreshing={this.state.isLoading}
-
-                              onEndReachedThreshold={0.1}
-                        // onEndReached={
-                        //     () => this._onLoadMore()
-                        // }
-
-                              data={rows}>
-
-                    </FlatList>
-                </View>*/}
                 <View style={{flex: 1,marginTop: 10}}>
                     <GiftedListView
                         onRef={(ref)=>{
@@ -77,6 +59,7 @@ export default class MyShippingAddress extends BaseComponent {
                         rowView={this._renderItem.bind(this)}
                         onFetch={this.fetchData.bind(this)}
                         loadMore={false}
+                        pagination={false}
                     />
                 </View>
 
@@ -114,10 +97,6 @@ export default class MyShippingAddress extends BaseComponent {
                 mockId: 1095864,
             }).then(rep => {
             if (rep.code == 0 && rep.data && !util.isArrayEmpty(rep.data.rows)) {
-                // console.log(JSON.stringify(rep))
-                // this.setState({
-                //     rows: rep.data.rows
-                // })
                 callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             } else {
                 callback(null,{emptyTitle: rep.message})

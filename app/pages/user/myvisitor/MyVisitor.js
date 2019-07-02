@@ -25,7 +25,6 @@ export default class MyVisitor extends BaseComponent {
         return (
             <View style={{
                 flex: 1,
-                backgroundColor: 'white',
                 flexDirection: 'column'
             }}>
                 <View style={{
@@ -72,7 +71,7 @@ export default class MyVisitor extends BaseComponent {
                 mock: false,
                 mockId: 1095607,
             }).then(rep => {
-            if (rep.code == 0 && rep.data && !util.isArrayEmpty(rep.data.row)) {
+            if (rep.code == 0 && rep.data && !util.isArrayEmpty(rep.data.rows)) {
                 callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total});
             } else {
                 callback(null, {emptyTitle: '暂无访客'});

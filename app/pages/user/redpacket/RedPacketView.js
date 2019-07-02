@@ -6,6 +6,7 @@ import TouchableView from "../../../components/TouchableView";
 import Request from "../../../utils/Request";
 import {PAGE_SIZE} from "../../../constants/AppConstants";
 import {CommonStyle} from "../../../common/CommonStyle";
+import util from "../../../utils/util";
 
 export default class Index extends BaseView {
     constructor(props) {
@@ -17,7 +18,6 @@ export default class Index extends BaseView {
 
 
     _onFetch(page = 1, callback) {
-        console.log('page' + page);
         // this.showInDLoading()
         let param = {status: this.state.index, page: page - 1, pageSize: PAGE_SIZE,};
         Request.post("/api/user/redPacket", param,
@@ -25,13 +25,15 @@ export default class Index extends BaseView {
                 mock: false,
                 mockId: 1095476,
             }).then(rep => {
-            if (rep.code == 0 && rep.data) {
+            if (rep.code == 0 && rep.data && !util.isArrayEmpty(rep.data.rows)) {
                 callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
+            } else {
+                callback(null,{emptyTitle: rep.message})
             }
         }).catch(err => {
-
+            callback(null,{emptyTitle: err})
         }).done(() => {
-            // this.hideLoading();
+            this.hideLoading();
         })
     }
 

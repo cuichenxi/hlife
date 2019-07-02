@@ -6,6 +6,7 @@ import {Text, View} from "react-native";
 import {PAGE_SIZE} from "../../constants/AppConstants";
 import Request from "../../utils/Request";
 import {CommonStyle} from "../../common/CommonStyle";
+import util from "../../utils/util";
 
 /**
  * 话题列表列表
@@ -61,7 +62,7 @@ export default class TopicTypeList extends BaseComponent {
                 mock: false,
                 mockId: 1095629,
             }).then(rep => {
-            if (rep.code == 0 && rep.data) {
+            if (rep.code == 0 && rep.data && !util.isArrayEmpty(rep.data)) {
                 callback(rep.data, {allLoaded: true})
             } else {
                 callback(null,{emptyTitle: rep.message})

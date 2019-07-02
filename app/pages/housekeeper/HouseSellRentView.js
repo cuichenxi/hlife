@@ -8,7 +8,7 @@ import {BaseView} from "../../components/base/BaseView";
 import {CommonStyle} from "../../common/CommonStyle";
 import ImageView from "../../components/ImageView";
 
-const imageUrl = require('../../img/about_logo.png');
+const imageUrl = require('../../img/default_image.png');
 
 /**
  * 房屋租售View

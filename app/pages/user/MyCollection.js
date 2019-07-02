@@ -7,7 +7,8 @@ import {PAGE_SIZE} from "../../constants/AppConstants";
 import Request from "../../utils/Request";
 import TouchableView from "../../components/TouchableView";
 import util from "../../utils/util";
-const imageUrl=require('../../img/about_logo.png');
+import ImageView from "../../components/ImageView";
+const imageUrl=require('../../img/default_image.png');
 
 let {width, height} = Dimensions.get('window')
 
@@ -60,8 +61,9 @@ export default class MyCollection extends BaseComponent{
                     alignItems: 'center',
                     padding: 5
                 }}>
-                    <Image
-                        source={{uri:item.goodsImage}}
+                    <ImageView
+                        source={item.goodsImage}
+                        defaultSource={imageUrl}
                         style={{
                             width: 100,
                             height: 90,

@@ -1,6 +1,6 @@
 import {BaseComponent} from "../../components/base/BaseComponent";
 import React from "react";
-import {Dimensions, Image, RefreshControl, ScrollView, StyleSheet, Text, View} from "react-native";
+import {Dimensions, FlatList, Image, RefreshControl, ScrollView, StyleSheet, Text, View} from "react-native";
 import {CommonStyle} from "../../common/CommonStyle";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -29,12 +29,22 @@ export default class LivingPayment extends  BaseComponent{
             isOneChecked:false,
             isTwoChecked:false,
             isThreeChecked:false,
-            communityinfo:''
+            communityinfo:'北京',
+            isLoading: false,
+            isRefresh: true,
+            rows:[]
         }
     }
 
+    onReady(){
+        this.makeRemoteRequest()
+    }
+    refreshing = () => {
+
+    }
+
     _render() {
-        const {communityinfo} = this.state
+        const {communityinfo,rows} = this.state
         return (
             <View style={styles.container}>
                 <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
@@ -59,13 +69,29 @@ export default class LivingPayment extends  BaseComponent{
                         refreshing={this.state.refreshing}
                         onRefresh={this._onRefresh}
                     />}>
-                    <GiftedListView
+                    {/*<GiftedListView
                         style={{with: width, flex: 1,marginLeft: 10,marginRight: 10}}
                         rowView={this._renderRowView.bind(this)}
                         onFetch={this.makeRemoteRequest.bind(this)}
                         loadMore={false}
                         renderSeparator={() => {return (null);}}
-                    />
+                    />*/}
+                    <FlatList ref={(flatList) => this._flatList = flatList}
+                              ItemSeparatorComponent={this._separator}
+                              renderItem={this._renderItem}
+
+                              onRefresh={() => this.refreshing()}
+                              refreshing={this.state.isLoading}
+
+                              onEndReachedThreshold={0.1}
+                        // onEndReached={
+                        //     () => this._onLoadMore()
+                        // }
+
+
+                              data={rows}>
+
+                    </FlatList>
                 </ScrollView>
 
                 <View style={styles.bottomView}>
@@ -109,9 +135,12 @@ export default class LivingPayment extends  BaseComponent{
         );
     }
 
+    _separator = () => {
+        return <View style={{height: 0.5, backgroundColor: CommonStyle.lightGray}}/>;
+    }
 
-    makeRemoteRequest(page = 1, callback) {
-        let param = {statusBODY: this.state.index, page: page - 1, pageSize: PAGE_SIZE};
+    makeRemoteRequest(page = 1) {
+        let param = { page: page - 1, pageSize: PAGE_SIZE};
 
         Request.post('api/steward/propertyfeepaylist', param,
             {
@@ -121,9 +150,9 @@ export default class LivingPayment extends  BaseComponent{
             if (rep.code == 0 && rep.data) {
                 // console.log(JSON.stringify(rep))
                 this.setState({
-                    communityinfo:rep.data.communityinfo
+                    rows:rep.data.rows
                 })
-                callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
+                // callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             }
         }).catch(err => {
 
@@ -132,6 +161,57 @@ export default class LivingPayment extends  BaseComponent{
         })
     }
 
+    _renderItem=(item) => {
+        var isCheck = false
+        return (
+            <View style={{
+                backgroundColor: 'white',
+                height:80,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent:'space-between',
+                marginBottom:12,
+                paddingLeft: 24,
+                paddingRight: 30,
+            }}>
+                <CheckBox
+                    style={styles.checkBox}
+                    onClick={()=>{
+                        this.setState({
+                            isOneChecked:!this.state.isOneChecked
+                        })
+                        isCheck = !isCheck
+                    }}
+                    isChecked={this.state.isOneChecked}
+                    rightText={''}
+                    rightTextStyle = {styles.text}
+                    checkedImage = {<Image source = {require('../../img/selted.png')} style = {styles.image}/>}
+                    unCheckedImage = {<Image source = {require('../../img/selt.png')} style = {styles.image}/>}
+                />
+                <View style={{alignItems:'flex-start',justifyContent:'center'}}>
+                    <Text style={{textAlign: 'center', color: CommonStyle.textBlockColor, fontSize: 14}}>{item.item.yearList.id}</Text>
+                    <Text style={{textAlign: 'center', color: CommonStyle.textBlockColor, fontSize: 17}}>待缴费</Text>
+                </View>
+                <TouchableView onPress={()=>{
+                    this.navigate("LivingPaymentDetail",{yearId:item.item.yearList.id})
+                }}>
+                    <Text style={{
+                        color: CommonStyle.themeColor,
+                        borderRadius: 30,
+                        borderWidth: 1,
+                        borderColor: CommonStyle.themeColor,
+                        paddingTop:5,
+                        paddingBottom:5,
+                        paddingRight:15,
+                        paddingLeft:15,
+                        fontSize: 14
+                    }}>选择明细</Text>
+                </TouchableView>
+
+            </View>
+
+        )
+    }
 
     _renderRowView(item) {
         var isCheck = false

@@ -46,6 +46,7 @@ export default class MyInvoiceList extends BaseComponent {
                         rowView={this.renderItem.bind(this)}
                         onFetch={this.fetchData.bind(this)}
                         loadMore={false}
+                        pagination={false}
                     />
                 </View>
                 <TouchableView style={{
