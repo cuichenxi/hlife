@@ -23,6 +23,7 @@ export default class HouseSellRent extends BaseComponent {
                     // index
                 }} tabBarUnderlineStyle={{backgroundColor: CommonStyle.themeColor,}} initialPage={0}
                       tabBarPosition="top"
+                      swipeable={false}
                 >
                     {this.renderPage.bind(this)}
 

@@ -9,6 +9,7 @@ import Request from "../../../utils/Request";
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import Ionicons from "react-native-vector-icons/Ionicons";
 import SwipeAction from "antd-mobile-rn/es/swipe-action/index.native";
+import UserStore from "../../../store/UserStore";
 
 let {width, height} = Dimensions.get('window')
 const Font = {
@@ -32,6 +33,7 @@ export default class MyAddress extends BaseComponent {
             rows: [],
             isLoading: false,
             isRefresh: true,
+            iaAuth:0
         }
     }
 
@@ -43,12 +45,18 @@ export default class MyAddress extends BaseComponent {
 
     }
 
+    onReady(){
+        let userInfo = UserStore.get();
+        this.setState({
+            iaAuth: userInfo.iaAuth,
+        })
+    }
+
     _render() {
         const {rows} = this.state
         return (
             <View style={{
                 flex: 1,
-                backgroundColor: 'white',
                 flexDirection: 'column'
             }}>
                 <View style={{flex: 1}}>
@@ -63,6 +71,7 @@ export default class MyAddress extends BaseComponent {
                         // onEndReached={
                         //     () => this._onLoadMore()
                         // }
+                        style={{marginTop: 10}}
 
                               data={rows}>
 
@@ -80,7 +89,7 @@ export default class MyAddress extends BaseComponent {
                     bottom: 0,
                     alignSelf: 'center'
                 }} onPress={() => {this.goAddHousingAddress()}}>
-                    <Text style={{color: 'white'}}>新增小区地址</Text>
+                    <Text style={{color: 'white'}}>我的小区</Text>
                 </TouchableView>
             </View>
         );
@@ -178,6 +187,6 @@ export default class MyAddress extends BaseComponent {
 
 
     goAddHousingAddress() {
-        this.navigate('AddHousingAddress')
+        this.navigate('AuthPage')
     }
 }
