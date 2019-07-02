@@ -1,6 +1,6 @@
 import {BaseComponent} from "../../components/base/BaseComponent";
 import React from "react";
-import {Dimensions, FlatList, Image, Keyboard, Text, TextInput, View} from "react-native";
+import {Dimensions, FlatList, Image, Keyboard, StyleSheet, Text, TextInput, View} from "react-native";
 import {ActionSheet} from "antd-mobile-rn";
 import TouchableView from "../../components/TouchableView";
 import {CommonStyle} from "../../common/CommonStyle";
@@ -30,8 +30,10 @@ export default class ReportMatter extends BaseComponent {
             communityId:'',
             uploadImages:[],
             title:this.props.navigation.state.params.title,
-            hideUpload:this.props.navigation.state.params.hideUpload,
-            commitType:this.props.navigation.state.params.commitType
+            repairType:this.props.navigation.state.params.repairType,
+            titleInput:'',
+            phone:'',
+            address:'',
 
         }
     }
@@ -42,8 +44,43 @@ export default class ReportMatter extends BaseComponent {
         const {hideUpload} = this.state
         return (
             <View>
+                <View style={[styles.inputRow,styles.marginTop]}>
+                    <Text style={styles.leftItemText}>标题</Text>
+                    <TextInput
+                        style={styles.inputItem}
+                        underlineColorAndroid="transparent"
+                        placeholder='填写标题'
+                        onChangeText={(text) => this.setState({titleInput: text})}
+                        value={this.state.titleInput ? this.state.titleInput : ''}
+                    />
+                </View>
+                <View style={styles.lineStyle}/>
+                <View style={styles.inputRow}>
+                    <Text style={styles.leftItemText}>电话</Text>
+                    <TextInput
+                        style={styles.inputItem}
+                        underlineColorAndroid="transparent"
+                        placeholder='填写电话'
+                        keyboardType='numeric'
+                        maxLength={11}
+                        onChangeText={(text) => this.setState({phone: text})}
+                        value={this.state.phone ? this.state.phone : ''}
+                    />
+                </View>
+                <View style={styles.lineStyle}/>
+                <View style={styles.inputRow}>
+                    <Text style={styles.leftItemText}>地点</Text>
+                    <TextInput
+                        style={styles.inputItem}
+                        underlineColorAndroid="transparent"
+                        placeholder='填写报修地点'
+                        onChangeText={(text) => this.setState({address: text})}
+                        value={this.state.address ? this.state.address : ''}
+                    />
+                </View>
+                <View style={styles.lineStyle}/>
                 <TextInput
-                    placeholder='您对我们的工作有什么建议'
+                    placeholder='问题描述'
                     style={{
                         width: '100%',
                         backgroundColor: '#fff',
@@ -106,7 +143,11 @@ export default class ReportMatter extends BaseComponent {
         if (rowData.index === 0) {
             return (
                 <TouchableView onPress={() => {
-                    this._onSelectImage()
+                    if (this.state.uploadImages.length <= 2){
+                        this._onSelectImage()
+                    } else {
+                        this.showShort('最多只能选择3张图片')
+                    }
                 }}>
                     <View style={{
                         width: ImageWH,
@@ -186,7 +227,8 @@ export default class ReportMatter extends BaseComponent {
                                 fileType: image.mime,
                             }
                         ]
-                        // this._uploadHeader(files);
+                        console.log(image)
+                        this.updateFile(files);
                         images.push(image.path)
                         this.setState({
                             images: images
@@ -198,6 +240,14 @@ export default class ReportMatter extends BaseComponent {
                         // height: 300,
                         cropping: false
                     }).then(image => {
+                        let files = [
+                            {
+                                filePath: image.path,
+                                fileType: image.mime,
+                            }
+                        ]
+                        console.log(image)
+                        this.updateFile(files);
                         images.push(image.path)
                         this.setState({
                             images: images
@@ -210,27 +260,26 @@ export default class ReportMatter extends BaseComponent {
 
     commitInfo() {
         Keyboard.dismiss();
-        let {contentValue,title,commitType} = this.state;
-        var type=1
-        if (!contentValue.length) {
-            this.showLong('请输入内容');
+        let {address,uploadImages,contentValue,phone,titleInput,repairType} = this.state;
+        if (!titleInput.length) {
+            this.showShort('请输入标题');
             return;
         }
-        if (commitType === COMPLAINTPRAISE) {
-            if (title == '我要投诉'){
-                type=1
-            } else if (title == '我要表扬') {
-                type = 2
-            }
-        } else if (commitType === GIVEADVICE) {
-            if (title == '发表建议'){
-                type=1
-            } else if (title == '我要咨询') {
-                type = 2
-            }
+        if (!phone.length ) {
+            this.showShort('请输入电话');
+            return;
+        }
+        if (!address.length ) {
+            this.showShort('请输入地点');
+            return;
+        }
+        if (!contentValue.length ) {
+            this.showShort('请输入问题描述');
+            return;
         }
 
-        let param = {content: contentValue, type:type,address:'',imageList:'',intro:'',phone:'',repairtype:'',title:'' };
+
+        let param = {address:address,imageList:uploadImages,intro:contentValue,phone:phone,repairtype:repairType,title:titleInput };
 
         console.log(param)
         Request.post('/api/steward/repairs', param,
@@ -248,4 +297,66 @@ export default class ReportMatter extends BaseComponent {
         })
     }
 
+    /**
+     * /api/user/batchUpdateImage
+     * /api/user/updateImage
+     * @param files
+     */
+    updateFile(files) {
+        const {uploadImages} = this.state
+        this.showLoading('上传中...')
+        Keyboard.dismiss();
+        Request.uploadFile('/api/user/batchUpdateImage', files)
+            .then(rep => {
+                if (rep.code === 0){
+                    for (var i=0;i<rep.data.length;i++){
+                        uploadImages.push(rep.data[i])
+                    }
+
+                    console.log('=======上传结果=======')
+                    console.log(uploadImages)
+                }
+            }).catch(err => {
+        }).done(() => {
+            this.hideLoading();
+        })
+
+    }
+
 }
+const styles = StyleSheet.create({
+    content: {
+        flexDirection: "row",
+        alignItems: "center",
+        paddingHorizontal: 15,
+        backgroundColor: "#fff",
+        justifyContent: "space-between",
+        height: 50
+    },
+    radioContent: {
+        borderWidth: 1, borderColor: CommonStyle.themeColor, margin: 10, borderRadius: 50
+    },
+    innerStyle: {
+        height: 50
+    },
+    inputItem: {
+        height: 40,
+        paddingLeft: 10,
+        flex: 1,
+        fontSize: 15,
+        marginTop:2
+    },
+    lineStyle: {
+        height: 0.5, backgroundColor: CommonStyle.lineColor, width: '100%'
+    },
+    inputRow: {
+        flexDirection: 'row', height: 40, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center',
+        paddingLeft: 15,
+    },
+    leftItemText:{
+        textAlign: 'center',color:'#333',fontSize:15
+    },
+    marginTop:{
+        marginTop:10
+    }
+});

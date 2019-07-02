@@ -40,9 +40,9 @@ export default class PublishHouseInfo extends BaseComponent{
         super(props);
 
         this.state = {
+            titleInput:'',
             initItem: '房屋出租',
             initId: '1',
-            title:'',
             housetype:'',
             rentInfo:'',
             name: '',
@@ -58,27 +58,38 @@ export default class PublishHouseInfo extends BaseComponent{
 
             images: ['add'],
             content: '',
-            uploadImages:[]
+            uploadImages:[],
+            communityId:'',
+            price: 0,
+            square:'',
+            roomId:'',
+            base:'',
+            keyboardHeight:0
         }
-        // let param = {bedroom: '', contact: '',  livingRoom:'',restRoom:'',
+
 
 
     }
-
+    onShow(e){
+        this.setState({
+            elementName:e.elementName,
+            roomId:e.roomId
+        })
+    }
 
     _render() {
         return (
-            <ScrollView>
-                <KeyboardAvoidingView behavior='position'>
-                    <View style={styles.inputRow}>
+            <ScrollView ref={component => this._scrollView = component}>
+
+                    <View style={[styles.inputRow,styles.marginTop]}>
                         <Text style={styles.leftItemText}>标题</Text>
                         <TextInput
                             ref="input_title"
                             style={styles.inputItem}
                             underlineColorAndroid="transparent"
                             placeholder='填写标题'
-                            onChangeText={(text) => this.setState({title: text})}
-                            value={this.state.title ? this.state.title : ''}
+                            onChangeText={(text) => this.setState({titleInput: text})}
+                            value={this.state.titleInput ? this.state.titleInput : ''}
                         />
                     </View>
                     <View style={styles.lineStyle}/>
@@ -115,8 +126,8 @@ export default class PublishHouseInfo extends BaseComponent{
                             style={styles.inputItem}
                             underlineColorAndroid="transparent"
                             placeholder='如几室几厅几卫，第多少层'
-                            onChangeText={(text) => this.setState({housetype: text})}
-                            value={this.state.housetype ? this.state.housetype : ''}
+                            onChangeText={(text) => this.setState({base: text})}
+                            value={this.state.base ? this.state.base : ''}
                             placeholderTextColor={'#999'}
 
                         />
@@ -129,8 +140,8 @@ export default class PublishHouseInfo extends BaseComponent{
                             style={styles.inputItem}
                             underlineColorAndroid="transparent"
                             placeholder='面议or填写具体标准，是否包含物业费'
-                            onChangeText={(text) => this.setState({rentInfo: text})}
-                            value={this.state.rentInfo ? this.state.rentInfo : ''}
+                            onChangeText={(text) => this.setState({price: text})}
+                            value={this.state.price ? this.state.price : ''}
                         />
                     </View>
                     <View style={styles.lineStyle}/>
@@ -141,6 +152,8 @@ export default class PublishHouseInfo extends BaseComponent{
                             style={styles.inputItem}
                             underlineColorAndroid="transparent"
                             placeholder='请填写您的联系方式'
+                            keyboardType='numeric'
+                            maxLength={11}
                             onChangeText={(text) => this.setState({phone: text})}
                             value={this.state.phone ? this.state.phone : ''}
                         />
@@ -150,11 +163,15 @@ export default class PublishHouseInfo extends BaseComponent{
                         <Text style={styles.leftItemText}>平方米</Text>
                         <TextInput
                             ref="size"
-                            style={styles.inputItem}
+                            style={{height: 40,
+                                paddingLeft: 10,
+                                flex: 1,
+                                fontSize: 15,
+                                marginTop:2,marginBottom:this.state.keyboardHeight}}
                             underlineColorAndroid="transparent"
                             placeholder='房屋面积'
-                            onChangeText={(text) => this.setState({housesize: text})}
-                            value={this.state.housesize ? this.state.housesize : ''}
+                            onChangeText={(text) => this.setState({square: text})}
+                            value={this.state.square ? this.state.square : ''}
                         />
                     </View>
                     <View style={styles.lineStyle}/>
@@ -165,38 +182,41 @@ export default class PublishHouseInfo extends BaseComponent{
                             api: '/api/user/mycommunityList',
                             callback: (data) => {
                                 // ToastUtil.showShort(data.name);
+                                console.log(data)
                                 this.setState({
                                     housingAddress: data.communityName,
-                                    housingId: data.id
+                                    housingId: data.communityId,
+                                    elementName:data.roomName,
+                                    roomId:data.roomId,
                                 })
                             }
                         })
                     }}>
                     <View style={styles.inputRow}>
-                        <Text style={styles.leftItemText}>所居住的小区</Text>
+                        <Text style={styles.leftItemText}>所属小区</Text>
                         <View style={{justifyContent:'center',alignItems:'flex-start',height: 40, paddingLeft: 10, flex: 1,}}>
-                            <Text style={{fontSize: 15,}}>{this.state.housingAddress ? this.state.housingAddress : '您所居住的小区名称'}</Text>
+                            <Text style={{fontSize: 15,}}>{this.state.housingAddress ? this.state.housingAddress : '您所属的小区名称'}</Text>
                         </View>
                     </View>
                     </TouchableView>
                     <View style={styles.lineStyle}/>
-                    <View style={styles.inputRow}>
-                        <Text style={styles.leftItemText}>苑、幢、单元室</Text>
-                        <TextInput
-                            ref="address_detail"
-                            style={styles.inputItem}
-                            underlineColorAndroid="transparent"
-                            placeholder='请填写具体信息'
-                            onChangeText={(text) => this.setState({addressDetail: text})}
-                            value={this.state.addressDetail ? this.state.addressDetail : ''}
-                        />
-                    </View>
+                    {/*<TouchableView onPress={() =>{
 
-                    <View style={styles.lineStyle}/>
+                        // this.showShort('请选择小区')
+                    }}>
+                        <View style={styles.inputRow}>
+                            <Text style={styles.leftItemText}>苑、幢、单元室</Text>
+                            <View style={{justifyContent:'center',alignItems:'flex-start',height: 40, paddingLeft: 10, flex: 1,}}>
+                                <Text style={{fontSize: 15,}}>{this.state.elementName ? this.state.elementName : '请填写具体信息'}</Text>
+                            </View>
+                        </View>
+                    </TouchableView>
+
+                    <View style={styles.lineStyle}/>*/}
 
                     <TextInput
                         ref="commit_info"
-                        placeholder='输简单描述一下您的房源...'
+                        placeholder='简单描述一下您的房源...'
                         style={{
                             width: '100%',
                             backgroundColor: '#fff',
@@ -238,14 +258,40 @@ export default class PublishHouseInfo extends BaseComponent{
                         justifyContent: 'center',
                         alignItems: 'center',
                     }} onPress={() => {
-                        this.addBillInfo()
+                        this.publishHouseInfo()
                     }}>
                         <Text style={{color: '#ffffff', fontSize: 14}}>确认提交</Text>
                     </TouchableView>
-                </KeyboardAvoidingView>
+
             </ScrollView>
 
         );
+    }
+
+    componentWillUnmount() {
+        this.keyboardDidShowListener.remove();
+        this.keyboardDidHideListener.remove();
+    }
+
+    componentWillMount() {
+        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow.bind(this));
+        this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide.bind(this));
+    }
+
+    _keyboardDidShow(e){
+        console.log(e)
+        // this.setState({
+        //     keyboardHeight:e.endCoordinates.height
+        // })
+        this._scrollView.scrollTo({x:0,y:e.endCoordinates.height,animated:true})
+
+    }
+
+    _keyboardDidHide(e){
+        // this.setState({
+        //     keyboardHeight:0
+        // })
+        this._scrollView.scrollTo({x:0,y:0,animated:true})
     }
 
     _keyExtractor = (item, index) => {
@@ -258,7 +304,11 @@ export default class PublishHouseInfo extends BaseComponent{
         if (rowData.index === 0) {
             return (
                 <TouchableView onPress={() => {
-                    this._onSelectImage()
+                    if (this.state.uploadImages.length <= 2){
+                        this._onSelectImage()
+                    } else {
+                        this.showShort('最多只能选择3张图片')
+                    }
                 }}>
                     <View style={{
                         width: ImageWH,
@@ -351,6 +401,14 @@ export default class PublishHouseInfo extends BaseComponent{
                         // height: 300,
                         cropping: false
                     }).then(image => {
+                        let files = [
+                            {
+                                filePath: image.path,
+                                fileType: image.mime,
+                            }
+                        ]
+                        console.log(image)
+                        this.updateFile(files);
                         images.push(image.path)
                         this.setState({
                             images: images
@@ -363,31 +421,35 @@ export default class PublishHouseInfo extends BaseComponent{
 
     publishHouseInfo() {
         Keyboard.dismiss();
-        let { initId,housingId,content,uploadImages,phone,housesize} = this.state;
+        let { titleInput,initId,price,housingId,content,uploadImages,phone,square,roomId,base} = this.state;
 
-        let min = 0
-        if (date) {
-            this.setState({datetime: this.dateToString(date)})
-        }
-
-
-        if (!datetime.length) {
-            this.showShort('请选择到访时间');
+        if (!titleInput.length) {
+            this.showShort('请输入标题');
             return;
         }
-        if (!validTime.length) {
-            this.showShort('请选择有效时间');
+        if (!base.length ) {
+            this.showShort('请输入如几室几厅几卫，第多少层');
             return;
         }
-        if (validTime.join('') === '1小时') {
-            min = 60
-        } else if (validTime.join('') === '3小时'){
-            min = 180
-        } else if (validTime.join('') === '6小时'){
-            min = 360
+        if (!price.length ) {
+            this.showShort('请输入面议or填写具体标准，是否包含物业费');
+            return;
         }
-        // let param = {title:this.state.title,bedroom: '', communityId: housingId, contact: datetime, content: content, imageList: uploadImages,livingRoom:'',phone:phone,restRoom:'',square:housesize,type:initId};
-        let param = {title:this.state.title,communityId: housingId, content: content, imageList: uploadImages,livingRoom:'',phone:phone,restRoom:'',housesize:housesize,type:initId};
+        if (!phone.length ) {
+            this.showShort('请输入联系方式');
+            return;
+        }
+
+        if (!square.length ) {
+            this.showShort('请输入房屋面积');
+            return;
+        }
+        // if (!housingId.length ) {
+        //     this.showShort('请选择小区');
+        //     return;
+        // }
+
+        let param = {title:titleInput,communityId: housingId, content: content, imageList: uploadImages,phone:phone,price:price,square:square,type:initId,base:base};
 
         console.log(param)
         Request.post('/api/steward/publishhousing', param,
@@ -395,10 +457,10 @@ export default class PublishHouseInfo extends BaseComponent{
                 mock: false,
                 mockId: 1095647,
             }).then(rep => {
-            if (rep.code == 0 && rep.data) {
-                // this.goBack()
-                // this.navigate('TrafficPermit', {data: rep.data})
-                // this.reset('TrafficPermit')
+            if (rep.code == 0) {
+                this.goBack()
+            } else {
+                this.showShort(rep.message)
             }
         }).catch(err => {
 
@@ -465,5 +527,8 @@ const styles = StyleSheet.create({
     },
     leftItemText:{
         textAlign: 'center',color:'#333',fontSize:15
-    }
+    },
+    marginTop:{
+        marginTop:10
+    },
 });

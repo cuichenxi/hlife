@@ -116,16 +116,18 @@ export default class AddShippingAddress extends BaseComponent {
             this.showLong('请输入收货人地址');
             return;
         }
-        let param = {name: name, tel: tel, detail: detail};
+        let param = {name: name, tel: tel, detail: detail,isDefault:0};
 
         console.log(param)
         Request.post('/api/user/shippingAddress', param,
             {
-                mock: true,
+                mock: false,
                 mockId: 1095545,
             }).then(rep => {
-            if (rep.code == 0 && rep.data) {
-                this.goBack()
+            if (rep.code == 0) {
+                this.goBack(rep.message)
+            } else {
+                this.showShort(rep.message)
             }
         }).catch(err => {
 

@@ -7,6 +7,7 @@ import {PAGE_SIZE} from "../../constants/AppConstants";
 import Request from "../../utils/Request";
 import TouchableView from "../../components/TouchableView";
 import util from "../../utils/util";
+import ImageView from "../../components/ImageView";
 let {width, height} = Dimensions.get('window')
 
 export default class RepairRecordList extends BaseComponent{
@@ -19,12 +20,10 @@ export default class RepairRecordList extends BaseComponent{
         return (
             <View style={{
                 flex: 1,
-                backgroundColor: 'white',
                 flexDirection: 'column'
             }}>
-                <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: '100%'}}/>
                 <GiftedListView
-                    style={{with: width, flex: 1}}
+                    style={{with: width, flex: 1,marginTop:10}}
                     rowView={this._renderRowView.bind(this)}
                     onFetch={this.makeRemoteRequest.bind(this)}
                     loadMore={false}
@@ -46,7 +45,6 @@ export default class RepairRecordList extends BaseComponent{
                 // console.log(JSON.stringify(rep))
                 callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             } else {
-                this.showShort(rep.message);
                 callback(null,{emptyTitle: rep.message})
             }
         }).catch(err => {
@@ -57,6 +55,8 @@ export default class RepairRecordList extends BaseComponent{
     }
 
     _renderRowView(item) {
+        const statusFontColor = item.statusFontColor;
+        const statusBgColor = item.statusBgColor;
         return (
             <TouchableView onPress={() => {
                 // this.navigate("HouseholdServer", {data: item})
@@ -70,9 +70,9 @@ export default class RepairRecordList extends BaseComponent{
                     // padding: 10,
                 }}>
                     <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                        <Image source={{uri: item.pic}} style={{
-                            width: 37,
-                            height: 37, alignItems: 'center', marginLeft: 12
+                        <ImageView defaultSource={require("../../img/icon_tools.png")} style={{
+                            width: 17,
+                            height: 27, alignItems: 'center', marginLeft: 12
                         }} resizeMode='cover'/>
                         <View style={{justifyContent: 'flex-start', alignItems: 'flex-start', marginLeft: 15}}>
                             <Text style={{
@@ -84,23 +84,23 @@ export default class RepairRecordList extends BaseComponent{
                                 color: '#999',
                                 padding: 3,
                                 fontSize: 13
-                            }}>业务简介:{item.intro}</Text>
+                            }}>报修时间:{item.createtime}</Text>
                         </View>
                     </View>
 
                         <Text style={{
-                            color: CommonStyle.white,
+                            color: statusFontColor,
                             borderRadius: 30,
                             borderWidth: 1,
-                            borderColor: CommonStyle.themeColor,
-                            backgroundColor:CommonStyle.themeColor,
+                            borderColor: statusBgColor,
+                            backgroundColor:statusBgColor,
                             paddingTop:3,
                             paddingBottom:3,
                             paddingRight:5,
                             paddingLeft:5,
                             fontSize: 12,
                             marginRight: 12
-                        }}>处理中</Text>
+                        }}>{item.statusName}</Text>
 
                 </View>
             </TouchableView>

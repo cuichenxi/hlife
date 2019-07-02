@@ -6,6 +6,7 @@ import {PAGE_SIZE} from "../../constants/AppConstants";
 import TouchableView from "../../components/TouchableView";
 import {BaseView} from "../../components/base/BaseView";
 import {CommonStyle} from "../../common/CommonStyle";
+import ImageView from "../../components/ImageView";
 
 const imageUrl = require('../../img/about_logo.png');
 
@@ -24,7 +25,7 @@ export default class HouseSellRentView extends BaseView {
     }
 
     makeRemoteRequest(page = 1, callback) {
-        let param = {type: this.state.index, page: page - 1, pageSize: PAGE_SIZE};
+        let param = {type: this.state.index, page: page - 1, pageSize: PAGE_SIZE,communityId:1};
 
         Request.post('/api/steward/housingList', param,
             {
@@ -35,7 +36,6 @@ export default class HouseSellRentView extends BaseView {
                 // console.log(JSON.stringify(rep))
                 callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             } else {
-                this.showShort(rep.message);
                 callback(null, {emptyTitle: rep.message})
             }
         }).catch(err => {
@@ -55,8 +55,9 @@ export default class HouseSellRentView extends BaseView {
                     justifyContent:'space-between',
                     padding: 5
                 }}>
-                    <Image
-                        source={imageUrl}
+                    <ImageView
+                        source={item.image}
+                        defaultSource={imageUrl}
                         style={{
                             width: 100,
                             height: 90,
@@ -67,7 +68,7 @@ export default class HouseSellRentView extends BaseView {
 
                         <Text style={{
                             fontSize: 15, color: '#333'
-                        }}>世纪花苑</Text>
+                        }}>{item.communityName}</Text>
                         <View style={{
                             flexDirection: 'row',
                             // justifyContent: 'flex-start',
@@ -78,9 +79,9 @@ export default class HouseSellRentView extends BaseView {
                             <Text style={{
                                 fontSize: 13,
                                 color: '#666666'
-                            }}>世纪花苑</Text>
+                            }}>{item.base}</Text>
                             <Text style={{ fontSize: 13,
-                                color: '#666666'}}>15分钟之前</Text>
+                                color: '#666666'}}>{item.square}</Text>
                         </View>
                         <View style={{
                             flexDirection: 'row',
@@ -88,8 +89,8 @@ export default class HouseSellRentView extends BaseView {
                             justifyContent:'space-between',
                             flex: 1
                         }}>
-                            <Text style={{color: CommonStyle.themeColor, fontSize: 15}}>$499</Text>
-                            <Text style={{color: '#999', fontSize: 11}}>15分钟之前</Text>
+                            <Text style={{color: CommonStyle.themeColor, fontSize: 15}}>￥{item.price}</Text>
+                            <Text style={{color: '#999', fontSize: 11}}>{item.publicTime}</Text>
                         </View>
                     </View>
                     <TouchableView style={{marginRight: 30}}

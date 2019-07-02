@@ -60,11 +60,14 @@ export default class HousingAddressList extends BaseComponent{
                 mockId: 1095630,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
-                callback(rep.data)
+                callback(rep.data,{allLoaded: true})
+            } else {
+                callback(null,{emptyTitle: rep.message})
             }
         }).catch(err => {
-
+            callback(null,{emptyTitle: err})
         }).done(() => {
+            this.hideLoading();
         })
     }
 

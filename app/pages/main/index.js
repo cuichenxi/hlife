@@ -78,7 +78,7 @@ export default class Main extends BaseComponent {
             typeIds: [],
             typeList: {},
             goodsRecommend: [],
-            isAuth: false,
+            isAuth: 0,
             searchHint:'请搜索',
             unreadMessageCount: 0
         };
@@ -92,6 +92,10 @@ export default class Main extends BaseComponent {
     onReady(param) {
         this.hideHeader(true);
         this.getHomeData();
+        let userInfo = UserStore.get();
+        this.setState({
+            isAuth: userInfo.isAuth,
+        })
     }
 
     _loadWeb(title, url) {
@@ -106,14 +110,16 @@ export default class Main extends BaseComponent {
                 mockId: 1092531,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
+                UserStore.save({isAuth:rep.data.isAuth});
                 this.setState({
-                    isAuth: data.isAuth == 1,
+                    isAuth: rep.data.isAuth,
                     searchHint: data.searchHint,
                     unreadMessageCount: data.messages
                 });
                 UserStore.save({
                     messages: data.messages
                 })
+
             }
         }).catch(err => {
 
@@ -195,6 +201,17 @@ export default class Main extends BaseComponent {
 
 
     _renderHeader() {
+        var authText = '请认证'
+        const {isAuth} = this.state
+        if (isAuth === 0){
+            authText = '请认证'
+        } else if (isAuth === 1){
+            authText = '已认证'
+        } else if (isAuth === 2){
+            authText = '认证中'
+        } else if (isAuth === 3){
+            authText = '认证失败'
+        }
         return (
             <View style={{height: CommonStyle.navHeight}}>
                 <View style={{
@@ -202,7 +219,7 @@ export default class Main extends BaseComponent {
                     marginTop: CommonStyle.navStatusBarHeight, alignItems: 'center'
                 }}>
                     <TouchableView style={{width: 60,height:50, alignItems: 'center',justifyContent:'center'}} onPress={() => {
-                        if (!this.state.isAuth) {
+                        if (this.state.isAuth === 1) {
                             this.navigate('AuthPage',{
                                 params: {from: 1},callback:(e)=>{
                                    this.setState({
@@ -211,7 +228,7 @@ export default class Main extends BaseComponent {
                                 }});
                         }
                     }}>
-                        <Text style={{textAlign: 'center',color:'#fff', fontSize: 14}} >{!this.state.isAuth?'请认证':'已认证'}</Text>
+                        <Text style={{textAlign: 'center',color:'#fff', fontSize: 14}} >{authText}</Text>
                     </TouchableView>
                     <View style={{
                         flex: 1,

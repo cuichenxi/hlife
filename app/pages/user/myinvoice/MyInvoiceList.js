@@ -99,7 +99,6 @@ export default class MyInvoiceList extends BaseComponent {
             >
                 <TouchableView onPress={()=>{
                     this.navigate('AddBillInfo', {invoice: item,callback:(data) => {
-                            ToastUtil.showShort(data);
                             this.listRef._refresh();
                         }})
                 }}>

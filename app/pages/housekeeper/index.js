@@ -192,7 +192,7 @@ export default class Housekeeper extends BaseComponent {
             }}>
                 <View style={[{flex: 1}, styles.typesItem]}>
                     <ImageView source={item.imageUrl} style={{width: 30, height: 30, marginTop: 20, }}/>
-                    <Text style={{fontSize: 14, color: "#333", marginTop: 10}}>{item.name}</Text>
+                    <Text style={{fontSize: 12, color: "#333", marginTop: 20}}>{item.name}</Text>
                 </View>
             </TouchableView>
         )

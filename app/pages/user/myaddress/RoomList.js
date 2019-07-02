@@ -64,10 +64,13 @@ export default class RoomList extends BaseComponent{
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
                 callback(rep.data)
+            } else {
+                callback(null,{emptyTitle: rep.message})
             }
         }).catch(err => {
-
+            callback(null,{emptyTitle: err})
         }).done(() => {
+            this.hideLoading();
         })
     }
 
