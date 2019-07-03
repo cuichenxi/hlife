@@ -159,7 +159,7 @@ export default class MyShippingAddress extends BaseComponent {
                              },
                          ]}>
                 <TouchableView onPress={() => {
-                    this.navigate('AddShippingAddress', {address: item,callback:(data) =>{
+                    this.navigate('AddShippingAddress', {address: item,update:true,api:'/api/user/goodsaddressUpdate',callback:(data) =>{
                             this.listRef._refresh();
                         }})
                 }}>
@@ -204,7 +204,7 @@ export default class MyShippingAddress extends BaseComponent {
 
 
     goAddHousingAddress() {
-        this.navigate('AddShippingAddress',{callback:(data) =>{
+        this.navigate('AddShippingAddress',{api:'/api/user/shippingAddress',callback:(data) =>{
                 this.listRef._refresh();
             }})
     }

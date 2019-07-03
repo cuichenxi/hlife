@@ -21,7 +21,7 @@ export default class MessageList extends BaseView {
         return (
             <View style={{flex: 1}}>
                 <GiftedListView
-                    style={{with: width}}
+                    style={{marginTop:10}}
                     rowView={this._renderRowView.bind(this)}
                     onFetch={this.makeRemoteRequest.bind(this)}
                     loadMore={false}
@@ -35,17 +35,18 @@ export default class MessageList extends BaseView {
 
         Request.post('api/home/messageList', param,
             {
-                mock: true,
+                mock: false,
                 mockId: 1095710,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
-
                 callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
+            } else {
+                callback(null,{emptyTitle: rep.message})
             }
         }).catch(err => {
-
+            callback(null,{emptyTitle: err})
         }).done(() => {
-            // this.hideLoading();
+            this.hideLoading();
         })
     }
 

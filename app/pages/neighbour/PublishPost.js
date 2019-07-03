@@ -170,10 +170,8 @@ export default class PublishPost extends BaseComponent {
                         console.log(this.state.images)
                         this.state.images.splice(rowData.index, 1)
                         this.setState({
-                            images:this.state.image
+                            images:this.state.images
                         })
-                        console.log('=======重新赋值======')
-                        console.log(this.state.images)
                     }} style={{position: 'absolute',
                         top:0,
                         right:0}}>

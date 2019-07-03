@@ -42,13 +42,14 @@ export default class AuthPage extends BaseComponent {
         super(props);
         this.state = {
             name: '',
-            housingAddress: '选择你所居住的小区',
-            elementName: '选择楼栋/单元',
-            housingId: '',
-            buildingId: '',
-            unitId: '',
-            roomName: '',
-            roomId: ''
+            housingAddress: this.props.navigation.state.params.address ? this.props.navigation.state.params.address.communityName : '选择你所居住的小区',
+            elementName: this.props.navigation.state.params.address ? this.props.navigation.state.params.address.unitName + this.props.navigation.state.params.address.buildingName : '选择楼栋/单元',
+            housingId: this.props.navigation.state.params.address ? this.props.navigation.state.params.address.communityId : '',
+            buildingId: this.props.navigation.state.params.address ? this.props.navigation.state.params.address.buildingId : '',
+            unitId: this.props.navigation.state.params.address ? this.props.navigation.state.params.address.unitId : '',
+            roomName: this.props.navigation.state.params.address ? this.props.navigation.state.params.address.roomName : '',
+            roomId: this.props.navigation.state.params.address ? this.props.navigation.state.params.address.roomId : '',
+            address: this.props.navigation.state.params.address
         };
     }
 
@@ -96,6 +97,8 @@ export default class AuthPage extends BaseComponent {
     }
 
     _render() {
+        const {address} = this.state
+        console.log(address)
         return (
             <View style={styles.container}>
                 <KeyboardAvoidingView behavior='position'>
@@ -290,17 +293,37 @@ export default class AuthPage extends BaseComponent {
                     }}>
                         <Text style={styles.loginText}>提交审核</Text>
                     </TouchableOpacity>
-                    <View style={{backgroundColor:'#fff',justifyContent: 'flex-end', alignItems: 'center', marginTop: 5,marginLeft: 30,
-                        marginRight: 30,flexDirection:'row',}}>
-                        <ImageView defaultSource={require("../../img/icon_auth_phone.png")}resizeMode='cover' style={{width:13,height:13}}/>
-                        <Text style={{fontSize: 11, color: '#999',marginLeft:7}}>客服电话</Text>
+                    <View style={{
+                        backgroundColor: '#fff',
+                        justifyContent: 'flex-end',
+                        alignItems: 'center',
+                        marginTop: 5,
+                        marginLeft: 30,
+                        marginRight: 30,
+                        flexDirection: 'row',
+                    }}>
+                        <ImageView defaultSource={require("../../img/icon_auth_phone.png")} resizeMode='cover'
+                                   style={{width: 13, height: 13}}/>
+                        <Text style={{fontSize: 11, color: '#999', marginLeft: 7}}>客服电话</Text>
                     </View>
 
                 </KeyboardAvoidingView>
-                <View style={{backgroundColor:'#f7f7f7',justifyContent: 'center', alignItems: 'center', marginTop: 5,width:'100%',height:60,flexDirection:'row',
-                    position: CommonStyle.absolute, left: 0, bottom: 0, right: 0,}}>
-                    <ImageView defaultSource={require("../../img/icon_auth_notice.png")}resizeMode='cover' style={{width:13,height:13}}/>
-                    <Text style={{fontSize: 11, color: '#999',marginLeft:7}}>提交申请后，我们会在一个工作日之内完成审核</Text>
+                <View style={{
+                    backgroundColor: '#f7f7f7',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginTop: 5,
+                    width: '100%',
+                    height: 60,
+                    flexDirection: 'row',
+                    position: CommonStyle.absolute,
+                    left: 0,
+                    bottom: 0,
+                    right: 0,
+                }}>
+                    <ImageView defaultSource={require("../../img/icon_auth_notice.png")} resizeMode='cover'
+                               style={{width: 13, height: 13}}/>
+                    <Text style={{fontSize: 11, color: '#999', marginLeft: 7}}>提交申请后，我们会在一个工作日之内完成审核</Text>
                 </View>
             </View>
         )

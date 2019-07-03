@@ -36,7 +36,6 @@ export default class Index extends BaseView {
             if (rep.code == 0 && rep.data && !util.isArrayEmpty(rep.data.rows)) {
                 callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             } else {
-                // this.showShort(rep.message);
                 callback(null,{emptyTitle: rep.message})
             }
         }).catch(err => {

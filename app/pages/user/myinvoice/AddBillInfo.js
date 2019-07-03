@@ -29,19 +29,8 @@ export default class AddBillInfo extends BaseComponent {
             phone: this.props.navigation.state.params.invoice?this.props.navigation.state.params.invoice.phone:'',
             bank: this.props.navigation.state.params.invoice?this.props.navigation.state.params.invoice.bank:'',
             bankNo: this.props.navigation.state.params.invoice?this.props.navigation.state.params.invoice.bankNo:'',
-            // invoice: this.props.navigation.state.params.invoice?this.props.navigation.state.params.invoice:{
-            //     address: "",
-            //     bank: "",
-            //     bankNo: "",
-            //     createdTime: null,
-            //     id: 1,
-            //     name: "",
-            //     no: "",
-            //     phone: "",
-            //     type: 0,
-            //     initItem:'个人'
-            // }
-            initId: this.props.navigation.state.params.invoice?this.props.navigation.state.params.invoice.type:'0',
+
+            initId: this.props.navigation.state.params.invoice?this.props.navigation.state.params.invoice.type+'':'0',
             type: this.props.navigation.state.params.invoice?this.props.navigation.state.params.invoice.type:''
         }
         console.log(this.state.invoice)
@@ -49,7 +38,8 @@ export default class AddBillInfo extends BaseComponent {
 
 
     _render() {
-        const {name,no,address,bank,bankNo,phone} = this.state
+        const {name,no,address,bank,bankNo,phone,initId} = this.state
+        console.log('initId==========:'+initId)
         return (
             <ScrollView>
                 <KeyboardAvoidingView behavior='position'>

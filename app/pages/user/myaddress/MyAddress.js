@@ -153,7 +153,7 @@ export default class MyAddress extends BaseComponent {
                              },
                          ]}>
                 <TouchableView onPress={() => {
-                    this.navigate('ModifyHousingAddress', {address: item.item})
+                    this.navigate('AuthPage', {address: item.item})
                 }}>
                     <View style={{
                         backgroundColor: 'white',

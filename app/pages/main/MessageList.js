@@ -27,21 +27,22 @@ export default class MessageList extends BaseComponent {
     }
 
     makeRemoteRequest(page = 1, callback) {
-        let param = {statusBODY: this.state.index, page: page - 1, pageSize: PAGE_SIZE};
+        let param = {type: this.state.index, page: page - 1, pageSize: PAGE_SIZE};
 
         Request.post('api/home/messageList', param,
             {
-                mock: true,
+                mock: false,
                 mockId: 1095710,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
-
                 callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
+            } else {
+                callback(null,{emptyTitle: rep.message})
             }
         }).catch(err => {
-
+            callback(null,{emptyTitle: err})
         }).done(() => {
-            // this.hideLoading();
+            this.hideLoading();
         })
     }
 

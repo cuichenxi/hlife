@@ -12,7 +12,7 @@ import TouchableView from "../../../components/TouchableView";
 export default class AddShippingAddress extends BaseComponent {
     navigationBarProps() {
         return {
-            title: '新增收货地址',
+            title: this.props.navigation.state.params.update ? '修改收货地址' : '新增收货地址',
         }
     }
 
@@ -20,17 +20,22 @@ export default class AddShippingAddress extends BaseComponent {
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
-            tel: '',
-            detail: '',
+
+            update: this.props.navigation.state.params.update,
+            api: this.props.navigation.state.params.api,
+            address: this.props.navigation.state.params.address,
+            name: this.props.navigation.state.params.address?this.props.navigation.state.params.address.name:'',
+            tel: this.props.navigation.state.params.address?this.props.navigation.state.params.address.tel:'',
+            detail: this.props.navigation.state.params.address?this.props.navigation.state.params.address.detail:'',
         }
     }
 
     _render() {
+        const {address,name,tel,detail} = this.state
         return (
             <View style={{flex: 1}}>
                 <KeyboardAvoidingView behavior='position'>
-                    <View style={styles.inputRow}>
+                    <View style={[styles.inputRow,styles.marginTop]}>
                         <Image source={require('../../../img/icon_shouhuoren.png')}
                                style={styles.imgIcon}/>
                         <View style={{justifyContent: 'center', alignItems: 'center'}}>
@@ -42,7 +47,7 @@ export default class AddShippingAddress extends BaseComponent {
                             style={styles.textInput}
                             underlineColorAndroid="transparent"
                             onChangeText={(text) => this.setState({name: text})}
-                            value={this.state.name ? this.state.name : ''}
+                            value={name}
                         />
                     </View>
                     <View style={styles.inputRow}>
@@ -58,7 +63,7 @@ export default class AddShippingAddress extends BaseComponent {
                             maxLength={11}
                             keyboardType='numeric'
                             onChangeText={(text) => this.setState({tel: text})}
-                            value={this.state.tel ? this.state.tel : ''}
+                            value={tel}
                         />
                     </View>
                     <View style={styles.inputRow}>
@@ -72,10 +77,10 @@ export default class AddShippingAddress extends BaseComponent {
                             underlineColorAndroid="transparent"
                             placeholder='请输入楼号、门牌号'
                             onChangeText={(text) => this.setState({detail: text})}
-                            value={this.state.detail ? this.state.detail : ''}/>
+                            value={detail}/>
                     </View>
 
-                    <TouchableView onPress={()=>{
+                    <TouchableView onPress={() => {
                         this.addShippingAddress()
                     }}>
                         <View style={{
@@ -103,7 +108,7 @@ export default class AddShippingAddress extends BaseComponent {
      */
     addShippingAddress(callback) {
         Keyboard.dismiss();
-        let {name, tel, detail} = this.state;
+        let {name, tel, detail, api, update, address} = this.state;
         if (!name.length) {
             this.showLong('请输入收货人');
             return;
@@ -116,10 +121,15 @@ export default class AddShippingAddress extends BaseComponent {
             this.showLong('请输入收货人地址');
             return;
         }
-        let param = {name: name, tel: tel, detail: detail,isDefault:0};
+        let param = update ? {id: address.id, name: name, tel: tel, detail: detail, isDefault: 0} : {
+            name: name,
+            tel: tel,
+            detail: detail,
+            isDefault: 0
+        };
 
         console.log(param)
-        Request.post('/api/user/shippingAddress', param,
+        Request.post(api, param,
             {
                 mock: false,
                 mockId: 1095545,
@@ -157,6 +167,9 @@ const styles = StyleSheet.create(
             flex: 1,
             fontSize: 16,
             marginTop: 3
+        },
+        marginTop:{
+            marginTop:10
         }
     }
 )
