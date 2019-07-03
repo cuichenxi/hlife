@@ -62,7 +62,7 @@ export default class TopicPostList extends BaseComponent {
                     justifyContent: 'space-between',
                     padding: 5
                 }}>
-                    <ImageView source={item.imageUrl}
+                    <ImageView source={item.memberAvatar}
                                defaultSource={require("../../img/default_head.png")}
                                style={{
                                    width: 40,

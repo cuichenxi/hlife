@@ -27,7 +27,6 @@ export default class ReportMatter extends BaseComponent {
             images: ['add'],
             contentValue:'',
             type:1,
-            communityId:'',
             uploadImages:[],
             title:this.props.navigation.state.params.title,
             repairType:this.props.navigation.state.params.repairType,

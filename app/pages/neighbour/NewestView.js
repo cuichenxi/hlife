@@ -46,6 +46,8 @@ export default class Index extends BaseView {
         })
     }
 
+
+
     _renderRowView(item) {
         return (
             <TouchableView style={{flex: 1}} onPress={()=>{
@@ -59,8 +61,8 @@ export default class Index extends BaseView {
                     justifyContent: 'space-between',
                     padding: 5
                 }}>
-                    <ImageView source={item.imageUrl}
-                               defaultSource={require("../../img/default_image.png")}
+                    <ImageView source={item.memberAvatar}
+                               defaultSource={require("../../img/default_head.png")}
                                style={{
                                    width: 40,
                                    height: 40,
@@ -135,6 +137,9 @@ export default class Index extends BaseView {
                 flexDirection: 'column'
             }}>
                 <GiftedListView
+                    onRef={(ref)=>{
+                        this.listRef = ref;
+                    }}
                     style={{with: width, flex: 1}}
                     rowView={this._renderRowView.bind(this)}
                     onFetch={this.makeRemoteRequest.bind(this)}

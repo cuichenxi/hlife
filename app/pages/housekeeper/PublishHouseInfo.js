@@ -141,10 +141,13 @@ export default class PublishHouseInfo extends BaseComponent{
                             ref="rent_info"
                             style={styles.inputItem}
                             underlineColorAndroid="transparent"
-                            placeholder='面议or填写具体标准，是否包含物业费'
+                            placeholder='填写具体费用'
+                            keyboardType='numeric'
+                            maxLength={8}
                             onChangeText={(text) => this.setState({price: text})}
                             value={this.state.price ? this.state.price : ''}
                         />
+                        <Text style={[styles.leftItemText,styles.paddingRight]}>元</Text>
                     </View>
                     <View style={styles.lineStyle}/>
                     <View style={styles.inputRow}>
@@ -162,7 +165,7 @@ export default class PublishHouseInfo extends BaseComponent{
                     </View>
                     <View style={styles.lineStyle}/>
                     <View style={styles.inputRow}>
-                        <Text style={styles.leftItemText}>平方米</Text>
+                        <Text style={styles.leftItemText}>房屋面积</Text>
                         <TextInput
                             ref="size"
                             style={{height: 40,
@@ -171,10 +174,13 @@ export default class PublishHouseInfo extends BaseComponent{
                                 fontSize: 15,
                                 marginTop:2,marginBottom:this.state.keyboardHeight}}
                             underlineColorAndroid="transparent"
-                            placeholder='房屋面积'
+                            placeholder='请输入房屋面积'
+                            keyboardType='numeric'
+                            maxLength={4}
                             onChangeText={(text) => this.setState({square: text})}
                             value={this.state.square ? this.state.square : ''}
                         />
+                        <Text style={[styles.leftItemText,styles.paddingRight]}>平方米</Text>
                     </View>
                     <View style={styles.lineStyle}/>
 
@@ -202,19 +208,6 @@ export default class PublishHouseInfo extends BaseComponent{
                     </View>
                     </TouchableView>
                     <View style={styles.lineStyle}/>
-                    {/*<TouchableView onPress={() =>{
-
-                        // this.showShort('请选择小区')
-                    }}>
-                        <View style={styles.inputRow}>
-                            <Text style={styles.leftItemText}>苑、幢、单元室</Text>
-                            <View style={{justifyContent:'center',alignItems:'flex-start',height: 40, paddingLeft: 10, flex: 1,}}>
-                                <Text style={{fontSize: 15,}}>{this.state.elementName ? this.state.elementName : '请填写具体信息'}</Text>
-                            </View>
-                        </View>
-                    </TouchableView>
-
-                    <View style={styles.lineStyle}/>*/}
 
                     <TextInput
                         ref="commit_info"
@@ -533,4 +526,7 @@ const styles = StyleSheet.create({
     marginTop:{
         marginTop:10
     },
+    paddingRight:{
+        paddingRight: 10
+    }
 });

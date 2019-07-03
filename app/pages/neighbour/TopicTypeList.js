@@ -26,12 +26,13 @@ export default class TopicTypeList extends BaseComponent {
     _render() {
         return (
             <View>
-                <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: '100%'}}/>
                 <GiftedListView
                     style={{width: '100%'}}
                     rowView={this._renderRowView.bind(this)}
                     onFetch={this.makeRemoteRequest.bind(this)}
                     loadMore={false}
+                    pagination={false}
+                    style={{marginTop:10}}
                 />
             </View>
         )

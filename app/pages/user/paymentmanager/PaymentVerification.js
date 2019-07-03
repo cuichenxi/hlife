@@ -20,7 +20,8 @@ export default class PaymentVerification extends BaseComponent{
             userPhone:'',
             authCode:'',
             authState: '显示请求的状态',
-            codeRequesting:false
+            codeRequesting:false,
+            password: ''
         }
     }
 
@@ -83,6 +84,24 @@ export default class PaymentVerification extends BaseComponent{
                             }}/>
                     </View>
                 </View>
+                <View style={[styles.formInput, styles.formInputSplit]}>
+                    <Image source={require('../../../img/yanzhengma.png')}
+                           style={{ width: 20, height: 20, resizeMode: 'contain'}}/>
+                    <TextInput
+                        style={styles.loginInput}
+                        underlineColorAndroid="transparent"
+                        placeholder='请设置你新的支付密码'
+                        // keyboardType='numeric'
+                        maxLength={26}
+                        secureTextEntry={true}
+                        onChangeText={(value) =>{
+                            this.setState({
+                                password:value
+                            })
+                        }}
+                        value={this.state.password}
+                    />
+                </View>
 
                 <TouchableOpacity style={{
                     height: 40,
@@ -95,25 +114,22 @@ export default class PaymentVerification extends BaseComponent{
                     alignItems: 'center',
                     marginTop:30
                 }} onPress={()=>{
-                    this.navigate('PaymentCodeCommit')
+                    this.commitPaymentCode()
                 }}>
-                    <Text style={styles.loginText}>下一步</Text>
+                    <Text style={styles.loginText}>保存</Text>
                 </TouchableOpacity>
             </View>
         );
     }
 
     _requestAuthCode(shouldStartCounting) {
-        if (this.state.mobile.length !== 11) {
-            this.showLong('请输入手机号');
-            return;
-        }
+
         this.setState({
             authState: '正在请求验证码',
             codeRequesting:true
         })
 
-        var param = {phone: this.state.mobile};
+        var param = {phone: this.state.userPhone,type:5};
 
         Request.post('/api/user/getAuthCode', param,
             {
@@ -131,6 +147,37 @@ export default class PaymentVerification extends BaseComponent{
         }).catch(err => {
             shouldStartCounting && shouldStartCounting(false)
             this.showShort('网络异常');
+        }).done(() => {
+            this.hideLoading();
+        })
+    }
+
+    commitPaymentCode() {
+        if (this.state.authCode.length === 0) {
+            this.showShort('请输入验证码');
+            return;
+        }
+        if (this.state.password.length === 0) {
+            this.showShort('请输入支付密码');
+            return;
+        }
+
+
+        var param = {code: this.state.authCode,password:this.state.password};
+
+        Request.post('/api/user/modifyPay', param,
+            {
+                mock: false,
+                mockId: 1089766,
+            }).then(rep => {
+            if (rep.code === 0 && rep.data){
+                this.goBack()
+            } else {
+                this.showShort(rep.message);
+            }
+
+        }).catch(err => {
+            this.showShort(err);
         }).done(() => {
             this.hideLoading();
         })

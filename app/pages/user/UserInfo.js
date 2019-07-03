@@ -1,25 +1,14 @@
 import React from 'react'
-import {
-    Text,
-    View,
-    Image,
-    StyleSheet,
-    ScrollView,
-    Dimensions,
-    SafeAreaView,
-    TouchableOpacity, Keyboard,
-} from 'react-native'
+import {Keyboard, StyleSheet, Text, TouchableOpacity, View,} from 'react-native'
 import {BaseComponent} from "../../components/base/BaseComponent";
 import {CommonStyle} from "../../common/CommonStyle";
 import TouchableView from "../../components/TouchableView";
-import {ActionSheet, Modal} from "antd-mobile-rn";
+import {ActionSheet, Modal,DatePicker} from "antd-mobile-rn";
 import ImagePicker from 'react-native-image-crop-picker';
 import Request from "../../utils/Request";
 import Icon from 'react-native-vector-icons/Ionicons';
 import UserStore from "../../store/UserStore";
 import ImageView from "../../components/ImageView";
-import RadioModal from "../../components/RadioModal";
-import DatePicker from "antd-mobile-rn/es/date-picker/index.native";
 import List from "antd-mobile-rn/es/list/index.native";
 
 export default class UserInfo extends BaseComponent {
@@ -43,6 +32,7 @@ export default class UserInfo extends BaseComponent {
             gender: 1,
             sign: '',
             birthday: '',
+            date: undefined,
         };
     }
 
@@ -91,6 +81,7 @@ export default class UserInfo extends BaseComponent {
                         sign: rep.data.sign,
                         gender: rep.data.gender,
                         birthday: rep.data.birthday,
+                        nickName: rep.data.nickName,
                     });
                     this.setState({
                         gender: rep.data.gender,
@@ -108,6 +99,22 @@ export default class UserInfo extends BaseComponent {
             this.hideLoading()
         })
     }
+
+    dateToString(date) {
+        var year = date.getFullYear();
+        var month = (date.getMonth() + 1).toString();
+        var day = (date.getDate()).toString();
+        if (month.length == 1) {
+            month = "0" + month;
+        }
+        if (day.length == 1) {
+            day = "0" + day;
+        }
+        var dateTime = year + "-" + month + "-" + day;
+        console.log(dateTime)
+        return dateTime;
+    }
+
     onUpdatePhone(){
         this.navigate('ModifyPhone',{callback:(e)=>{
                 this.setState({
@@ -117,6 +124,7 @@ export default class UserInfo extends BaseComponent {
     }
 
     _render() {
+        console.log(this.state.birthday)
         return (
             <View style={styles.container}>
                 <View style={{backgroundColor: CommonStyle.lineColor, marginTop: 10, height: 0.5}}/>
@@ -186,17 +194,16 @@ export default class UserInfo extends BaseComponent {
                 </TouchableView>
                 <List>
                     <DatePicker
-                        value={this.state.birthday}
+                        value={this.state.date}
                         mode="date"
                         minDate={new Date(1900, 1, 1)}
                         maxDate={new Date()}
-                        onChange={(value)=>{
-                            this.setState({birthday: value});
-                        }}
+                        onChange={this.onChange}
                         format="YYYY-MM-DD"
                         title={'出生日期'}
+                        extra={this.state.birthday}
                     >
-                        <List.Item arrow="horizontal" extra={' '}><Text style={{color: CommonStyle.color_333, fontSize: 14}}>出生日期</Text></List.Item>
+                        <List.Item arrow="horizontal" extra={''}><Text style={{color: CommonStyle.color_333, fontSize: 14}}>出生日期</Text></List.Item>
                     </DatePicker>
                 </List>
                 <View style={{backgroundColor: CommonStyle.lineColor, marginTop: 10, height: 0.5}}/>
@@ -230,6 +237,12 @@ export default class UserInfo extends BaseComponent {
             </View>
         );
 
+    }
+
+    onChange = (value) => {
+        console.log(value)
+        this.setState({birthday: this.dateToString(value)})
+        this.setState({date: value});
     }
 
     _logout() {

@@ -41,13 +41,6 @@ export default class ModifyPhone extends BaseComponent {
     onReady(e) {
         let userInfo = UserStore.get();
         this.setState({
-            // gender: userInfo.gender,
-            // sign: userInfo.sign,
-            // birthday: userInfo.birthday,
-            // avatar: userInfo.avatar,
-            // userName: userInfo.userName,
-            // userPhone: userInfo.phone,
-            // nickName: userInfo.nickName,
             oldPhone: userInfo.phone,
         })
     }

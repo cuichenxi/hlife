@@ -79,12 +79,12 @@ export default class RepairsSelect extends BaseComponent {
                 <View>
                     <View style={{
                         backgroundColor: 'white',
-                        marginTop: 5,
+                        marginTop: 10,
                         flexDirection: 'row',
                         alignItems: 'center',
                         padding: 10
                     }}>
-                        <Image source={require('../../img/address.png')}
+                        <Image source={require('../../img/default_head.png')}
                                style={{width: 37, height: 37, resizeMode: 'contain'}}/>
                         <Text></Text>
                         <View style={{flex: 1, marginLeft: 10}}>

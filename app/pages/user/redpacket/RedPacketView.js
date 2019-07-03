@@ -103,7 +103,7 @@ export default class Index extends BaseView {
 
     }
 
-    // _renderRowView(item) {
+    // _renderRowView(rowData) {
     //     return (
     //         <SwipeAction
     //             autoClose={true}
@@ -111,15 +111,15 @@ export default class Index extends BaseView {
     //             right={[{
     //                 text: '删除',
     //                 onPress: () => {
-    //                     ToastUtil.showShort(item.title)
+    //                     ToastUtil.showShort(rowData.title)
     //                 },
     //                 style: {backgroundColor: 'red', color: 'white'},
     //             }]}
     //             onOpen={() => console.log('open')}
     //             onClose={() => console.log('close')}
-    //             onPress={() => this.state.onItemPress(item)}
+    //             onPress={() => this.state.onItemPress(rowData)}
     //         >
-    //             <Text>{item.title}</Text>
+    //             <Text>{rowData.title}</Text>
     //         </SwipeAction>
     //     );
     // }

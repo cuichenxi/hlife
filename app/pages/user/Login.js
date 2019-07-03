@@ -170,12 +170,8 @@ export default class Login extends BaseComponent {
             this.showShort('请输入有效的手机号');
             return;
         }
-        /*this.setState({
-            authState: '正在请求验证码',
-            codeRequesting:true
-        })*/
 
-        var param = {phone: this.state.mobile};
+        var param = {phone: this.state.mobile,type:1};
 
         Request.post('/api/user/getAuthCode', param,
             {
