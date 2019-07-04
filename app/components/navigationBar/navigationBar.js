@@ -6,7 +6,7 @@ import {View, Text, StyleSheet, TouchableOpacity} from 'react-native'
 import {CommonStyle} from '../../common/CommonStyle'
 import QIcon from '../icon/index'
 
-const barBtnWidth = 40
+const barBtnWidth = 80
 const defaultNavigationBarProps = {
     hiddenNav: false,
     hiddenLeftItem: false,
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     },
     leftItemStyle: {
         justifyContent: 'center',
-        width: 35,
+        width: barBtnWidth,
     },
     leftTitleStyle: {
         fontSize: CommonStyle.navLeftTitleFont,

@@ -6,11 +6,12 @@ import Swiper from "react-native-swiper";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import TouchableView from "../../components/TouchableView";
 import Request from "../../utils/Request";
+import {PAY_FROM_ORDER_DETAIL} from "../../constants/ActionTypes";
 
 let {width, height} = Dimensions.get('window')
 
 
-export default class ProductDetail extends BaseComponent {
+export default class OrderDetail extends BaseComponent {
     navigationBarProps() {
         return {
             title: '订单详情',
@@ -32,60 +33,29 @@ export default class ProductDetail extends BaseComponent {
 
     onReady(e) {
         this.setState({
-            goodId: e.id
+            goodId: e.id,
         });
-        // this.makeRemoteRequest(e);
+        this.makeRemoteRequest(e);
     }
     makeRemoteRequest(e) {
         let param = { id: e.id};
-        Request.post('/api/goods/detail', param,
-            {
-                mock: false,
-                mockId: 1095374,
-            }).then(rep => {
-            if (rep.code == 0 && rep.data) {
-                this.setState(
-                    {
-                        data: rep.data
-                    }
-                )
-            }
-        }).catch(err => {
-
-        }).done(() => {
-        })
-    }
-    onSubmit(){
-        this.showLoading("生单中...")
-        let param = {
-            addressId: 3,
-            leaveMessage: this.state.leaveMessage,
-            orderDetailList:[
-                {
-                    goodId: this.state.goodId,
-                    // num: this.state.num
-                    num: 1
-                }
-            ],
-            redPacketId: this.state.redPacketId
-        };
-        Request.post('/api/goods/createOrder', param).then(rep => {
+        this.showInDLoading()
+        Request.post('/api/goods/orderInfo', param).then(rep => {
             if (rep.code == 0 && rep.data) {
                 // this.setState(
                 //     {
                 //         data: rep.data
                 //     }
                 // )
-                // {"id":6,"orderno":"1562064939888"}
-                this.navigate('payPage',rep.data)
-            }else {
-                this.showShort(rep.message);
             }
         }).catch(err => {
 
         }).done(() => {
-           this.hideLoading()
+            this.hideLoading()
         })
+    }
+    onPay(){
+        this.navigate('PayPage',{id: this.state.goodId , from: PAY_FROM_ORDER_DETAIL})
     }
 
     _render() {
@@ -242,8 +212,8 @@ export default class ProductDetail extends BaseComponent {
                         justifyContent: 'center',
                         height: 40,
                         width: width / 2,
-                    }} onPress={() => this.onSubmit()}>
-                        <Text style={{color: 'white'}}>立即购买</Text>
+                    }} onPress={() => this.onPay()}>
+                        <Text style={{color: 'white'}}>去支付</Text>
                     </TouchableView>
                 </View>
 

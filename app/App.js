@@ -81,6 +81,7 @@ import PaymentCodeCommit from "./pages/user/paymentmanager/PaymentCodeCommit";
 import ProductShoppingCart from "./pages/shopping/ProductShoppingCart";
 import OrderDetail from "./pages/shopping/OrderDetail";
 import MyPaymentRecord from "./pages/user/MyPaymentRecord";
+import OrderConfirm from "./pages/shopping/OrderConfirm";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -231,6 +232,9 @@ const App = createStackNavigator(
         PaymentVerification:{screen:PaymentVerification},//支付密码获取验证码
         PaymentCodeCommit:{screen:PaymentCodeCommit},//支付密码提交
         ProductShoppingCart:{screen:ProductShoppingCart},//购物车
+        OrderDetail:{screen:OrderDetail},//订单详情
+        MyPaymentRecord:{screen:MyPaymentRecord},//我的缴费记录
+        OrderConfirm:{screen:OrderConfirm},//订单确认
     },
     {
         // initialRouteName: 'Splash',

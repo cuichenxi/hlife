@@ -74,12 +74,14 @@ export default class MyOrder extends BaseComponent {
     _renderGoodList = (data) => {
         return data.map((item, i) => {
             return (
-                <View style={{
+                <TouchableView style={{
                     backgroundColor: 'white',
                     // height:50,
                     flexDirection: 'row',
                     alignItems: 'center',
                     padding: 5
+                }} onPress={()=>{
+                    this.navigate('OrderDetail',{id:item.id,orderno:item.orderno,totalPrice:item.totalpirce})
                 }}>
                     <ImageView
                         source={item.pic}
@@ -99,7 +101,7 @@ export default class MyOrder extends BaseComponent {
                             <Text style={{
                                 fontSize: 12,
                                 textAlign: 'left', color: '#999'
-                            }}>{item.des}</Text>
+                            }}>{data.paystatus}</Text>
                             <Text style={{
                                 fontSize: 12,
                                 textAlign: 'left', color: '#999',marginRight: 15
@@ -112,7 +114,7 @@ export default class MyOrder extends BaseComponent {
                                 paddingLeft: 5,paddingRight: 5,marginLeft:5,textDecorationLine:'line-through',}}>{item.realPirce}</Text>
                         </View>
                     </View>
-                </View>
+                </TouchableView>
 
 
            )

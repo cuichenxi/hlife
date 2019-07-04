@@ -23,3 +23,4 @@ export const FETCH_TYPE_LIST = 'FETCH_TYPE_LIST';
 export const RECEIVE_TYPE_LIST = 'RECEIVE_TYPE_LIST';
 
 export const PAY_FROM_CREATE_ORDER = 0;
+export const PAY_FROM_ORDER_DETAIL = 1;

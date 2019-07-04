@@ -7,7 +7,7 @@ import * as WeChat from "react-native-wechat";
 import AliPay from '../../utils/AilPay';
 import DeviceInfo from "react-native-device-info/deviceinfo";
 import Request from "../../utils/Request";
-import {PAY_FROM_CREATE_ORDER, PAY_FROM_ORDER_DETAIL} from "../../constants/ActionTypes";
+import {PAY_FROM_CREATE_ORDER} from "../../constants/ActionTypes";
 import NavigationUtil from "../../utils/NavigationUtil";
 
 /**
@@ -33,10 +33,10 @@ export default class PayPage extends BaseComponent {
     onLeftPress() {
         switch (this.state.from) {
             case PAY_FROM_CREATE_ORDER:
+                // NavigationUtil.reset(this.props.navigation, 'Home');
                 this.navigate('OrderDetail',{id: this.state.id})
                 break;
-            case PAY_FROM_ORDER_DETAIL:
-                this.goBack();
+            case 1:
                     break
         }
     }
@@ -61,8 +61,7 @@ export default class PayPage extends BaseComponent {
         this.setState({
             id: e.id,
             orderno: e.orderno,
-            totalPrice: e.totalPrice,
-            from: e.from
+            totalPrice: e.totalPrice
         })
         WeChat.addListener(
             'SendMessageToWX.Resp',
