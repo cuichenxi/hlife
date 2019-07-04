@@ -45,7 +45,6 @@ export default class MyIntegral extends BaseComponent{
                             style={{
                                 width: 12,
                                 height: 16,
-                                resizeMode: "cover",
                             }}/>
                     </TouchableView>
 
@@ -61,7 +60,6 @@ export default class MyIntegral extends BaseComponent{
                                 style={{
                                     width: 15,
                                     height: 15,
-                                    resizeMode: "cover",
                                 }}/>
                             <Text style={{textAlign: 'center', color: '#fff', fontSize: 11,marginLeft:5}}>积分说明</Text>
                         </View>

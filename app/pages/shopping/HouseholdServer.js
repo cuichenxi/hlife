@@ -6,6 +6,7 @@ import Modal from "antd-mobile-rn/es/modal/index.native";
 import TouchableView from "../../components/TouchableView";
 import {PAGE_SIZE} from "../../constants/AppConstants";
 import Request from "../../utils/Request";
+import ImageView from "../../components/ImageView";
 
 export default class HouseholdServer extends BaseComponent {
     navigationBarProps() {
@@ -21,7 +22,7 @@ export default class HouseholdServer extends BaseComponent {
         }
     }
 
-    onReady(){
+    onReady() {
         this.makeRemoteRequest()
     }
 
@@ -30,8 +31,9 @@ export default class HouseholdServer extends BaseComponent {
         return (
             <ScrollView>
                 <View>
-                    <Image style={{height: 180, resizeMode: Image.resizeMode.stretch,}}
-                           source={{uri: data.pic}}></Image>
+                    <ImageView style={{height: 180, resizeMode: Image.resizeMode.stretch,}}
+                               defaultSource={require("../../img/default_image.png")}
+                               source={data.pic}/>
                     <View style={{
                         flexDirection: 'row',
                         justifyContent: 'flex-start',
@@ -39,10 +41,12 @@ export default class HouseholdServer extends BaseComponent {
                         height: 60,
                         backgroundColor: '#fff'
                     }}>
-                        <Image source={{uri: data.pic}} style={{
-                            width: 37,
-                            height: 37, alignItems: 'center', marginLeft: 12
-                        }} resizeMode='cover'/>
+                        <ImageView source={data.pic}
+                                   defaultSource={require("../../img/default_image.png")}
+                                   style={{
+                                       width: 37,
+                                       height: 37, alignItems: 'center', marginLeft: 12
+                                   }} resizeMode='cover'/>
                         <View style={{justifyContent: 'flex-start', alignItems: 'flex-start', marginLeft: 15}}>
                             <Text style={{
                                 color: '#333',
@@ -166,7 +170,7 @@ export default class HouseholdServer extends BaseComponent {
     }
 
     makeRemoteRequest() {
-        let param = { id: this.state.data.id};
+        let param = {id: this.state.data.id};
 
         console.log(this.props)
         Request.post('/api/life/housekeepinginfo', param,
@@ -174,7 +178,7 @@ export default class HouseholdServer extends BaseComponent {
                 mock: false,
                 mockId: 1095356,
             }).then(rep => {
-            if (rep.code == 0 ) {
+            if (rep.code == 0) {
                 // console.log(JSON.stringify(rep))
                 // callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             }

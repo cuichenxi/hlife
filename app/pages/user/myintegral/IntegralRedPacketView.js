@@ -11,7 +11,7 @@ import TouchableView from "../../../components/TouchableView";
 /**
  * 红包
  */
-let {width, height} = Dimensions.get('window')
+let {width} = Dimensions.get('window')
 
 export default class IntegralRedPacketView extends BaseView {
     constructor(props) {
@@ -19,6 +19,7 @@ export default class IntegralRedPacketView extends BaseView {
         this.state = {
             ...props,
             isOneChecked:false,
+            datas:[]
         };
         console.log(this.props)
     }
@@ -32,7 +33,13 @@ export default class IntegralRedPacketView extends BaseView {
                 mockId: 1095607,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
-                callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
+                for (var row of rep.data.rows){
+
+                    row.checked = false
+                    this.state.datas.push(row)
+                }
+                callback(this.state.datas, {allLoaded: page * PAGE_SIZE >= rep.data.total})
+                // callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             } else {
                 this.showShort(rep.message);
                 callback(null, {emptyTitle: rep.message})
@@ -60,11 +67,15 @@ export default class IntegralRedPacketView extends BaseView {
                         marginTop:1,
                         justifyContent:'center',marginRight: 30}}
                     onClick={()=>{
+                        var data = this.state.datas;
+                        data[index].checked = !item.checked
                         this.setState({
-                            isOneChecked:!this.state.isOneChecked
+                            datas:data
                         })
+                        // item.checked = !item.checked
+
                     }}
-                    isChecked={this.state.isOneChecked}
+                    isChecked={item.checked}
                     // rightText={''}
                     checkedImage = {<Image source = {require('../../../img/checked.png')} style = {{marginLeft:16,
                         width:20,

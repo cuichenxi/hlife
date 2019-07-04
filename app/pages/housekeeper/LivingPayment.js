@@ -5,10 +5,10 @@ import {CommonStyle} from "../../common/CommonStyle";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import TouchableView from "../../components/TouchableView";
-import GiftedListView from "../../components/refreshList/GiftedListView";
 import {PAGE_SIZE} from "../../constants/AppConstants";
 import Request from "../../utils/Request";
 import CheckBox from "../../components/Checkbox";
+
 let {width, height} = Dimensions.get('window')
 const Font = {
     Ionicons,
@@ -26,10 +26,8 @@ export default class LivingPayment extends  BaseComponent{
     constructor(props) {
         super(props);
         this.state = {
-            isOneChecked:false,
-            isTwoChecked:false,
-            isThreeChecked:false,
-            communityinfo:'北京',
+            isAllChecked:false,
+            communityinfo:'',
             isLoading: false,
             isRefresh: true,
             rows:[]
@@ -99,11 +97,20 @@ export default class LivingPayment extends  BaseComponent{
                         <CheckBox
                             style={styles.checkBox}
                             onClick={()=>{
+                                var datas = this.state.rows
+                                for (var data of datas){
+                                    if (!this.state.isAllChecked){
+                                        data.checked = true
+                                    } else {
+                                        data.checked = false
+                                    }
+                                }
                                 this.setState({
-                                    isOneChecked:!this.state.isOneChecked
+                                    rows:datas,
+                                    isAllChecked:!this.state.isAllChecked
                                 })
                             }}
-                            isChecked={this.state.isOneChecked}
+                            isChecked={this.state.isAllChecked}
                             rightText={'全选'}
                             rightTextStyle = {styles.text}
                             checkedImage = {<Image source = {require('../../img/selted.png')} style = {styles.image}/>}
@@ -148,9 +155,14 @@ export default class LivingPayment extends  BaseComponent{
                 mockId: 1125376,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
-                // console.log(JSON.stringify(rep))
+                var datas=[]
+                for (var row of rep.data.rows){
+                    row.checked = false
+                    datas.push(row)
+                }
                 this.setState({
-                    rows:rep.data.rows
+                    rows:datas,
+                    communityinfo:rep.data.communityinfo
                 })
                 // callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             }
@@ -177,12 +189,13 @@ export default class LivingPayment extends  BaseComponent{
                 <CheckBox
                     style={styles.checkBox}
                     onClick={()=>{
+                        var datas = this.state.rows
+                        datas[item.index].checked = !item.item.checked
                         this.setState({
-                            isOneChecked:!this.state.isOneChecked
+                            rows:datas
                         })
-                        isCheck = !isCheck
                     }}
-                    isChecked={this.state.isOneChecked}
+                    isChecked={item.item.checked}
                     rightText={''}
                     rightTextStyle = {styles.text}
                     checkedImage = {<Image source = {require('../../img/selted.png')} style = {styles.image}/>}
