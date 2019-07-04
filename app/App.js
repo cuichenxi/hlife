@@ -82,6 +82,7 @@ import ProductShoppingCart from "./pages/shopping/ProductShoppingCart";
 import OrderDetail from "./pages/shopping/OrderDetail";
 import MyPaymentRecord from "./pages/user/MyPaymentRecord";
 import OrderConfirm from "./pages/shopping/OrderConfirm";
+import About from "./pages/user/About";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -235,6 +236,7 @@ const App = createStackNavigator(
         OrderDetail:{screen:OrderDetail},//订单详情
         MyPaymentRecord:{screen:MyPaymentRecord},//我的缴费记录
         OrderConfirm:{screen:OrderConfirm},//订单确认
+        About:{screen:About},//关于
     },
     {
         // initialRouteName: 'Splash',

@@ -9,7 +9,12 @@ import {SwipeAction} from "antd-mobile-rn";
 import ToastUtil from "../../../utils/ToastUtil";
 import GiftedListView from "../../../components/refreshList/GiftedListView";
 import util from "../../../utils/util";
-
+import Ionicons from "react-native-vector-icons/Ionicons";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+const Font = {
+    Ionicons,
+    FontAwesome
+}
 let {width, height} = Dimensions.get('window')
 
 
@@ -103,29 +108,33 @@ export default class MyInvoiceList extends BaseComponent {
                             this.listRef._refresh();
                         }})
                 }}>
-                    <View style={{
-                        backgroundColor: 'white',
-                        height: 60,
-                        alignItems: 'flex-start',
-                        justifyContent: 'center',
-                        // padding: 10,
-                        paddingLeft: 30,
-                        paddingRight: 30,
-                    }}>
-                        <Text style={{
-                            textAlign: 'center',
-                            color: CommonStyle.textBlockColor,
-                            fontSize: 14,
-                            flex: 1,
-                            marginTop: 10
-                        }}>{item.name}</Text>
-                        <Text style={{
-                            textAlign: 'center',
-                            color: CommonStyle.textGrayColor,
-                            fontSize: 14,
-                            flex: 1
-                        }}>税号：{item.no}</Text>
+                    <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',backgroundColor: 'white',}}>
+                        <View style={{
+                            height: 60,
+                            alignItems: 'flex-start',
+                            justifyContent: 'center',
+                            // padding: 10,
+                            paddingLeft: 30,
+                            paddingRight: 30,
+                        }}>
+                            <Text style={{
+                                textAlign: 'center',
+                                color: CommonStyle.textBlockColor,
+                                fontSize: 14,
+                                flex: 1,
+                                marginTop: 10
+                            }}>{item.name}</Text>
+                            <Text style={{
+                                textAlign: 'center',
+                                color: CommonStyle.textGrayColor,
+                                fontSize: 14,
+                                flex: 1
+                            }}>税号：{item.no}</Text>
+                        </View>
+                        <Font.Ionicons style={{marginRight: 10}} name="ios-arrow-forward-outline" size={(18)}
+                                       color="#bbb"/>
                     </View>
+
                 </TouchableView>
 
 

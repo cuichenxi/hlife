@@ -99,7 +99,6 @@ export default class GiveAdvice extends BaseComponent {
 
             <View style={{flexDirection: 'row', flex: 1, paddingTop: 20, paddingBottom: 20, backgroundColor: '#fff'}}>
                 <TouchableView onPress={() => {
-                    this.showShort(firstType)
                     this.navigate('CommitInfo', {title: firstType, hideUpload: true,commitType:commitType})
                 }}>
                     <ImageBackground style={{alignItems: 'center', justifyContent: 'center', height: 67, width: 107,}}
@@ -113,7 +112,6 @@ export default class GiveAdvice extends BaseComponent {
                     </ImageBackground>
                 </TouchableView>
                 <TouchableView onPress={() => {
-                    this.showShort(secondType)
                     this.navigate('CommitInfo', {title: secondType, hideUpload: true,commitType:commitType})
                 }}>
                     <ImageBackground style={{alignItems: 'center', justifyContent: 'center', height: 67, width: 107}}

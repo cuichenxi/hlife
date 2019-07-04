@@ -44,7 +44,7 @@ export default class IntegralRedPacketView extends BaseView {
         })
     }
 
-    _renderRowView(item) {
+    _renderRowView(item,sectionId,index) {
         return (
             <ImageBackground style={{flexDirection: 'row',alignItems:'center',justifyContent:'space-between',height:90}} source={require('../../../img/jifen_bg.png')}>
                 <Image source={require('../../../img/hongbao_icon.png')} style={{width:41,

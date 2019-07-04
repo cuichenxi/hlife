@@ -83,11 +83,6 @@ export default class MyShippingAddress extends BaseComponent {
         );
     }
 
-    _separator = () => {
-        return <View style={{height: 0.5, backgroundColor: CommonStyle.lightGray}}/>;
-    }
-
-
     fetchData(page = 1,callback) {
         let param = {statusBODY: this.state.index, page: page - 1, pageSize: PAGE_SIZE};
 
@@ -146,9 +141,6 @@ export default class MyShippingAddress extends BaseComponent {
                 // this.navigate('ModifyHousingAddress',{address:item})
             }}
                          onClose={() => console.log('close')}
-                         // onPress={() => {
-                         //     this.navigate('ModifyHousingAddress', {address: item})
-                         // }}
                          right={[
                              {
                                  text: '删除',
@@ -174,12 +166,12 @@ export default class MyShippingAddress extends BaseComponent {
                             <View style={{flexDirection:'row'}}>
                                 <Text style={{
                                     textAlign: 'left',
-                                    color: '#999999',
+                                    color: CommonStyle.textBlockColor,
                                     fontSize: 13
                                 }}>{item.name}</Text>
                                 <Text style={{
                                     textAlign: 'left',
-                                    color: '#999999',
+                                    color: CommonStyle.textBlockColor,
                                     fontSize: 13,
                                     marginLeft:10
                                 }}>{item.tel}</Text>
@@ -188,12 +180,12 @@ export default class MyShippingAddress extends BaseComponent {
                             <Text
                                 style={{
                                     textAlign: 'left',
-                                    color: '#999999',
+                                    color: CommonStyle.textGrayColor,
                                     fontSize: 13,
                                     marginTop: 5
                                 }}>{item.detail}</Text>
                         </View>
-                        <Font.Ionicons style={{marginLeft: 10}} name="ios-arrow-forward-outline" size={(18)}
+                        <Font.Ionicons style={{marginRight: 10}} name="ios-arrow-forward-outline" size={(18)}
                                        color="#bbb"/>
                     </View>
                 </TouchableView>

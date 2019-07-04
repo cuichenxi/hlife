@@ -5,6 +5,8 @@ import {CommonStyle} from "../../common/CommonStyle";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Switch from "antd-mobile-rn/es/switch/index.native";
+import TouchableView from "../../components/TouchableView";
+import {GIVEADVICE} from "../../constants/AppConstants";
 
 
 const Font = {
@@ -29,7 +31,7 @@ export default class MySetting extends BaseComponent{
     _render(){
         return(
             <View>
-                <View style={styles.item}>
+                <View style={[styles.item,styles.itemMarginTop]}>
                     <Text style={styles.text}>是否接收提醒</Text>
                     <Switch checked={this.state.checked}
                             onChange={(value)=>{
@@ -40,11 +42,15 @@ export default class MySetting extends BaseComponent{
                             color={CommonStyle.themeColor}
                     />
                 </View>
-                <View style={[styles.item,styles.itemMarginTop]}>
-                    <Text style={styles.text}>关于幸福宜居</Text>
-                    <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
-                                   color="#bbb"/>
-                </View>
+                <TouchableView onPress={()=>{
+                    this.navigate('About')
+                }}>
+                    <View style={[styles.item,styles.itemMarginTop]}>
+                        <Text style={styles.text}>关于幸福宜居</Text>
+                        <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
+                                       color="#bbb"/>
+                    </View>
+                </TouchableView>
                 <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: '100%'}}/>
                 <View style={styles.item}>
                     <Text style={styles.text}>邀请家人朋友</Text>
@@ -58,11 +64,16 @@ export default class MySetting extends BaseComponent{
                                    color="#bbb"/>
                 </View>
                 <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: '100%'}}/>
-                <View style={styles.item}>
-                    <Text style={styles.text}>意见反馈</Text>
-                    <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
-                                   color="#bbb"/>
-                </View>
+                <TouchableView onPress={()=>{
+                    this.navigate('CommitInfo', {title: '意见反馈', hideUpload: true,commitType:GIVEADVICE})
+                }}>
+                    <View style={styles.item}>
+                        <Text style={styles.text}>意见反馈</Text>
+                        <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
+                                       color="#bbb"/>
+                    </View>
+                </TouchableView>
+
                 <View style={[styles.item,styles.itemMarginTop]}>
                     <Text style={styles.text}>新版本检测</Text>
                     <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
@@ -82,7 +93,6 @@ const styles = StyleSheet.create(
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent:'space-between',
-            // padding: 10,
             paddingLeft: 20,
             paddingRight: 20,
         },
