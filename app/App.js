@@ -60,7 +60,7 @@ import HouseSellRent from "./pages/housekeeper/HouseSellRent";
 import PublishHouseInfo from "./pages/housekeeper/PublishHouseInfo";
 import HouseholdServerList from "./pages/shopping/HouseholdServerList";
 import HouseholdServer from "./pages/shopping/HouseholdServer";
-import MyOrder from "./pages/user/myorder/MyOrder";
+import OrderList from "./pages/shopping/myorder/OrderList";
 import {CommonStyle} from "./common/CommonStyle";
 import PublishPost from "./pages/neighbour/PublishPost";
 import TopicTypeList from "./pages/neighbour/TopicTypeList";
@@ -130,8 +130,7 @@ const TabContainer = createBottomTabNavigator(
 
             }
         },
-    },
-    {
+    },{
         lazy: true,
         tabBarPosition: 'bottom',
         backBehavior: "none",
@@ -168,8 +167,9 @@ const App = createStackNavigator(
         Shopping: {screen: Shopping},
         Push: {screen: Push},
         Feedback: {screen: Feedback},
-        MainIndex: {screen: MainContainer},
+        Main: {screen: MainContainer},
         Neighbour: {screen: Neighbour},
+        UserCenter: {screen: UserCenter},
         GiftedListDemo: {screen: GiftedListDemo},
         GiftedListDemoFree: {screen: GiftedListDemoFree},
         GiftedListDemoNet: {screen: GiftedListDemoNet},
@@ -215,7 +215,7 @@ const App = createStackNavigator(
         PublishHouseInfo:{screen:PublishHouseInfo},//发布房源
         HouseholdServerList:{screen:HouseholdServerList},//家政服务列表
         HouseholdServer:{screen:HouseholdServer},//家政服务详情
-        MyOrder:{screen:MyOrder},//我的订单
+        OrderList:{screen:OrderList},//我的订单
         PublishPost:{screen:PublishPost},//发布帖子
         TopicTypeList:{screen:TopicTypeList},//话题列表
         Message:{screen:Message},//通知消息列表

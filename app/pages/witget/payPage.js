@@ -1,15 +1,22 @@
 import React from 'react'
-import {StyleSheet, View,} from 'react-native'
-
+import {Dimensions, Image, Alert,Text, View} from 'react-native'
 import {BaseComponent} from "../../components/base/BaseComponent";
-import ItemArrow from "../../components/ItemArrow";
 import * as WeChat from "react-native-wechat";
 import AliPay from '../../utils/AilPay';
-import DeviceInfo from "react-native-device-info/deviceinfo";
 import Request from "../../utils/Request";
-import {PAY_FROM_CREATE_ORDER, PAY_FROM_ORDER_DETAIL} from "../../constants/ActionTypes";
+import {
+    BACK_FROM_PAY,
+    JUMP_TO_ORDER_DETAIL,
+    PAY_FROM_CREATE_ORDER,
+    PAY_FROM_ORDER_DETAIL, PAY_FROM_ORDER_ORDER_LIST
+} from "../../constants/ActionTypes";
 import NavigationUtil from "../../utils/NavigationUtil";
-
+import TouchableView from "../../components/TouchableView";
+import {CommonStyle} from "../../common/CommonStyle";
+import util from "../../utils/util";
+import UserStore from "../../store/UserStore";
+import {Modal} from 'antd-mobile-rn';
+var {width} = Dimensions.get('window');
 /**
  * 微信支付文档
  * https://www.jianshu.com/p/3f424cccb888
@@ -22,6 +29,9 @@ export default class PayPage extends BaseComponent {
             leftTitle: (
                 '稍后付款'
             ),
+            rightTitle: (
+                '支付成功'
+            ),
             leftIcon: null,
         })
     }
@@ -30,100 +40,135 @@ export default class PayPage extends BaseComponent {
         return false;
     }
 
+    onRightPress(){
+        Alert.alert(
+            '提示',
+            '支付成功',
+            [
+                {text: '查看订单', onPress: () => {
+                        this.goBack( {id: this.state.id});
+                    }},
+            ], { cancelable: false }
+        )
+    }
+
     onLeftPress() {
         switch (this.state.from) {
             case PAY_FROM_CREATE_ORDER:
-                this.navigate('OrderDetail',{id: this.state.id})
+                Modal.alert('确定稍后支付', '下单后15分钟内未支付成功,订单将被关闭,请尽快完成支付',
+                    [{
+                        text: '稍后支付', onPress: () => {
+                                 }, style: 'cancel'
+                    }, {
+                        text: '继续支付', onPress: () => {
+                            this.showShort('')
+                            // NavigationUtil.reset(this.props.navigation, 'Home');
+
+                        }
+                    }])
+                // this.navigate('OrderDetail',{id: this.state.id})
                 break;
+            case PAY_FROM_ORDER_ORDER_LIST:
             case PAY_FROM_ORDER_DETAIL:
-                this.goBack();
-                    break
+                Modal.alert('确定稍后支付', '下单后15分钟内未支付成功,订单将被关闭,请尽快完成支付',
+                    [{
+                        text: '稍后支付', onPress: () => {
+                            this.goBack();
+                        },
+                    }, {
+                        text: '继续支付', onPress: () => {
+
+                        }
+                    }])
+                break
+            default:
+                Modal.alert('确定稍后支付', '下单后15分钟内未支付成功,订单将被关闭,请尽快完成支付',
+                    [{
+                        text: '稍后支付', onPress: () => {
+                        }, style: 'cancel'
+                    }, {
+                        text: '继续支付', onPress: () => {
+                            this.showShort('继续支付')
+                            // NavigationUtil.reset(this.props.navigation, 'Home');
+
+                        }
+                    }])
+                break
         }
     }
 
     constructor(props) {
         super(props)
         this.state = {
+            select: 1,
             id: 0,
             orderno: 0,
             totalPrice: 0,
+            balance: 0,
             from: PAY_FROM_CREATE_ORDER
         }
-        this.config = [
-            {icon: "ios-pin", name: "微信支付", onPress: this.goPage.bind(this, "wx_pay")},
-            {icon: "ios-heart", name: "微信分享", color: "#fc7b53", onPress: this.goPage.bind(this, "wx_share")},
-            {icon: "md-images", name: "微信登录", subName: this.state.xiaoqu, onPress: this.goPage.bind(this, "wx_login")},
-            {icon: "md-images", name: "支付宝支付", subName: this.state.xiaoqu, onPress: this.goPage.bind(this, "ail_pay")},
-        ]
     }
 
     onReady(e) {
+        let userInfo = UserStore.get();
         this.setState({
             id: e.id,
             orderno: e.orderno,
             totalPrice: e.totalPrice,
-            from: e.from
+            from: e.from,
+            balance: userInfo.balance,
         })
-        WeChat.addListener(
-            'SendMessageToWX.Resp',
-            (response) => {
-                if (parseInt(response.errCode) === 0) {
-                    this.showShort('分享成功');
-                } else {
-                    this.showShort('分享失败');
-                }
-            }
-        );
-        WeChat.addListener(
-            'SendMessageToWX.Resp',
-            (response) => {
-                if (parseInt(response.errCode) === 0) {
-                    this.showShort('分享成功');
-                } else {
-                    this.showShort('分享失败');
-                }
-            }
-        );
         WeChat.addListener(
             'PayReq.Resp',
             (response) => {
                 if (parseInt(response.errCode) === 0) {
-                    this.showShort('分享成功');
+                    this.showShort('支付成功');
                 } else {
-                    this.showShort('支付失败');
-                }
-            }
-        );
-        WeChat.addListener(
-            'SendAuth.Resp',
-            (response) => {
-                if (parseInt(response.errCode) === 0) {
-                    this.showShort('登录成功');
-                } else {
-                    this.showShort('登录失败');
+                    this.showShort('取消支付');
                 }
             }
         );
     }
+    paySuccess(){
+        switch (this.state.from) {
+            case PAY_FROM_CREATE_ORDER:
+                Modal.alert('支付成功',
+                    [{
+                        text: '查看订单', onPress: () => {
+                            NavigationUtil.resetGo(this.props.navigation, ['Home', 'OrderDetail'], {id: this.state.id});
+                        }
+                    }])
+                break;
+            case PAY_FROM_ORDER_DETAIL:
+                Modal.alert('支付成功',
+                    [{
+                        text: '查看订单', onPress: () => {
+                            this.goBack( {id: this.state.id});
+                        }
+                    }])
+                break
+            case PAY_FROM_ORDER_ORDER_LIST:
+                Modal.alert('支付成功',
+                    [{
+                        text: '查看订单', onPress: () => {
+                            NavigationUtil.resetGo(this.props.navigation, ['Home', 'OrderList','OrderDetail'], {id: this.state.id});
+                        }
+                    }])
+                break
+            default:
+                Modal.alert('支付成功',
+                    [{
+                        text: '查看订单', onPress: () => {
+                            NavigationUtil.reset(this.props.navigation, 1,'OrderDetail', { id: this.state.id});
+                        }
+                    }])
+                break
+        }
 
-    /**
-     * request.appId = "wxd930ea5d5a258f4f";
-     request.partnerId = "1900000109";
-     request.prepayId= "1101000000140415649af9fc314aa427",;
-     request.packageValue = "Sign=WXPay";
-     request.nonceStr= "1101000000140429eb40476f8896f4c9";
-     request.timeStamp= "1398746574";
-     request.sign= "7FFECB600D7157C5AA49810D2D8F28BC2811827B";
-     * @param data
-     * {"content":null,"
-     * nonceStr":"kWhilP0jQuyQLa0o"
-     * ,"packageContent":"Sign=WXPay",
-     * "partnerId":"1489236942",
-     * "prepayId":"wx0211184920905470bacad7dc1405003800",
-     * "sign":"6728C3BF1328EF1F9C24205971ED317E","timeStamp":"1562037529"}
-     */
-    goPage(data = {}) {
-        if (data === 'wx_pay') {
+    }
+
+    onPay() {
+        if (this.state.select === 1) {//支付宝
             this.showLoading('支付中...');
             Request.post('/api/pay/createPay', {payType: 2, orderId: this.state.id}).then(rep => {
                 if (rep.code == 0) {
@@ -150,45 +195,24 @@ export default class PayPage extends BaseComponent {
                 this.hideLoading();
             })
 
-        } else if (data === 'wx_share') {
-            WeChat.isWXAppInstalled().then((isInstalled) => {
-                if (isInstalled) {
-                    WeChat.shareToSession({
-                        title: 'test',
-                        description: '分享自:' + DeviceInfo.getApplicationName(),
-                        thumbImage: '',
-                        type: 'news',
-                        webpageUrl: 'https://www.jianshu.com/p/3f424cccb888'
-
-                    }).catch((error) => {
-                        this.showShort(error.message);
+        } else if (this.state.select === 2) {//微信
+            this.showLoading('支付中...');
+            Request.post('/api/pay/createPay', {payType: 1, orderId: this.state.id}).then(rep => {
+                if (rep.code == 0) {
+                    AliPay.pay(rep.data.content).then(function (data) {
+                        this.paySuccess()
+                    }, function (err) {
+                        console.log('取消支付');
                     });
                 } else {
-                    this.showShort('没有安装微信软件，请您安装微信之后再试');
+                    this.showShort(rep.message);
                 }
-            });
-        } else if (data === 'wx_login') {
-            let scope = 'snsapi_userinfo';
-            let state = 'wechat_sdk_demo';
-            //判断微信是否安装
-            WeChat.isWXAppInstalled()
-                .then((isInstalled) => {
-                    if (isInstalled) {
-                        //发送授权请求
-                        WeChat.sendAuthRequest(scope, state)
-                            .then(responseCode => {
-                                //返回code码，通过code获取access_token
-                                // this.getAccessToken(responseCode.code);
-                            })
-                            .catch(err => {
-                                this.showShort('登录授权发生错误' + err.message);
-                            });
-                    } else {
-                        this.showShort('没有安装微信软件，请您安装微信之后再试');
-                    }
-                })
+            }).catch(err => {
 
-        } else if (data === 'ail_pay') {
+            }).done(() => {
+                this.hideLoading();
+            })
+        } else if (this.state.select === 2) {//余额支付
             this.showLoading('支付中...');
             Request.post('/api/pay/createPay', {payType: 1, orderId: this.state.id}).then(rep => {
                 if (rep.code == 0) {
@@ -197,37 +221,135 @@ export default class PayPage extends BaseComponent {
                     }, function (err) {
                         console.log(err);
                     });
+                } else {
+                    this.showShort(rep.message);
                 }
             }).catch(err => {
+
             }).done(() => {
                 this.hideLoading();
             })
-            let partner = 'app_id=2015052600090779&biz_content=%7B%22timeout_express%22%3A%2230m%22%2C%22seller_id%22%3A%22%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%2C%22total_amount%22%3A%220.02%22%2C%22subject%22%3A%221%22%2C%22body%22%3A%22%E6%88%91%E6%98%AF%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE%22%2C%22out_trade_no%22%3A%22314VYGIAGG7ZOYY%22%7D&charset=utf-8&method=alipay.trade.app.pay&sign_type=RSA2&timestamp=2016-08-15%2012%3A12%3A15&version=1.0&sign=MsbylYkCzlfYLy9PeRwUUIg9nZPeN9SfXPNavUCroGKR5Kqvx0nEnd3eRmKxJuthNUx4ERCXe552EV9PfwexqW%2B1wbKOdYtDIb4%2B7PL3Pc94RZL0zKaWcaY3tSL89%2FuAVUsQuFqEJdhIukuKygrXucvejOUgTCfoUdwTi7z%2BZzQ%3D';
-
-
         }
-
-    }
-
-    _renderListItem() {
-        return this.config.map((item, i) => {
-            return (<ItemArrow key={i} {...item}/>)
-        })
     }
 
     _render() {
         return (
-            <View style={styles.container}>
-                <View style={{marginTop: 10}}>
-                    {this._renderListItem()}
+            <View>
+                <View style={{height: 120, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff'}}>
+                    <Text style={{fontSize: 14, color: '#333'}}>应付金额</Text>
+                    <Text style={{
+                        fontSize: 28,
+                        color: CommonStyle.themeColor,
+                        marginTop: 15
+                    }}>￥{util.isEmpty(this.state.totalPrice) ? '0.0' : this.state.totalPrice}</Text>
                 </View>
+                <View style={{
+                    paddingHorizontal: 15,
+                    paddingVertical: 15,
+                    marginTop: 15,
+                    borderBottomWidth: 0.5,
+                    borderColor: CommonStyle.lightGray,
+                    backgroundColor: '#fff'
+                }}>
+                    <Text style={{
+                        fontSize: 14, color: '#333',
+                    }}>支付方式</Text>
+                </View>
+
+                <View style={{backgroundColor: '#fff',}}>
+                    <TouchableView style={{
+                        marginHorizontal: 15,
+                        paddingVertical: 10,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        borderBottomWidth: 0.5,
+                        borderColor: CommonStyle.lightGray
+                    }} onPress={() => {
+                        this.setState(
+                            {
+                                select: 1
+                            }
+                        )
+                    }}>
+                        <Image style={{height: 35, width: 35}} source={require('../../img/icon_ari_pay.png')}/>
+                        <Text style={{fontSize: 14, color: '#333', marginLeft: 15, flex: 1}}>支付宝</Text>
+                        <View>
+                            <Image style={{height: 20, width: 20}}
+                                   source={this.state.select === 1 ? require('../../img/icon_ck_select.png') : require('../../img/icon_ck.png')}/>
+                        </View>
+                    </TouchableView>
+                    <TouchableView style={{
+                        marginHorizontal: 15,
+                        paddingVertical: 10,
+                        flexDirection: 'row',
+                        backgroundColor: '#fff',
+                        alignItems: 'center',
+                        borderBottomWidth: 0.5,
+                        borderColor: CommonStyle.lightGray
+                    }} onPress={() => {
+                        this.setState(
+                            {
+                                select: 2
+                            }
+                        )
+                    }}>
+                        <Image style={{height: 35, width: 35}} source={require('../../img/icon_wechat_pay.png')}/>
+                        <Text style={{fontSize: 14, color: '#333', marginLeft: 15, flex: 1}}>微信</Text>
+                        <View>
+                            <Image style={{height: 20, width: 20}}
+                                   source={this.state.select === 2 ? require('../../img/icon_ck_select.png') : require('../../img/icon_ck.png')}/>
+                        </View>
+                    </TouchableView>
+                    <TouchableView style={{
+                        paddingHorizontal: 15,
+                        paddingVertical: 10,
+                        flexDirection: 'row',
+                        backgroundColor: '#fff',
+                        alignItems: 'center',
+                        borderBottomWidth: 0.5,
+                        borderColor: CommonStyle.lightGray
+                    }} onPress={() => {
+                        if (util.isEmpty(this.state.balance) || this.state.balance < this.state.totalPrice) {
+                            this.showShort('余额不足')
+                            return;
+                        }
+                        this.setState(
+                            {
+                                select: 3
+                            }
+                        );
+                    }}>
+                        <Image style={{height: 35, width: 35}} source={require('../../img/icon_pay_ye.png')}/>
+                        <Text style={{fontSize: 14, color: '333', marginLeft: 15, flex: 1}}>余额支付</Text>
+                        <Text style={{
+                            fontSize: 14,
+                            color: CommonStyle.themeColor,
+                            marginRight: 10
+                        }}>￥{util.isEmpty(this.state.balance) ? '0.0' : this.state.balance}</Text>
+                        <View>
+                            <Image style={{height: 20, width: 20}}
+                                   source={this.state.select === 3 ? require('../../img/icon_ck_select.png') : require('../../img/icon_ck.png')}/>
+                        </View>
+                    </TouchableView>
+                </View>
+                <Text style={{fontSize: 14, color: '#666', marginTop: 15, marginLeft: 15,}}>提示:请15分钟内支付订单</Text>
+                <TouchableView style={{
+                    alignSelf: 'center',
+                    width: width - 30,
+                    marginTop: 20,
+                    height: 48,
+                    borderRadius: 10,
+                    backgroundColor: CommonStyle.themeColor
+                    ,
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }} onPress={() => {
+                    this.onPay()
+                }}>
+                    <Text style={{fontSize: 16, color: '#fff'}}>确认支付</Text>
+                </TouchableView>
             </View>
         );
 
     }
 };
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-})

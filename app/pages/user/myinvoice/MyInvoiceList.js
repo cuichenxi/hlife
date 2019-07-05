@@ -35,10 +35,11 @@ export default class MyInvoiceList extends BaseComponent {
         }
     }
 
-    componentWillMount(){
-        // this.fetchData()
+    onReady(e){
+        this.setState({
+            from: e.from
+        })
     }
-
     _render() {
         return (
             <View style={{flex: 1}}>
@@ -104,9 +105,13 @@ export default class MyInvoiceList extends BaseComponent {
                          ]}
             >
                 <TouchableView onPress={()=>{
-                    this.navigate('AddBillInfo', {invoice: item,callback:(data) => {
-                            this.listRef._refresh();
-                        }})
+                    if (this.state.from === 1) {
+                        this.goBack(item);
+                    } else {
+                        this.navigate('AddBillInfo', {invoice: item,callback:(data) => {
+                                this.listRef._refresh();
+                            }})
+                    }
                 }}>
                     <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',backgroundColor: 'white',}}>
                         <View style={{

@@ -17,10 +17,26 @@
  */
 import {NavigationActions, StackActions} from 'react-navigation';
 let _navigator
-reset = (navigation, routeName,params = {}) => {
+reset = (navigation, routeName, params = {}) => {
     const resetAction = StackActions.reset({
         index: 0,
         actions: [NavigationActions.navigate({routeName, params})]
+    });
+    navigation.dispatch(resetAction);
+};
+
+resetGo = (navigation, routeNames = [], params = {}) => {
+    var actions = [];
+    routeNames.map((routeName, index) => {
+        if (index === routeNames.length - 1) {
+            actions.push(NavigationActions.navigate({routeName, params}));
+        } else {
+            actions.push(NavigationActions.navigate({routeName}));
+        }
+    });
+    const resetAction = StackActions.reset({
+        index: routeNames.length-1,
+        actions: actions
     });
     navigation.dispatch(resetAction);
 };
@@ -32,8 +48,8 @@ pop=(navigation, index) =>{
     navigation.dispatch(popAction);
 };
 
-navigate = (routeName, params = {}) => {
-    _navigator.dispatch(
+navigate = (navigation,routeName, params = {}) => {
+    navigation.dispatch(
         NavigationActions.navigate({
             routeName,
             params,
@@ -49,6 +65,7 @@ init=(navigator)=>{
 export default {
     init,
     reset,
+    resetGo,
     pop,
     navigate
 };

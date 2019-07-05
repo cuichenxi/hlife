@@ -36,10 +36,11 @@ export default class MyShippingAddress extends BaseComponent {
         }
     }
 
-    componentWillMount() {
-        // this.fetchData()
+    onReady(e){
+        this.setState({
+            from: e.from
+        })
     }
-
     refreshing = () => {
 
     }
@@ -151,9 +152,15 @@ export default class MyShippingAddress extends BaseComponent {
                              },
                          ]}>
                 <TouchableView onPress={() => {
-                    this.navigate('AddShippingAddress', {address: item,update:true,api:'/api/user/goodsaddressUpdate',callback:(data) =>{
-                            this.listRef._refresh();
-                        }})
+                    if (this.state.from === 1) {
+                        this.goBack(item);
+                    } else {
+                        this.navigate('AddShippingAddress', {
+                            address: item, update: true, api: '/api/user/goodsaddressUpdate', callback: (data) => {
+                                this.listRef._refresh();
+                            }
+                        });
+                    }
                 }}>
                     <View style={{
                         backgroundColor: 'white',

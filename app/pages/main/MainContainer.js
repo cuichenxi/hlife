@@ -41,7 +41,11 @@ class MainContainer extends BaseComponent {
     //rOfQ8XGOt98_57EL3FJIogtaEFaL1847071a-a410-40be-8295-ea5fb8bf4b4a staging
     //Zuhm7813pnWp80Jxdy3_J07YWFJP1847071a-a410-40be-8295-ea5fb8bf4b4a test
     //K6yVS_qXUMNuWuppkSEpFyOVmB921847071a-a410-40be-8295-ea5fb8bf4b4a Production
+    onShow(e) {
+        // this.showShort('onShow')
+    }
     onReady(e) {
+        // this.showShort('onReady')
         // CodePush.sync({
         //     // deploymentKey: 'rOfQ8XGOt98_57EL3FJIogtaEFaL1847071a-a410-40be-8295-ea5fb8bf4b4a"',
         //     updateDialog: {
@@ -153,6 +157,7 @@ class MainContainer extends BaseComponent {
         // })
         // this.props.navigation.navigate('AboutPage')
     }
+
     render() {
         return <Main {...this.props} />;
     }

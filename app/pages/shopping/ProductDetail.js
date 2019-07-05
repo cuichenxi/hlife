@@ -1,12 +1,10 @@
 import {BaseComponent} from "../../components/base/BaseComponent";
 import React from "react";
-import {Dimensions, Image, RefreshControl, ScrollView, StyleSheet, Text, TouchableHighlight, View} from "react-native";
+import {Dimensions, Image, Modal as ModalView, ScrollView, StyleSheet, Text, View,} from "react-native";
 import {CommonStyle} from "../../common/CommonStyle";
 import Swiper from "react-native-swiper";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import TouchableView from "../../components/TouchableView";
 import Request from "../../utils/Request";
-import {PAY_FROM_CREATE_ORDER, PAY_FROM_ORDER_DETAIL} from "../../constants/ActionTypes";
 import LoadingView from "../../components/LoadingView";
 import Loading from "../../components/Loading";
 import LinearGradient from "react-native-linear-gradient";
@@ -31,11 +29,9 @@ export default class ProductDetail extends BaseComponent {
         this.state = {
             data: {},
             headerUrl: '',
-            leaveMessage: null,
             goodId: null,
-            num: 0,
-            redPacketId: 0,
-            addressId: 1,
+            num: 1,
+            submitVisible: false
         }
     }
 
@@ -49,11 +45,7 @@ export default class ProductDetail extends BaseComponent {
     makeRemoteRequest(e) {
         let param = {id: e.id};
         this.showDLoading()
-        Request.post('/api/goods/detail', param,
-            {
-                mock: false,
-                mockId: 1095374,
-            }).then(rep => {
+        Request.post('/api/goods/detail', param).then(rep => {
             if (rep.code == 0 && rep.data) {
                 this.setState(
                     {
@@ -69,9 +61,130 @@ export default class ProductDetail extends BaseComponent {
     }
 
     onSubmit() {
-        this.navigate('OrderConfirm', {id: '', from: PAY_FROM_CREATE_ORDER})
+        var param ={
+            goodsList: [
+                {
+                    id: this.state.data.id,
+                    price: this.state.data.goodsPrice,
+                    goodName: this.state.data.goodsName,
+                    num: this.state.num,
+                }
+            ]}
+        this.navigate('OrderConfirm', param)
     }
 
+    _renderSubmit() {
+        return (
+            <ModalView
+                animationType="fade"
+                transparent={true}
+                visible={this.state.submitVisible}
+                onRequestClose={() => {
+                }}
+            >
+                <TouchableView style={{
+                    backgroundColor: 'rgba(0,0,0,0.5)', flex: 1, alignItems: 'center',
+                    justifyContent: 'flex-end',
+                }} onPress={() => {
+                    this.setState({
+                        submitVisible: false
+                    })
+                }}>
+                    <View style={{
+                        width: '100%',
+                        backgroundColor: '#fff'
+                    }}>
+                        <Text style={{
+                            fontSize: 14, color: '#333', marginHorizontal: 15, marginVertical: 15,
+                        }}>立即购买</Text>
+                        <View style={{
+                            flexDirection: 'row',
+                            marginHorizontal: 15, paddingVertical: 12,
+                            borderBottomWidth: 0.5, borderColor: CommonStyle.lightGray, borderTopWidth: 0.5
+                        }}>
+                            <ImageView style={{
+                                height: 70, width: 70,
+                                resizeMode: Image.resizeMode.contain,
+                            }} source={util.isArrayEmpty(this.state.data.imageList) ? '' : this.state.data.imageList[0]}
+                                       defaultSource={require("../../img/default_image.png")}></ImageView>
+                            <Text style={{
+                                marginLeft: 15,
+                                fontSize: 22,
+                                marginTop: 10,
+                                color: CommonStyle.red
+                            }}>￥{this.state.data.goodsPrice}元</Text>
+                        </View>
+                        <View style={{
+                            flexDirection: 'row',
+                            justifyContent : 'space-between',
+                            alignItems: 'center',
+                            fontSize: 12, color: '#333', marginHorizontal: 15, marginVertical: 12,
+                        }}>
+                            <Text style={{
+                                fontSize: 16,
+                                color: '#666'
+                            }}>购买数量</Text>
+                            <View style={{flexDirection:'row'}}>
+                                <TouchableView style={{
+                                    width:35,height:35,borderColor:CommonStyle.lightGray ,borderWidth:0.5,
+                                    borderBottomLeftRadius:2, borderTopLeftRadius: 2,justifyContent:'center',alignItems:'center'
+                                }} onPress={()=>{
+                                    if (this.state.num == 0) {
+                                        return;
+                                    }
+                                    this.setState({
+                                        num: this.state.num - 1
+                                    })
+                                }}>
+                                    <Text style={{
+                                        fontSize: 22,
+                                        color: '#666',fontWeight: 'bold'
+                                    }}>-</Text>
+                                </TouchableView>
+                                <View style={{
+                                    width:35,height:35,borderColor:CommonStyle.lightGray ,borderWidth:0.5,
+                                    justifyContent:'center',alignItems:'center' ,
+                                }}>
+                                <Text style={{
+                                    fontSize: 18,
+                                    color: '#333',fontWeight: 'bold'
+                                }}>{this.state.num}</Text>
+                                </View>
+                                <TouchableView style={{
+                                    width:35,height:35,borderColor:CommonStyle.lightGray ,borderWidth:0.5,
+                                    borderBottomLeftRadius:2, borderTopLeftRadius: 2,justifyContent:'center',alignItems:'center'
+                                }} onPress={()=>{
+                                    if (this.state.num == 10) {
+                                        this.showShort('最多选10件')
+                                        return;
+                                    }
+                                    this.setState({
+                                        num: this.state.num + 1
+                                    });
+                                }}>
+                                    <Text style={{
+                                        fontSize: 22,
+                                        color: '#666',fontWeight: 'bold'
+                                    }}>+</Text>
+                                </TouchableView>
+                            </View>
+                        </View>
+                        <TouchableView style={{
+                            backgroundColor: CommonStyle.tomato, height: 48, marginTop: 30, justifyContent: 'center'
+                            , alignItems: 'center'
+                        }} onPress={()=>{
+                            this.setState({
+                            submitVisible: false
+                        })
+                            this.onSubmit()
+                        }}>
+                            <Text style={{fontSize: 16, color: '#fff'}}>确定</Text>
+                        </TouchableView>
+                    </View>
+                </TouchableView>
+            </ModalView>
+        );
+    }
     render() {
         const that = this;
         return (
@@ -79,10 +192,11 @@ export default class ProductDetail extends BaseComponent {
                 {that.state.inSideLoading ? <LoadingView loadingtext={that.state.loadingText}/> : this._render()}
                 {that.state.hideHeader ? null :
                     <View style={{
-                    position: CommonStyle.absolute,width:'100%'
-                }}>{this.renderNavigationBar()}</View>}
+                        position: CommonStyle.absolute, width: '100%'
+                    }}>{this.renderNavigationBar()}</View>}
                 {that.state.isLoading ?
                     <Loading loadProps={{visible: that.state.isLoading, loadingText: that.state.loadingText}}/> : null}
+                {this._renderSubmit()}
             </View>
         );
     }
@@ -91,7 +205,6 @@ export default class ProductDetail extends BaseComponent {
         const {data} = this.state
         return (
             <View style={{
-
                 flex: 1
             }}>
                 <ScrollView style={{
@@ -200,7 +313,9 @@ export default class ProductDetail extends BaseComponent {
                         backgroundColor: CommonStyle.themeColor,
                         justifyContent: 'center',
                         height: 48,
-                        flex: 1.5}} onPress={() => this.onSubmit()}>
+                        flex: 1.5}} onPress={() => {this.setState({
+                        submitVisible: true
+                    })}}>
                         <Text style={{color: '#fff', fontSize: 15}}>立即购买</Text>
                     </TouchableView>
                 </View>

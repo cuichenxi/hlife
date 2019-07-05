@@ -153,7 +153,6 @@ export default class Login extends BaseComponent {
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
                 UserStore.save(rep.data);
-                console.log('====登录成功=====')
                 NavigationUtil.reset(this.props.navigation, 'Home');
             } else {
                 this.showShort(rep.message);
@@ -178,7 +177,6 @@ export default class Login extends BaseComponent {
                 mock: false,
                 mockId: 1089766,
             }).then(rep => {
-            let requestSucc = true
             this.setState({
                 authState: `验证码获取${rep.code===0?'成功':'失败'}`,
                 codeRequesting:false

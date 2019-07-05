@@ -24,3 +24,7 @@ export const RECEIVE_TYPE_LIST = 'RECEIVE_TYPE_LIST';
 
 export const PAY_FROM_CREATE_ORDER = 0;
 export const PAY_FROM_ORDER_DETAIL = 1;
+export const PAY_FROM_ORDER_ORDER_LIST = 2;
+
+export const BACK_FROM_PAY = 100;
+export const JUMP_TO_ORDER_DETAIL = 200;

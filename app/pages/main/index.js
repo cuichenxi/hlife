@@ -104,34 +104,7 @@ export default class Main extends BaseComponent {
     }
 
     onShow(e){
-        Request.post('/api/user/getuserinfo', {}).then(rep => {
-            if (rep.code === 0 && rep.data) {
-                UserStore.save({
-                    isAuth:rep.data.isAuth,
-                    messages: rep.data.messageCount,
-                    searchHint: rep.data.searchHint,
-                    userName: rep.data.userName,
-                    phone:rep.data.phone,
-                    avatar: rep.data.avatar,
-                    sign: rep.data.sign,
-                    gender: rep.data.gender,
-                    birthday: rep.data.birthday,
-                    redCount: rep.data.redCount,
-                    integralCount: rep.data.integralCount,
-                    balance: rep.data.balance,
-                    tenementPhone: rep.data.tenementPhone,
-                });
-                this.setState({
-                    isAuth: rep.data.isAuth,
-                    searchHint: rep.data.searchHint,
-                    messages: rep.data.messageCount
-                });
-            }
-        }).catch(err => {
-
-        }).done(() => {
-            this.setState({refreshing: false});
-        })
+        this.getHomeData()
     }
 
     _loadWeb(title, url) {
@@ -170,6 +143,36 @@ export default class Main extends BaseComponent {
     }
 
 
+    getHomeData() {
+        Request.post('/api/user/getuserinfo', {}).then(rep => {
+            if (rep.code === 0 && rep.data) {
+                UserStore.save({
+                    isAuth:rep.data.isAuth,
+                    messages: rep.data.messageCount,
+                    searchHint: rep.data.searchHint,
+                    userName: rep.data.userName,
+                    phone:rep.data.phone,
+                    avatar: rep.data.avatar,
+                    sign: rep.data.sign,
+                    gender: rep.data.gender,
+                    birthday: rep.data.birthday,
+                    redCount: rep.data.redCount,
+                    integralCount: rep.data.integralCount,
+                    balance: rep.data.balance,
+                    tenementPhone: rep.data.tenementPhone,
+                });
+                this.setState({
+                    isAuth: rep.data.isAuth,
+                    searchHint: rep.data.searchHint,
+                    messages: rep.data.messageCount
+                });
+            }
+        }).catch(err => {
+
+        }).done(() => {
+            this.setState({refreshing: false});
+        })
+    }
     _onRefresh = () => {
         this.setState({refreshing: true});
         this.getHomeData()

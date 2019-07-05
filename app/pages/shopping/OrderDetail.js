@@ -1,14 +1,11 @@
 import {BaseComponent} from "../../components/base/BaseComponent";
 import React from "react";
-import {Dimensions, Image, RefreshControl, ScrollView, StyleSheet, Text, TouchableHighlight, View} from "react-native";
+import {ImageBackground, RefreshControl, ScrollView, Text, View} from "react-native";
 import {CommonStyle} from "../../common/CommonStyle";
-import Swiper from "react-native-swiper";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import TouchableView from "../../components/TouchableView";
 import Request from "../../utils/Request";
 import {PAY_FROM_ORDER_DETAIL} from "../../constants/ActionTypes";
-
-let {width, height} = Dimensions.get('window')
+import ImageView from "../../components/ImageView";
 
 
 export default class OrderDetail extends BaseComponent {
@@ -21,263 +18,176 @@ export default class OrderDetail extends BaseComponent {
     constructor(props) {
         super(props);
         this.state = {
-            data: null,
-            headerUrl:'',
+            data: {},
+            headerUrl: '',
             leaveMessage: null,
-            goodId: null,
+            id: null,
             num: 0,
             redPacketId: 0,
             addressId: 1,
+            refreshing: false
         }
     }
 
-    onReady(e) {
+    onShow(e) {
         this.setState({
-            goodId: e.id,
+            id: e.id,
+        }, () => {
+            this.requestData();
         });
-        this.makeRemoteRequest(e);
     }
-    makeRemoteRequest(e) {
-        let param = { id: e.id};
+
+    requestData() {
+        let param = {id: this.state.id};
         this.showInDLoading()
         Request.post('/api/goods/orderInfo', param).then(rep => {
             if (rep.code == 0 && rep.data) {
-                // this.setState(
-                //     {
-                //         data: rep.data
-                //     }
-                // )
+                this.setState({
+                    data: rep.data
+                })
+            } else {
+                this.showShort(rep.message);
             }
         }).catch(err => {
 
         }).done(() => {
             this.hideLoading()
+            this.setState({refreshing: false});
         })
     }
-    onPay(){
-        this.navigate('PayPage',{id: this.state.goodId , from: PAY_FROM_ORDER_DETAIL})
+
+    _onRefresh() {
+        this.setState({refreshing: true});
+        this.requestData();
+    }
+
+// {"code":0,"data":{"createtime":"Tue Jul 02 22:30:31 CST 2019","goodsList":
+// [{"amount":1.5,"goodsId":3,"goodsName":"食用油5L","id":21,"num":1,
+// "pic":"2019/06/11/0228c4f0a5ca13f32cd2243cf805d300.jpg","price":1.5}]
+// ,"id":21,"isrefund":0,"orderno":"1562077830535"
+// ,"paysn":null,"paystatus":0,"paytime":null,"paytype":2,
+// "shippingAddressListDTO":
+// {"city":null,"cparam":null,"detail":"Jvzhengxiaoqu 10-2-602",
+// "district":null,"id":3,"isDefault":0,"name":"Tracy","province":null,"tel":"15811508404"}
+// ,"status":1,"totalprice":1.5}
+
+    onPay() {
+        this.navigate('PayPage', {id: this.state.id, from: PAY_FROM_ORDER_DETAIL})
     }
 
     _render() {
         const {data} = this.state
+        var statusStr = '待支付';
+        switch (data.status) {
+            case 0:
+                statusStr = '待支付';
+                break
+            case 1:
+                statusStr = '已取消';
+                break
+        }
+        var sh = data.shippingAddressListDTO;
+        var address=''
+        if (sh) {
+            address = sh.detail + '\r\n' + sh.name + ' ' + sh.tel;
+        }
         return (
-            <View style={{
-                flex: 1,
-                flexDirection: 'column'
-            }}>
+            <View style={{flex: 1}}>
                 <ScrollView style={{
                     flex: 1,
-                    height: 1000,
-                    flexDirection: 'column'
                 }} refreshControl={
                     <RefreshControl
                         refreshing={this.state.refreshing}
                         onRefresh={this._onRefresh}
                     />}>
-                    <View style={{flex: 1, backgroundColor: '#fff'}}>
-                        {this._renderBanner()}
-                        <View style={{
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            padding: 10
-                        }}>
-                            <Text>{data !== null ? data.goodsName : ''}</Text>
-                            <Image source={require('../../img/share.png')}
-                                   style={{width: 20, height: 20, resizeMode: 'contain'}}/>
-                        </View>
-                        <View style={{flexDirection: 'row', padding: 10}}>
-                            <Text>{data !== null ? data.goodsPrice : ''}</Text>
-                            <Text>{data !== null ? data.marketPrice : ''}</Text>
-                            <Text>宜居甄选</Text>
-                        </View>
-                        <View style={{
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            padding: 10
-                        }}>
-                            <Text>快递:0.0</Text>
-                            <Text>已售:{data !== null ? data.sellNum : ''}</Text>
-                            <Text>{data !== null ? data.sendSite : ''}</Text>
-                        </View>
-                    </View>
-                    <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: '100%'}}/>
                     <View style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        backgroundColor: '#fff',
-                        height: 50,
-                        paddingRight: 10,
-                        paddingLeft: 10
-                    }}>
-                        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-                            <Image source={require('../../img/check.png')}
-                                   style={{width: 15, height: 15, resizeMode: 'contain'}}/>
-                            <Text style={{fontSize: 11}}>每次限购:0.0</Text>
-                        </View>
-                        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-                            <Image source={require('../../img/check.png')}
-                                   style={{width: 15, height: 15, resizeMode: 'contain'}}/>
-                            <Text style={{fontSize: 11}}>全场包邮</Text>
-                        </View>
-                        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-                            <Image source={require('../../img/check.png')}
-                                   style={{width: 15, height: 15, resizeMode: 'contain'}}/>
-                            <Text style={{fontSize: 11}}>支持开局电子发票</Text>
-                        </View>
-                        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-                            <Image source={require('../../img/check.png')}
-                                   style={{width: 15, height: 15, resizeMode: 'contain'}}/>
-                            <Text style={{fontSize: 11}}>支持快递配送</Text>
-                        </View>
-
-                    </View>
-                    <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: '100%'}}/>
-
-                    <View style={{
-                        flexDirection: 'row', justifyContent: 'space-between', marginTop: 20,
-                        height: 50, alignItems: 'center', paddingRight: 10, paddingLeft: 10, backgroundColor: '#fff'
-                    }}>
-                        <Text>数据参数</Text>
-                        <Ionicons name="ios-arrow-forward-outline" size={(18)}
-                                       color="#bbb"/>
-                    </View>
-
-                    <View style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        marginTop: 20,
-                        padding: 10,
+                        marginTop: 10, paddingHorizontal: 15, paddingVertical: 12,
                         backgroundColor: '#fff'
                     }}>
-                        <Image source={require('../../img/kuaidi.png')}
-                               style={{width: 50, height: 50, resizeMode: 'contain'}}/>
-                        <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                            <Text>
-                                全国（除新疆偏远地区外）
-                            </Text>
-                            <View style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: 10}}>
-                                <Text style={{
-                                    color: CommonStyle.themeColor,
-                                    borderRadius: 30,
-                                    borderWidth: 1,
-                                    borderColor: CommonStyle.themeColor,
-                                    padding: 3,
-                                    marginRight: 15,
-                                    fontSize: 10
-                                }}>客服电话</Text>
-                                <Text style={{
-                                    color: CommonStyle.themeColor,
-                                    borderRadius: 30,
-                                    borderWidth: 1,
-                                    borderColor: CommonStyle.themeColor,
-                                    padding: 3,
-                                    marginLeft: 15,
-                                    fontSize: 10
-                                }}>进入店铺</Text>
-                            </View>
+                        <View style={{flexDirection: 'row'}}>
+                            <Text style={{fontSize: 14, color: '#333'}}>订单状态 : </Text>
+                            <Text style={{marginLeft: 5, fontSize: 14, color: '#333'}}>{statusStr}</Text>
                         </View>
-
-                        <Text style={{fontSize: 13, color: CommonStyle.red}}>99.9%</Text>
-                        <Text style={{fontSize: 10, color: CommonStyle.textGrayColor}}>好评率</Text>
+                        <View style={{flexDirection: 'row', marginTop: 10}}>
+                            <Text style={{fontSize: 14, color: '#333'}}>订单编号 : </Text>
+                            <Text style={{marginLeft: 5, fontSize: 14, color: '#333'}}>{data.orderno}</Text>
+                        </View>
+                        <View style={{flexDirection: 'row', marginTop: 10}}>
+                            <Text style={{fontSize: 14, color: '#333'}}>下单时间 : </Text>
+                            <Text style={{marginLeft: 5, fontSize: 14, color: '#333'}}>{data.createtime}</Text>
+                        </View>
+                        <View style={{flexDirection: 'row', marginTop: 10}}>
+                            <Text style={{fontSize: 14, color: '#333'}}>合计金额 : </Text>
+                            <Text style={{marginLeft: 5, fontSize: 14, color: '#333'}}>￥{data.totalprice}</Text>
+                        </View>
                     </View>
+                    {data.goodsList && data.goodsList.map((item) => this._renderOrderItem(item))}
+                    <View style={{
+                        flexDirection: 'row',
+                        flex: 1,
+                        height: 58,
+                        backgroundColor: '#fff',
+                        paddingHorizontal: 10,
+                        marginTop: 12,
+                        alignItems: 'center'
+                    }}>
+                        <ImageView style={{height: 22, width: 22}}
+                                   defaultSource={require('../../img/icon_address_order.png')}/>
+                        <Text style={{
+                            flex: 1,
+                            fontSize: 15,
+                            color: '#333',
+                            marginLeft: 12
+                        }}>{address}</Text>
+                    </View>
+                    <ImageBackground style={{height: 3, width: '100%'}}
+                                     source={require('../../img/bg_order_confirm.png')}></ImageBackground>
 
-
-                    <Image style={[styles.slide, styles.marginBottom,styles.marginTop]}
-                           source={{uri: 'https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/digitalstore/banner_1.png'}}></Image>
-
-                    <View style={{height: 30}}></View>
                 </ScrollView>
-                <View style={styles.bottomView}>
-                    <TouchableView style={styles.bottomLeftBt} onPress={() => this.state.onButtonPress()}>
-                        <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                            <Image source={require('../../img/shopkeeper.png')}
-                                   style={styles.bottomIcon}/>
-                            <Text style={{color: CommonStyle.textGrayColor, fontSize: 12}}>联系店主</Text>
-                        </View>
-                    </TouchableView>
-                    <View style={{height: 40, width: 0.5, backgroundColor: CommonStyle.lineColor,}}/>
-                    <TouchableView style={styles.bottomLeftBt} onPress={() => {this.navigate('ProductShoppingCart')}}>
-                        <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                            <Image source={require('../../img/shopping_cart.png')}
-                                   style={styles.bottomIcon}/>
-                            <Text style={{color: CommonStyle.textGrayColor, fontSize: 12}}>加入购物车</Text>
-                        </View>
-                    </TouchableView>
+                <View style={{
+                    position: CommonStyle.absolute,
+                    bottom: 0,
+                    height: 48,
+                    width: '100%',
+                    alignItems: 'center',
+                    flexDirection: 'row'
+                }}>
                     <TouchableView style={{
+                        flex: 1,
+                        height: 48,
                         alignItems: 'center',
-                        backgroundColor: CommonStyle.themeColor,
                         justifyContent: 'center',
-                        height: 40,
-                        width: width / 2,
-                    }} onPress={() => this.onPay()}>
-                        <Text style={{color: 'white'}}>去支付</Text>
+                        backgroundColor: CommonStyle.tomato,
+                    }} onPress={() => {
+                        this.onPay()
+                    }}
+                    >
+                        <Text style={{fontSize: 16, color: '#fff'}}>付款</Text>
                     </TouchableView>
                 </View>
-
-            </View>
-
-        )
+            </View>);
     }
 
-    _renderBanner() {
-        if (this.state.data !== null) {
-            this.state.data.imageList.push('https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/digitalstore/banner_1.png')
-            this.state.data.imageList.push('https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/digitalstore/banner_1.png')
+    _renderOrderItem(item) {
             return (
-                <Swiper style={styles.banner} paginationStyle={{bottom: 10, left: 100}}
-                        dotStyle={{backgroundColor: 'rgba(200,200,200,.2)', width: 6, height: 6}}
-                        activeDotStyle={{backgroundColor: 'rgba(100,100,100,.5)', width: 6, height: 6}}
-                        showsButtons={false}
-                        autoplay={true} showsPagination={true}>
-                    {this.state.data.imageList.map((banner, i) => {
-                        return (
-                            <TouchableHighlight key={i}>
-                                <Image style={[styles.slide,]} source={{uri: banner}}></Image>
-                            </TouchableHighlight>
-                        );
-                    })}
-                </Swiper>
-            );
-        }
-
+                <View style={{
+                    paddingHorizontal: 12,
+                    paddingVertical: 15,
+                    marginTop: 10,
+                    backgroundColor: '#fff',
+                    flexDirection: 'row',
+                    height: 100,
+                    flex: 1,
+                }}>
+                    <ImageView style={{height: 70, width: 70}}
+                               source={this.state.imageUrl} defaultSource={require('../../img/default_image.png')}/>
+                    <Text
+                        style={{marginLeft: 15, flex: 1, fontSize: 16, color: '#333'}}>{item.goodName}</Text>
+                    <View style={{marginTop: 6, flexDirection: 'column'}}>
+                        <Text style={{fontSize: 14, color: '#333'}}>￥{item.price}</Text>
+                        <Text style={{marginTop: 6, fontSize: 14, color: '#333'}}>x{item.num}</Text>
+                    </View>
+                </View>
+            )
     }
-
-
 }
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        paddingBottom: 68,
-    },
-    banner: {height: 180,},
-    slide: {
-        height: 180,
-        resizeMode: Image.resizeMode.stretch,
-    },
-    bottomIcon: {
-        width: 15, height: 15, resizeMode: 'contain'
-    },
-    bottomView: {
-        flexDirection: 'row', justifyContent: 'space-between', width: width, position: 'absolute',
-        bottom: 0,
-        height: 40,
-        alignSelf: 'center'
-    }
-    ,
-    bottomLeftBt: {
-        alignItems: 'center',
-        backgroundColor: CommonStyle.white,
-        justifyContent: 'center',
-        height: 40,
-        width: width / 4,
-    },
-    marginBottom: {
-        marginBottom: 20
-    },
-    marginTop:{
-        marginTop:20
-    }
-});
