@@ -72,7 +72,7 @@ export default class OrderDetail extends BaseComponent {
 // ,"status":1,"totalprice":1.5}
 
     onPay() {
-        this.navigate('PayPage', {id: this.state.id, from: PAY_FROM_ORDER_DETAIL})
+        this.navigate('PayCenter', {id: this.state.id, from: PAY_FROM_ORDER_DETAIL})
     }
 
     _render() {

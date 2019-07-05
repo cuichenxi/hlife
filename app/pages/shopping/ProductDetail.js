@@ -10,6 +10,7 @@ import Loading from "../../components/Loading";
 import LinearGradient from "react-native-linear-gradient";
 import ImageView from "../../components/ImageView";
 import util from "../../utils/util";
+import BuyCarStore from "../../store/BuyCarStore";
 
 let {width, height} = Dimensions.get('window')
 
@@ -31,7 +32,8 @@ export default class ProductDetail extends BaseComponent {
             headerUrl: '',
             goodId: null,
             num: 1,
-            submitVisible: false
+            submitVisible: false,
+            addBuy: false,
         }
     }
 
@@ -305,9 +307,18 @@ export default class ProductDetail extends BaseComponent {
                         justifyContent: 'center',
                         height: 48,
                         flex: 1.2}} onPress={() => {
-                          this.showLong('已加入购物')
+                            this.setState({
+                                addBuy: !this.state.addBuy
+                            })
+                        if (this.state.addBuy) {
+                            this.showShort('已移除购物车');
+                            BuyCarStore.remove(data.id);
+                        } else {
+                            BuyCarStore.save([data]);
+                            this.showShort('已加入购物车');
+                        }
                     }}>
-                            <Text style={{color: '#fff', fontSize: 15}}>加入购物车</Text>
+                            <Text style={{color: '#fff', fontSize: 15}}>{this.state.addBuy?'移除购物车':'加入购物车'}</Text>
                     </TouchableView>
                     <TouchableView style={{ alignItems: 'center',
                         backgroundColor: CommonStyle.themeColor,

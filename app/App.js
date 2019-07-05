@@ -19,7 +19,7 @@ import UserInfo from "./pages/user/UserInfo";
 import AboutPage from "./pages/About/AboutPage";
 import CodePushPage from "./pages/About/CodePush";
 import BarcodePage from "./pages/witget/BarcodePage";
-import PayPage from "./pages/witget/payPage";
+import PayCenter from "./pages/witget/PayCenter";
 import ContactList from "./pages/contactlist/ContactList";
 import Register from "./pages/user/Register";
 import RedPacket from "./pages/user/redpacket/RedPacket";
@@ -177,7 +177,7 @@ const App = createStackNavigator(
         AboutPage: {screen: AboutPage},
         CodePushPage: {screen: CodePushPage},
         BarcodePage: {screen: BarcodePage},
-        PayPage: {screen: PayPage},
+        PayCenter: {screen: PayCenter},
         ContactList: {screen: ContactList},
         RedPacket: {screen: RedPacket},
         ReportMatter: {screen: ReportMatter},

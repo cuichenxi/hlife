@@ -85,7 +85,7 @@ export default class OrderConfirm extends BaseComponent {
         };
         Request.post('/api/goods/createOrder', param).then(rep => {
             if (rep.code === 0 && rep.data) {
-                this.navigate('PayPage', {
+                this.navigate('PayCenter', {
                     id: rep.data.id,
                     totalPrice:rep.data.totalPrice,
                     orderno:rep.data.orderno,

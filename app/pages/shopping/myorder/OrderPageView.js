@@ -78,7 +78,7 @@ export default class Index extends BaseView {
                   <TouchableView style={{borderColor:CommonStyle.tomato,borderWidth:0.5,borderRadius:15,
                     height:30, width: 60,alignItems: 'center', justifyContent: 'center'
                   }} onPress={()=>{
-                      NavigationUtil.navigate(this.props.navigation,'PayPage', {
+                      NavigationUtil.navigate(this.props.navigation,'PayCenter', {
                           id: item.id,
                           totalPrice:totalPrice,
                           orderno:item.orderno,

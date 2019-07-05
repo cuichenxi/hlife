@@ -21,7 +21,7 @@ var {width} = Dimensions.get('window');
  * 微信支付文档
  * https://www.jianshu.com/p/3f424cccb888
  */
-export default class PayPage extends BaseComponent {
+export default class PayCenter extends BaseComponent {
     navigationBarProps() {
         return ({
             title: '选择支付方式',
