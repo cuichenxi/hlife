@@ -17,10 +17,8 @@ import Switch from "antd-mobile-rn/es/switch/index.native";
 import TouchableView from "../../components/TouchableView";
 import {GIVEADVICE} from "../../constants/AppConstants";
 import * as WeChat from "react-native-wechat";
-import {formatStringWithHtml} from "../../utils/FormatUtil";
 import DeviceInfo from "react-native-device-info";
-import {Modal} from "antd-mobile-rn";
-import UserStore from "../../store/UserStore";
+// import {Modal} from "antd-mobile-rn";
 // const AntdModal = Modal
 
 const shareIconWechat = require('../../img/share_icon_wechat.png');
@@ -158,7 +156,7 @@ export default class MySetting extends BaseComponent{
 
                 <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: '100%'}}/>
                 <TouchableView onPress={()=>{
-                    this.onButtonClick()
+                    // this.onButtonClick()
                 }}>
                     <View style={styles.item}>
                         <Text style={styles.text}>清除缓存</Text>
@@ -199,21 +197,12 @@ export default class MySetting extends BaseComponent{
         )
     }
 
-    onButtonClick()  {
-        /*Modal.AntdModal.alert('清除缓存', '是否清除缓存', [
+    /*onButtonClick()  {
+        Modal.alert('清除缓存', '是否清除缓存', [
             { text: '取消', onPress: () => console.log('cancel'), style: 'cancel' },
             { text: '确定', onPress: () => console.log('ok') },
-        ]);*/
-        Modal.AntdModal.alert('清除缓存', '是否清除缓存', [
-            {text: '取消', onPress: () => console.log('cancel'), style: 'cancel'},
-            {
-                text: '确定', onPress: () => {
-                    // UserStore.clear();
-                    // this.reset('Login')
-                }
-            },
         ]);
-    };
+    };*/
 
 }
 
