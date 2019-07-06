@@ -165,7 +165,7 @@ export default class MyAddress extends BaseComponent {
                         <View style={{flex: 1, marginLeft: 20}}>
                             <Text style={{
                                 textAlign: 'left',
-                                color: '#999999',
+                                color: CommonStyle.textBlockColor,
                                 fontSize: 13
                             }}>{item.item.communityName}</Text>
                             <Text

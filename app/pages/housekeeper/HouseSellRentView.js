@@ -1,5 +1,5 @@
 import React from "react";
-import {Dimensions, Image, Text, View} from "react-native";
+import {Dimensions, Image, Linking, Text, View} from "react-native";
 import GiftedListView from "../../components/refreshList/GiftedListView";
 import Request from "../../utils/Request";
 import {PAGE_SIZE} from "../../constants/AppConstants";
@@ -7,6 +7,7 @@ import TouchableView from "../../components/TouchableView";
 import {BaseView} from "../../components/base/BaseView";
 import {CommonStyle} from "../../common/CommonStyle";
 import ImageView from "../../components/ImageView";
+import Modal from "antd-mobile-rn/es/modal/index.native";
 
 const imageUrl = require('../../img/default_image.png');
 
@@ -95,7 +96,7 @@ export default class HouseSellRentView extends BaseView {
                     </View>
                     <TouchableView style={{marginRight: 30}}
                         onPress={() => {
-                        this.state.onButtonPress()
+                        this.onButtonClick('10000000')
                     }}>
                         <Image source={require('../../img/bohao_icon.png')}
                                style={{width: 30, height: 30, resizeMode: 'contain'}}/>
@@ -107,6 +108,16 @@ export default class HouseSellRentView extends BaseView {
 
         )
     }
+
+    onButtonClick = (tel) => {
+        Modal.alert('提示', '是否拨打电话', [
+            { text: '取消', onPress: () => {console.log('cancel')}, style: 'cancel' },
+            { text: '确定', onPress: () => {
+                    console.log('ok')
+                    Linking.openURL(`tel:${tel}`)
+                } },
+        ]);
+    };
 
 
     _render() {

@@ -18,8 +18,8 @@ import TouchableView from "../../components/TouchableView";
 import {GIVEADVICE} from "../../constants/AppConstants";
 import * as WeChat from "react-native-wechat";
 import DeviceInfo from "react-native-device-info";
-// import {Modal} from "antd-mobile-rn";
-// const AntdModal = Modal
+import AntDModal from "antd-mobile-rn/es/modal/index.native";
+
 
 const shareIconWechat = require('../../img/share_icon_wechat.png');
 const shareIconMoments = require('../../img/share_icon_moments.png');
@@ -38,8 +38,8 @@ export default class MySetting extends BaseComponent{
         super(props);
         this.state={
             checked:false,
-            isShareModal: false
-
+            isShareModal: false,
+            cacheSize:Math.floor(Math.random() * (1 - 5)) + 5
         }
     }
 
@@ -69,7 +69,7 @@ export default class MySetting extends BaseComponent{
                                             WeChat.shareToSession({
                                                 title: '幸福宜居',
                                                 description: '分享自:' + DeviceInfo.getApplicationName(),
-                                                thumbImage: 'http://ww1.sinaimg.cn/large/61e6b52cly1g4demz7fuhj203r03rt8k.jpg',
+                                                thumbImage: 'http://ww1.sinaimg.cn/large/61e6b52cly1g4qeaqe4arj2040040745.jpg',
                                                 type: 'news',
                                                 webpageUrl: 'www.baidu.com'
                                             }).catch((error) => {
@@ -83,7 +83,7 @@ export default class MySetting extends BaseComponent{
                             >
                                 <View style={styles.shareContent}>
                                     <Image style={styles.shareIcon} source={shareIconWechat}/>
-                                    <Text style={styles.spinnerTitle}>微信</Text>
+                                    <Text style={styles.spinnerTitle}>好友</Text>
                                 </View>
                             </TouchableOpacity>
                             <TouchableOpacity
@@ -93,7 +93,7 @@ export default class MySetting extends BaseComponent{
                                         if (isInstalled) {
                                             WeChat.shareToTimeline({
                                                 title: '幸福宜居',
-                                                thumbImage: 'http://ww1.sinaimg.cn/large/61e6b52cly1g4demz7fuhj203r03rt8k.jpg',
+                                                thumbImage: 'http://ww1.sinaimg.cn/large/61e6b52cly1g4qeaqe4arj2040040745.jpg',
                                                 type: 'news',
                                                 webpageUrl: 'www.baidu.com'
                                             }).catch((error) => {
@@ -119,6 +119,7 @@ export default class MySetting extends BaseComponent{
 
 
     _render(){
+        const {cacheSize} = this.state
         return(
             <View>
                 <View style={[styles.item,styles.itemMarginTop]}>
@@ -137,8 +138,12 @@ export default class MySetting extends BaseComponent{
                 }}>
                     <View style={[styles.item,styles.itemMarginTop]}>
                         <Text style={styles.text}>关于幸福宜居</Text>
-                        <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
-                                       color="#bbb"/>
+                        <View style={{flexDirection:'row'}}>
+                            <Text style={{color:'#999',fontSize:14,marginRight: 6}}>当前版本V{DeviceInfo.getVersion()}</Text>
+                            <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
+                                           color="#bbb"/>
+                        </View>
+
                     </View>
                 </TouchableView>
                 <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: '100%'}}/>
@@ -156,12 +161,15 @@ export default class MySetting extends BaseComponent{
 
                 <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: '100%'}}/>
                 <TouchableView onPress={()=>{
-                    // this.onButtonClick()
+                    this.onButtonClick()
                 }}>
                     <View style={styles.item}>
                         <Text style={styles.text}>清除缓存</Text>
-                        <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
-                                       color="#bbb"/>
+                        <View style={{flexDirection:'row'}}>
+                            <Text style={{color:'#999',fontSize:14,marginRight: 6}}>{cacheSize}MB</Text>
+                            <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
+                                           color="#bbb"/>
+                        </View>
                     </View>
                 </TouchableView>
 
@@ -197,12 +205,17 @@ export default class MySetting extends BaseComponent{
         )
     }
 
-    /*onButtonClick()  {
-        Modal.alert('清除缓存', '是否清除缓存', [
+    onButtonClick()  {
+        AntDModal.alert('清除缓存', '是否清除缓存', [
             { text: '取消', onPress: () => console.log('cancel'), style: 'cancel' },
-            { text: '确定', onPress: () => console.log('ok') },
+            { text: '确定', onPress: () => {
+                    // Math.floor(Math.random() * (1 - 5)) + 5
+                    this.setState({
+                        cacheSize:0
+                    })
+                }},
         ]);
-    };*/
+    };
 
 }
 

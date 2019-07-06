@@ -9,7 +9,7 @@ import TouchableView from "../../components/TouchableView";
 import Modal from "antd-mobile-rn/es/modal/index.native";
 
 
-let {width, height} = Dimensions.get('window')
+let {width} = Dimensions.get('window')
 
 export default class UsefulPhone extends BaseComponent{
     navigationBarProps() {

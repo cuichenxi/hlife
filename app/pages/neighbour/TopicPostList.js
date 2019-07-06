@@ -51,7 +51,7 @@ export default class TopicPostList extends BaseComponent {
 
     _renderRowView(item) {
         return (
-            <TouchableView style={{flex: 1}} onPress={()=>{
+            <TouchableView style={{flex: 1,backgroundColor:'#fff'}} onPress={()=>{
                 this.navigate('PostDetail',{id:item.id})
             }}>
                 <View style={{
@@ -134,11 +134,10 @@ export default class TopicPostList extends BaseComponent {
         return (
             <View style={{
                 flex: 1,
-                backgroundColor: 'white',
                 flexDirection: 'column'
             }}>
                 <GiftedListView
-                    style={{with: width, flex: 1}}
+                    style={{with: width, flex: 1,marginTop: 10}}
                     rowView={this._renderRowView.bind(this)}
                     onFetch={this.makeRemoteRequest.bind(this)}
                     loadMore={false}
