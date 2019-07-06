@@ -70,11 +70,7 @@ export default class RepairsSelect extends BaseComponent {
             <ScrollView style={{
                 flex: 1,
                 paddingBottom: 68,
-            }} refreshControl={
-                <RefreshControl
-                    refreshing={this.state.refreshing}
-                    onRefresh={this._onRefresh}
-                />}>
+            }} >
 
                 <View>
                     <View style={{
@@ -113,7 +109,7 @@ export default class RepairsSelect extends BaseComponent {
                     <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: '100%'}}/>
                     <FlatList
                         style={{backgroundColor: '#fff', flex: 1}}
-                        renderItem={this.renderRow}
+                        renderItem={this.renderRow.bind(this)}
                         data={this.state.types}
                         keyExtractor={this._keyExtractor}
                         numColumns={cols}
@@ -133,7 +129,6 @@ export default class RepairsSelect extends BaseComponent {
 
     // 返回cell
     renderRow(rowData) {
-        console.log('rowData', rowData)
         return (
             <TouchableView onPress={() => {
                 // this
