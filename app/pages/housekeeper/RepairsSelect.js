@@ -137,7 +137,7 @@ export default class RepairsSelect extends BaseComponent {
         return (
             <TouchableView onPress={() => {
                 // this
-                this.navigate('ReportMatter',{title: rowData.item.name,repairType:rowData.item.repairType})
+              this.navigate('ReportMatter', {title: rowData.item.name, repairType: rowData.item.repairType});
             }}>
                 <View style={{
                     width: ImageWH,
