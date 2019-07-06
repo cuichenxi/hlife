@@ -11,6 +11,7 @@ let buyCar = [
         // "goodsName":"牙膏",
         // "goodsPrice":8.0,
         // "goodsState":1,
+        //marketPrice
         // "id":1,
         // "imageList":["http://115.28.21.13/images/2019/06/11/6f98a275379fb2a9b325be60da1c5c46.png"]
     // }
@@ -25,6 +26,7 @@ export default BuyCarStore = {
         })
     },
     get() {
+        console.log('get buyCar:' + JSON.stringify(buyCar));
         return buyCar;
     },
     save(data = []) {

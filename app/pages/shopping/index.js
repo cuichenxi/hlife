@@ -212,7 +212,7 @@ export default class Shopping extends BaseComponent {
                     marginTop: CommonStyle.navStatusBarHeight, alignItems: 'center'
                 }}>
                     <TouchableView style={{alignItems: 'center', justifyContent: 'center'}} onPress={() => {
-                        this.showShort("购物车")
+                        this.navigate('BuyCar');
                     }}>
                         <Image style={{
                             width: 18,

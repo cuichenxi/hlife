@@ -13,6 +13,7 @@ class BaseComponent extends React.Component {
         header: null,
         headerTitle: '',
         title: '',
+        rightTitle: '',
         headerLeft: null,
         gesturesEnabled: true
 
@@ -212,7 +213,11 @@ class BaseComponent extends React.Component {
             title: title
         })
     }
-
+    setRightTitle(rightTitle) {
+        this.setState({
+            rightTitle: rightTitle
+        })
+    }
 
     canExitApp() {
         return false;
@@ -249,6 +254,9 @@ class BaseComponent extends React.Component {
         let navigationBarProps = this.navigationBarProps()
         if (this.state.title) {
             Object.assign(navigationBarProps, {title: this.state.title})
+        }
+        if (this.state.rightTitle) {
+            Object.assign(navigationBarProps, {rightTitle: this.state.rightTitle});
         }
         Object.assign(navigationBarProps, this.props)
         return (

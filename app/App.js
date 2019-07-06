@@ -78,11 +78,11 @@ import TopicPostList from "./pages/neighbour/TopicPostList";
 import PublishComment from "./pages/neighbour/PublishComment";
 import PaymentVerification from "./pages/user/paymentmanager/PaymentVerification";
 import PaymentCodeCommit from "./pages/user/paymentmanager/PaymentCodeCommit";
-import ProductShoppingCart from "./pages/shopping/ProductShoppingCart";
 import OrderDetail from "./pages/shopping/OrderDetail";
 import MyPaymentRecord from "./pages/user/MyPaymentRecord";
 import OrderConfirm from "./pages/shopping/OrderConfirm";
 import About from "./pages/user/About";
+import BuyCar from "./pages/shopping/BuyCar";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -232,11 +232,11 @@ const App = createStackNavigator(
         PublishComment:{screen:PublishComment},//写评论
         PaymentVerification:{screen:PaymentVerification},//支付密码获取验证码
         PaymentCodeCommit:{screen:PaymentCodeCommit},//支付密码提交
-        ProductShoppingCart:{screen:ProductShoppingCart},//购物车
         OrderDetail:{screen:OrderDetail},//订单详情
         MyPaymentRecord:{screen:MyPaymentRecord},//我的缴费记录
         OrderConfirm:{screen:OrderConfirm},//订单确认
         About:{screen:About},//关于
+        BuyCar:{screen:BuyCar},//购物车
     },
     {
         // initialRouteName: 'Splash',

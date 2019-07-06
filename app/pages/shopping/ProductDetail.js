@@ -61,6 +61,36 @@ export default class ProductDetail extends BaseComponent {
             this.hideLoading()
         })
     }
+    requestCollect() {
+        if (this.state.isCollect) {
+            let param = {goodId: this.state.goodId};
+            this.showDLoading('收藏中...')
+            Request.post('/api/goods/collectAdd', param).then(rep => {
+                if (rep.code == 0 && rep.data) {
+
+                }
+                this.showShort(rep.message)
+            }).catch(err => {
+
+            }).done(() => {
+                this.hideLoading()
+            })
+        }else {
+            let param = {id: this.state.goodId};
+            this.showDLoading('移除收藏...')
+            Request.post('/api/user/collectDelete', param).then(rep => {
+                if (rep.code == 0 && rep.data) {
+
+                }
+                this.showShort(rep.message)
+            }).catch(err => {
+
+            }).done(() => {
+                this.hideLoading()
+            })
+        }
+
+    }
 
     onSubmit() {
         var param ={
@@ -226,7 +256,10 @@ export default class ProductDetail extends BaseComponent {
                             <TouchableView onPress={() => {
                                 this.setState({
                                     isCollect: !this.state.isCollect
+                                },()=>{
+                                    this.requestCollect()
                                 })
+
                             }}>
                                 <Image
                                     source={this.state.isCollect ? require('../../img/icon_sc_press.png') : require('../../img/icon_sc.png')}
@@ -296,7 +329,7 @@ export default class ProductDetail extends BaseComponent {
                         justifyContent: 'center',
                         height: 48,
                         flex: 1}} onPress={() => {
-                        this.navigate('ProductShoppingCart')
+                        this.navigate('BuyCar')
                     }}>
                             <Image source={require('../../img/shopping_cart.png')}
                                    style={{ width: 25, height: 25, resizeMode: 'contain'}}/>
@@ -314,6 +347,7 @@ export default class ProductDetail extends BaseComponent {
                             this.showShort('已移除购物车');
                             BuyCarStore.remove(data.id);
                         } else {
+                            data.num = 1;
                             BuyCarStore.save([data]);
                             this.showShort('已加入购物车');
                         }
@@ -369,6 +403,7 @@ export default class ProductDetail extends BaseComponent {
         );
 
     }
+
 
 
 }

@@ -112,7 +112,7 @@ export default class OrderConfirm extends BaseComponent {
                 <ImageView style={{height: 70, width: 70}}
                            source={this.state.imageUrl} defaultSource={require('../../img/default_image.png')}/>
                 <Text
-                    style={{marginLeft: 15, flex: 1, fontSize: 16, color: '#333'}}>{item.goodName}</Text>
+                    style={{marginLeft: 15,marginTop:10, flex: 1, fontSize: 16, color: '#333'}}>{`${item.goodName}${item.orderno}`}</Text>
                 <View style={{marginTop: 6, flexDirection: 'column'}}>
                     <Text style={{fontSize: 14, color: '#333'}}>￥{item.price}</Text>
                     <Text style={{marginTop: 6, fontSize: 14, color: '#333'}}>x{item.num}</Text>

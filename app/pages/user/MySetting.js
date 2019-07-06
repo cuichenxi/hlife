@@ -17,11 +17,7 @@ import Switch from "antd-mobile-rn/es/switch/index.native";
 import TouchableView from "../../components/TouchableView";
 import {GIVEADVICE} from "../../constants/AppConstants";
 import * as WeChat from "react-native-wechat";
-import {formatStringWithHtml} from "../../utils/FormatUtil";
 import DeviceInfo from "react-native-device-info";
-import {Modal} from "antd-mobile-rn";
-import UserStore from "../../store/UserStore";
-// const AntdModal = Modal
 
 const shareIconWechat = require('../../img/share_icon_wechat.png');
 const shareIconMoments = require('../../img/share_icon_moments.png');
