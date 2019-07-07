@@ -100,7 +100,7 @@ export default class MyAddress extends BaseComponent {
     }
 
     fetchData(page = 1) {
-        let param = {statusBODY: this.state.index, page: page - 1, pageSize: PAGE_SIZE};
+        let param = { page: page - 1, pageSize: PAGE_SIZE};
 
         Request.post('/api/user/mycommunityList', param,
             {

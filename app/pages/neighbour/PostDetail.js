@@ -72,7 +72,7 @@ export default class PostDetail extends BaseComponent {
                                    style={{
                                        width: 40,
                                        height: 40,
-                                       resizeMode: "cover",
+                                       // resizeMode: "cover",
                                        overflow: "hidden",
                                        borderRadius: 20
                                    }}/>
@@ -94,7 +94,7 @@ export default class PostDetail extends BaseComponent {
                                 style={{
                                     width: 11,
                                     height: 11,
-                                    resizeMode: "cover",
+                                    // resizeMode: "cover",
                                     overflow: "hidden",
                                     marginRight: 8
                                 }}/>
@@ -205,7 +205,7 @@ export default class PostDetail extends BaseComponent {
                        style={{
                            width: width - 20,
                            height: 213,
-                           resizeMode: "cover",
+                           // resizeMode: "cover",
                            marginLeft: 10,
                            marginRight: 10
                        }}/>
@@ -219,7 +219,7 @@ export default class PostDetail extends BaseComponent {
                            style={{
                                width: width,
                                height: 213,
-                               resizeMode: "contain",//contain 等比例缩放 cover 模式只求在显示比例不失真的情况下填充整个显示区域。
+                               // resizeMode: "contain",//contain 等比例缩放 cover 模式只求在显示比例不失真的情况下填充整个显示区域。
                                // marginLeft: 10,
                                // marginRight:10,
                                justifyContent: 'center',

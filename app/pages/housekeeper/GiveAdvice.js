@@ -3,9 +3,10 @@ import React from "react";
 import {Image, ImageBackground, RefreshControl, ScrollView, Text, View} from "react-native";
 import {CommonStyle} from "../../common/CommonStyle";
 import TouchableView from "../../components/TouchableView";
-import {COMPLAINTPRAISE, GIVEADVICE} from "../../constants/AppConstants";
+import {COMPLAINTPRAISE, GIVEADVICE, PAGE_SIZE} from "../../constants/AppConstants";
 import UserStore from "../../store/UserStore";
 import util from "../../utils/util";
+import Request from "../../utils/Request";
 
 export default class GiveAdvice extends BaseComponent {
     navigationBarProps() {
@@ -24,6 +25,8 @@ export default class GiveAdvice extends BaseComponent {
             headerUrl: '',
             userName: '',
             userPhone: '',
+            rows:[],
+            address:''
         }
     }
 
@@ -34,10 +37,12 @@ export default class GiveAdvice extends BaseComponent {
             userName: userInfo.userName,
             userPhone: userInfo.phone,
         })
+
+        this.fetchData()
     }
 
     _render() {
-        const {userName, userPhone} = this.state
+        const {userName, userPhone,address} = this.state
         return (
             <ScrollView style={{
                 flex: 1,
@@ -71,7 +76,7 @@ export default class GiveAdvice extends BaseComponent {
                             <Text style={{
                                 fontSize: 17,
                                 textAlign: 'left', color: '#666666'
-                            }}>地址:{}</Text>
+                            }}>地址:{address}</Text>
                         </View>
                     </View>
                     <View style={{
@@ -128,6 +133,34 @@ export default class GiveAdvice extends BaseComponent {
             </View>
 
         )
+    }
+
+    fetchData(page = 1) {
+        let param = { page: page - 1, pageSize: PAGE_SIZE};
+
+        Request.post('/api/user/mycommunityList', param,
+            {
+                mock: false,
+                mockId: 1095864,
+            }).then(rep => {
+            if (rep.code == 0 && rep.data) {
+                this.setState({
+                    rows: rep.data
+                })
+                for (var community of rep.data){
+                    if (community.isAuth == 1) {
+                        this.setState({
+                            address:community.communityName+community.buildingName+community.unitName+community.roomName
+                        })
+                        break
+                    }
+                }
+            }
+        }).catch(err => {
+
+        }).done(() => {
+            // this.hideLoading();
+        })
     }
 
 }

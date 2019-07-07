@@ -5,6 +5,8 @@ import {CommonStyle} from "../../common/CommonStyle";
 import TouchableView from "../../components/TouchableView";
 import UserStore from "../../store/UserStore";
 import util from "../../utils/util";
+import {PAGE_SIZE} from "../../constants/AppConstants";
+import Request from "../../utils/Request";
 
 let {width, height} = Dimensions.get('window')
 
@@ -52,6 +54,8 @@ export default class RepairsSelect extends BaseComponent {
             headerUrl: '',
             userName: '',
             userPhone: '',
+            rows:[],
+            address:''
         }
     }
 
@@ -62,10 +66,12 @@ export default class RepairsSelect extends BaseComponent {
             userName: userInfo.userName,
             userPhone: userInfo.phone,
         })
+
+        this.fetchData()
     }
 
     _render() {
-        const {userName, userPhone} = this.state
+        const {userName, userPhone,address} = this.state
         return (
             <ScrollView style={{
                 flex: 1,
@@ -95,7 +101,7 @@ export default class RepairsSelect extends BaseComponent {
                             <Text style={{
                                 fontSize: 17,
                                 textAlign: 'left', color: '#666666'
-                            }}>地址</Text>
+                            }}>地址:{address}</Text>
                         </View>
                     </View>
                     <View style={{
@@ -151,6 +157,34 @@ export default class RepairsSelect extends BaseComponent {
                 </View>
             </TouchableView>
         );
+    }
+
+    fetchData(page = 1) {
+        let param = { page: page - 1, pageSize: PAGE_SIZE};
+
+        Request.post('/api/user/mycommunityList', param,
+            {
+                mock: false,
+                mockId: 1095864,
+            }).then(rep => {
+            if (rep.code == 0 && rep.data) {
+                this.setState({
+                    rows: rep.data
+                })
+                for (var community of rep.data){
+                    if (community.isAuth == 1) {
+                        this.setState({
+                            address:community.communityName+community.buildingName+community.unitName+community.roomName
+                        })
+                        break
+                    }
+                }
+            }
+        }).catch(err => {
+
+        }).done(() => {
+            // this.hideLoading();
+        })
     }
 
 }
