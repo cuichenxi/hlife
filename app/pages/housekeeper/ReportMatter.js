@@ -284,6 +284,7 @@ export default class ReportMatter extends BaseComponent {
                 mock: false,
                 mockId: 1095545,
             }).then(rep => {
+            this.showShort(rep.message)
             if (rep.code == 0) {
                 this.goBack()
             }

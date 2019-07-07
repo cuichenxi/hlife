@@ -10,6 +10,7 @@ import UserStore from "../../../store/UserStore";
 import NavigationBar from "../../../components/navigationBar/navigationBar";
 import TouchableView from "../../../components/TouchableView";
 import ImageView from "../../../components/ImageView";
+import QIcon from "../../../components/icon";
 
 /**
  * 我的积分
@@ -40,12 +41,7 @@ export default class MyIntegral extends BaseComponent{
                     }}
                                    style={{flex:1}}
                     >
-                        <ImageView
-                            defaultSource={require("../../../img/icon_back.png")}
-                            style={{
-                                width: 12,
-                                height: 16,
-                            }}/>
+                        <QIcon name={'icon-back'} size={25} color={'#fff'}/>
                     </TouchableView>
 
                     <View style={{flex: 1, height: 50, alignItems: 'center', justifyContent: 'center'}}>

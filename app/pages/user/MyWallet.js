@@ -7,6 +7,7 @@ import TouchableView from "../../components/TouchableView";
 import RadioModal from "../../components/RadioModal";
 import ImageView from "../../components/ImageView";
 import UserStore from "../../store/UserStore";
+import QIcon from "../../components/icon";
 import {PAGE_SIZE} from "../../constants/AppConstants";
 import Request from "../../utils/Request";
 import {PAY_FROM_CREATE_ORDER} from "../../constants/ActionTypes";
@@ -90,13 +91,7 @@ export default class MyWallet extends BaseComponent {
                     }}
                                    style={{flex: 1}}
                     >
-                        <ImageView
-                            defaultSource={require("../../img/icon_back.png")}
-                            style={{
-                                width: 20,
-                                height: 20,
-                                resizeMode: "cover",
-                            }}/>
+                        <QIcon name={'icon-back'} size={25} color={'#fff'}/>
                     </TouchableView>
 
                     <View style={{flex: 1, height: 50, alignItems: 'center', justifyContent: 'center'}}>

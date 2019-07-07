@@ -14,7 +14,7 @@ let {width, height} = Dimensions.get('window')
 export default class MyPaymentRecord extends BaseComponent {
     navigationBarProps() {
         return {
-            title: '我的缴费记录',
+            title: '缴费记录',
         }
     }
 

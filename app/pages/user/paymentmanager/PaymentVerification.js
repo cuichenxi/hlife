@@ -21,7 +21,8 @@ export default class PaymentVerification extends BaseComponent{
             authCode:'',
             authState: '显示请求的状态',
             codeRequesting:false,
-            password: ''
+            password: '',
+            type:5
         }
     }
 
@@ -30,6 +31,7 @@ export default class PaymentVerification extends BaseComponent{
         this.setState({
             userPhone: userInfo.phone,
         })
+        this._verifyPay()
     }
     _render() {
         const {userPhone,codeRequesting} = this.state
@@ -128,7 +130,7 @@ export default class PaymentVerification extends BaseComponent{
             codeRequesting:true
         })
 
-        var param = {phone: this.state.userPhone,type:5};
+        var param = {phone: this.state.userPhone,type:6};
 
         Request.post('/api/user/getAuthCode', param,
             {
@@ -145,6 +147,33 @@ export default class PaymentVerification extends BaseComponent{
 
         }).catch(err => {
             shouldStartCounting && shouldStartCounting(false)
+            this.showShort('网络异常');
+        }).done(() => {
+            this.hideLoading();
+        })
+    }
+    _verifyPay() {
+
+        var param = {};
+
+        Request.post('/api/user/verifyPay', param,
+            {
+                mock: false,
+                mockId: 1089766,
+            }).then(rep => {
+            if (rep.code == 0){
+                if (rep.data){
+                    this.setState({
+                        type:6
+                    })
+                } else {
+                    this.setState({
+                        type:6
+                    })
+                }
+            }
+
+        }).catch(err => {
             this.showShort('网络异常');
         }).done(() => {
             this.hideLoading();
