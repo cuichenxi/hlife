@@ -8,7 +8,7 @@ import {
     BACK_FROM_PAY,
     JUMP_TO_ORDER_DETAIL,
     PAY_FROM_CREATE_ORDER,
-    PAY_FROM_ORDER_DETAIL, PAY_FROM_ORDER_ORDER_LIST
+    PAY_FROM_ORDER_DETAIL, PAY_FROM_ORDER_ORDER_LIST, PAY_FROM_WALLET
 } from "../../constants/ActionTypes";
 import NavigationUtil from "../../utils/NavigationUtil";
 import TouchableView from "../../components/TouchableView";
@@ -81,6 +81,18 @@ export default class PayCenter extends BaseComponent {
                         }
                     }])
                 break
+            case PAY_FROM_WALLET:
+                Modal.alert('确定稍后支付', '下单后15分钟内未支付成功,订单将被关闭,请尽快完成支付',
+                    [{
+                        text: '稍后支付', onPress: () => {
+                            this.goBack();
+                        },
+                    }, {
+                        text: '继续支付', onPress: () => {
+
+                        }
+                    }])
+                break
             default:
                 Modal.alert('确定稍后支付', '下单后15分钟内未支付成功,订单将被关闭,请尽快完成支付',
                     [{
@@ -122,7 +134,7 @@ export default class PayCenter extends BaseComponent {
             'PayReq.Resp',
             (response) => {
                 if (parseInt(response.errCode) === 0) {
-                    this.showShort('支付成功');
+                    this.paySuccess()
                 } else {
                     this.showShort('取消支付');
                 }
@@ -152,6 +164,14 @@ export default class PayCenter extends BaseComponent {
                     [{
                         text: '查看订单', onPress: () => {
                             NavigationUtil.resetGo(this.props.navigation, ['Home', 'OrderList','OrderDetail'], {id: this.state.id});
+                        }
+                    }])
+                break
+            case  PAY_FROM_WALLET:
+                Modal.alert('支付成功',
+                    [{
+                        text: '查看金额', onPress: () => {
+                            this.goBack()
                         }
                     }])
                 break
@@ -300,6 +320,8 @@ export default class PayCenter extends BaseComponent {
                                    source={this.state.select === 2 ? require('../../img/icon_ck_select.png') : require('../../img/icon_ck.png')}/>
                         </View>
                     </TouchableView>
+                    {this.state.from!==PAY_FROM_WALLET&&
+
                     <TouchableView style={{
                         paddingHorizontal: 15,
                         paddingVertical: 10,
@@ -331,6 +353,7 @@ export default class PayCenter extends BaseComponent {
                                    source={this.state.select === 3 ? require('../../img/icon_ck_select.png') : require('../../img/icon_ck.png')}/>
                         </View>
                     </TouchableView>
+                    }
                 </View>
                 <Text style={{fontSize: 14, color: '#666', marginTop: 15, marginLeft: 15,}}>提示:请15分钟内支付订单</Text>
                 <TouchableView style={{

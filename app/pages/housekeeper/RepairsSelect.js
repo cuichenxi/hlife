@@ -26,8 +26,8 @@ export default class RepairsSelect extends BaseComponent {
         super(props);
         this.state = {
             // title: this.props.navigation.state.params.title,
-            firstType: this.props.navigation.state.params.title === '咨询建议' ? '发表建议' : '我要投诉',
-            secondType: this.props.navigation.state.params.title === '咨询建议' ? '我要咨询' : '我要表扬',
+            // firstType: this.props.navigation.state.params.title === '咨询建议' ? '发表建议' : '我要投诉',
+            // secondType: this.props.navigation.state.params.title === '咨询建议' ? '我要咨询' : '我要表扬',
             types: [
                 {
                     name: '居家报修',
@@ -61,6 +61,7 @@ export default class RepairsSelect extends BaseComponent {
 
     onReady(param) {
         let userInfo = UserStore.get();
+        this.setTitle(param.title)
         this.setState({
             headerUrl: util.stringValue(userInfo.avatar),
             userName: userInfo.userName,
@@ -137,7 +138,6 @@ export default class RepairsSelect extends BaseComponent {
     renderRow(rowData) {
         return (
             <TouchableView onPress={() => {
-                // this
               this.navigate('ReportMatter', {title: rowData.item.name, repairType: rowData.item.repairType});
             }}>
                 <View style={{

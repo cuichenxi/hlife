@@ -105,7 +105,6 @@ export default class PaymentVerification extends BaseComponent{
 
                 <TouchableOpacity style={{
                     height: 40,
-                    width:300,
                     marginLeft: 30,
                     marginRight: 30,
                     borderRadius: 30,
