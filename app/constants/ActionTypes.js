@@ -1,3 +1,5 @@
+import {FROMAUTH} from "./AppConstants";
+
 /**
  *
  * Copyright 2016-present reading
@@ -29,3 +31,8 @@ export const PAY_FROM_WALLET = 3;
 
 export const BACK_FROM_PAY = 100;
 export const JUMP_TO_ORDER_DETAIL = 200;
+
+
+export const CALL_BACK_TEST = 'CALL_BACK_TEST';
+export const CALL_BACK_PUBLISH_HOUSE = 'CALL_BACK_PUBLISH_HOUSE';
+export const CALL_BACK_FROM_AUTH = 'CALL_BACK_FROM_AUTH';

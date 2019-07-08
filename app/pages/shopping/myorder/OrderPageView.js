@@ -53,6 +53,11 @@ export default class Index extends BaseView {
                 break
         }
         var totalPrice = 0;
+        if (!util.isArrayEmpty(item.goodsList)) {
+            item.goodsList.map((item)=>{
+                totalPrice = totalPrice + item.price * item.num;
+            })
+        }
       return(
           <TouchableView   style={{
               backgroundColor: '#fff',
@@ -88,7 +93,7 @@ export default class Index extends BaseView {
                   </TouchableView>
               </View>
           </TouchableView>
-      )
+      );
     }
     _renderOrderItem(item ,index) {
         return (

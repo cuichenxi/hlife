@@ -146,13 +146,12 @@ export default class OrderConfirm extends BaseComponent {
                         paddingHorizontal: 10,
                         alignItems: 'center'
                     }} onPress={() => {
-                        this.navigate('MyShippingAddress',{from:1,callback:(e)=>{
+                        this.navigate('MyShippingAddress',{from:1,},(e)=>{
                                 if (e) {
                                     this.setState({
                                         addressId: e.id,
                                         address: e.detail + '\r\n' + e.name + ' ' + e.tel
                                     })
-                                }
                             }})
                     }}>
                         <ImageView style={{height: 22, width: 22}}
@@ -183,13 +182,12 @@ export default class OrderConfirm extends BaseComponent {
                         borderColor: CommonStyle.lightGray
                     }} onPress={() => {
                         // {"address":"123123","bank":"","bankNo":"","createdTime":null,"id":9,"name":"Qfant","no":"123123","phone":"15811508404","type":0}
-                        this.navigate('MyInvoiceList',{from:1,callback:(e)=>{
+                        this.navigate('MyInvoiceList',{from:1,},(e)=>{
                                 if (e) {
                                     this.setState({
                                         invoiceId: e.id,
                                         invoice: e.name + ' ' + e.no
                                     })
-                                }
                             }})
                     }}>
                         <Text style={{

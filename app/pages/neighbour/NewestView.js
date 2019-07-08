@@ -139,7 +139,7 @@ export default class Index extends BaseView {
                     onRef={(ref)=>{
                         this.listRef = ref;
                     }}
-                    style={{with: width, flex: 1}}
+                    style={{ flex: 1}}
                     rowView={this._renderRowView.bind(this)}
                     onFetch={this.makeRemoteRequest.bind(this)}
                     loadMore={false}

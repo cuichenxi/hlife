@@ -83,7 +83,7 @@ export default class Index extends BaseView {
                 </View>
                 <View style={{height: 0.5, backgroundColor: CommonStyle.lightGray, width: width}}/>
                 <GiftedListView
-                    style={{with: width, flex: 1}}
+                    style={{ flex: 1}}
                     rowView={this._renderRowView.bind(this)}
                     onFetch={this.makeRemoteRequest.bind(this)}
                     loadMore={false}

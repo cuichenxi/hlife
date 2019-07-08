@@ -96,10 +96,10 @@ const post = (url, params = {}, options = {}, cacheCallback) => {
                 //     ToastUtil.showShort(responseData.message)
                 //     NavigationUtil.navigate('AuthPage');
                 // }
-                if (responseData.code == 605) {
-                    ToastUtil.showShort(responseData.message)
-                    NavigationUtil.navigate('Login');
-                }
+                // if (responseData.code == 605) {
+                //     ToastUtil.showShort(responseData.message)
+                //     NavigationUtil.navigate('Login');
+                // }
             } else {
                 reject(responseData);
             }

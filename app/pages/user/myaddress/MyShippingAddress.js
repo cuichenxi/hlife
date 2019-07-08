@@ -56,7 +56,7 @@ export default class MyShippingAddress extends BaseComponent {
                         onRef={(ref)=>{
                             this.listRef = ref;
                         }}
-                        style={{with: width, flex: 1}}
+                        style={{ flex: 1}}
                         rowView={this._renderItem.bind(this)}
                         onFetch={this.fetchData.bind(this)}
                         loadMore={false}
@@ -156,9 +156,8 @@ export default class MyShippingAddress extends BaseComponent {
                         this.goBack(item);
                     } else {
                         this.navigate('AddShippingAddress', {
-                            address: item, update: true, api: '/api/user/goodsaddressUpdate', callback: (data) => {
+                            address: item, update: true, api: '/api/user/goodsaddressUpdate'},  (data) => {
                                 this.listRef._refresh();
-                            }
                         });
                     }
                 }}>
@@ -203,9 +202,9 @@ export default class MyShippingAddress extends BaseComponent {
 
 
     goAddHousingAddress() {
-        this.navigate('AddShippingAddress',{api:'/api/user/shippingAddress',callback:(data) =>{
+        this.navigate('AddShippingAddress',{api:'/api/user/shippingAddress',},(data) =>{
                 this.listRef._refresh();
-            }})
+            })
     }
 
 }

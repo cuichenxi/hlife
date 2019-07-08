@@ -17,7 +17,7 @@ export default class MessageList extends BaseComponent {
         return (
             <View style={{flex: 1}}>
                 <GiftedListView
-                    style={{with: width}}
+                    style={{width: width}}
                     rowView={this._renderRowView.bind(this)}
                     onFetch={this.makeRemoteRequest.bind(this)}
                     loadMore={false}

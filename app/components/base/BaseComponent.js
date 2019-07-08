@@ -7,8 +7,8 @@ import Loading from "../Loading";
 import LoadingView from "../LoadingView";
 import NavigationUtil from "../../utils/NavigationUtil";
 
-
 class BaseComponent extends React.Component {
+
     static navigationOptions = ({navigation}) => ({
         header: null,
         headerTitle: '',
@@ -41,29 +41,58 @@ class BaseComponent extends React.Component {
 
     }
 
-    componentDidUpdate() {
-
-    }
-
     componentDidMount() {
         BackHandler.addEventListener('hardwareBackPress', this.onBackPressAndroid)
         this.onReady(this.props.navigation.state.params);
-        this.onShow(this.props.navigation.state.params);
         this.setState({
             gesturesEnabled: this.canBack()
         })
-        this.addBackEvent();
+        this.subscriptions = {};
+        this.addListener('willFocus',this.onWillFocus.bind(this))
+        this.addListener('didFocus',this.onDidFocus.bind(this))
+        this.addListener('willBlur',this.onWillBlur.bind(this))
+        this.addListener('didBlur',this.onDidBlur.bind(this))
     }
 
-    componentWillUnmount() {
-        if (this.state.subscription) {
-            this.state.subscription.remove();
-        }
-        BackHandler.removeEventListener('hardwareBackPress', this.onBackPressAndroid)
+    onWillFocus(payload) {
+        // console.debug('onWillFocus', payload);
+    }
+    onDidFocus(payload) {
+        console.debug('didFocus', payload);
+        this.onShow(payload.state.params);
+    }
+    onWillBlur(payload) {
+        // console.debug('willBlur', payload);
         this.onHide();
+    }
+    onDidBlur(payload) {
+        // console.debug('didBlur', payload);
         this.onUnload();
     }
 
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackPressAndroid)
+        this.removeListener('willFocus');
+        this.removeListener('didFocus');
+        this.removeListener('willBlur');
+        this.removeListener('didBlur');
+    }
+
+    addListener = (eventName,listener) => {
+        if (listener) {
+            this.subscriptions[eventName] = this.props.navigation.addListener(
+                eventName,
+                listener
+            );
+        }
+    };
+
+    removeListener = eventName => {
+        if (this.subscriptions[eventName]) {
+            this.subscriptions[eventName].remove();
+            this.subscriptions[eventName] = undefined;
+        }
+    };
     /**
      * 页面准备完成时。通过
      * 举例：从 A 页面打开 B 页面，此时 B 页面就准备完成了。
@@ -106,17 +135,23 @@ class BaseComponent extends React.Component {
     }
 
     /**
-     * navigate('pageScreen',{prams:xxx,callback:()=>{}})
+     * navigate('pageScreen',{xx:xxx,callback:()=>{}})
      * @param screenName
      * @param params
      */
-    navigate(screenName, params = {},hasBackEvent) {
-        this.hasBackEvent = hasBackEvent;
+    navigate(screenName, params = {}, callback) {
+        this.state.callback = callback;
+        if (callback) {
+            params = Object.assign(params, {callback: callback});
+        }
         this.props.navigation.navigate(screenName, params);
     }
 
-    push(screenName, params = {},hasBackEvent) {
-        this.hasBackEvent = hasBackEvent;
+    push(screenName, params = {}, callback) {
+        this.state.callback = callback;
+        if (callback) {
+            params = Object.assign(params, {callback: callback});
+        }
         this.props.navigation.push(screenName, params);
     }
 
@@ -124,9 +159,8 @@ class BaseComponent extends React.Component {
         NavigationUtil.reset(this.props.navigation, screenName);
     }
 
-    pop(index,param) {
+    pop(index) {
         NavigationUtil.pop(this.props.navigation, index);
-        this.sendBackParam(param);
     }
 
     goBack(params) {
@@ -134,32 +168,25 @@ class BaseComponent extends React.Component {
             this.props.navigation.state.params.callback(params);
         }
         this.props.navigation.goBack();
-        this.sendBackParam(params);
+    }
+    callback(params){
+        console.debug('callback', params);
     }
 
-    sendBackParam(param){
-        DeviceEventEmitter.emit("BackEventType", param);
+    sendCallback(eventType, params) {
+        DeviceEventEmitter.emit(eventType, params);
     }
 
-    onBackParam(param){
-
-    }
-
-    addBackEvent(){
-        // 这里的`param`可以不写
-        this.state.subscription = DeviceEventEmitter.addListener("BackEventType", (param)=>{
-            // 刷新界面等
-            this.onShow(this.props.navigation.state.params);
-            if (this.hasBackEvent) {
-                this.onBackParam(param);
+    registerCallBack(eventType ,callback){
+        DeviceEventEmitter.addListener(eventType, (param) => {
+            if (callback) {
+                callback(param)
             }
         });
     }
-
     onLeftPress() {
         this.goBack();
     }
-
 
     onRightPress() {
         console.log('======right=')
@@ -235,7 +262,6 @@ class BaseComponent extends React.Component {
         if (!this.canBack()) {
             return true;
         }
-        // const {state} = this.props.navigation;
         if (this.canExitApp()) {
             if (this.state.lastBackPressed && this.state.lastBackPressed + 2000 >= Date.now()) {
                 // dispatch({type: 'ExitApp'});//将state设置成第一次启动一致，避免从哪个界面退出，启动时显示哪个界面的bug（杀掉进程启动无该问题）

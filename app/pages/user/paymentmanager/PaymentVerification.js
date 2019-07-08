@@ -121,6 +121,11 @@ export default class PaymentVerification extends BaseComponent{
         );
     }
 
+    /**
+     * 备注：验证码类型(1:登录;2:注册;3:修改密码;4:短信通知;5:修改绑定手机号;6:修改支付密码)
+     * @param shouldStartCounting
+     * @private
+     */
     _requestAuthCode(shouldStartCounting) {
 
         this.setState({
@@ -128,7 +133,7 @@ export default class PaymentVerification extends BaseComponent{
             codeRequesting:true
         })
 
-        var param = {phone: this.state.userPhone,type:5};
+        var param = {phone: this.state.userPhone,type:6};
 
         Request.post('/api/user/getAuthCode', param,
             {

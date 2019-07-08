@@ -6,6 +6,7 @@ import TouchableView from "../../../components/TouchableView";
 import {Text, View} from "react-native";
 import {FROMAUTH, PAGE_SIZE} from "../../../constants/AppConstants";
 import Request from "../../../utils/Request";
+import {CALL_BACK_FROM_AUTH,} from "../../../constants/ActionTypes";
 
 /**
  * 房号列表
@@ -42,7 +43,8 @@ export default class RoomList extends BaseComponent{
     _renderRowView(rowData){
         return(<TouchableView onPress={() => {
             if (this.state.from !== FROMAUTH) {
-                this.pop(3,{elementName:this.state.elementData.name+'-'+rowData.name,roomId:rowData.id})
+                this.pop(3)
+                this.sendCallback(CALL_BACK_FROM_AUTH,{elementName:this.state.elementData.name+'-'+rowData.name,roomId:rowData.id})
             } else {
                 this.goBack(rowData)
             }

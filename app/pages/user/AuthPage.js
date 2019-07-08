@@ -20,6 +20,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import {FROMAUTH} from "../../constants/AppConstants";
 import ImageView from "../../components/ImageView";
+import {CALL_BACK_FROM_AUTH, CALL_BACK_PUBLISH_HOUSE} from "../../constants/ActionTypes";
 
 
 var {width, height} = Dimensions.get('window');
@@ -53,19 +54,18 @@ export default class AuthPage extends BaseComponent {
         };
     }
 
-    onBackParam(e) {
-        if (e) {
-            this.setState({
-                elementName: e.elementName,
-                buildingId: e.buildingId,
-                unitId: e.unitId,
-                roomName: '选择房间号',
-            })
-        }
-    }
-
     onReady(param) {
         this.hideHeader(true);
+        this.registerCallBack(CALL_BACK_PUBLISH_HOUSE,(e)=>{
+            if (e) {
+                this.setState({
+                    elementName: e.elementName,
+                    buildingId: e.buildingId,
+                    unitId: e.unitId,
+                    roomName: '选择房间号',
+                })
+            }
+        })
     }
 
     _renderHeader() {
@@ -125,8 +125,8 @@ export default class AuthPage extends BaseComponent {
                         <TouchableView onPress={() => {
                             this.navigate('HousingAddressList', {
                                 title: '选择小区',
-                                api: '/api/user/selectCommunity',
-                                callback: (data) => {
+                                api: '/api/user/selectCommunity'},
+                                (data) => {
                                     this.setState({
                                         housingAddress: data.name,
                                         housingId: data.id,
@@ -134,7 +134,7 @@ export default class AuthPage extends BaseComponent {
                                         roomName: '',
                                     })
                                 }
-                            })
+                            )
                         }}>
 
                             <View
@@ -174,15 +174,14 @@ export default class AuthPage extends BaseComponent {
                                 title: '选择楼栋/单元',
                                 housingId: this.state.housingId,
                                 api: '/api/user/selectelement',
-                                from: FROMAUTH,
-                                callback: (data) => {
+                                from: FROMAUTH},
+                                (data) => {
                                     console.log('=======回传=========')
                                     console.log(data)
                                     this.setState({
                                         element: data.name,
                                         roomName: '选择房间号',
                                     })
-                                }
                             }, true)
                         }}>
 
@@ -225,13 +224,12 @@ export default class AuthPage extends BaseComponent {
                                 buildingId: this.state.buildingId,
                                 api: '/api/user/selectroom',
                                 unitId: this.state.unitId,
-                                from: FROMAUTH,
-                                callback: (data) => {
+                                from: FROMAUTH},
+                                 (data) => {
                                     this.setState({
                                         roomName: data.name,
                                         roomId: data.id
                                     })
-                                }
                             })
                         }}>
 

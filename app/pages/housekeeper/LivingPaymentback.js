@@ -59,7 +59,7 @@ export default class LivingPayment extends  BaseComponent{
                     onRef={(ref)=>{
                         this.listRef = ref;
                     }}
-                    style={{with: width, flex: 1,marginLeft: 10,marginRight: 10}}
+                    style={{ flex: 1,marginLeft: 10,marginRight: 10}}
                     rowView={this._renderRowView.bind(this)}
                     // onFetch={this.makeRemoteRequest.bind(this)}
                     rowHasChanged={(r1, r2) => {

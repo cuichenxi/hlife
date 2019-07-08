@@ -10,6 +10,7 @@ import ToastUtil from "../../../utils/ToastUtil";
 import {PAGE_SIZE} from "../../../constants/AppConstants";
 import Request from "../../../utils/Request";
 import globalStore from "../../../store/globalStore";
+import {CALL_BACK_PUBLISH_HOUSE} from "../../../constants/ActionTypes";
 
 
 let {width, height} = Dimensions.get('window')
@@ -39,15 +40,18 @@ export default class AddHousingAddress extends BaseComponent {
             elementName:this.props.navigation.state.params.elementName,
             roomId: ''
         }
+
     }
 
-    onBackParam(e){
-        if (e) {
-            this.setState({
-                elementName:e.elementName,
-                roomId:e.roomId
-            })
-        }
+    onReady(p) {
+        this.registerCallBack(CALL_BACK_PUBLISH_HOUSE,(e)=>{
+            if (e) {
+                this.setState({
+                    elementName: e.elementName,
+                    roomId: e.roomId
+                });
+            }
+        })
     }
 
 
@@ -72,14 +76,14 @@ export default class AddHousingAddress extends BaseComponent {
                     <Text style={{color: CommonStyle.textBlockColor, padding: 10}}>所居住的小区</Text>
                     <TouchableView onPress={() => {
                         this.navigate('HousingAddressList', {
-                            title:'选择小区',
-                            api:'/api/user/selectCommunity',
-                            callback: (data) => {
+                            title: '选择小区',
+                            api: '/api/user/selectCommunity',
+                        },
+                             (data) => {
                                 this.setState({
                                     housingAddress: data.name,
                                     housingId:data.id
                                 })
-                            }
                         })
                     }}>
                         <View
@@ -98,14 +102,14 @@ export default class AddHousingAddress extends BaseComponent {
                         this.navigate('ElementList', {
                             title:'选择苑、幢',
                             api:'/api/user/selectelement',
-                            housingId:this.state.housingId,
-                            callback: (data) => {
+                            housingId:this.state.housingId,},
+                             (data) => {
                                 ToastUtil.showShort(data.name);
                                 this.setState({
                                     element: data.name
                                 })
                             }
-                        },true)
+                        )
                     }}>
                         <View style={{flexDirection: 'row', justifyContent: 'space-between', width: width, padding: 10}}>
                             <Text>{this.state.elementName?this.state.elementName:"选择小区的苑、幢、单元室"}</Text>

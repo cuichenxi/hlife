@@ -6,6 +6,7 @@ import TouchableView from "../../../components/TouchableView";
 import {Text, View} from "react-native";
 import {FROMAUTH, PAGE_SIZE} from "../../../constants/AppConstants";
 import Request from "../../../utils/Request";
+import {CALL_BACK_PUBLISH_HOUSE, CALL_BACK_TEST} from "../../../constants/ActionTypes";
 
 /**
  * 单元列表
@@ -49,7 +50,8 @@ export default class UnitList extends BaseComponent{
                     buildingId:this.state.elementData.id
                 })
             } else {
-                this.pop(2,{elementName:this.state.elementData.name+'-'+rowData.name,unitId:rowData.id,buildingId:this.state.elementData.id})
+                this.sendCallback(CALL_BACK_PUBLISH_HOUSE,{elementName:this.state.elementData.name+'-'+rowData.name,unitId:rowData.id,buildingId:this.state.elementData.id})
+                this.pop(2);
             }
 
         }}>

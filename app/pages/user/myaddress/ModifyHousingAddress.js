@@ -9,6 +9,7 @@ import TouchableView from "../../../components/TouchableView";
 import ToastUtil from "../../../utils/ToastUtil";
 import Request from "../../../utils/Request";
 import globalStore from "../../../store/globalStore";
+import {CALL_BACK_PUBLISH_HOUSE} from "../../../constants/ActionTypes";
 
 
 let {width, height} = Dimensions.get('window')
@@ -40,14 +41,16 @@ export default class ModifyHousingAddress extends BaseComponent {
         }
     }
 
-    onBackParam(e){
-        if (e) {
-            this.setState({
-                elementName:e.elementName
-            })
-        }
+    onReady(p) {
+        this.registerCallBack(CALL_BACK_PUBLISH_HOUSE,(e)=>{
+            if (e) {
+                this.setState({
+                    elementName: e.elementName,
+                    roomId: e.roomId
+                });
+            }
+        })
     }
-
     _render() {
         return (
             <View style={{flex: 1}}>
@@ -71,14 +74,14 @@ export default class ModifyHousingAddress extends BaseComponent {
                     <Text style={{color: CommonStyle.textBlockColor, padding: 10}}>所居住的小区</Text>
                     <TouchableView onPress={() => {
                         this.navigate('HousingAddressList', {
-                            title:'选择小区',
-                            api:'/api/user/selectCommunity',
-                            callback: (data) => {
+                            title: '选择小区',
+                            api: '/api/user/selectCommunity',
+                        },
+                             (data) => {
                                 this.setState({
                                     housingAddress: data.name,
                                     housingId:data.id
                                 })
-                            }
                         })
                     }}>
                         <View
@@ -96,13 +99,13 @@ export default class ModifyHousingAddress extends BaseComponent {
                     <TouchableView onPress={() => {
                         this.navigate('ElementList', {
                             title:'选择苑、幢',
-                            api:'/api/user/selectelement',
-                            callback: (data) => {
+                            api:'/api/user/selectelement',},
+                             (data) => {
                                 this.setState({
                                     element: data.name
                                 })
-                            }
-                        },true)
+
+                        })
                     }}>
                         <View style={{flexDirection: 'row', justifyContent: 'space-between', width: width, padding: 10}}>
                             <Text>{this.state.address.unitName}</Text>

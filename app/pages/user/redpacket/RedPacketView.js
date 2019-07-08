@@ -47,7 +47,7 @@ export default class Index extends BaseView {
                             <Text style={{color:'#FF5D5D'}}>{item.title}</Text>
 
                         </View>
-                        <View style={{height: 90, with: 0.5, backgroundColor: CommonStyle.lightGray}}>
+                        <View style={{height: 90, width: 0.5, backgroundColor: CommonStyle.lightGray}}>
                         </View>
                         <View style={{flex: 1,paddingLeft:20}}>
                             <Text style={{color:'#FF5D5D'}}>{item.des}</Text>
@@ -88,7 +88,7 @@ export default class Index extends BaseView {
                             <Text>{item.title}</Text>
 
                         </View>
-                        <View style={{height: 90, with: 0.5, backgroundColor: CommonStyle.lightGray}}>
+                        <View style={{height: 90, width: 0.5, backgroundColor: CommonStyle.lightGray}}>
                         </View>
                         <View style={{flex: 1,paddingLeft:20}}>
                             <Text>{item.des}</Text>

@@ -69,7 +69,7 @@ export default class ItemArrow extends Component {
                     <Image style={{
                         width: 16,
                         height: 16,
-                        resizeMode:'contain',
+                        resizeMode: 'contain',
                         marginRight: 12,
                     }} source={icon}/>): null}
                 <View style={[styles.listInfo, {borderTopWidth: !first ? 1 : 0}]}>

@@ -15,11 +15,18 @@ export default class OrderList extends BaseComponent {
             title: '我的订单',
         }
     }
-
+    // 1 等待支付 2订单取消 3 支付成功 4 支付失败 5已发货6申请退款 7退款完成8订单完成9已评价
     _render() {
         const tabs = [
             {title: '全部'},
             {title: '待支付'},
+            {title: '订单取消'},
+            {title: '支付成功'},
+            {title: '支付失败'},
+            {title: '申请退款'},
+            {title: '退款完成'},
+            {title: '订单完成'},
+            {title: '已评价'},
         ];
 
         return (

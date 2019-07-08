@@ -41,10 +41,10 @@ resetGo = (navigation, routeNames = [], params = {}) => {
     navigation.dispatch(resetAction);
 };
 
-pop=(navigation, index) =>{
-    const popAction=StackActions.pop({
+pop = (navigation, index) => {
+    const popAction = StackActions.pop({
         n: index,
-    })
+    });
     navigation.dispatch(popAction);
 };
 

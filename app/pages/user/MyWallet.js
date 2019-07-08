@@ -9,7 +9,7 @@ import ImageView from "../../components/ImageView";
 import UserStore from "../../store/UserStore";
 import {PAGE_SIZE} from "../../constants/AppConstants";
 import Request from "../../utils/Request";
-import {PAY_FROM_CREATE_ORDER} from "../../constants/ActionTypes";
+import {PAY_FROM_CREATE_ORDER, PAY_FROM_WALLET} from "../../constants/ActionTypes";
 import {Modal} from "antd-mobile-rn/lib/index.native";
 
 let {width, height} = Dimensions.get('window')
@@ -45,14 +45,14 @@ export default class MyWallet extends BaseComponent {
                 mock: false,
                 mockId: 1095864,
             }).then(rep => {
-            if (rep.code === 0 && rep.data) {
+            if (rep.code == 0 && rep.data) {
                 this.navigate('PayCenter', {
                     id: rep.data.id,
                     totalPrice: rep.data.totalPrice,
                     orderno: rep.data.orderno,
                     from: PAY_FROM_WALLET
                 })
-            } else if (rep.code === 1060) {
+            } else if (rep.code == 1060) {
                 Modal.alert('提示', '未设置支付密码,立即设置',
                     [{
                         text: '取消', onPress: () => {

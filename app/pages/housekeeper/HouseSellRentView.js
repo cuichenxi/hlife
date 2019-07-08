@@ -128,7 +128,7 @@ export default class HouseSellRentView extends BaseView {
                 flexDirection: 'column'
             }}>
                 <GiftedListView
-                    style={{with: width, flex: 1}}
+                    style={{ flex: 1}}
                     rowView={this._renderRowView.bind(this)}
                     onFetch={this.makeRemoteRequest.bind(this)}
                     loadMore={false}

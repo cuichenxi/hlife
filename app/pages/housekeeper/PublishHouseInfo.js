@@ -20,6 +20,7 @@ import TouchableView from "../../components/TouchableView";
 import Request from "../../utils/Request";
 import {ActionSheet} from "antd-mobile-rn";
 import ImagePicker from "react-native-image-crop-picker";
+import {CALL_BACK_PUBLISH_HOUSE,} from "../../constants/ActionTypes";
 
 let {width, height} = Dimensions.get('window')
 const Font = {
@@ -67,18 +68,16 @@ export default class PublishHouseInfo extends BaseComponent {
             base: '',
             keyboardHeight: 0
         }
-
-
+        this.registerCallBack(CALL_BACK_PUBLISH_HOUSE,(e)=>{
+            if (e) {
+                this.setState({
+                    elementName: e.elementName,
+                    roomId: e.roomId
+                });
+            }
+        })
     }
 
-    onBackParam(e) {
-        if (e) {
-            this.setState({
-                elementName: e.elementName,
-                roomId: e.roomId
-            });
-        }
-    }
 
     _render() {
         return (
@@ -190,8 +189,8 @@ export default class PublishHouseInfo extends BaseComponent {
                 <TouchableView onPress={() => {
                     this.navigate('HousingAddressList', {
                         title: '我的小区',
-                        api: '/api/user/mycommunityList',
-                        callback: (data) => {
+                        api: '/api/user/mycommunityList',},
+                         (data) => {
                             // ToastUtil.showShort(data.name);
                             console.log(data)
                             this.setState({
@@ -200,7 +199,6 @@ export default class PublishHouseInfo extends BaseComponent {
                                 elementName: data.roomName,
                                 roomId: data.roomId,
                             })
-                        }
                     })
                 }}>
                     <View style={styles.inputRow}>

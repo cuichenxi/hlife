@@ -87,7 +87,7 @@ export default class OrderDetail extends BaseComponent {
                 break
         }
         var sh = data.shippingAddressListDTO;
-        var address=''
+        var address = ''
         if (sh) {
             address = sh.detail + '\r\n' + sh.name + ' ' + sh.tel;
         }
@@ -98,7 +98,7 @@ export default class OrderDetail extends BaseComponent {
                 }} refreshControl={
                     <RefreshControl
                         refreshing={this.state.refreshing}
-                        onRefresh={this._onRefresh}
+                        onRefresh={this._onRefresh.bind(this)}
                     />}>
                     <View style={{
                         marginTop: 10, paddingHorizontal: 15, paddingVertical: 12,
@@ -169,25 +169,25 @@ export default class OrderDetail extends BaseComponent {
     }
 
     _renderOrderItem(item) {
-            return (
-                <View style={{
-                    paddingHorizontal: 12,
-                    paddingVertical: 15,
-                    marginTop: 10,
-                    backgroundColor: '#fff',
-                    flexDirection: 'row',
-                    height: 100,
-                    flex: 1,
-                }}>
-                    <ImageView style={{height: 70, width: 70}}
-                               source={this.state.imageUrl} defaultSource={require('../../img/default_image.png')}/>
-                    <Text
-                        style={{marginLeft: 15, flex: 1, fontSize: 16, color: '#333'}}>{item.goodName}</Text>
-                    <View style={{marginTop: 6, flexDirection: 'column'}}>
-                        <Text style={{fontSize: 14, color: '#333'}}>￥{item.price}</Text>
-                        <Text style={{marginTop: 6, fontSize: 14, color: '#333'}}>x{item.num}</Text>
-                    </View>
+        return (
+            <View style={{
+                paddingHorizontal: 12,
+                paddingVertical: 15,
+                marginTop: 10,
+                backgroundColor: '#fff',
+                flexDirection: 'row',
+                height: 100,
+                flex: 1,
+            }}>
+                <ImageView style={{height: 70, width: 70}}
+                           source={this.state.imageUrl} defaultSource={require('../../img/default_image.png')}/>
+                <Text
+                    style={{marginLeft: 15, flex: 1, fontSize: 16, color: '#333'}}>{item.goodName}</Text>
+                <View style={{marginTop: 6, flexDirection: 'column'}}>
+                    <Text style={{fontSize: 14, color: '#333'}}>￥{item.price}</Text>
+                    <Text style={{marginTop: 6, fontSize: 14, color: '#333'}}>x{item.num}</Text>
                 </View>
-            )
+            </View>
+        )
     }
 }

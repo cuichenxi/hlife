@@ -36,7 +36,7 @@ export default class UsefulPhone extends BaseComponent{
                     }}>小区服务电话</Text>
                 </View>
                 <GiftedListView
-                    style={{with: width, flex: 1}}
+                    style={{ flex: 1}}
                     rowView={this._renderRowView.bind(this)}
                     onFetch={this.makeRemoteRequest.bind(this)}
                     loadMore={false}

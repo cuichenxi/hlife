@@ -136,7 +136,7 @@ export default class PostDetail extends BaseComponent {
                     <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: '100%'}}/>
 
                     <GiftedListView
-                        style={{with: width, flex: 1}}
+                        style={{ flex: 1}}
                         rowView={this.renderComment.bind(this)}
                         onFetch={this.makeCommentRequest.bind(this)}
                         loadMore={false}
@@ -178,12 +178,11 @@ export default class PostDetail extends BaseComponent {
                         width: width / 2,
                     }} onPress={() => {
                         this.navigate('PublishComment', {
-                            id: data.id,
-                            callback: (message) => {
+                            id: data.id,},
+                             (message) => {
                                 console.log('=======go back======' + message)
                                 this.makeRemoteRequest()
                                 // this.makeCommentRequest()
-                            }
                         })
                     }
                     }>

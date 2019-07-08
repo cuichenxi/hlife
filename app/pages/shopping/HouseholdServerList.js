@@ -46,7 +46,7 @@ export default class HouseholdServerList extends BaseComponent {
                 flexDirection: 'column'
             }}>
                 <GiftedListView
-                    style={{with: width, flex: 1, marginTop: 10}}
+                    style={{ flex: 1, marginTop: 10}}
                     rowView={this._renderRowView.bind(this)}
                     onFetch={this.makeRemoteRequest.bind(this)}
                     loadMore={false}

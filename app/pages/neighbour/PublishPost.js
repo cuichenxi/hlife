@@ -49,13 +49,12 @@ export default class PublishPost extends BaseComponent {
             <View style={{backgroundColor:'#fff',flex: 1}}>
                 <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
                 <TouchableView onPress={() => {
-                    this.navigate('TopicTypeList', {
-                        callback: (data) => {
+                    this.navigate('TopicTypeList', {},
+                         (data) => {
                             this.setState({
                                 topic: data.name,
                                 topicId: data.id,
                             })
-                        }
                     })
                 }}>
                     <View style={{

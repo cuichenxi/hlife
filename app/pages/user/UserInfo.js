@@ -116,11 +116,11 @@ export default class UserInfo extends BaseComponent {
     }
 
     onUpdatePhone(){
-        this.navigate('ModifyPhone',{callback:(e)=>{
+        this.navigate('ModifyPhone',{},(e)=>{
                 this.setState({
                     userPhone: e.phone,
                 })
-            }})
+            })
     }
 
     _render() {

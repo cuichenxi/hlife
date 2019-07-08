@@ -161,13 +161,12 @@ export default class Shopping extends BaseComponent {
     }
 
     onScanClick() {
-        this.navigate("BarcodePage", {
-            callback: (backData) => {
+        this.navigate("BarcodePage", {},
+            (backData) => {
                 setTimeout(() => {
                     this.navigate('scanInfo',{serialNum: backData})
                 }, 500);
 
-            }
         });
     }
 

@@ -21,6 +21,7 @@ import {Badge} from "antd-mobile-rn";
 import {LINK_APIPAYS_CZ, LINK_APIPAYS_EXPRESS, LINK_APIPAYS_WZ} from "../../constants/UrlConstant";
 import ImageView from "../../components/ImageView";
 import UserStore from "../../store/UserStore";
+import {CALL_BACK_TEST} from "../../constants/ActionTypes";
 
 export default class Main extends BaseComponent {
     navigationBarProps() {
@@ -100,6 +101,9 @@ export default class Main extends BaseComponent {
                 }
             }).catch(err => {
         }).done(() => {
+        })
+        this.registerCallBack(CALL_BACK_TEST,(e)=>{
+            this.showShort(JSON.stringify(e));
         })
     }
 
@@ -187,14 +191,14 @@ export default class Main extends BaseComponent {
     }
 
     onScanClick() {
-        this.navigate("BarcodePage", {
-            callback: (backData) => {
+        this.navigate("BarcodePage", {},
+            (backData) => {
                 setTimeout(() => {
                     this.navigate('scanInfo',{serialNum: backData})
                 }, 500);
 
             }
-        });
+        );
         // this.navigate('scanInfo',{serialNum: 1111111})
     }
 
@@ -219,12 +223,11 @@ export default class Main extends BaseComponent {
                     marginTop: CommonStyle.navStatusBarHeight, alignItems: 'center'
                 }}>
                     <TouchableView style={{width: 60,height:50, alignItems: 'center',justifyContent:'center'}} onPress={() => {
-                            this.navigate('AuthPage',{
-                                params: {from: 1},callback:(e)=>{
+                            this.navigate('AuthPage',{},(e)=>{
                                    this.setState({
                                        isAuth: e.isAuth
                                    })
-                                }});
+                                });
                     }}>
                         <Text style={{textAlign: 'center',color:'#fff', fontSize: 14}} >{authText}</Text>
                     </TouchableView>

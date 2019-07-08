@@ -48,7 +48,7 @@ export default class MyInvoiceList extends BaseComponent {
                         onRef={(ref)=>{
                             this.listRef = ref;
                         }}
-                        style={{with: width, flex: 1}}
+                        style={{ flex: 1}}
                         rowView={this.renderItem.bind(this)}
                         onFetch={this.fetchData.bind(this)}
                         loadMore={false}
@@ -64,13 +64,12 @@ export default class MyInvoiceList extends BaseComponent {
                     paddingLeft: 30,
                     paddingRight: 30,
                 }} onPress={() => {
-                    this.navigate('AddBillInfo',{
-                        callback: (data) => {
+                    this.navigate('AddBillInfo',{},
+                         (data) => {
                             ToastUtil.showShort(data);
                             //刷新列表
                             // this.fetchData()
                             this.listRef._refresh();
-                        }
                     })
                 }}>
                     <Text style={{textAlign: 'center', color: CommonStyle.themeColor, fontSize: 13}}>+添加发票抬头</Text>
@@ -108,9 +107,9 @@ export default class MyInvoiceList extends BaseComponent {
                     if (this.state.from === 1) {
                         this.goBack(item);
                     } else {
-                        this.navigate('AddBillInfo', {invoice: item,callback:(data) => {
+                        this.navigate('AddBillInfo', {invoice: item,},(data) => {
                                 this.listRef._refresh();
-                            }})
+                            })
                     }
                 }}>
                     <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',backgroundColor: 'white',}}>

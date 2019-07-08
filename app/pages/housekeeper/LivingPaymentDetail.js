@@ -60,7 +60,7 @@ export default class LivingPaymentDetail extends  BaseComponent{
                         onRefresh={this._onRefresh}
                     />}>
                     <GiftedListView
-                        style={{with: width, flex: 1}}
+                        style={{ flex: 1}}
                         rowView={this._renderRowView.bind(this)}
                         onFetch={this.makeRemoteRequest.bind(this)}
                         loadMore={false}
