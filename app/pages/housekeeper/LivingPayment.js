@@ -8,6 +8,8 @@ import TouchableView from "../../components/TouchableView";
 import {PAGE_SIZE} from "../../constants/AppConstants";
 import Request from "../../utils/Request";
 import CheckBox from "../../components/Checkbox";
+import List from "antd-mobile-rn/es/list/index.native";
+import DatePicker from "antd-mobile-rn/es/date-picker/index.native";
 
 let {width, height} = Dimensions.get('window')
 const Font = {
@@ -17,137 +19,244 @@ const Font = {
 /**
  * 物业缴费
  */
-export default class LivingPayment extends  BaseComponent{
+export default class LivingPayment extends BaseComponent {
     navigationBarProps() {
         return {
             title: '物业缴费'
         }
     }
+
     constructor(props) {
         super(props);
         this.state = {
-            isAllChecked:false,
-            communityinfo:'',
+            isAllChecked: false,
+            communityinfo: '',
             isLoading: false,
             isRefresh: true,
-            rows:[]
+            rows: [],
+            items: 0,
+            totalPrice: 0,
+            defaultColor: CommonStyle.drakGray,
+            enabledBt: false,
+            endDate: undefined,
+            endDatetime: '',
+            startDate: undefined,
         }
     }
 
-    onReady(){
-        this.makeRemoteRequest()
+    onReady() {
+        /*if (this.state.endDate) {
+            this.makeRemoteRequest()
+        }*/
     }
+
     refreshing = () => {
 
     }
 
     _render() {
-        const {communityinfo,rows} = this.state
-        return (
-            <View style={styles.container}>
-                <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
-                <View style={{
-                    alignItems: 'center',
-                    justifyContent: 'flex-start',
-                    height: 40,
-                    width: width,
-                    textAlign: 'center',
-                    flexDirection: 'row',
-                    paddingLeft: 5,
-                    paddingRight: 5
-                }}>
-                    <Text style={{color: CommonStyle.textBlockColor, fontSize: 15,paddingLeft:5}}>{communityinfo}</Text>
-                </View>
-                <ScrollView style={{
-                    flex: 1,
-                    height: 1000,
-                    flexDirection: 'column'
-                }} refreshControl={
-                    <RefreshControl
-                        refreshing={this.state.refreshing}
-                        onRefresh={this._onRefresh}
-                    />}>
+        const {communityinfo, rows, items, totalPrice, defaultColor, enabledBt, endDate} = this.state
+        if (endDate){
+            return (
+                <View style={styles.container}>
+                    <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
 
-                    <FlatList ref={(flatList) => this._flatList = flatList}
-                              ItemSeparatorComponent={this._separator}
-                              renderItem={this._renderItem}
-
-                              onRefresh={() => this.refreshing()}
-                              refreshing={this.state.isLoading}
-
-                              onEndReachedThreshold={0.1}
-                        // onEndReached={
-                        //     () => this._onLoadMore()
-                        // }
-
-
-                              data={rows}>
-
-                    </FlatList>
-                </ScrollView>
-
-                <View style={styles.bottomView}>
-                    <TouchableView style={[styles.bottomLeftBt,styles.bottomRow]} onPress={() => {
-
-                    }}>
-                        <CheckBox
-                            style={styles.checkBox}
-                            onClick={()=>{
-                                var datas = this.state.rows
-                                for (var data of datas){
-                                    if (!this.state.isAllChecked){
-                                        data.checked = true
-                                    } else {
-                                        data.checked = false
-                                    }
-                                }
-                                this.setState({
-                                    rows:datas,
-                                    isAllChecked:!this.state.isAllChecked
-                                })
-                            }}
-                            isChecked={this.state.isAllChecked}
-                            rightText={'全选'}
-                            rightTextStyle = {styles.text}
-                            checkedImage = {<Image source = {require('../../img/selted.png')} style = {styles.image}/>}
-                            unCheckedImage = {<Image source = {require('../../img/selt.png')} style = {styles.image}/>}
-                        />
-                        <Text style={{fontSize:14,color:'#333'}}>全选</Text>
-                    </TouchableView>
-                    <View style={{height: 60, width: 0.5, backgroundColor: CommonStyle.lineColor,}}/>
-                    <TouchableView style={[styles.bottomLeftBt,styles.centerBottomRow]} onPress={() => {
-
-                    }}>
-                        <View style={{justifyContent: 'center', alignItems: 'flex-end',}}>
-                            <View style={{flexDirection:'row',justifyContent:'center',alignItems:'flex-end'}}>
-                                <Text style={{color: '#333', fontSize: 12,marginBottom:2}}>共计:￥</Text>
-                                <Text style={{color: '#FF3633', fontSize: 20}}>100</Text>
-                            </View>
-                            <Text style={{color: '#666666', fontSize: 11}}>已选0项</Text>
-                        </View>
-                    </TouchableView>
-                    <TouchableView style={{
+                    <View style={{
                         alignItems: 'center',
-                        backgroundColor: CommonStyle.drakGray,
-                        justifyContent: 'center',
-                        height: 60,
-                        width: width / 3,
-                    }} onPress={() => {
-
+                        justifyContent: 'flex-start',
+                        height: 40,
+                        width: width,
+                        textAlign: 'center',
+                        flexDirection: 'row',
+                        paddingLeft: 5,
+                        paddingRight: 5
                     }}>
-                        <Text style={{color: 'white',fontSize:16}}>去缴费</Text>
-                    </TouchableView>
+                        <Text
+                            style={{color: CommonStyle.textBlockColor, fontSize: 15, paddingLeft: 5}}>{communityinfo}</Text>
+                    </View>
+                    <ScrollView style={{
+                        flex: 1,
+                        height: 1000,
+                        flexDirection: 'column'
+                    }} refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.refreshing}
+                            onRefresh={this._onRefresh}
+                        />}>
+
+                        <FlatList ref={(flatList) => this._flatList = flatList}
+                                  ItemSeparatorComponent={this._separator}
+                                  renderItem={this._renderItem}
+                                  ListEmptyComponent={this._createEmptyView}
+                                  onRefresh={() => this.refreshing()}
+                                  refreshing={this.state.isLoading}
+                                  onEndReachedThreshold={0.1}
+                                  data={rows}>
+
+                        </FlatList>
+                    </ScrollView>
+
+                    <View style={styles.bottomView}>
+                        <TouchableView style={[styles.bottomLeftBt, styles.bottomRow]} onPress={() => {
+
+                        }}>
+                            <CheckBox
+                                style={styles.checkBox}
+                                onClick={() => {
+                                    var datas = this.state.rows
+                                    if (datas.length == 0) {
+                                        return
+                                    }
+                                    var totalPrice = 0
+                                    for (var data of datas) {
+                                        if (!this.state.isAllChecked) {
+                                            data.checked = true
+                                        } else {
+                                            data.checked = false
+                                        }
+                                        totalPrice = data.totolprice + totalPrice
+                                    }
+                                    if (!this.state.isAllChecked) {
+                                        this.setState({
+                                            rows: datas,
+                                            isAllChecked: !this.state.isAllChecked,
+                                            items: datas.length,
+                                            totalPrice: totalPrice,
+                                            defaultColor: CommonStyle.themeColor,
+                                            enabledBt: true
+                                        })
+                                    } else {
+                                        this.setState({
+                                            rows: datas,
+                                            isAllChecked: !this.state.isAllChecked,
+                                            items: 0,
+                                            totalPrice: 0,
+                                            defaultColor: CommonStyle.drakGray,
+                                            enabledBt: false
+                                        })
+                                    }
+
+                                }}
+                                isChecked={this.state.isAllChecked}
+                                rightText={'全选'}
+                                rightTextStyle={styles.text}
+                                checkedImage={<Image source={require('../../img/icon_buy_select.png')}
+                                                     style={styles.image}/>}
+                                unCheckedImage={<Image source={require('../../img/icon_buy_unselect.png')}
+                                                       style={styles.image}/>}
+                            />
+                            <Text style={{fontSize: 14, color: '#333'}}>全选</Text>
+                        </TouchableView>
+                        <View style={{height: 60, width: 0.5, backgroundColor: CommonStyle.lineColor,}}/>
+                        <TouchableView style={[styles.bottomLeftBt, styles.centerBottomRow]} onPress={() => {
+
+                        }}>
+                            <View style={{justifyContent: 'center', alignItems: 'flex-end',}}>
+                                <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-end'}}>
+                                    <Text style={{color: '#333', fontSize: 12, marginBottom: 2}}>共计:￥</Text>
+                                    <Text style={{color: '#FF3633', fontSize: 20}}>{totalPrice}</Text>
+                                </View>
+                                <Text style={{color: '#666666', fontSize: 11}}>已选{items}项</Text>
+                            </View>
+                        </TouchableView>
+                        <TouchableView style={{
+                            alignItems: 'center',
+                            backgroundColor: defaultColor,
+                            justifyContent: 'center',
+                            height: 60,
+                            width: width / 3,
+                        }} onPress={() => {
+                            if (enabledBt) {
+                                //
+                                this.showShort('去缴费')
+                            } else {
+                                this.showShort('请至少选择一个交费项')
+                            }
+                        }}>
+                            <Text style={{color: 'white', fontSize: 16}}>去缴费</Text>
+                        </TouchableView>
+                    </View>
                 </View>
-            </View>
-        );
+            );
+
+        } else {
+            return(
+                <DatePicker
+                    title={'截至日期'}
+                    value={this.state.endDate}
+                    mode="date"
+                    minDate={new Date()}
+                    maxDate={new Date(2026, 11, 3)}
+                    onChange={this.onChange}
+                    format="YYYY-MM-DD"
+                    extra=' '
+                    style={{marginTop: 10}}
+                    onOk={() => {
+                        console.log('====onOk====')
+                        this.props.extra = ' '
+                    }}
+                    itemStyle={{alignItems: 'center', justifyContent: 'center'}}
+                >
+                    <List.Item arrow="horizontal" extra={' '}><Text>请选择缴费截至日期</Text></List.Item>
+                </DatePicker>
+            )
+        }
+
+    }
+
+    onChange = (value) => {
+        console.log(value)
+
+        this.setState(
+            {
+                endDatetime: this.dateToString(value),
+                endDate: value
+            }
+        )
+        this.makeRemoteRequest(1,this.dateToString(value))
+
+
+    }
+
+    dateToString(date) {
+        var year = date.getFullYear();
+        var month = (date.getMonth() + 1).toString();
+        var day = (date.getDate()).toString();
+        if (month.length == 1) {
+            month = "0" + month;
+        }
+        if (day.length == 1) {
+            day = "0" + day;
+        }
+        var dateTime = year + "-" + month + "-" + day;
+        console.log(dateTime)
+        return dateTime;
     }
 
     _separator = () => {
         return <View style={{height: 0.5, backgroundColor: CommonStyle.lightGray}}/>;
     }
 
-    makeRemoteRequest(page = 1) {
-        let param = { page: page - 1, pageSize: PAGE_SIZE};
+    /**
+     * 空布局
+     */
+    _createEmptyView() {
+        return (
+            <View style={{height: '100%', alignItems: 'center', justifyContent: 'center'}}>
+                <Text style={{fontSize: 16}}>
+                    暂无数据
+                </Text>
+            </View>
+        );
+    }
+
+    makeRemoteRequest(page= 1,endDatetime) {
+        let param = {
+            page: page - 1,
+            pageSize: PAGE_SIZE,
+            endDate: endDatetime,
+            startDate: this.dateToString(new Date())
+        };
 
         Request.post('/api/fee/list', param,
             {
@@ -155,14 +264,14 @@ export default class LivingPayment extends  BaseComponent{
                 mockId: 1125376,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
-                var datas=[]
-                for (var row of rep.data.rows){
+                var datas = []
+                for (var row of rep.data.rows) {
                     row.checked = false
                     datas.push(row)
                 }
                 this.setState({
-                    rows:datas,
-                    communityinfo:rep.data.communityinfo
+                    rows: datas,
+                    communityinfo: rep.data.communityinfo
                 })
                 // callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             }
@@ -173,50 +282,97 @@ export default class LivingPayment extends  BaseComponent{
         })
     }
 
-    _renderItem=(item) => {
-        var isCheck = false
+    _renderItem = (item) => {
         return (
             <View style={{
                 backgroundColor: 'white',
-                height:80,
+                height: 80,
                 flexDirection: 'row',
                 alignItems: 'center',
-                justifyContent:'space-between',
-                marginBottom:12,
+                justifyContent: 'space-between',
+                marginBottom: 12,
                 paddingLeft: 24,
                 paddingRight: 30,
             }}>
                 <CheckBox
                     style={styles.checkBox}
-                    onClick={()=>{
+                    onClick={() => {
                         var datas = this.state.rows
                         datas[item.index].checked = !item.item.checked
-                        this.setState({
-                            rows:datas
-                        })
+                        var defaultColor = CommonStyle.drakGray
+                        var enabledBt = false
+                        var isAllChecked = false
+                        var isSomeState = false
+
+                        for (var data of datas) {
+                            if (data.checked) {
+                                defaultColor = CommonStyle.themeColor
+                                enabledBt = true
+
+                            }
+                        }
+                        for (var i = 0; i < datas.length; i++) {
+                            console.log(datas[i].checked)
+                            if (datas[0].checked !== datas[i].checked) {
+                                isSomeState = false
+                                isAllChecked = false
+                            } else if (datas[0].checked === datas[i].checked) {
+                                if (datas[0].checked) {
+                                    isAllChecked = true
+                                } else {
+                                    isAllChecked = false
+                                }
+                                isSomeState = true
+                            }
+                        }
+
+                        if (datas[item.index].checked) {
+                            this.setState({
+                                items: ++this.state.items,
+                                rows: datas,
+                                totalPrice: item.item.totolprice + this.state.totalPrice,
+                                defaultColor: defaultColor,
+                                enabledBt: enabledBt,
+                                isAllChecked: isAllChecked
+                            })
+                        } else {
+                            this.setState({
+                                items: --this.state.items,
+                                rows: datas,
+                                totalPrice: this.state.totalPrice - item.item.totolprice,
+                                defaultColor: defaultColor,
+                                enabledBt: enabledBt,
+                                isAllChecked: isAllChecked
+                            })
+                        }
+
                     }}
                     isChecked={item.item.checked}
                     rightText={''}
-                    rightTextStyle = {styles.text}
-                    checkedImage = {<Image source = {require('../../img/selted.png')} style = {styles.image}/>}
-                    unCheckedImage = {<Image source = {require('../../img/selt.png')} style = {styles.image}/>}
+                    rightTextStyle={styles.text}
+                    checkedImage={<Image source={require('../../img/icon_buy_select.png')} style={styles.image}/>}
+                    unCheckedImage={<Image source={require('../../img/icon_buy_unselect.png')} style={styles.image}/>}
                 />
-                <View style={{alignItems:'flex-start',justifyContent:'center'}}>
-                    <Text style={{textAlign: 'center', color: CommonStyle.textBlockColor, fontSize: 14}}>{item.item.yearList.id}</Text>
-                    <Text style={{textAlign: 'center', color: CommonStyle.textBlockColor, fontSize: 17}}>待缴费</Text>
+                <View style={{alignItems: 'flex-start', justifyContent: 'center'}}>
+                    <Text style={{
+                        textAlign: 'center',
+                        color: CommonStyle.textBlockColor,
+                        fontSize: 14
+                    }}>{item.item.yearList.id}</Text>
+                    <Text style={{textAlign: 'center', color: CommonStyle.textBlockColor, fontSize: 17}}>待缴费18项</Text>
                 </View>
-                <TouchableView onPress={()=>{
-                    this.navigate("LivingPaymentDetail",{yearId:item.item.yearList.id})
+                <TouchableView onPress={() => {
+                    this.navigate("LivingPaymentDetail", {yearId: item.item.yearList.id})
                 }}>
                     <Text style={{
                         color: CommonStyle.themeColor,
                         borderRadius: 15,
                         borderWidth: 1,
                         borderColor: CommonStyle.themeColor,
-                        paddingTop:5,
-                        paddingBottom:5,
-                        paddingRight:15,
-                        paddingLeft:15,
+                        paddingTop: 5,
+                        paddingBottom: 5,
+                        paddingRight: 15,
+                        paddingLeft: 15,
                         fontSize: 14
                     }}>选择明细</Text>
                 </TouchableView>
@@ -226,57 +382,6 @@ export default class LivingPayment extends  BaseComponent{
         )
     }
 
-    _renderRowView(item) {
-        var isCheck = false
-        return (
-            <View style={{
-                backgroundColor: 'white',
-                height:80,
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent:'space-between',
-                marginBottom:12,
-                paddingLeft: 24,
-                paddingRight: 30,
-            }}>
-                <CheckBox
-                    style={styles.checkBox}
-                    onClick={()=>{
-                        this.setState({
-                            isOneChecked:!this.state.isOneChecked
-                        })
-                        isCheck = !isCheck
-                    }}
-                    isChecked={this.state.isOneChecked}
-                    rightText={''}
-                    rightTextStyle = {styles.text}
-                    checkedImage = {<Image source = {require('../../img/selted.png')} style = {styles.image}/>}
-                    unCheckedImage = {<Image source = {require('../../img/selt.png')} style = {styles.image}/>}
-                />
-                <View style={{alignItems:'flex-start',justifyContent:'center'}}>
-                    <Text style={{textAlign: 'center', color: CommonStyle.textBlockColor, fontSize: 14}}>{item.yearList.id}</Text>
-                    <Text style={{textAlign: 'center', color: CommonStyle.textBlockColor, fontSize: 17}}>待缴费</Text>
-                </View>
-                <TouchableView onPress={()=>{
-                    this.navigate("LivingPaymentDetail")
-                }}>
-                    <Text style={{
-                        color: CommonStyle.themeColor,
-                        borderRadius: 30,
-                        borderWidth: 1,
-                        borderColor: CommonStyle.themeColor,
-                        paddingTop:5,
-                        paddingBottom:5,
-                        paddingRight:15,
-                        paddingLeft:15,
-                        fontSize: 14
-                    }}>选择明细</Text>
-                </TouchableView>
-
-            </View>
-
-        )
-    }
 }
 const styles = StyleSheet.create({
     container: {
@@ -308,23 +413,23 @@ const styles = StyleSheet.create({
     marginBottom: {
         marginBottom: 20
     },
-    marginTop:{
-        marginTop:20
-    },checkBox:{
-        backgroundColor:'white',
-        height:56,
-        marginTop:1,
-        justifyContent:'center'
+    marginTop: {
+        marginTop: 20
+    }, checkBox: {
+        backgroundColor: 'white',
+        height: 56,
+        marginTop: 1,
+        justifyContent: 'center'
     },
-    image:{
-        marginLeft:16,
-        width:14,
-        height:14,
+    image: {
+        marginLeft: 16,
+        width: 14,
+        height: 14,
     },
-    bottomRow:{
-        flexDirection: 'row', justifyContent: 'flex-start',alignItems:'center'
+    bottomRow: {
+        flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center'
     },
-    centerBottomRow:{
+    centerBottomRow: {
         alignItems: 'flex-end',
         paddingRight: 5
     }

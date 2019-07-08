@@ -7,6 +7,7 @@ import {PAGE_SIZE} from "../../../constants/AppConstants";
 import {CommonStyle} from "../../../common/CommonStyle";
 import CheckBox from "../../../components/Checkbox";
 import TouchableView from "../../../components/TouchableView";
+import util from "../../../utils/util";
 
 /**
  * 红包
@@ -19,29 +20,27 @@ export default class IntegralRedPacketView extends BaseView {
         this.state = {
             ...props,
             isOneChecked:false,
-            datas:[]
+            datas:[],
+            redpacketIdList:[],
         };
-        console.log(this.props)
     }
 
     makeRemoteRequest(page = 1, callback) {
-        let param = {statusBODY: this.state.index, page: page - 1, pageSize: PAGE_SIZE};
+        let param = { page: page - 1, pageSize: PAGE_SIZE};
 
-        Request.post('api/user/visitor', param,
+        Request.post('/api/goods/redPacketList', param,
             {
-                mock: true,
+                mock: false,
                 mockId: 1095607,
             }).then(rep => {
-            if (rep.code == 0 && rep.data) {
+            if (rep.code == 0 && rep.data && !util.isArrayEmpty(rep.data.rows)) {
                 for (var row of rep.data.rows){
 
                     row.checked = false
                     this.state.datas.push(row)
                 }
                 callback(this.state.datas, {allLoaded: page * PAGE_SIZE >= rep.data.total})
-                // callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             } else {
-                this.showShort(rep.message);
                 callback(null, {emptyTitle: rep.message})
             }
         }).catch(err => {
@@ -68,9 +67,15 @@ export default class IntegralRedPacketView extends BaseView {
                         justifyContent:'center',marginRight: 30}}
                     onClick={()=>{
                         var data = this.state.datas;
+                        var redpacketIdList = this.state.redpacketIdList;
+
                         data[index].checked = !item.checked
+                        if (data[index].checked){
+                            redpacketIdList.push(item.id)
+                        }
                         this.setState({
-                            datas:data
+                            datas:data,
+                            redpacketIdList:redpacketIdList
                         })
                         // item.checked = !item.checked
 
@@ -104,6 +109,9 @@ export default class IntegralRedPacketView extends BaseView {
                     onFetch={this.makeRemoteRequest.bind(this)}
                     loadMore={false}
                     renderSeparator={() => {return (null);}}
+                    onRef={(ref)=>{
+                        this.listRef = ref;
+                    }}
                 />
                 <TouchableView style={{
                     height: 40,
@@ -116,12 +124,41 @@ export default class IntegralRedPacketView extends BaseView {
                     justifyContent: 'center',
                     alignItems: 'center'
                 }} onPress={()=>{
-                    this.showShort('红包兑换')
+                    this.exchangeRedPacket()
                 }}>
                     <Text style={{color: '#ffffff', fontSize: 14}}>确认兑换</Text>
                 </TouchableView>
             </View>
         );
+    }
+
+    exchangeRedPacket() {
+        const {redpacketIdList,datas} = this.state
+
+        if (util.isArrayEmpty(datas)){
+            this.showShort('暂无数据')
+            return
+        }
+        if (util.isArrayEmpty(redpacketIdList)) {
+            this.showShort('请选择可兑换红包的积分')
+            return
+        }
+        let param = { redpacketIdList: redpacketIdList};
+
+        Request.post('/api/goods/exchangeRedPacket', param,
+            {
+                mock: false,
+                mockId: 1095607,
+            }).then(rep => {
+            if (rep.code == 0 ) {
+                this.listRef._refresh();
+            } else {
+                this.showShort(rep.message)
+            }
+        }).catch(err => {
+        }).done(() => {
+            this.hideLoading();
+        })
     }
 
 }

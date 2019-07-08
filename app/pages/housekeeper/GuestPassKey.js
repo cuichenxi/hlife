@@ -1,6 +1,6 @@
 import {BaseComponent} from "../../components/base/BaseComponent";
 import React from "react";
-import {Dimensions, Text, TextInput, View, Keyboard, TouchableOpacity, Image} from "react-native";
+import {Dimensions, Keyboard, Text, TextInput, View} from "react-native";
 import {CommonStyle} from "../../common/CommonStyle";
 import TouchableView from "../../components/TouchableView";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -10,9 +10,7 @@ import DatePicker from "antd-mobile-rn/es/date-picker/index.native";
 import List from "antd-mobile-rn/es/list/index.native";
 import Request from "../../utils/Request";
 import UserStore from "../../store/UserStore";
-import util from "../../utils/util";
 import {PAGE_SIZE} from "../../constants/AppConstants";
-import CheckBox from "../../components/Checkbox";
 import Picker from "antd-mobile-rn/es/picker/index.native";
 
 
@@ -140,7 +138,6 @@ export default class GuestPassKey extends BaseComponent {
 
                 <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
                 <View style={{backgroundColor: '#ffffff'}}>
-                    {/*<Text style={{color: CommonStyle.textBlockColor, padding: 10}}>到访时间</Text>*/}
                     <List>
                         <DatePicker
                             title={'选择到访日期'}

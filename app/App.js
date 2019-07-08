@@ -82,6 +82,7 @@ import MyPaymentRecord from "./pages/user/MyPaymentRecord";
 import OrderConfirm from "./pages/shopping/OrderConfirm";
 import About from "./pages/user/About";
 import BuyCar from "./pages/shopping/BuyCar";
+import IntegralExplain from "./pages/user/myintegral/IntegralExplain";
 import demorouter from "./pages/demorouter";
 import Main from "./pages/main";
 
@@ -238,6 +239,7 @@ const App = createStackNavigator(
         OrderConfirm:{screen:OrderConfirm},//订单确认
         About:{screen:About},//关于
         BuyCar:{screen:BuyCar},//购物车
+        IntegralExplain:{screen:IntegralExplain},//积分说明
         demorouter:{screen:demorouter},//购物车
     },
     {

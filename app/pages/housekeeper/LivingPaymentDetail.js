@@ -1,6 +1,6 @@
 import {BaseComponent} from "../../components/base/BaseComponent";
 import React from "react";
-import {Dimensions, Image, RefreshControl, ScrollView, StyleSheet, Text, View} from "react-native";
+import {Dimensions, FlatList, Image, RefreshControl, ScrollView, StyleSheet, Text, View} from "react-native";
 import {CommonStyle} from "../../common/CommonStyle";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -9,7 +9,7 @@ import GiftedListView from "../../components/refreshList/GiftedListView";
 import {PAGE_SIZE} from "../../constants/AppConstants";
 import Request from "../../utils/Request";
 import CheckBox from "../../components/Checkbox";
-let {width, height} = Dimensions.get('window')
+let {width} = Dimensions.get('window')
 const Font = {
     Ionicons,
     FontAwesome
@@ -29,12 +29,22 @@ export default class LivingPaymentDetail extends  BaseComponent{
             isOneChecked:false,
             isTwoChecked:false,
             isThreeChecked:false,
-            communityinfo:''
+            communityinfo:'',
+
+            rows:[],
+            totalPrice: 0,
+            defaultColor: CommonStyle.drakGray,
+            enabledBt: false,
+            items:0
         }
     }
 
+    onReady(){
+        this.makeRemoteRequest()
+    }
+
     _render() {
-        const {communityinfo} = this.state
+        const {rows,communityinfo,totalPrice, defaultColor,items } = this.state
         return (
             <View style={styles.container}>
                 <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
@@ -59,12 +69,21 @@ export default class LivingPaymentDetail extends  BaseComponent{
                         refreshing={this.state.refreshing}
                         onRefresh={this._onRefresh}
                     />}>
-                    <GiftedListView
+                    {/*<GiftedListView
                         style={{ flex: 1}}
                         rowView={this._renderRowView.bind(this)}
                         onFetch={this.makeRemoteRequest.bind(this)}
                         loadMore={false}
-                    />
+                    />*/}
+                    <FlatList ref={(flatList) => this._flatList = flatList}
+                              ItemSeparatorComponent={this._separator}
+                              renderItem={this._renderItem}
+                              // ListEmptyComponent={this._createEmptyView}
+                              refreshing={false}
+                              onEndReachedThreshold={0.1}
+                              data={rows}>
+
+                    </FlatList>
                 </ScrollView>
 
                 <View style={styles.bottomView}>
@@ -79,8 +98,8 @@ export default class LivingPaymentDetail extends  BaseComponent{
                             isChecked={this.state.isOneChecked}
                             rightText={'全选'}
                             rightTextStyle = {styles.text}
-                            checkedImage = {<Image source = {require('../../img/selted.png')} style = {styles.image}/>}
-                            unCheckedImage = {<Image source = {require('../../img/selt.png')} style = {styles.image}/>}
+                            checkedImage = {<Image source = {require('../../img/icon_buy_select.png')} style = {styles.image}/>}
+                            unCheckedImage = {<Image source = {require('../../img/icon_buy_unselect.png')} style = {styles.image}/>}
                         />
                         <Text style={{fontSize:14,color:'#333'}}>全选</Text>
                     </TouchableView>
@@ -89,14 +108,14 @@ export default class LivingPaymentDetail extends  BaseComponent{
                         <View style={{justifyContent: 'center', alignItems: 'flex-end',}}>
                             <View style={{flexDirection:'row',justifyContent:'center',alignItems:'flex-end'}}>
                                 <Text style={{color: '#333', fontSize: 12,marginBottom:2}}>共计:￥</Text>
-                                <Text style={{color: '#FF3633', fontSize: 20}}>100</Text>
+                                <Text style={{color: '#FF3633', fontSize: 20}}>{totalPrice}</Text>
                             </View>
-                            <Text style={{color: '#666666', fontSize: 11}}>已选0项</Text>
+                            <Text style={{color: '#666666', fontSize: 11}}>已选{items}项</Text>
                         </View>
                     </TouchableView>
                     <TouchableView style={{
                         alignItems: 'center',
-                        backgroundColor: CommonStyle.drakGray,
+                        backgroundColor: defaultColor,
                         justifyContent: 'center',
                         height: 60,
                         width: width / 3,
@@ -108,8 +127,12 @@ export default class LivingPaymentDetail extends  BaseComponent{
         );
     }
 
-    makeRemoteRequest(page = 1, callback) {
-        let param = {statusBODY: this.state.index, page: page - 1, pageSize: PAGE_SIZE};
+    _separator = () => {
+        return <View style={{height: 0.5, backgroundColor: CommonStyle.lightGray}}/>;
+    }
+
+    makeRemoteRequest(page = 1) {
+        let param = { page: page - 1, pageSize: PAGE_SIZE};
 
         Request.post('api/steward/propertyfeepaylist', param,
             {
@@ -117,11 +140,10 @@ export default class LivingPaymentDetail extends  BaseComponent{
                 mockId: 1125376,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
-                // console.log(JSON.stringify(rep))
                 this.setState({
-                    communityinfo:rep.data.communityinfo
+                    communityinfo:rep.data.communityinfo,
+                    rows:rep.data.rows
                 })
-                callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             }
         }).catch(err => {
 
@@ -130,7 +152,7 @@ export default class LivingPaymentDetail extends  BaseComponent{
     }
 
 
-    _renderRowView(item) {
+    _renderItem =(item)=> {
         var isCheck = false
         return (
             <TouchableView onPress={()=>{
@@ -156,8 +178,8 @@ export default class LivingPaymentDetail extends  BaseComponent{
                         isChecked={this.state.isOneChecked}
                         rightText={''}
                         rightTextStyle = {styles.text}
-                        checkedImage = {<Image source = {require('../../img/selted.png')} style = {styles.image}/>}
-                        unCheckedImage = {<Image source = {require('../../img/selt.png')} style = {styles.image}/>}
+                        checkedImage = {<Image source = {require('../../img/icon_buy_select.png')} style = {styles.image}/>}
+                        unCheckedImage = {<Image source = {require('../../img/icon_buy_unselect.png')} style = {styles.image}/>}
                     />
                     <Text style={{paddingLeft: 5,color:'#333',fontSize:15}}>2019-06</Text>
                 </View>

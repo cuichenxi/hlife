@@ -48,7 +48,7 @@ export default class MyIntegral extends BaseComponent{
                         <Text style={{textAlign: 'center', color: '#fff', fontSize: 17}}>积分</Text>
                     </View>
                     <TouchableView onPress={() => {
-                        this.goBack()
+                        this.navigate('IntegralExplain')
                     }} style={{flex:1}}>
                         <View style={{flexDirection:'row',justifyContent:'flex-end',alignItems:'center',flex:1}}>
                             <ImageView

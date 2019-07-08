@@ -15,7 +15,7 @@ export default class ElectronicKey extends BaseComponent{
     _render() {
         return (
             <GiftedListView
-                style={{width:'100%'}}
+                style={{width:'100%',marginTop:10}}
                 rowView={this._renderRowView.bind(this)}
                 onFetch={this.makeRemoteRequest.bind(this)}
                 loadMore={false}
