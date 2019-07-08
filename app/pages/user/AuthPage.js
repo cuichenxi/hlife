@@ -15,12 +15,12 @@ import Request from "../../utils/Request";
 import {BaseComponent} from '../../components/base/BaseComponent'
 import {CommonStyle} from "../../common/CommonStyle";
 import TouchableView from "../../components/TouchableView";
-import ToastUtil from "../../utils/ToastUtil";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import {FROMAUTH} from "../../constants/AppConstants";
 import ImageView from "../../components/ImageView";
-import {CALL_BACK_FROM_AUTH, CALL_BACK_PUBLISH_HOUSE} from "../../constants/ActionTypes";
+import QIcon from "../../components/icon";
+import {CALL_BACK_PUBLISH_HOUSE} from "../../constants/ActionTypes";
 
 
 var {width, height} = Dimensions.get('window');
@@ -78,13 +78,7 @@ export default class AuthPage extends BaseComponent {
                     <TouchableView onPress={() => {
                         this.goBack()
                     }}>
-                        <ImageView
-                            defaultSource={require("../../img/icon_back.png")}
-                            style={{
-                                width: 12,
-                                height: 16,
-                                resizeMode: "cover",
-                            }}/>
+                        <QIcon name={'icon-back'} size={25} color={'#fff'}/>
                     </TouchableView>
 
                     <View style={{flex: 1, height: 50, alignItems: 'center', justifyContent: 'center'}}>

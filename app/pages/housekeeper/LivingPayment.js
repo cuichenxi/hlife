@@ -67,13 +67,7 @@ export default class LivingPayment extends  BaseComponent{
                         refreshing={this.state.refreshing}
                         onRefresh={this._onRefresh}
                     />}>
-                    {/*<GiftedListView
-                        style={{with: width, flex: 1,marginLeft: 10,marginRight: 10}}
-                        rowView={this._renderRowView.bind(this)}
-                        onFetch={this.makeRemoteRequest.bind(this)}
-                        loadMore={false}
-                        renderSeparator={() => {return (null);}}
-                    />*/}
+
                     <FlatList ref={(flatList) => this._flatList = flatList}
                               ItemSeparatorComponent={this._separator}
                               renderItem={this._renderItem}
@@ -93,7 +87,9 @@ export default class LivingPayment extends  BaseComponent{
                 </ScrollView>
 
                 <View style={styles.bottomView}>
-                    <TouchableView style={[styles.bottomLeftBt,styles.bottomRow]} onPress={() => this.state.onButtonPress()}>
+                    <TouchableView style={[styles.bottomLeftBt,styles.bottomRow]} onPress={() => {
+
+                    }}>
                         <CheckBox
                             style={styles.checkBox}
                             onClick={()=>{
@@ -119,7 +115,9 @@ export default class LivingPayment extends  BaseComponent{
                         <Text style={{fontSize:14,color:'#333'}}>全选</Text>
                     </TouchableView>
                     <View style={{height: 60, width: 0.5, backgroundColor: CommonStyle.lineColor,}}/>
-                    <TouchableView style={[styles.bottomLeftBt,styles.centerBottomRow]} onPress={() => {this.navigate('ShoppingCart')}}>
+                    <TouchableView style={[styles.bottomLeftBt,styles.centerBottomRow]} onPress={() => {
+
+                    }}>
                         <View style={{justifyContent: 'center', alignItems: 'flex-end',}}>
                             <View style={{flexDirection:'row',justifyContent:'center',alignItems:'flex-end'}}>
                                 <Text style={{color: '#333', fontSize: 12,marginBottom:2}}>共计:￥</Text>
@@ -134,7 +132,9 @@ export default class LivingPayment extends  BaseComponent{
                         justifyContent: 'center',
                         height: 60,
                         width: width / 3,
-                    }} onPress={() => this.state.onButtonPress()}>
+                    }} onPress={() => {
+
+                    }}>
                         <Text style={{color: 'white',fontSize:16}}>去缴费</Text>
                     </TouchableView>
                 </View>
@@ -149,7 +149,7 @@ export default class LivingPayment extends  BaseComponent{
     makeRemoteRequest(page = 1) {
         let param = { page: page - 1, pageSize: PAGE_SIZE};
 
-        Request.post('api/steward/propertyfeepaylist', param,
+        Request.post('/api/fee/list', param,
             {
                 mock: true,
                 mockId: 1125376,
@@ -210,7 +210,7 @@ export default class LivingPayment extends  BaseComponent{
                 }}>
                     <Text style={{
                         color: CommonStyle.themeColor,
-                        borderRadius: 30,
+                        borderRadius: 15,
                         borderWidth: 1,
                         borderColor: CommonStyle.themeColor,
                         paddingTop:5,

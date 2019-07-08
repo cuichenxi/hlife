@@ -27,8 +27,6 @@ export default class Index extends BaseView {
     makeRemoteRequest(page = 1, callback) {
         let param = {status: this.state.index, page: page - 1, pageSize: PAGE_SIZE};
 
-        console.log('==========')
-        console.log(this.props)
         Request.post('/api/neighbour/topic', param,
             {
                 mock: false,
@@ -37,7 +35,6 @@ export default class Index extends BaseView {
             if (rep.code == 0 && rep.data) {
                 callback(rep.data, {allLoaded: true})
             } else {
-                this.showShort(rep.message);
                 callback(null, {emptyTitle: rep.message})
             }
         }).catch(err => {
@@ -69,7 +66,7 @@ export default class Index extends BaseView {
                             resizeMode: "contain",//contain 等比例缩放 cover 模式只求在显示比例不失真的情况下填充整个显示区域。
                         }}
                     />
-                    <View style={{flex: 1, marginLeft: 10,paddingLeft:10, justifyContent: 'flex-start', alignItems: 'flex-start'}}>
+                    <View style={{flex: 1, marginLeft: 10,padding:10, justifyContent: 'flex-start', alignItems: 'flex-start'}}>
                         <Text style={{
                             fontSize: 14,
                             textAlign: 'left', color: '#333'
