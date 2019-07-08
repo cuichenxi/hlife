@@ -7,6 +7,7 @@ import {
     ScrollView,
     StyleSheet,
     Text,
+    Platform,
     TouchableHighlight,
     View
 } from "react-native";
@@ -22,15 +23,17 @@ import {LINK_APIPAYS_CZ, LINK_APIPAYS_EXPRESS, LINK_APIPAYS_WZ} from "../../cons
 import ImageView from "../../components/ImageView";
 import UserStore from "../../store/UserStore";
 import {CALL_BACK_TEST} from "../../constants/ActionTypes";
+import JPushModule from "jpush-react-native/index";
+import ADStore from "../../store/ADStore";
 
 export default class Main extends BaseComponent {
+
     navigationBarProps() {
         return {
             hiddenLeftItem: true,
             title: '首页',
         }
     }
-
     constructor(props) {
         super(props);
         this.state = {
@@ -83,14 +86,32 @@ export default class Main extends BaseComponent {
             searchHint:'请搜索',
             messages: 0
         };
+        // this.onGetRegistrationIdPress = this.onGetRegistrationIdPress.bind(this)
+        // this.onHasPermission = this.onHasPermission.bind(this)
+        // this.jumpSecondActivity = this.jumpSecondActivity.bind(this)
+        // this.setTag = this.setTag.bind(this)
+        // this.setAlias = this.setAlias.bind(this)
+    }
+    //rOfQ8XGOt98_57EL3FJIogtaEFaL1847071a-a410-40be-8295-ea5fb8bf4b4a staging
+    //Zuhm7813pnWp80Jxdy3_J07YWFJP1847071a-a410-40be-8295-ea5fb8bf4b4a test
+    //K6yVS_qXUMNuWuppkSEpFyOVmB921847071a-a410-40be-8295-ea5fb8bf4b4a Production
+
+    onShow(e){
+        this.getHomeData()
     }
 
-
-    canExitApp() {
-        return true;
-    }
-
-    onReady(param) {
+    onReady(e) {
+        // this.showShort('onReady')
+        // CodePush.sync({
+        //     // deploymentKey: 'rOfQ8XGOt98_57EL3FJIogtaEFaL1847071a-a410-40be-8295-ea5fb8bf4b4a"',
+        //     updateDialog: {
+        //         optionalIgnoreButtonLabel: '稍后',
+        //         optionalInstallButtonLabel: '后台更新',
+        //         optionalUpdateMessage: '幸福宜居有新版本了，是否更新？',
+        //         title: '更新提示'
+        //     },
+        //     installMode: CodePush.InstallMode.IMMEDIATE
+        // });
         this.hideHeader(true);
         Request.post('/api/home/goodsRecommend', {page: 0, pageSize: 10})
             .then(rep => {
@@ -105,11 +126,111 @@ export default class Main extends BaseComponent {
         this.registerCallBack(CALL_BACK_TEST,(e)=>{
             this.showShort(JSON.stringify(e));
         })
+
+        if (Platform.OS === 'android') {
+            JPushModule.initPush()
+            JPushModule.getInfo(map => {
+                console.log('extras: ' + map)
+            })
+            JPushModule.notifyJSDidLoad(resultCode => {
+                if (resultCode === 0) {
+                }
+            })
+        } else {
+            JPushModule.setupPush()
+        }
+        // JPushModule.initPush();
+
+        this.receiveCustomMsgListener = map => {
+            console.log('android extras: ' + JSON.stringify(map));
+            JPushModule.setBadge(1, success => {
+            });
+        }
+
+        JPushModule.addReceiveCustomMsgListener(this.receiveCustomMsgListener)
+        this.receiveNotificationListener = map => {
+            // console.log('alertContent: ' + map.alertContent)
+            console.log('ios extras: ' + JSON.stringify(map));
+            if (Platform.OS === 'ios') {
+                JPushModule.setBadge(map.aps.badge, success => {});
+            }else {
+                JPushModule.setBadge(1, success => {
+                });
+            }
+
+        }
+        JPushModule.addReceiveNotificationListener(this.receiveNotificationListener)
+
+        this.openNotificationListener = map => {
+            console.log('Opening notification!')
+            console.log('map.extra: ' + map.extras)
+            this.jumpSecondActivity()
+            JPushModule.clearAllNotifications();
+        }
+        JPushModule.addReceiveOpenNotificationListener(this.openNotificationListener)
+
+        this.getRegistrationIdListener = registrationId => {
+            console.log('Device register succeed, registrationId ' + registrationId)
+        }
+        JPushModule.addGetRegistrationIdListener(this.getRegistrationIdListener)
+        JPushModule.clearAllNotifications();
+        this.getAD();
     }
 
-    onShow(e){
-        this.getHomeData()
+    getAD(){
+        Request.post('/api/home/advertising', {},
+            {
+                mock: false,
+                mockId: 1095514,
+            }).then(rep => {
+            if (rep.code == 0&&rep.data) {
+                ADStore.save({
+                    // imageUrl: 'https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/common/1544009388067/ad_t1.gif',
+                    imageUrl: rep.data.imgurl,
+                    active: rep.data.link,
+                    times: 3,
+                });
+            }
+        }).catch(err => {
+        }).done(() => {
+        })
     }
+    onUnload() {
+        JPushModule.removeReceiveCustomMsgListener(this.receiveCustomMsgListener)
+        JPushModule.removeReceiveNotificationListener(this.receiveNotificationListener)
+        JPushModule.removeReceiveOpenNotificationListener(this.openNotificationListener)
+        JPushModule.removeGetRegistrationIdListener(this.getRegistrationIdListener)
+        console.log('Will clear all notifications')
+        JPushModule.clearAllNotifications()
+    }
+
+
+    onHasPermission () {
+        JPushModule.hasPermission( res => console.log(`onHasPermission ${res}`) )
+    }
+
+
+    onGetRegistrationIdPress () {
+        JPushModule.getRegistrationID(registrationId => {
+            this.setState({
+                registrationId: registrationId
+            })
+        })
+    }
+    jumpSecondActivity () {
+        console.log('jump to SecondActivity')
+        // JPushModule.jumpToPushActivityWithParams('SecondActivity', {
+        //   hello: 'world'
+        // })
+        // this.props.navigation.navigate('AboutPage')
+    }
+
+
+
+    canExitApp() {
+        return true;
+    }
+
 
     _loadWeb(title, url) {
         this.push('Web', {article: {title: title, url: url}})
@@ -201,8 +322,6 @@ export default class Main extends BaseComponent {
         );
         // this.navigate('scanInfo',{serialNum: 1111111})
     }
-
-
 
     _renderHeader() {
         var authText = '请认证'

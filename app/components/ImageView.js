@@ -3,7 +3,7 @@ import {Image, Platform, StyleSheet, View, ViewPropTypes} from 'react-native';
 import PropTypes from 'prop-types';
 import util from "../utils/util";
 
-class ImageView extends React.PureComponent {
+class ImageView extends React.Component {
     static propTypes = {
         // source: PropTypes.object,
         style: ViewPropTypes.style,

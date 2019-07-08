@@ -4,7 +4,6 @@
 import {createBottomTabNavigator, createStackNavigator, StackViewTransitionConfigs} from 'react-navigation';
 import {Image, StyleSheet} from 'react-native'
 import Splash from './pages/Splash';
-import MainContainer from './pages/main/MainContainer';
 import Web from './pages/web/index';
 import Shopping from './pages/shopping/index';
 import UserCenter from './pages/user/UserCenter';
@@ -84,11 +83,12 @@ import OrderConfirm from "./pages/shopping/OrderConfirm";
 import About from "./pages/user/About";
 import BuyCar from "./pages/shopping/BuyCar";
 import demorouter from "./pages/demorouter";
+import Main from "./pages/main";
 
 const TabContainer = createBottomTabNavigator(
     {
         Main: {
-            screen: MainContainer, navigationOptions: {
+            screen: Main, navigationOptions: {
                 title: '首页',
                 tabBarIcon: ({focused, tintColor}) => (
                     <Image style={styles.tabIcon} source={focused ? require("./img/tab_press_sy.png") : require("./img/tab_unpress_sy.png")}/>
@@ -168,7 +168,7 @@ const App = createStackNavigator(
         Shopping: {screen: Shopping},
         Push: {screen: Push},
         Feedback: {screen: Feedback},
-        Main: {screen: MainContainer},
+        Main: {screen: Main},
         Neighbour: {screen: Neighbour},
         UserCenter: {screen: UserCenter},
         GiftedListDemo: {screen: GiftedListDemo},
