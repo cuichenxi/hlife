@@ -43,7 +43,7 @@ const post = (url, params = {}, options = {}, cacheCallback) => {
         versionName: dInfo.getVersion(),
         bundleId: dInfo.getBundleId(),
         platform: Platform.OS,
-        token: token
+        token: ''
     }
     let paramJson = {cparam, ...params};
     let paramString = JSON.stringify(paramJson);
@@ -94,12 +94,12 @@ const post = (url, params = {}, options = {}, cacheCallback) => {
                 resolve(responseData);
                 // if (responseData.code == 405) {
                 //     ToastUtil.showShort(responseData.message)
-                //     NavigationUtil.navigate('AuthPage');
+                //     NavigationUtil.goTo('AuthPage');
                 // }
-                // if (responseData.code == 605) {
-                //     ToastUtil.showShort(responseData.message)
-                //     NavigationUtil.navigate('Login');
-                // }
+                if (responseData.code == 605) {
+                    ToastUtil.showShort(responseData.message)
+                    NavigationUtil.goTo('Login');
+                }
             } else {
                 reject(responseData);
             }

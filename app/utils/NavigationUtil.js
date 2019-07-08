@@ -56,7 +56,14 @@ navigate = (navigation,routeName, params = {}) => {
         })
     );
 };
-
+goTo = (routeName, params = {}) => {
+    _navigator.dispatch(
+        NavigationActions.navigate({
+            routeName,
+            params,
+        })
+    );
+};
 init=(navigator)=>{
     _navigator = navigator;
 }
@@ -67,5 +74,6 @@ export default {
     reset,
     resetGo,
     pop,
-    navigate
+    navigate,
+    goTo
 };
