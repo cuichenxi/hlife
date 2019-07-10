@@ -20,7 +20,7 @@ export default class ProductDetail extends BaseComponent {
         return {
             title: '商品详情',
             navBarStyle: {
-                backgroundColor: '(255, 255, 255, 0)'
+                backgroundColor: 'rgba(255, 255, 255, 0)'
             }
         }
     }
@@ -54,6 +54,8 @@ export default class ProductDetail extends BaseComponent {
                         data: rep.data
                     }
                 )
+            }else {
+              this.showShort(rep.message)
             }
         }).catch(err => {
 
@@ -150,7 +152,7 @@ export default class ProductDetail extends BaseComponent {
                             flexDirection: 'row',
                             justifyContent : 'space-between',
                             alignItems: 'center',
-                            fontSize: 12, color: '#333', marginHorizontal: 15, marginVertical: 12,
+                            marginHorizontal: 15, marginVertical: 12,
                         }}>
                             <Text style={{
                                 fontSize: 16,
@@ -343,16 +345,17 @@ export default class ProductDetail extends BaseComponent {
                             this.setState({
                                 addBuy: !this.state.addBuy
                             })
-                        if (this.state.addBuy) {
-                            this.showShort('已移除购物车');
-                            BuyCarStore.remove(data.id);
-                        } else {
+                        // if (this.state.addBuy) {
+                        //     this.showShort('已移除购物车');
+                        //     BuyCarStore.remove(data.id);
+                        // } else {
                             data.num = 1;
                             BuyCarStore.save([data]);
                             this.showShort('已加入购物车');
-                        }
+                        // }
                     }}>
-                            <Text style={{color: '#fff', fontSize: 15}}>{this.state.addBuy?'移除购物车':'加入购物车'}</Text>
+                            {/*<Text style={{color: '#fff', fontSize: 15}}>{this.state.addBuy?'移除购物车':'加入购物车'}</Text>*/}
+                            <Text style={{color: '#fff', fontSize: 15}}>加入购物车</Text>
                     </TouchableView>
                     <TouchableView style={{ alignItems: 'center',
                         backgroundColor: CommonStyle.themeColor,

@@ -142,11 +142,14 @@ export default class PayCenter extends BaseComponent {
         WeChat.addListener(
             'PayReq.Resp',
             (response) => {
+                this.showLoading('获取支付信息中...')
                 if (parseInt(response.errCode) === 0) {
                     setTimeout(() => {
-                        this.paySuccess()
+                        this.hideLoading()
+                        this.paySuccess();
                     }, 500);
                 } else {
+                    this.hideLoading()
                     this.showShort('取消支付');
                 }
             }
@@ -275,11 +278,14 @@ export default class PayCenter extends BaseComponent {
                 payType: 3,
                 orderId: this.state.id
             }).then(rep => {
+                this.showLoading('获取支付信息中...')
                 if (rep.code == 0) {
                     setTimeout(() => {
+                        this.hideLoading()
                         this.paySuccess()
                     }, 500);
                 } else {
+                    this.hideLoading()
                     this.showShort(rep.message);
                 }
             }).catch(err => {

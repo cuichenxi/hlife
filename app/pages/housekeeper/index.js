@@ -16,6 +16,8 @@ import TouchableView from "../../components/TouchableView";
 import {CommonStyle} from "../../common/CommonStyle";
 import Request from "../../utils/Request";
 import ImageView from "../../components/ImageView";
+import UserStore from "../../store/UserStore";
+import util from "../../utils/util";
 
 
 export default class Housekeeper extends BaseComponent {
@@ -232,7 +234,12 @@ export default class Housekeeper extends BaseComponent {
                     </ImageBackground>
                 </TouchableView>
                 <TouchableView style={{flex: 1}} onPress={() => {
-                    Linking.openURL(`tel:${this.state.phone}`)
+                    var {tenementPhone} = UserStore.get();
+                    if (util.isEmpty(tenementPhone)) {
+                        this.showShort('暂无物业电话')
+                    }else {
+                        Linking.openURL(`tel:${this.state.phone}`);
+                    }
                 }}>
                     <ImageBackground source={require('../../img/bg_dhwy.png')} style={{
                         height: 80,

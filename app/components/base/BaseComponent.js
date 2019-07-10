@@ -58,7 +58,7 @@ class BaseComponent extends React.Component {
         // console.debug('onWillFocus', payload);
     }
     onDidFocus(payload) {
-        console.debug('didFocus', payload);
+        // console.debug('didFocus', payload);
         this.onShow(payload.state.params);
     }
     onWillBlur(payload) {

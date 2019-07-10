@@ -1,5 +1,5 @@
 import {BaseComponent} from "../../components/base/BaseComponent";
-import {Dimensions, Image, Text, TouchableOpacity, View} from "react-native";
+import {Dimensions, Text, View} from "react-native";
 import {CommonStyle} from "../../common/CommonStyle";
 import GiftedListView from "../../components/refreshList/GiftedListView";
 import React from "react";
@@ -8,9 +8,8 @@ import Request from "../../utils/Request";
 import TouchableView from "../../components/TouchableView";
 import util from "../../utils/util";
 import ImageView from "../../components/ImageView";
-const imageUrl=require('../../img/default_image.png');
 
-let {width, height} = Dimensions.get('window')
+const imageUrl=require('../../img/default_image.png');
 
 
 export default class MyCollection extends BaseComponent{
@@ -23,7 +22,7 @@ export default class MyCollection extends BaseComponent{
     _render(){
         return(
             <GiftedListView
-                style={{ flex: 1}}
+                style={{ flex: 1, marginTop: 10}}
                 rowView={this._renderRowView.bind(this)}
                 onFetch={this.makeRemoteRequest.bind(this)}
                 loadMore={false}
@@ -34,12 +33,8 @@ export default class MyCollection extends BaseComponent{
     makeRemoteRequest(page = 1, callback) {
         let param = {page: page - 1, pageSize: PAGE_SIZE};
 
-        Request.post('/api/user/collectlist', param,
-            {
-                mock: false,
-                mockId: 1095622,
-            }).then(rep => {
-            if (rep.code == 0 && rep.data && !util.isArrayEmpty(rep.data.row)) {
+        Request.post('/api/user/collectlist', param).then(rep => {
+            if (rep.code == 0 && rep.data && !util.isArrayEmpty(rep.data.rows)) {
                 callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             } else {
                 callback(null, {emptyTitle: '暂无收藏'})
@@ -53,7 +48,7 @@ export default class MyCollection extends BaseComponent{
 
     _renderRowView(item) {
         return (
-            <TouchableView >
+            <TouchableView onPress={() => this.navigate('ProductDetail', {id: item.id})}>
                 <View style={{
                     backgroundColor: 'white',
                     // height:50,
@@ -65,20 +60,29 @@ export default class MyCollection extends BaseComponent{
                         source={item.goodsImage}
                         defaultSource={imageUrl}
                         style={{
-                            width: 100,
+                            width: 90,
                             height: 90,
                             marginLeft: 10,
                         }}
                     />
-                    <View style={{flex: 1, marginLeft: 10,justifyContent:'flex-end'}}>
+                    <View style={{flex: 1, padding: 10, justifyContent: 'flex-end'}}>
                         <Text style={{
-                            fontSize: 13,
-                            textAlign: 'left', color: '#666666'
+                            fontSize: 14,
+                            marginBottom: 10,
+                            textAlign: 'left', color: '#333'
                         }}>{item.goodsName}</Text>
-                        <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'flex-end',flex:1}}>
-                            <Text style={{textAlign: 'left', color: CommonStyle.themeColor, fontSize: 13}}>{item.goodsPrice}</Text>
-                            <Text style={{textAlign: 'left', color: '#999999', fontSize: 12,borderWidth: 1,
-                                borderColor:CommonStyle.lineColor,borderRadius:10,paddingLeft: 5,paddingRight: 5}}>找相似</Text>
+                        <View style={{
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            flex: 1
+                        }}>
+                            <Text style={{
+                                textAlign: 'left',
+                                color: CommonStyle.themeColor,
+                                fontSize: 13
+                            }}>{item.goodsPrice}元</Text>
+                            {/*<Text style={{textAlign: 'left', color: '#999999', fontSize: 12,borderWidth: 1,*/}
+                            {/*borderColor:CommonStyle.lineColor,borderRadius:10,paddingLeft: 5,paddingRight: 5}}>找相似</Text>*/}
                         </View>
                     </View>
                 </View>
@@ -86,6 +90,6 @@ export default class MyCollection extends BaseComponent{
 
             </TouchableView>
 
-        )
+        );
     }
 }

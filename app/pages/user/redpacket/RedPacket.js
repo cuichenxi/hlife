@@ -18,7 +18,7 @@ export default class RedPacket extends BaseComponent {
             {title: '已过期'},
         ];
         return (
-            <Tabs style={{marginTop: 10}} tabs={tabs} tabBarActiveTextColor={CommonStyle.themeColor}
+            <Tabs style={{marginTop: 1}} tabs={tabs} tabBarActiveTextColor={CommonStyle.themeColor}
                   tabBarUnderlineStyle={{backgroundColor: CommonStyle.themeColor}} initialPage={0} tabBarPosition="top">
                 {this.renderPage.bind(this)}
             </Tabs>
