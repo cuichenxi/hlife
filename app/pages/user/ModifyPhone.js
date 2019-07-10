@@ -17,7 +17,6 @@ import NavigationUtil from "../../utils/NavigationUtil";
 import {CommonStyle} from "../../common/CommonStyle";
 import CountDownButton from "../../components/CountDownButton";
 
-var {width, height} = Dimensions.get('window');
 
 export default class ModifyPhone extends BaseComponent {
     navigationBarProps() {
@@ -85,7 +84,7 @@ export default class ModifyPhone extends BaseComponent {
                         onChangeText={this.onChangeAuth.bind(this)}
                     />
                     <View style={{
-                        height: 30, justifyContent: 'center', marginRight: 0
+                        height: 35, justifyContent: 'center',
                     }}>
                         <CountDownButton
                             executeFunc={(shouldStartCounting) => {

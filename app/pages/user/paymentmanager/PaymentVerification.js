@@ -4,7 +4,6 @@ import {Image, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-
 import CountDownButton from "../../../components/CountDownButton";
 import {CommonStyle} from "../../../common/CommonStyle";
 import UserStore from "../../../store/UserStore";
-import util from "../../../utils/util";
 import Request from "../../../utils/Request";
 
 export default class PaymentVerification extends BaseComponent{
@@ -65,7 +64,7 @@ export default class PaymentVerification extends BaseComponent{
                         }}
                     />
                     <View style={{
-                        height: 30, justifyContent: 'center', marginRight: 10
+                        height: 35, justifyContent: 'center',
                     }}>
                         <CountDownButton
                             executeFunc={(shouldStartCounting)=>{

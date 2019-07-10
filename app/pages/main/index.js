@@ -25,6 +25,7 @@ import UserStore from "../../store/UserStore";
 import {CALL_BACK_TEST} from "../../constants/ActionTypes";
 import JPushModule from "jpush-react-native/index";
 import ADStore from "../../store/ADStore";
+import util from "../../utils/util";
 
 export default class Main extends BaseComponent {
 
@@ -274,7 +275,7 @@ export default class Main extends BaseComponent {
                 UserStore.save({
                     isAuth:rep.data.isAuth,
                     messages: rep.data.messageCount,
-                    searchHint: rep.data.searchHint,
+                    searchHint: util.isEmpty(rep.data.searchHint)?rep.data.searchHint:'搜索',
                     userName: rep.data.userName,
                     phone:rep.data.phone,
                     avatar: rep.data.avatar,

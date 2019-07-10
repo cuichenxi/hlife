@@ -136,7 +136,7 @@ export default class Index extends BaseView {
     _renderEmptyView(refreshCallback) {
         return (
             <View style={{
-                marginTop: 160,
+                marginTop: 100,
                 justifyContent: 'center',
                 alignItems: 'center',
                 padding: 20,
@@ -153,7 +153,8 @@ export default class Index extends BaseView {
                         this.state.onAuth()
                     }}>
                     <View style={{borderRadius: 12, borderWidth: 1, borderColor: CommonStyle.themeColor}}>
-                        <Text style={{color: CommonStyle.themeColor, fontSize: 16, padding: 10}}>
+                        <Text style={{color: CommonStyle.themeColor, fontSize: 16, paddingHorizontal: 10,
+                            paddingVertical: 5}}>
                             去认证
                         </Text>
                     </View>

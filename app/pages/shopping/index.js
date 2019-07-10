@@ -10,6 +10,7 @@ import {Badge} from "antd-mobile-rn";
 import {LINK_APIPAYS_CZ, LINK_APIPAYS_EXPRESS, LINK_APIPAYS_WZ} from "../../constants/UrlConstant";
 import ImageView from "../../components/ImageView";
 import UserStore from "../../store/UserStore";
+import util from "../../utils/util";
 let {width, height} = Dimensions.get('window')
 let bottomHeight = 0;
 
@@ -84,7 +85,7 @@ export default class Shopping extends BaseComponent {
                 UserStore.save({
                     isAuth:rep.data.isAuth,
                     messages: rep.data.messageCount,
-                    searchHint: rep.data.searchHint,
+                    searchHint: util.isEmpty(rep.data.searchHint)?rep.data.searchHint:'搜索',
                     userName: rep.data.userName,
                     phone:rep.data.phone,
                     avatar: rep.data.avatar,

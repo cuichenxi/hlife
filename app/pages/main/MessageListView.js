@@ -5,6 +5,7 @@ import GiftedListView from "../../components/refreshList/GiftedListView";
 import {PAGE_SIZE} from "../../constants/AppConstants";
 import Request from "../../utils/Request";
 import {BaseView} from "../../components/base/BaseView";
+import util from "../../utils/util";
 
 let {width, height} = Dimensions.get('window')
 export default class MessageList extends BaseView {
@@ -33,18 +34,18 @@ export default class MessageList extends BaseView {
     makeRemoteRequest(page = 1, callback) {
         let param = {type: this.state.index+1, page: page - 1, pageSize: PAGE_SIZE};
 
-        Request.post('api/home/messageList', param,
+        Request.post('/api/home/messageList', param,
             {
                 mock: false,
                 mockId: 1095710,
             }).then(rep => {
-            if (rep.code == 0 && rep.data) {
+            if (rep.code == 0 && rep.data&&!util.isArrayEmpty(rep.data.rows)) {
                 callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             } else {
-                callback(null,{emptyTitle: rep.message})
+                callback(null,{emptyTitle: "空空如也 ~"})
             }
         }).catch(err => {
-            callback(null,{emptyTitle: err})
+            callback(null,{emptyTitle: null})
         }).done(() => {
             this.hideLoading();
         })

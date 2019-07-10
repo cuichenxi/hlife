@@ -5,7 +5,7 @@ import GiftedListView from "../../components/refreshList/GiftedListView";
 import {PAGE_SIZE} from "../../constants/AppConstants";
 import Request from "../../utils/Request";
 
-let {width, height} = Dimensions.get('window')
+let {width} = Dimensions.get('window')
 export default class MessageList extends BaseComponent {
     navigationBarProps() {
         return {

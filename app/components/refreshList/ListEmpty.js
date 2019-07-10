@@ -26,7 +26,7 @@ class ListEmpty extends Component {
         return (
             <View style={styles.container}>
                 <Icon name="exclamation" size={25} color={CommonStyle.textGrayColor}/>
-                <Text style={styles.text}>{this.props.text ? this.props.text : '暂无数据'}</Text>
+                <Text style={styles.text}>{this.props.text ? this.props.text : '空空如也 ~'}</Text>
             </View>
         );
     }

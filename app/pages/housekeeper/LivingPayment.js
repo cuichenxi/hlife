@@ -244,7 +244,7 @@ export default class LivingPayment extends BaseComponent {
         return (
             <View style={{height: '100%', alignItems: 'center', justifyContent: 'center'}}>
                 <Text style={{fontSize: 16}}>
-                    暂无数据
+                    空空如也 ~
                 </Text>
             </View>
         );

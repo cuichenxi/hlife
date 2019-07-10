@@ -252,11 +252,11 @@ export default class UserCenter extends BaseComponent {
                     }}>
                         <Text style={{
                             color: "#666",
-                            fontSize: 12
+                            fontSize: 13
                         }}>{util.isEmpty(this.state.sign)?'查看/编辑个人资料':this.state.sign}</Text>
                         <Image style={{
-                            width: 12,
-                            height: 12, marginLeft: 5
+                            width: 10,
+                            height: 10, marginLeft: 5
                      }} source={require("../../img/icon_uc_edit.png")}/>
                     </TouchableView>
                     <View style={{

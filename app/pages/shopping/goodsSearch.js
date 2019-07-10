@@ -129,6 +129,7 @@ export default class Index extends BaseComponent {
             <View style={{justifyContent: 'center',
                 alignItems: 'center',
                 flex: 1,
+                marginTop:100,
                 padding: 20,}}>
                 <Text style={{fontSize: 16, color: '#999'}}>
                     暂无商品

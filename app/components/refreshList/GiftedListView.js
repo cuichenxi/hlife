@@ -8,7 +8,7 @@ import {
     View,
     Text,
     RefreshControl,
-    ActivityIndicator, StyleSheet,
+    ActivityIndicator, StyleSheet, Image,
 } from 'react-native';
 import {CommonStyle} from "../../common/CommonStyle";
 import util from "../../utils/util";
@@ -64,6 +64,7 @@ class GiftedListView extends React.Component {
         forceUpdate: PropTypes.bool,
         pagination: PropTypes.bool,
         refreshable: PropTypes.bool,
+
         refreshableColors: PropTypes.array,
         refreshableProgressBackgroundColor: PropTypes.string,
         refreshableSize: PropTypes.string,
@@ -81,7 +82,7 @@ class GiftedListView extends React.Component {
         paginationWaitingView: PropTypes.func,
         emptyView: PropTypes.func,
         renderSeparator: PropTypes.func,
-
+        emptyCallback: PropTypes.bool,
         rowHasChanged: PropTypes.func,
         onRef: PropTypes.func,
         distinctRows: PropTypes.func,
@@ -116,7 +117,8 @@ class GiftedListView extends React.Component {
         paginationAllLoadedView: null,
         paginationWaitingView: null,
         emptyView: null,
-        emptyTitle: ' 对不起，没有要显示的内容',
+        emptyCallback: false,
+        emptyTitle: '空空如也 ~',
         renderSeparator: null,
         rowHasChanged: null,
         distinctRows: null,
@@ -205,19 +207,26 @@ class GiftedListView extends React.Component {
 
         return (
             <View style={[styles.defaultView, this.props.customStyles.defaultView]}>
+                <Image style={{
+                    width: 123,
+                    height: 100,
+                    marginBottom: 15
+                }} source={require("../../img/ic_null.png")}/>
                 <Text style={[styles.defaultViewTitle, this.props.customStyles.defaultViewTitle]}>
                     {this.state.emptyTitle}
                 </Text>
-
+                {this.props.emptyCallback&&
                 <TouchableHighlight
                     underlayColor='#f8f8f8'
                     onPress={refreshCallback}>
                     <View style={{borderRadius: 12, borderWidth: 1, borderColor: CommonStyle.themeColor}}>
-                        <Text style={{color: CommonStyle.themeColor, fontSize: 16, padding: 10}}>
+                        <Text style={{color: CommonStyle.themeColor, fontSize: 16, paddingHorizontal: 10,
+                            paddingVertical: 5}}>
                             点击刷新
                         </Text>
                     </View>
                 </TouchableHighlight>
+                }
             </View>
         );
     }
@@ -421,7 +430,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#F8F8F8',
     },
     defaultView: {
-        marginTop: 160,
+        marginTop: 100,
         justifyContent: 'center',
         alignItems: 'center',
         padding: 20,

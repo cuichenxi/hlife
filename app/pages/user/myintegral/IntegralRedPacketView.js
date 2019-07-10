@@ -139,7 +139,7 @@ export default class IntegralRedPacketView extends BaseView {
         const {redpacketIdList,datas} = this.state
 
         if (util.isArrayEmpty(datas)){
-            this.showShort('暂无数据')
+            this.showShort('空空如也 ~')
             return
         }
         if (util.isArrayEmpty(redpacketIdList)) {

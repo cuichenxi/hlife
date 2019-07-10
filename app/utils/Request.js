@@ -105,9 +105,9 @@ const post = (url, params = {}, options = {}, cacheCallback) => {
             }
 
         }).catch((error) => {
-            console.log("error=" + error);
+            console.debug("error=" + error);
             ToastUtil.showShort('服务异常')
-            reject(error);
+            reject('服务异常');
         });
     });
 };

@@ -21,6 +21,7 @@ import {FROMAUTH} from "../../constants/AppConstants";
 import ImageView from "../../components/ImageView";
 import QIcon from "../../components/icon";
 import {CALL_BACK_PUBLISH_HOUSE} from "../../constants/ActionTypes";
+import UserStore from "../../store/UserStore";
 
 
 var {width, height} = Dimensions.get('window');
@@ -55,6 +56,18 @@ export default class AuthPage extends BaseComponent {
     }
 
     onReady(param) {
+        var {isAuth} = UserStore.get();
+        var authText = '认证'
+        if (isAuth === 0){
+            authText = '认证'
+        } else if (isAuth === 1){
+            authText = '已认证'
+        } else if (isAuth === 2){
+            authText = '认证中'
+        } else if (isAuth === 3){
+            authText = '认证失败'
+        }
+        this.setTitle(authText)
         this.hideHeader(true);
         this.registerCallBack(CALL_BACK_PUBLISH_HOUSE,(e)=>{
             if (e) {
@@ -93,6 +106,17 @@ export default class AuthPage extends BaseComponent {
     _render() {
         const {address} = this.state
         console.log(address)
+        var {isAuth} = UserStore.get();
+        var authText = '提交审核'
+        if (isAuth === 0){
+            authText = '提交审核'
+        } else if (isAuth === 1){
+            authText = '重新提交审核'
+        } else if (isAuth === 2){
+            authText = '提交审核'
+        } else if (isAuth === 3){
+            authText = '提交审核'
+        }
         return (
             <View style={styles.container}>
                 <KeyboardAvoidingView behavior='position'>
@@ -283,7 +307,7 @@ export default class AuthPage extends BaseComponent {
                     }} onPress={() => {
                         this._auth()
                     }}>
-                        <Text style={styles.loginText}>提交审核</Text>
+                        <Text style={styles.loginText}>{authText}</Text>
                     </TouchableOpacity>
                     <View style={{
                         backgroundColor: '#fff',
@@ -331,7 +355,13 @@ export default class AuthPage extends BaseComponent {
     }
 
     _auth() {
-        Keyboard.dismiss();
+        var {isAuth} = UserStore.get();
+        if (isAuth === 2) {
+            this.showShort('认证中');
+            return;
+        }
+
+            Keyboard.dismiss();
         let {housingAddress, elementName, roomName, roomId, name} = this.state;
 
         if (housingAddress == '选择你所居住的小区') {
