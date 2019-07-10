@@ -128,10 +128,10 @@ export default class MyIntegral extends BaseComponent{
                     backgroundColor: 'white',
                     flexDirection: 'column'
                 }} tab={tab} index={index}
-                                       onItemPress={(item) => {
-                                 // this.goBack(item)
-                                 // this.navigate('ModifyHousingAddress',{address:item})
-                                 // ToastUtil.showShort("index = " + index);
+                                       onIntegralCountChange={(integralCount) => {
+                                 this.setState({
+                                     integralCount
+                                 })
                              }}/>
             )
         }

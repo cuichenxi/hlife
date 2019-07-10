@@ -8,6 +8,7 @@ import {CommonStyle} from "../../../common/CommonStyle";
 import CheckBox from "../../../components/Checkbox";
 import TouchableView from "../../../components/TouchableView";
 import util from "../../../utils/util";
+import UserStore from "../../../store/UserStore";
 
 /**
  * 红包
@@ -19,9 +20,10 @@ export default class IntegralRedPacketView extends BaseView {
         super(props)
         this.state = {
             ...props,
-            isOneChecked:false,
             datas:[],
             redpacketIdList:[],
+            // integralCount:0
+
         };
     }
 
@@ -34,6 +36,7 @@ export default class IntegralRedPacketView extends BaseView {
                 mockId: 1095607,
             }).then(rep => {
             if (rep.code == 0 && rep.data && !util.isArrayEmpty(rep.data.rows)) {
+                this.state.datas = []
                 for (var row of rep.data.rows){
 
                     row.checked = false
@@ -57,8 +60,8 @@ export default class IntegralRedPacketView extends BaseView {
                     height:44, alignItems:'center',marginLeft: 30}} resizeMode='cover'/>
                 <View style={{alignItems:'flex-start',justifyContent:'center'}}>
 
-                    <Text style={{textAlign: 'center', color: '#333',fontSize:16}}>商城5元无门槛红包</Text>
-                    <Text style={{textAlign: 'center', color: '#888', fontSize: 11}}>500积分可兑换</Text>
+                    <Text style={{textAlign: 'center', color: '#333',fontSize:16}}>{item.title?item.title:''}</Text>
+                    <Text style={{textAlign: 'center', color: '#888', fontSize: 11}}>{item.score?item.score:''}积分可兑换</Text>
                 </View>
                 <CheckBox
                     style={{backgroundColor:'white',
@@ -77,7 +80,6 @@ export default class IntegralRedPacketView extends BaseView {
                             datas:data,
                             redpacketIdList:redpacketIdList
                         })
-                        // item.checked = !item.checked
 
                     }}
                     isChecked={item.checked}
@@ -108,6 +110,7 @@ export default class IntegralRedPacketView extends BaseView {
                     rowView={this._renderRowView.bind(this)}
                     onFetch={this.makeRemoteRequest.bind(this)}
                     loadMore={false}
+                    pagination={false}
                     renderSeparator={() => {return (null);}}
                     onRef={(ref)=>{
                         this.listRef = ref;
@@ -151,13 +154,35 @@ export default class IntegralRedPacketView extends BaseView {
                 mockId: 1095607,
             }).then(rep => {
             if (rep.code == 0 ) {
-                this.listRef._refresh();
+                // this.listRef._refresh();
+                // this.state.onBackPress()
+                this.showShort(rep.message)
+                this.getHomeData()
             } else {
                 this.showShort(rep.message)
             }
         }).catch(err => {
         }).done(() => {
             this.hideLoading();
+        })
+    }
+
+    getHomeData() {
+        Request.post('/api/user/getuserinfo', {}).then(rep => {
+            if (rep.code === 0 && rep.data) {
+                UserStore.save({
+                    redCount: rep.data.redCount,
+                    integralCount: rep.data.integralCount,
+                });
+
+                this.state.onIntegralCountChange(rep.data.integralCount)
+
+                this.listRef._refresh();
+            }
+        }).catch(err => {
+
+        }).done(() => {
+            this.setState({refreshing: false});
         })
     }
 
