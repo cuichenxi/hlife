@@ -99,6 +99,7 @@ export default class Main extends BaseComponent {
 
     onShow(e){
         this.getHomeData()
+        JPushModule.clearAllNotifications();
     }
 
     onReady(e) {
@@ -144,6 +145,22 @@ export default class Main extends BaseComponent {
 
         this.receiveCustomMsgListener = map => {
             console.log('android extras: ' + JSON.stringify(map));
+            /**
+             * @param {Object} notification = {
+	 	  'buildId': Number     // 设置通知样式，1 为基础样式，2 为自定义样式。自定义样式需要先调用 setStyleCustom 接口设置自定义样式。(Android Only)
+	 *    'id': Number    		// 通知的 id, 可用于取消通知
+	 *    'title': String 		// 通知标题
+	 *    'content': String  	// 通知内容
+	 *	  'extra': Object       // extra 字段
+	 *    'fireTime': Number    // 通知触发时间的时间戳（毫秒）
+	 * 	  'badge': Number       // 本地推送触发后应用角标的 badge 值  （iOS Only）
+	 *    'soundName': String   // 指定推送的音频文件 （iOS Only）
+     *    'subtitle': String    // 子标题 （iOS10+ Only）
+	 *  }
+             */
+            JPushModule.sendLocalNotification({
+
+            });
             JPushModule.setBadge(1, success => {
             });
         }
@@ -151,7 +168,7 @@ export default class Main extends BaseComponent {
         JPushModule.addReceiveCustomMsgListener(this.receiveCustomMsgListener)
         this.receiveNotificationListener = map => {
             // console.log('alertContent: ' + map.alertContent)
-            console.log('ios extras: ' + JSON.stringify(map));
+            console.log(' extras: ' + JSON.stringify(map));
             if (Platform.OS === 'ios') {
                 JPushModule.setBadge(map.aps.badge, success => {});
             }else {
@@ -165,7 +182,7 @@ export default class Main extends BaseComponent {
         this.openNotificationListener = map => {
             console.log('Opening notification!')
             console.log('map.extra: ' + map.extras)
-            this.jumpSecondActivity()
+            this.jumpSecondActivity(map)
             JPushModule.clearAllNotifications();
         }
         JPushModule.addReceiveOpenNotificationListener(this.openNotificationListener)
@@ -218,11 +235,11 @@ export default class Main extends BaseComponent {
             })
         })
     }
-    jumpSecondActivity () {
-        console.log('jump to SecondActivity')
+    jumpSecondActivity (message) {
         // JPushModule.jumpToPushActivityWithParams('SecondActivity', {
         //   hello: 'world'
         // })
+        this.navigate('message', message);
         // this.props.navigation.navigate('AboutPage')
     }
 
