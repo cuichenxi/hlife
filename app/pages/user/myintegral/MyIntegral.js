@@ -7,7 +7,6 @@ import Tabs from "antd-mobile-rn/es/tabs/index.native";
 import IntegralDetailView from "./IntegralDetailView";
 import IntegralRedPacketView from "./IntegralRedPacketView";
 import UserStore from "../../../store/UserStore";
-import NavigationBar from "../../../components/navigationBar/navigationBar";
 import TouchableView from "../../../components/TouchableView";
 import ImageView from "../../../components/ImageView";
 import QIcon from "../../../components/icon";
@@ -98,7 +97,7 @@ export default class MyIntegral extends BaseComponent{
                 <Tabs tabs={tabs} tabBarActiveTextColor={CommonStyle.themeColor}  onChange={(tab,index)=>{
                     // index
                 }}
-                      tabBarUnderlineStyle={{backgroundColor: CommonStyle.themeColor}} initialPage={0} tabBarPosition="top">
+                      tabBarUnderlineStyle={{backgroundColor: CommonStyle.themeColor}} initialPage={0} tabBarPosition="top" swipeable={false}>
 
                     {this.renderPage.bind(this)}
                 </Tabs>
@@ -116,9 +115,6 @@ export default class MyIntegral extends BaseComponent{
                     flexDirection: 'column'
                 }} tab={tab} index={index}
                              onItemPress={(item) => {
-                                 // this.goBack(item)
-                                 // this.navigate('ModifyHousingAddress',{address:item})
-                                 // ToastUtil.showShort("index = " + index);
                              }}/>
             )
         } else if (index === 1){
