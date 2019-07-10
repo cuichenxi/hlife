@@ -85,6 +85,7 @@ public class RCTCaptureModule extends ReactContextBaseJavaModule {
 //                    Toast.makeText(getCurrentActivity(), "startScan", Toast.LENGTH_SHORT).show();
                 }
             });
+
         }
     }
 
