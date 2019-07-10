@@ -45,7 +45,7 @@ export default class RepairRecordList extends BaseComponent{
                 // console.log(JSON.stringify(rep))
                 callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             } else {
-                callback(null,{emptyTitle: rep.message})
+                callback(null,{emptyTitle: '暂无工单记录'})
             }
         }).catch(err => {
             callback(null,{emptyTitle: err})

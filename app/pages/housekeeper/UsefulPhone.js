@@ -7,6 +7,7 @@ import {PAGE_SIZE} from "../../constants/AppConstants";
 import Request from "../../utils/Request";
 import TouchableView from "../../components/TouchableView";
 import Modal from "antd-mobile-rn/es/modal/index.native";
+import util from "../../utils/util";
 
 
 let {width} = Dimensions.get('window')
@@ -25,6 +26,7 @@ export default class UsefulPhone extends BaseComponent{
                     justifyContent: 'flex-start',
                     flexDirection: 'row',
                     padding: 10,
+                    marginTop:10,
                     backgroundColor: '#fff'
                 }}>
                     <Image source={require('../../img/telephone.png')}
@@ -95,14 +97,16 @@ export default class UsefulPhone extends BaseComponent{
                 mock: false,
                 mockId: 1184127,
             }).then(rep => {
-            if (rep.code == 0 && rep.data) {
+            if (rep.code == 0 && rep.data && !util.isArrayEmpty(rep.data.rows)) {
                 // console.log(JSON.stringify(rep))
                 callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
+            } else {
+                callback(null,{emptyTitle: rep.message})
             }
         }).catch(err => {
-
+            callback(null,{emptyTitle: err})
         }).done(() => {
-            // this.hideLoading();
+            this.hideLoading();
         })
     }
 }

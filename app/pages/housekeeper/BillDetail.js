@@ -41,9 +41,9 @@ export default class BillDetail extends BaseComponent {
             <View style={{flex: 1}}>
                 <ScrollView style={{
                     flex: 1,
-                    flexDirection: 'column'
+                    flexDirection: 'column',
+                    marginTop:10
                 }}>
-                    <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width,marginTop:5}}/>
                     <View style={styles.titleLine}>
                         <Image source={require('../../img/bill_info.png')}
                                style={{width: 20, height: 20, resizeMode: 'contain'}}/>

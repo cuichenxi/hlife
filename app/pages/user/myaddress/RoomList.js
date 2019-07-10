@@ -7,6 +7,7 @@ import {Text, View} from "react-native";
 import {FROMAUTH, PAGE_SIZE} from "../../../constants/AppConstants";
 import Request from "../../../utils/Request";
 import {CALL_BACK_FROM_AUTH,} from "../../../constants/ActionTypes";
+import util from "../../../utils/util";
 
 /**
  * 房号列表
@@ -32,10 +33,11 @@ export default class RoomList extends BaseComponent{
     _render(){
         return(
             <GiftedListView
-                style={{width:'100%'}}
+                style={{width:'100%',marginTop:10}}
                 rowView={this._renderRowView.bind(this)}
                 onFetch={this.makeRemoteRequest.bind(this)}
                 loadMore={false}
+                pagination={false}
             />
         )
     }
@@ -64,10 +66,10 @@ export default class RoomList extends BaseComponent{
                 mock: false,
                 mockId: 1095629,
             }).then(rep => {
-            if (rep.code == 0 && rep.data) {
+            if (rep.code == 0 && rep.data && !util.isArrayEmpty(rep.data)) {
                 callback(rep.data)
             } else {
-                callback(null,{emptyTitle: rep.message})
+                callback(null,{emptyTitle: '暂无房间号'})
             }
         }).catch(err => {
             callback(null,{emptyTitle: err})

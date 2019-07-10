@@ -26,10 +26,11 @@ export default class HousingAddressList extends BaseComponent{
     _render(){
         return(
             <GiftedListView
-                style={{width:'100%'}}
+                style={{width:'100%',marginTop:10}}
                 rowView={this._renderRowView.bind(this)}
                 onFetch={this.makeRemoteRequest.bind(this)}
                 loadMore={false}
+                pagination={false}
             />
         )
     }
@@ -60,9 +61,9 @@ export default class HousingAddressList extends BaseComponent{
                 mockId: 1095630,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
-                callback(rep.data,{allLoaded: true})
+                callback(rep.data)
             } else {
-                callback(null,{emptyTitle: rep.message})
+                callback(null,{emptyTitle: '暂无小区'})
             }
         }).catch(err => {
             callback(null,{emptyTitle: err})

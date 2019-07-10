@@ -42,7 +42,7 @@ export default class MyCollection extends BaseComponent{
             if (rep.code == 0 && rep.data && !util.isArrayEmpty(rep.data.row)) {
                 callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             } else {
-                callback(null, {emptyTitle: rep.message})
+                callback(null, {emptyTitle: '暂无收藏'})
             }
         }).catch(err => {
             callback(null, {emptyTitle: err})

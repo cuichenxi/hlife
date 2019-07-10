@@ -44,7 +44,7 @@ export default class IntegralRedPacketView extends BaseView {
                 }
                 callback(this.state.datas, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             } else {
-                callback(null, {emptyTitle: rep.message})
+                callback(null, {emptyTitle: '暂无可积分兑换的红包'})
             }
         }).catch(err => {
             callback(null, {emptyTitle: err})

@@ -1,5 +1,5 @@
 import React from "react";
-import {Dimensions, Image, Linking, Text, View} from "react-native";
+import {Image, Linking, Text, View} from "react-native";
 import GiftedListView from "../../components/refreshList/GiftedListView";
 import Request from "../../utils/Request";
 import {PAGE_SIZE} from "../../constants/AppConstants";
@@ -14,7 +14,6 @@ const imageUrl = require('../../img/default_image.png');
 /**
  * 房屋租售View
  */
-let {width, height} = Dimensions.get('window')
 
 export default class HouseSellRentView extends BaseView {
     constructor(props) {
@@ -22,7 +21,6 @@ export default class HouseSellRentView extends BaseView {
         this.state = {
             ...props
         };
-        console.log(this.props)
     }
 
     makeRemoteRequest(page = 1, callback) {
@@ -34,7 +32,6 @@ export default class HouseSellRentView extends BaseView {
                 mockId: 1095607,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
-                // console.log(JSON.stringify(rep))
                 callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             } else {
                 callback(null, {emptyTitle: rep.message})
@@ -124,11 +121,10 @@ export default class HouseSellRentView extends BaseView {
         return (
             <View style={{
                 flex: 1,
-                backgroundColor: 'white',
                 flexDirection: 'column'
             }}>
                 <GiftedListView
-                    style={{ flex: 1}}
+                    style={{ flex: 1,marginTop:10}}
                     rowView={this._renderRowView.bind(this)}
                     onFetch={this.makeRemoteRequest.bind(this)}
                     loadMore={false}

@@ -5,11 +5,11 @@ import GiftedListView from "../../../components/refreshList/GiftedListView";
 import Request from "../../../utils/Request";
 import {PAGE_SIZE} from "../../../constants/AppConstants";
 import {CommonStyle} from "../../../common/CommonStyle";
+import util from "../../../utils/util";
 
 /**
  * 积分明细
  */
-let {width, height} = Dimensions.get('window')
 
 export default class IntegralDetailView extends BaseView {
     constructor(props) {
@@ -30,12 +30,11 @@ export default class IntegralDetailView extends BaseView {
                 mock: false,
                 mockId: 1095607,
             }).then(rep => {
-            if (rep.code == 0 && rep.data) {
+            if (rep.code == 0 && rep.data && !util.isArrayEmpty(rep.data.rows)) {
                 // console.log(JSON.stringify(rep))
                 callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             } else {
-                this.showShort(rep.message);
-                callback(null, {emptyTitle: rep.message})
+                callback(null, {emptyTitle: '暂无积分,签到可获取哦'})
             }
         }).catch(err => {
             callback(null, {emptyTitle: err})

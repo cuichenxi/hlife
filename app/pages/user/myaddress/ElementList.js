@@ -6,6 +6,7 @@ import {Text, View} from "react-native";
 import {PAGE_SIZE} from "../../../constants/AppConstants";
 import Request from "../../../utils/Request";
 import ToastUtil from "../../../utils/ToastUtil";
+import util from "../../../utils/util";
 
 /**
  * 选择苑、栋列表
@@ -29,10 +30,11 @@ export default class ElementList extends BaseComponent{
     _render(){
         return(
             <GiftedListView
-                style={{width:'100%'}}
+                style={{width:'100%',marginTop:10}}
                 rowView={this._renderRowView.bind(this)}
                 onFetch={this.makeRemoteRequest.bind(this)}
                 loadMore={false}
+                pagination={false}
             />
         )
     }
@@ -61,11 +63,13 @@ export default class ElementList extends BaseComponent{
                 mock: false,
                 mockId: 1095629,
             }).then(rep => {
-            if (rep.code == 0 && rep.data) {
+            if (rep.code == 0 && rep.data && !util.isArrayEmpty(rep.data)) {
                 callback(rep.data,)
+            } else {
+                callback(null,{emptyTitle: '暂无楼栋'})
             }
         }).catch(err => {
-
+            callback(null,{emptyTitle: err})
         }).done(() => {
         })
     }

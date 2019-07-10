@@ -162,7 +162,7 @@ export default class MyInvoiceList extends BaseComponent {
                 })*/
                 callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             } else {
-                callback(null,{emptyTitle: rep.message})
+                callback(null,{emptyTitle: '暂无发票'})
             }
         }).catch(err => {
             callback(null,{emptyTitle: err})

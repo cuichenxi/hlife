@@ -95,7 +95,7 @@ export default class MyShippingAddress extends BaseComponent {
             if (rep.code == 0 && rep.data && !util.isArrayEmpty(rep.data.rows)) {
                 callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             } else {
-                callback(null,{emptyTitle: rep.message})
+                callback(null,{emptyTitle: '暂无收货地址'})
             }
         }).catch(err => {
             callback(null,{emptyTitle: err})

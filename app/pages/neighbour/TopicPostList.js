@@ -7,6 +7,7 @@ import TouchableView from "../../components/TouchableView";
 import ImageView from "../../components/ImageView";
 import GridView from "../../components/GridView";
 import {BaseComponent} from "../../components/base/BaseComponent";
+import util from "../../utils/util";
 
 /**
  * 话题帖子列表
@@ -36,11 +37,10 @@ export default class TopicPostList extends BaseComponent {
                 mock: false,
                 mockId: 1095699,
             }).then(rep => {
-            if (rep.code == 0 && rep.data) {
+            if (rep.code == 0 && rep.data && !util.isArrayEmpty(rep.data.rows)) {
                 callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             }else {
-                this.showShort(rep.message);
-                callback(null,{emptyTitle: rep.message})
+                callback(null,{emptyTitle: '暂无话题'})
             }
         }).catch(err => {
             callback(null,{emptyTitle: err})

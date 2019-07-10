@@ -66,7 +66,7 @@ export default class TopicTypeList extends BaseComponent {
             if (rep.code == 0 && rep.data && !util.isArrayEmpty(rep.data)) {
                 callback(rep.data, {allLoaded: true})
             } else {
-                callback(null,{emptyTitle: rep.message})
+                callback(null,{emptyTitle: '暂无话题'})
             }
         }).catch(err => {
             callback(null,{emptyTitle: err})

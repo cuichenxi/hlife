@@ -10,6 +10,8 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import Ionicons from "react-native-vector-icons/Ionicons";
 import SwipeAction from "antd-mobile-rn/es/swipe-action/index.native";
 import UserStore from "../../../store/UserStore";
+import GiftedListView from "../../../components/refreshList/GiftedListView";
+import util from "../../../utils/util";
 
 let {width, height} = Dimensions.get('window')
 const Font = {
@@ -29,23 +31,20 @@ export default class MyAddress extends BaseComponent {
 
     constructor(props) {
         super(props);
-        this.state={
+        this.state = {
             rows: [],
             isLoading: false,
             isRefresh: true,
-            iaAuth:0
+            iaAuth: 0
         }
     }
 
-    componentWillMount() {
-        this.fetchData()
-    }
 
     refreshing = () => {
 
     }
 
-    onReady(){
+    onReady() {
         let userInfo = UserStore.get();
         this.setState({
             iaAuth: userInfo.iaAuth,
@@ -59,24 +58,16 @@ export default class MyAddress extends BaseComponent {
                 flex: 1,
                 flexDirection: 'column'
             }}>
-                <View style={{flex: 1}}>
-                    <FlatList ref={(flatList) => this._flatList = flatList}
-                              ItemSeparatorComponent={this._separator}
-                              renderItem={this._renderItem}
-
-                              onRefresh={() => this.refreshing()}
-                              refreshing={this.state.isLoading}
-
-                              onEndReachedThreshold={0.1}
-                        // onEndReached={
-                        //     () => this._onLoadMore()
-                        // }
-                        style={{marginTop: 10}}
-
-                              data={rows}>
-
-                    </FlatList>
-                </View>
+                    <GiftedListView
+                        onRef={(ref)=>{
+                            this.listRef = ref;
+                        }}
+                        style={{ flex: 1,marginTop: 10}}
+                        rowView={this._renderItem.bind(this)}
+                        onFetch={this.fetchData.bind(this)}
+                        loadMore={false}
+                        pagination={false}
+                    />
 
                 <TouchableView style={{
                     alignItems: 'center',
@@ -88,9 +79,24 @@ export default class MyAddress extends BaseComponent {
                     position: 'absolute',
                     bottom: 0,
                     alignSelf: 'center'
-                }} onPress={() => {this.goAddHousingAddress()}}>
+                }} onPress={() => {
+                    this.goAddHousingAddress()
+                }}>
                     <Text style={{color: 'white'}}>我的小区</Text>
                 </TouchableView>
+            </View>
+        );
+    }
+
+    /**
+     * 空布局
+     */
+    _createEmptyView() {
+        return (
+            <View style={{height: '100%', alignItems: 'center', justifyContent: 'center'}}>
+                <Text style={{fontSize: 16}}>
+                    暂无小区
+                </Text>
             </View>
         );
     }
@@ -99,89 +105,64 @@ export default class MyAddress extends BaseComponent {
         return <View style={{height: 0.5, backgroundColor: CommonStyle.lightGray}}/>;
     }
 
-    fetchData(page = 1) {
-        let param = { page: page - 1, pageSize: PAGE_SIZE};
+    fetchData(page = 1,callback) {
+        let param = {page: page - 1, pageSize: PAGE_SIZE};
 
         Request.post('/api/user/mycommunityList', param,
             {
                 mock: false,
                 mockId: 1095864,
             }).then(rep => {
-            if (rep.code == 0 && rep.data) {
+            /*if (rep.code == 0 && rep.data) {
                 // console.log(JSON.stringify(rep))
                 this.setState({
                     rows: rep.data
                 })
+            }*/
+            if (rep.code == 0 && rep.data && !util.isArrayEmpty(rep.data)) {
+                callback(rep.data)
+            } else {
+                callback(null,{emptyTitle: '暂无小区'})
             }
         }).catch(err => {
-
+            callback(null,{emptyTitle: err})
         }).done(() => {
-            // this.hideLoading();
+            this.hideLoading();
         })
     }
 
 
-    _renderItem = (item) => {
+    _renderItem (item) {
         console.log(item)
         return (
-            <SwipeAction style={{
-                backgroundColor: 'transparent',
-            }} autoClose={true} onOpen={() => {
-                // this.navigate('ModifyHousingAddress',{address:item})
-            }}
-                         onClose={() => console.log('close')}
-                         onPress={() => {
-                             this.navigate('ModifyHousingAddress', {address: item})
-                         }}
-                         right={[
-                             {
-                                 text: '删除',
-                                 onPress: () => {
-                                     let list = this.state.rows
-                                     // 删除指定位置元素
-                                     list.splice(item.index, 1)
-                                     console.log(list)
-                                     //todo 删除逻辑
-                                     this.setState(
-                                         {
-                                             row: list
-                                         }
-                                     )
-
-                                 },
-                                 style: {backgroundColor: 'red', color: 'white'},
-                             },
-                         ]}>
-                <TouchableView onPress={() => {
-                    this.navigate('AuthPage', {address: item.item})
+            <TouchableView onPress={() => {
+                this.navigate('AuthPage', {address: item})
+            }}>
+                <View style={{
+                    backgroundColor: 'white',
+                    height: 50,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    padding: 5
                 }}>
-                    <View style={{
-                        backgroundColor: 'white',
-                        height: 50,
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        padding: 5
-                    }}>
-                        <View style={{flex: 1, marginLeft: 20}}>
-                            <Text style={{
+                    <View style={{flex: 1, marginLeft: 20}}>
+                        <Text style={{
+                            textAlign: 'left',
+                            color: '#333',
+                            fontSize: 13
+                        }}>{item.communityName}</Text>
+                        <Text
+                            style={{
                                 textAlign: 'left',
-                                color: '#333',
-                                fontSize: 13
-                            }}>{item.item.communityName}</Text>
-                            <Text
-                                style={{
-                                    textAlign: 'left',
-                                    color: '#666',
-                                    fontSize: 13,
-                                    marginTop: 5
-                                }}>{item.item.unitName+item.item.roomName}</Text>
-                        </View>
-                        <Font.Ionicons style={{marginLeft: 10}} name="ios-arrow-forward-outline" size={(18)}
-                                       color="#bbb"/>
+                                color: '#666',
+                                fontSize: 13,
+                                marginTop: 5
+                            }}>{item.unitName + item.roomName}</Text>
                     </View>
-                </TouchableView>
-
-            </SwipeAction>
+                    <Font.Ionicons style={{marginLeft: 10}} name="ios-arrow-forward-outline" size={(18)}
+                                   color="#bbb"/>
+                </View>
+            </TouchableView>
         )
     }
 

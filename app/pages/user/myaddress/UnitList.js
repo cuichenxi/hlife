@@ -7,6 +7,7 @@ import {Text, View} from "react-native";
 import {FROMAUTH, PAGE_SIZE} from "../../../constants/AppConstants";
 import Request from "../../../utils/Request";
 import {CALL_BACK_PUBLISH_HOUSE, CALL_BACK_TEST} from "../../../constants/ActionTypes";
+import util from "../../../utils/util";
 
 /**
  * 单元列表
@@ -31,10 +32,11 @@ export default class UnitList extends BaseComponent{
     _render(){
         return(
             <GiftedListView
-                style={{width:'100%'}}
+                style={{width:'100%',marginTop:10}}
                 rowView={this._renderRowView.bind(this)}
                 onFetch={this.makeRemoteRequest.bind(this)}
                 loadMore={false}
+                pagination={false}
             />
         )
     }
@@ -69,12 +71,15 @@ export default class UnitList extends BaseComponent{
                 mock: false,
                 mockId: 1095629,
             }).then(rep => {
-            if (rep.code == 0 && rep.data) {
+            if (rep.code == 0 && rep.data && !util.isArrayEmpty(rep.data)) {
                 callback(rep.data)
+            } else {
+                callback(null,{emptyTitle: '暂无单元'})
             }
         }).catch(err => {
-
+            callback(null,{emptyTitle: err})
         }).done(() => {
+            this.hideLoading();
         })
     }
 
