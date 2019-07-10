@@ -7,10 +7,11 @@ import {PAY_FROM_CREATE_ORDER} from "../../constants/ActionTypes";
 import Request from "../../utils/Request";
 import TouchableView from "../../components/TouchableView";
 import ImageView from "../../components/ImageView";
-
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import util from "../../utils/util";
-
+const Font = {
+    Ionicons,
+}
 export default class OrderConfirm extends BaseComponent {
     navigationBarProps() {
         return ({
@@ -112,7 +113,7 @@ export default class OrderConfirm extends BaseComponent {
                 <ImageView style={{height: 70, width: 70}}
                            source={this.state.imageUrl} defaultSource={require('../../img/default_image.png')}/>
                 <Text
-                    style={{marginLeft: 15,marginTop:10, flex: 1, fontSize: 16, color: '#333'}}>{`${item.goodName}${item.orderno}`}</Text>
+                    style={{marginLeft: 15,marginTop:10, flex: 1, fontSize: 16, color: '#333'}}>{`${item.goodName}`}</Text>
                 <View style={{marginTop: 6, flexDirection: 'column'}}>
                     <Text style={{fontSize: 14, color: '#333'}}>￥{item.price}</Text>
                     <Text style={{marginTop: 6, fontSize: 14, color: '#333'}}>x{item.num}</Text>
@@ -133,10 +134,9 @@ export default class OrderConfirm extends BaseComponent {
         }
         return (
             <View style={styles.container}>
-
                 <ScrollView style={{
-                    flex: 1,
-                    marginTop: 10
+                    marginTop: 10,
+                    marginBottom:50
                 }}>
                     <TouchableView style={{
                         flexDirection: 'row',
@@ -160,10 +160,11 @@ export default class OrderConfirm extends BaseComponent {
                             flex: 1,
                             fontSize: 15,
                             color: '#333',
-                            marginLeft: 12
+                            marginHorizontal: 10
+
                         }}>{util.isEmpty(this.state.address) ? '选择收货地址' : this.state.address}</Text>
-                        <Ionicons style={{marginLeft: 10}} name="ios-arrow-forward-outline" size={(18)}
-                                  color="#bbb"/>)}
+                        <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
+                                       color="#bbb"/>
                     </TouchableView>
                     <ImageBackground style={{height: 3, width: '100%'}}
                                      source={require('../../img/bg_order_confirm.png')}></ImageBackground>
@@ -198,10 +199,10 @@ export default class OrderConfirm extends BaseComponent {
                         <Text style={{
                             fontSize: 15,
                             color: '#333',
-                            marginLeft: 12
+                            marginHorizontal: 10
                         }}>{util.isEmpty(this.state.invoice) ? '选择发票' : this.state.invoice}</Text>
-                        <Ionicons style={{marginLeft: 10}} name="ios-arrow-forward-outline" size={(18)}
-                                  color="#bbb"/>)}
+                        <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
+                                       color="#bbb"/>
                     </TouchableView>
                     <TouchableView style={{
                         flexDirection: 'row',
@@ -223,10 +224,10 @@ export default class OrderConfirm extends BaseComponent {
                         <Text style={{
                             fontSize: 15,
                             color: '#333',
-                            marginLeft: 12
+                            marginHorizontal: 10
                         }}>{util.isEmpty(this.state.redPacket) ? '选择红包' : this.state.redPacket}</Text>
-                        <Ionicons style={{marginLeft: 10}} name="ios-arrow-forward-outline" size={(18)}
-                                  color="#bbb"/>)}
+                        <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
+                                       color="#bbb"/>
                     </TouchableView>
                     <TouchableView style={{
                         flexDirection: 'row',
@@ -254,8 +255,9 @@ export default class OrderConfirm extends BaseComponent {
                     </TouchableView>
                     <View style={{
                         backgroundColor: '#fff', paddingVertical: 15,
+                        marginVertical: 10,
                         borderTopWidth: 0.5,
-                        borderBottom: 0.5,
+                        borderBottomWidth: 0.5,
                         borderColor: CommonStyle.lightGray,
                     }}>
                         <Text style={{
@@ -270,13 +272,11 @@ export default class OrderConfirm extends BaseComponent {
                         paddingHorizontal: 10,
                         marginHorizontal: 10,
                         borderRadius: 10,
-                    }} onPress={() => {
-
                     }}>
                         <TextInput
                             placeholder='请输入留言'
                             underlineColorAndroid="transparent"
-                            style={{height: 30, width: '90%'}}
+                            style={{height: 40, width: '90%'}}
                             maxLength={100}
                             onChangeText={(text) => {
                                 this.setState({
@@ -317,7 +317,7 @@ export default class OrderConfirm extends BaseComponent {
                     bottom: 0,
                     height: 48,
                     backgroundColor: '#fff',
-                    borderTop: 0.5,
+                    borderTopWidth: 0.5,
                     borderColor: CommonStyle.lightGray,
                     width: '100%',
                     alignItems: 'center',

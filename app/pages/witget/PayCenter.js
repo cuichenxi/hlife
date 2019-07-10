@@ -30,7 +30,7 @@ export default class PayCenter extends BaseComponent {
                 '稍后付款'
             ),
             rightTitle: (
-                '支付成功'
+                ''
             ),
             leftIcon: null,
             type: 1,
@@ -59,59 +59,49 @@ export default class PayCenter extends BaseComponent {
         switch (this.state.from) {
             case PAY_FROM_CREATE_ORDER:
                 Alert.alert(
-                    '提示', '确定稍后支付', '下单后15分钟内未支付成功,订单将被关闭,请尽快完成支付',
-                    [{
-                        text: '稍后支付', onPress: () => {
-                        }, style: 'cancel'
-                    }, {
-                        text: '继续支付', onPress: () => {
-                            this.showShort('')
-                            // NavigationUtil.reset(this.props.navigation, 'Home');
-
-                        }
-                    }])
+                    '确定稍后支付',
+                    '下单后15分钟内未支付成功,订单将被关闭,请尽快完成支付',
+                    [
+                        {text: '稍后支付', onPress: () => this.goBack()},
+                        {text: '继续支付', onPress: () => console.log('OK Pressed')},
+                    ],
+                    { cancelable: true }
+                )
                 // this.navigate('OrderDetail',{id: this.state.id})
                 break;
             case PAY_FROM_ORDER_ORDER_LIST:
             case PAY_FROM_ORDER_DETAIL:
                 Alert.alert(
-                    '提示', '确定稍后支付', '下单后15分钟内未支付成功,订单将被关闭,请尽快完成支付',
-                    [{
-                        text: '稍后支付', onPress: () => {
-                            this.goBack();
-                        },
-                    }, {
-                        text: '继续支付', onPress: () => {
-
-                        }
-                    }])
+                    '确定稍后支付',
+                    '下单后15分钟内未支付成功,订单将被关闭,请尽快完成支付',
+                    [
+                        {text: '稍后支付', onPress: () => this.goBack()},
+                        {text: '继续支付', onPress: () => console.log('OK Pressed')},
+                    ],
+                    { cancelable: true }
+                )
                 break
             case PAY_FROM_WALLET:
                 Alert.alert(
-                    '提示', '确定稍后支付', '下单后15分钟内未支付成功,订单将被关闭,请尽快完成支付',
-                    [{
-                        text: '稍后支付', onPress: () => {
-                            this.goBack();
-                        },
-                    }, {
-                        text: '继续支付', onPress: () => {
-
-                        }
-                    }])
+                    '确定稍后支付',
+                    '下单后15分钟内未支付成功,订单将被关闭,请尽快完成支付',
+                    [
+                        {text: '稍后支付', onPress: () => this.goBack()},
+                        {text: '继续支付', onPress: () => console.log('OK Pressed')},
+                    ],
+                    { cancelable: true }
+                )
                 break
             default:
                 Alert.alert(
-                    '提示', '确定稍后支付', '下单后15分钟内未支付成功,订单将被关闭,请尽快完成支付',
-                    [{
-                        text: '稍后支付', onPress: () => {
-                        }, style: 'cancel'
-                    }, {
-                        text: '继续支付', onPress: () => {
-                            this.showShort('继续支付')
-                            // NavigationUtil.reset(this.props.navigation, 'Home');
-
-                        }
-                    }])
+                    '确定稍后支付',
+                    '下单后15分钟内未支付成功,订单将被关闭,请尽快完成支付',
+                    [
+                        {text: '稍后支付', onPress: () => this.goBack()},
+                        {text: '继续支付', onPress: () => console.log('OK Pressed')},
+                    ],
+                    { cancelable: true }
+                )
                 break
         }
     }
@@ -139,18 +129,19 @@ export default class PayCenter extends BaseComponent {
             balance: userInfo.balance,
             type: e.from == PAY_FROM_WALLET ? 2 : 1
         })
+        var that = this;
         WeChat.addListener(
             'PayReq.Resp',
             (response) => {
-                this.showLoading('获取支付信息中...')
+                that.showLoading('获取支付信息中...')
                 if (parseInt(response.errCode) === 0) {
                     setTimeout(() => {
-                        this.hideLoading()
-                        this.paySuccess();
+                        that.hideLoading()
+                        that.paySuccess();
                     }, 500);
                 } else {
                     this.hideLoading()
-                    this.showShort('取消支付');
+                    this.showShort('支付失败');
                 }
             }
         );
@@ -160,12 +151,13 @@ export default class PayCenter extends BaseComponent {
         switch (this.state.from) {
             case PAY_FROM_CREATE_ORDER:
                 Alert.alert(
-                    '提示', '支付成功',
-                    [{
-                        text: '查看订单', onPress: () => {
+                    '提示',
+                    '支付成功',
+                    [
+                        {text: '查看订单', onPress: () => {
                             NavigationUtil.resetGo(this.props.navigation, ['Home', 'OrderDetail'], {id: this.state.id});
                         }
-                    }])
+                    }],{cancelable: false});
                 break;
             case PAY_FROM_ORDER_DETAIL:
                 Alert.alert(
@@ -174,7 +166,8 @@ export default class PayCenter extends BaseComponent {
                         text: '查看订单', onPress: () => {
                             this.goBack({id: this.state.id});
                         }
-                    }])
+                    }],
+                    {cancelable: false});
                 break
             case PAY_FROM_ORDER_ORDER_LIST:
                 Alert.alert(
@@ -183,25 +176,20 @@ export default class PayCenter extends BaseComponent {
                         text: '查看订单', onPress: () => {
                             NavigationUtil.resetGo(this.props.navigation, ['Home', 'OrderList', 'OrderDetail'], {id: this.state.id});
                         }
-                    }])
+                    }],
+                    {cancelable: false});
                 break
             case  PAY_FROM_WALLET:
                 Alert.alert(
-                    '提示', '支付成功',
-                    [{
-                        text: '查看金额', onPress: () => {
-                            this.goBack();
-                        }
-                    }])
+                    '提示',
+                    '支付成功',
+                    [
+                        {text: '查看金额', onPress: () => this.goBack()},
+                    ],
+                    {cancelable: false}
+                );
                 break
             default:
-                Alert.alert(
-                    '提示', '支付成功',
-                    [{
-                        text: '查看订单', onPress: () => {
-                            NavigationUtil.reset(this.props.navigation, 1, 'OrderDetail', {id: this.state.id});
-                        }
-                    }])
                 break
         }
 
@@ -230,7 +218,7 @@ export default class PayCenter extends BaseComponent {
                                 package: rep.data.packageContent,   // 商家根据财付通文档填写的数据和签名
                                 sign: rep.data.sign        // 商家根据微信开放平台文档对数据做的签名
                             }).catch((error) => {
-                                this.showShort(error.message);
+                                this.showShort('取消支付');
                             });
                         } else {
                             this.showShort('没有安装微信软件，请您安装微信之后再试');
@@ -246,6 +234,7 @@ export default class PayCenter extends BaseComponent {
 
         } else if (this.state.select === 1) {//支付宝
             this.showLoading('支付中...');
+            var that = this;
             Request.post('/api/pay/createPay', {
                 money: this.state.totalPrice,
                 type: this.state.type,
@@ -255,8 +244,10 @@ export default class PayCenter extends BaseComponent {
                 this.hideLoading();
                 if (rep.code == 0) {
                     AliPay.pay(rep.data.content).then(function (data) {
+                        that.showLoading('获取支付信息中...')
                         setTimeout(() => {
-                            this.paySuccess()
+                            that.hideLoading('获取支付信息中...')
+                            that.paySuccess()
                         }, 500);
                     }, function (err) {
                         console.log('取消支付');
@@ -279,10 +270,11 @@ export default class PayCenter extends BaseComponent {
                 orderId: this.state.id
             }).then(rep => {
                 this.showLoading('获取支付信息中...')
+                var that = this;
                 if (rep.code == 0) {
+                    that.hideLoading()
                     setTimeout(() => {
-                        this.hideLoading()
-                        this.paySuccess()
+                        that.paySuccess()
                     }, 500);
                 } else {
                     this.hideLoading()
@@ -404,7 +396,7 @@ export default class PayCenter extends BaseComponent {
                     alignSelf: 'center',
                     width: width - 30,
                     marginTop: 20,
-                    height: 48,
+                    height: 44,
                     borderRadius: 10,
                     backgroundColor: CommonStyle.themeColor
                     ,

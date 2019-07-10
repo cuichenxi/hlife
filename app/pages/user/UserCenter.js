@@ -246,7 +246,9 @@ export default class UserCenter extends BaseComponent {
                     }}>{util.isEmpty(this.state.userName) ? this.state.userPhone : this.state.userName}</Text>
                     <TouchableView style={{
                         marginTop: 5,
-                        flexDirection:'row'
+                        flexDirection:'row',
+                        alignItems:'center',
+                        justifyContent:'center'
                     }} onPress={() => {
                         this.navigate('UserInfo')
                     }}>

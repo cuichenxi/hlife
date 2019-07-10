@@ -64,7 +64,7 @@ export default class Shopping extends BaseComponent {
             ],
             typeIds: [],
             typeList: {},
-            searchHint: '请搜索',
+            searchHint: '搜索',
             unreadMessageCount: 0
         };
     }
@@ -85,7 +85,7 @@ export default class Shopping extends BaseComponent {
                 UserStore.save({
                     isAuth:rep.data.isAuth,
                     messages: rep.data.messageCount,
-                    searchHint: util.isEmpty(rep.data.searchHint)?rep.data.searchHint:'搜索',
+                    searchHint: !util.isEmpty(rep.data.searchHint)?rep.data.searchHint:'搜索',
                     userName: rep.data.userName,
                     phone:rep.data.phone,
                     avatar: rep.data.avatar,
@@ -241,7 +241,7 @@ export default class Shopping extends BaseComponent {
                                 height: 12,
                                 marginLeft:10
                             }} source={require("../../img/icon_search.png")}/>
-                            <Text style={{color: "#fff", fontSize: 14,flex:1, marginLeft: 5}}>{this.state.searchHint}</Text>
+                            <Text style={{color: "#fff", fontSize: 14,flex:1, marginLeft: 5}}>{util.isEmpty(this.state.searchHint)?'搜索':this.state.searchHint}</Text>
                             <TouchableView style={{width: 60, alignItems: 'center',justifyContent:'center'}} onPress={() => {
                                 this.onScanClick()
                             }}>

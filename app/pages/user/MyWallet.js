@@ -12,6 +12,7 @@ import {PAGE_SIZE} from "../../constants/AppConstants";
 import Request from "../../utils/Request";
 import {PAY_FROM_CREATE_ORDER, PAY_FROM_WALLET} from "../../constants/ActionTypes";
 import {Modal} from "antd-mobile-rn/lib/index.native";
+import util from "../../utils/util";
 
 let {width, height} = Dimensions.get('window')
 
@@ -126,6 +127,21 @@ export default class MyWallet extends BaseComponent {
         let userInfo = UserStore.get();
         this.setState({
             balance: userInfo.balance,
+        })
+        this.showLoading('查询余额...');
+        Request.post('/api/user/getuserinfo', {}).then(rep => {
+            if (rep.code === 0 && rep.data) {
+                UserStore.save({
+                    balance: rep.data.balance,
+                });
+                this.setState({
+                    balance: rep.data.balance,
+                });
+            }
+        }).catch(err => {
+
+        }).done(() => {
+            this.hideLoading()
         })
     }
 

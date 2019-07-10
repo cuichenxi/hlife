@@ -84,7 +84,7 @@ export default class Main extends BaseComponent {
             typeList: {},
             goodsRecommend: [],
             isAuth: 0,
-            searchHint:'请搜索',
+            searchHint:'搜索',
             messages: 0
         };
         // this.onGetRegistrationIdPress = this.onGetRegistrationIdPress.bind(this)
@@ -292,7 +292,7 @@ export default class Main extends BaseComponent {
                 UserStore.save({
                     isAuth:rep.data.isAuth,
                     messages: rep.data.messageCount,
-                    searchHint: util.isEmpty(rep.data.searchHint)?rep.data.searchHint:'搜索',
+                    searchHint: !util.isEmpty(rep.data.searchHint)?rep.data.searchHint:'搜索',
                     userName: rep.data.userName,
                     phone:rep.data.phone,
                     avatar: rep.data.avatar,
@@ -393,7 +393,7 @@ export default class Main extends BaseComponent {
                         }} onPress={() => {
                             this.navigate("goodsSearch")
                         }}>
-                          <Text style={{color: "#fff", fontSize: 14,flex:1, marginLeft: 5}}>{this.state.searchHint}</Text>
+                          <Text style={{color: "#fff", fontSize: 14,flex:1, marginLeft: 5}}>{util.isEmpty(this.state.searchHint)?'搜索':this.state.searchHint}</Text>
                         </TouchableView>
                         <TouchableView style={{width: 60, alignItems: 'center',justifyContent:'center'}} onPress={() => {
                             this.onScanClick()

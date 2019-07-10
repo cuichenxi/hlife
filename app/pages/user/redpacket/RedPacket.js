@@ -19,7 +19,7 @@ export default class RedPacket extends BaseComponent {
         ];
         return (
             <Tabs style={{marginTop: 1}} tabs={tabs} tabBarActiveTextColor={CommonStyle.themeColor}
-                  tabBarUnderlineStyle={{backgroundColor: CommonStyle.themeColor}} initialPage={0} tabBarPosition="top">
+                  tabBarUnderlineStyle={{backgroundColor: CommonStyle.themeColor}} initialPage={0} tabBarPosition="top" swipeable={false}>
                 {this.renderPage.bind(this)}
             </Tabs>
 

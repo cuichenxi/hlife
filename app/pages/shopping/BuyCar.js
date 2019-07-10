@@ -59,9 +59,13 @@ export default class Index extends BaseComponent {
                 }
             });
 
+            if (util.isArrayEmpty(_goodList)) {
+                this.showShort('选择商品')
+                return;
+            }
             var param ={
                 goodsList: _goodList
-            }
+            };
             this.navigate('OrderConfirm', param)
         }
     }

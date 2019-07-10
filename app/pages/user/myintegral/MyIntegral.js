@@ -97,7 +97,7 @@ export default class MyIntegral extends BaseComponent{
                 <Tabs tabs={tabs} tabBarActiveTextColor={CommonStyle.themeColor}  onChange={(tab,index)=>{
                     // index
                 }}
-                      tabBarUnderlineStyle={{backgroundColor: CommonStyle.themeColor}} initialPage={0} tabBarPosition="top" swipeable={false}>
+                      tabBarUnderlineStyle={{backgroundColor: CommonStyle.themeColor}} initialPage={0} tabBarPosition="top" swipeable={false} swipeable={false}>
 
                     {this.renderPage.bind(this)}
                 </Tabs>

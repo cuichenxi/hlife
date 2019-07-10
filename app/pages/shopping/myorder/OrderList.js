@@ -30,8 +30,8 @@ export default class OrderList extends BaseComponent {
         ];
 
         return (
-            <Tabs style={{marginTop: 10}} tabs={tabs} tabBarActiveTextColor={CommonStyle.themeColor}
-                  tabBarUnderlineStyle={{backgroundColor: CommonStyle.themeColor}} initialPage={0} tabBarPosition="top">
+            <Tabs style={{marginTop: .8}} tabs={tabs} tabBarActiveTextColor={CommonStyle.themeColor}
+                  tabBarUnderlineStyle={{backgroundColor: CommonStyle.themeColor}} initialPage={0} tabBarPosition="top" swipeable={false}>
                 {this.renderPage.bind(this)}
             </Tabs>
 

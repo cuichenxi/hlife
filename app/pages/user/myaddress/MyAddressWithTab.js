@@ -27,7 +27,7 @@ export default class MyAddressWithTab extends BaseComponent {
                 // index
                 ToastUtil.showShort("index = " + index);
             }}
-                  tabBarUnderlineStyle={{backgroundColor: CommonStyle.themeColor}} initialPage={0} tabBarPosition="top">
+                  tabBarUnderlineStyle={{backgroundColor: CommonStyle.themeColor}} initialPage={0} tabBarPosition="top" swipeable={false}>
 
                 {this.renderPage.bind(this)}
             </Tabs>
