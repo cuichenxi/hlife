@@ -79,7 +79,7 @@ export default class HouseholdServerList extends BaseComponent {
     _renderRowView(item) {
         return (
             <TouchableView onPress={() => {
-                this.navigate("HouseholdServer", {data: item})
+                this.navigate("HouseholdServer", {id: item.id})
             }}>
                 <View style={{
                     backgroundColor: 'white',

@@ -18,7 +18,16 @@ export default class HouseholdServer extends BaseComponent {
     constructor(props) {
         super(props);
         this.state = {
-            data: this.props.navigation.state.params.data
+            id:this.props.navigation.state.params.id,
+            data: {
+                address:'',
+                content:'',
+                id:'',
+                intro:'',
+                phone:'',
+                pic:'',
+                title: '',
+            }
         }
     }
 
@@ -31,7 +40,8 @@ export default class HouseholdServer extends BaseComponent {
         return (
             <ScrollView>
                 <View>
-                    <ImageView style={{height: 180, resizeMode: Image.resizeMode.stretch,}}
+
+                    <ImageView style={{height: 180, width: '100%',resizeMode: Image.resizeMode.contain,}}
                                defaultSource={require("../../img/default_image.png")}
                                source={data.pic}/>
                     <View style={{
@@ -41,12 +51,7 @@ export default class HouseholdServer extends BaseComponent {
                         height: 60,
                         backgroundColor: '#fff'
                     }}>
-                        <ImageView source={data.pic}
-                                   defaultSource={require("../../img/default_image.png")}
-                                   style={{
-                                       width: 37,
-                                       height: 37, alignItems: 'center', marginLeft: 12
-                                   }} resizeMode='cover'/>
+
                         <View style={{justifyContent: 'flex-start', alignItems: 'flex-start', marginLeft: 15}}>
                             <Text style={{
                                 color: '#333',
@@ -170,7 +175,7 @@ export default class HouseholdServer extends BaseComponent {
     }
 
     makeRemoteRequest() {
-        let param = {id: this.state.data.id};
+        let param = {id: this.state.id};
 
         console.log(this.props)
         Request.post('/api/life/housekeepinginfo', param,
@@ -178,9 +183,14 @@ export default class HouseholdServer extends BaseComponent {
                 mock: false,
                 mockId: 1095356,
             }).then(rep => {
-            if (rep.code == 0) {
+            if (rep.code == 0 && rep.data) {
                 // console.log(JSON.stringify(rep))
                 // callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
+                console.log('======')
+                console.log(rep.data)
+                this.setState({
+                    data:rep.data
+                })
             }
         }).catch(err => {
 

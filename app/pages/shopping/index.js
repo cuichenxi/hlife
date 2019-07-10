@@ -20,7 +20,9 @@ export default class Shopping extends BaseComponent {
             title: '生活',
         }
     }
-
+    canExitApp(){
+        return true;
+    }
     constructor(props) {
         super(props);
         this.state = {
