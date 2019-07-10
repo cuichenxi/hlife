@@ -43,7 +43,7 @@ const post = (url, params = {}, options = {}, cacheCallback) => {
         versionName: dInfo.getVersion(),
         bundleId: dInfo.getBundleId(),
         platform: Platform.OS,
-        token: ''
+        token: token
     }
     let paramJson = {cparam, ...params};
     let paramString = JSON.stringify(paramJson);
@@ -106,7 +106,7 @@ const post = (url, params = {}, options = {}, cacheCallback) => {
 
         }).catch((error) => {
             console.log("error=" + error);
-            ToastUtil.showShort(error)
+            ToastUtil.showShort('服务异常')
             reject(error);
         });
     });

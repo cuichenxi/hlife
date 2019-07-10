@@ -1,5 +1,5 @@
 import React from "react";
-import {Dimensions, Image, Text, View} from "react-native";
+import {Dimensions, Image, Text, TouchableHighlight, View} from "react-native";
 import {BaseView} from "../../components/base/BaseView";
 import GiftedListView from "../../components/refreshList/GiftedListView";
 import Request from "../../utils/Request";
@@ -8,11 +8,11 @@ import TouchableView from "../../components/TouchableView";
 import ImageView from "../../components/ImageView";
 import GridView from "../../components/GridView";
 import util from "../../utils/util";
+import {CommonStyle} from "../../common/CommonStyle";
 
 /**
  * 邻里最新view
  */
-let {width, height} = Dimensions.get('window')
 
 export default class Index extends BaseView {
     constructor(props) {
@@ -36,9 +36,15 @@ export default class Index extends BaseView {
             if (rep.code == 0 && rep.data && !util.isArrayEmpty(rep.data.rows)) {
                 callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             } else {
+                this.setState({
+                    emptyTitle: rep.message
+                })
                 callback(null,{emptyTitle: rep.message})
             }
         }).catch(err => {
+            this.setState({
+                emptyTitle: err
+            })
             callback(null,{emptyTitle: err})
         }).done(() => {
             this.hideLoading();
@@ -127,7 +133,34 @@ export default class Index extends BaseView {
         )
     }
 
-
+    _renderEmptyView(refreshCallback) {
+        return (
+            <View style={{
+                marginTop: 160,
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: 20,
+            }}>
+                <Text style={{
+                    color: '#666666',
+                    fontSize: 16,
+                    marginBottom: 15,}}>
+                    {this.state.emptyTitle}
+                </Text>
+                <TouchableHighlight
+                    underlayColor='#f8f8f8'
+                    onPress={()=>{
+                        this.state.onAuth()
+                    }}>
+                    <View style={{borderRadius: 12, borderWidth: 1, borderColor: CommonStyle.themeColor}}>
+                        <Text style={{color: CommonStyle.themeColor, fontSize: 16, padding: 10}}>
+                            去认证
+                        </Text>
+                    </View>
+                </TouchableHighlight>
+            </View>
+        );
+    }
     _render() {
         return (
             <View style={{
@@ -136,10 +169,12 @@ export default class Index extends BaseView {
                 flexDirection: 'column'
             }}>
                 <GiftedListView
+                    style={{flex: 1}}
                     onRef={(ref)=>{
                         this.listRef = ref;
                     }}
                     style={{ flex: 1}}
+                    emptyView={this._renderEmptyView.bind(this)}
                     rowView={this._renderRowView.bind(this)}
                     onFetch={this.makeRemoteRequest.bind(this)}
                     loadMore={false}

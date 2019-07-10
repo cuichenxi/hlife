@@ -6,7 +6,7 @@ import util from "../utils/util";
 class ImageView extends React.Component {
     static propTypes = {
         // source: PropTypes.object,
-        style: ViewPropTypes.style,
+        // style: ViewPropTypes.style,
         defaultSource: PropTypes.number,
     };
 

@@ -49,9 +49,17 @@ export default class Neighbour extends BaseComponent {
                     flexDirection: 'column'
                 }} tab={tab} index={index} onButtonPress={() =>{
                     this.navigate('PublishPost')
-                }}
+                }
+                }
                             onItemPress={(item)=>{
                                 this.navigate('PostDetail',{id:item.id})
+                            }}
+                            onAuth={()=>{
+                                this.navigate('AuthPage',{},(e)=>{
+                                    this.setState({
+                                        isAuth: e.isAuth
+                                    })
+                                });
                             }}
                 />
             )

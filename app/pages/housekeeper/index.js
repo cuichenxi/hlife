@@ -33,10 +33,17 @@ export default class Housekeeper extends BaseComponent {
             phone:10086,
             types: [
                 {
-                    name: '发布房源',
+                    name: '物业缴费',
                     imageUrl: require('../../img/menu_wyjf.png'),
-                    active: 'PublishHouseInfo'
-                }, {
+                    active: 'LivingPayment'
+                }
+                ,
+                // {
+                //     name: '发布房源',
+                //     imageUrl: require('../../img/menu_wyjf.png'),
+                //     active: 'PublishHouseInfo'
+                // }
+                , {
                     name: '访客通行',
                     imageUrl: require('../../img/menu_sdjf.png'),
                     active: 'GuestPassKey'

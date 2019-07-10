@@ -80,7 +80,7 @@ export default class Login extends BaseComponent {
                         onChangeText={this.onChangeAuth.bind(this)}
                     />
                     <View style={{
-                        height: 30, justifyContent: 'center',
+                        height: 35, justifyContent: 'center',
                     }}>
                         <CountDownButton
                             executeFunc={(shouldStartCounting)=>{
@@ -104,18 +104,13 @@ export default class Login extends BaseComponent {
                 </View>
                 <TouchableOpacity style={{
                     height: 40,
-                    width:300,
                     marginLeft: 30,
                     marginRight: 30,
+                    marginTop: 20,
                     borderRadius: 30,
                     backgroundColor: CommonStyle.themeColor,
                     justifyContent: 'center',
-                    alignItems: 'center',
-                    marginTop:50,
-                    // position: 'absolute',
-                    // bottom: 0,
-                    // marginBottom:150,
-                    alignSelf: 'center'
+                    alignItems: 'center'
                 }} onPress={this._login.bind(this)}>
                     <Text style={styles.loginText}>登录</Text>
                 </TouchableOpacity>
@@ -165,6 +160,7 @@ export default class Login extends BaseComponent {
     }
 
     _requestAuthCode(shouldStartCounting) {
+        this.showLoading('获取验证中...')
         if (this.state.mobile.length !== 11) {
             this.showShort('请输入有效的手机号');
             return;
@@ -178,12 +174,13 @@ export default class Login extends BaseComponent {
                 mockId: 1089766,
             }).then(rep => {
             this.setState({
-                authState: `验证码获取${rep.code===0?'成功':'失败'}`,
+                authState: `验证码获取${rep.code===0?'验证已发送':'验证发送失败'}`,
                 codeRequesting:false
             })
             shouldStartCounting && shouldStartCounting(rep.code===0)
-            this.showShort(rep.message);
-
+            if (rep.code !== 0) {
+                this.showShort(rep.message);
+            }
         }).catch(err => {
             shouldStartCounting && shouldStartCounting(false)
             this.showShort('网络异常');
@@ -209,7 +206,6 @@ export default class Login extends BaseComponent {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         backgroundColor: '#fff'
     },
 

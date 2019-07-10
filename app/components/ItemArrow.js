@@ -2,6 +2,7 @@
  * @author Lei
  * @repo https://github.com/stoneWeb/elm-react-native
  */
+
 'use strict';
 
 import React, {Component} from 'react'
@@ -15,6 +16,7 @@ import {
 import TouchableView from './TouchableView'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import util from "../utils/util";
 
 const itemHeight = 45
 
@@ -65,7 +67,7 @@ export default class ItemArrow extends Component {
         const Icon = Font[font]
         return (
             <View style={[styles.listItem,{marginTop: marginTop}]}>
-                {icon ? (
+                {!util.isEmpty(icon) ? (
                     <Image style={{
                         width: 16,
                         height: 16,

@@ -8,10 +8,14 @@ import HouseSellRentView from "./HouseSellRentView";
 export default class HouseSellRent extends BaseComponent {
     navigationBarProps() {
         return {
-            title: '房屋租售'
+            title: '房屋租售',
+            rightTitle:'发布房源'
         }
     }
 
+    onRightPress(){
+        this.navigate('PublishHouseInfo');
+    }
     _render() {
         const tabs = [
             {title: '出售'},
