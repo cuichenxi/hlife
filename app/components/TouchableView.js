@@ -24,7 +24,7 @@ export default class TouchableView extends Component {
     //   <View {...this.props}><TouchableNativeFeedback underlayColor='#00000000' key={this.props.index} onPress={this.props.onPress}>{this.props.children}</TouchableNativeFeedback></View>
     // )
       return (
-          <TouchableOpacity underlayColor='#00000000' {...this.props}
+          <TouchableOpacity activeOpacity={1} {...this.props}
                             key={this.props.index}>{this.props.children}</TouchableOpacity>);
 
   }

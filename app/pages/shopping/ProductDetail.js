@@ -378,7 +378,7 @@ export default class ProductDetail extends BaseComponent {
             this.state.data.imageList = [{}];
         }
         return (
-            <Swiper style={{height: 420,}} paginationStyle={{bottom: 10}}
+            <Swiper style={{height: 380,}} paginationStyle={{bottom: 10}}
                     dotStyle={{backgroundColor: 'rgba(200,200,200,.2)', width: 6, height: 6}}
                     activeDotStyle={{backgroundColor: 'rgba(255,255,255,.5)', width: 6, height: 6}}
                     showsButtons={false}
@@ -386,16 +386,16 @@ export default class ProductDetail extends BaseComponent {
                 {this.state.data.imageList.map((banner, i) => {
                     return (
                         <TouchableView
-                            style={{height: 420, width: '100%', justifyContent: 'center', alignItems: 'center'}}
+                            style={{height: 380, width: '100%', justifyContent: 'center', alignItems: 'center'}}
                             key={i}>
                             <ImageView style={{
-                                height: 300, marginTop: 50, width: '100%',
+                                height: 260, marginTop: 20, width: '100%',
                                 resizeMode: Image.resizeMode.contain,
                             }} source={banner} defaultSource={require("../../img/default_image.png")}></ImageView>
                             <LinearGradient start={{x: 0.0, y: 0}} end={{x: 0, y: 1}}
                                             colors={['#fff', '#aaa']}
                                             style={{
-                                                height: 60, position: CommonStyle.absolute, bottom: 0,
+                                                height: 50, position: CommonStyle.absolute, bottom: 0,
                                                 width: '100%'
                                             }}>
                             </LinearGradient>

@@ -77,13 +77,35 @@ export default class OrderDetail extends BaseComponent {
 
     _render() {
         const {data} = this.state
-        var statusStr = '待支付';
+        var statusStr = '';
+        // 1:等待支付;2:订单取消;3:支付成功;4:支付失败;5:已发货;6:申请退款;7:退款完成;8:订单完成;9:已评价
         switch (data.status) {
-            case 0:
-                statusStr = '待支付';
-                break
             case 1:
-                statusStr = '已取消';
+                statusStr = '等待支付';
+                break
+            case 2:
+                statusStr = '订单取消';
+                break
+            case 3:
+                statusStr = '支付成功';
+                break
+            case 4:
+                statusStr = '支付失败';
+                break
+            case 5:
+                statusStr = '已发货';
+                break
+            case 6:
+                statusStr = '申请退款';
+                break
+            case 7:
+                statusStr = '退款完成';
+                break
+            case 8:
+                statusStr = '订单完成';
+                break
+            case 9:
+                statusStr = '已评价';
                 break
         }
         var sh = data.shippingAddressListDTO;
@@ -152,7 +174,7 @@ export default class OrderDetail extends BaseComponent {
                     alignItems: 'center',
                     flexDirection: 'row'
                 }}>
-                    <TouchableView style={{
+                    {data.status === 1 && <TouchableView style={{
                         flex: 1,
                         height: 48,
                         alignItems: 'center',
@@ -164,6 +186,21 @@ export default class OrderDetail extends BaseComponent {
                     >
                         <Text style={{fontSize: 16, color: '#fff'}}>付款</Text>
                     </TouchableView>
+                    }
+                    {data.status === 3 && <TouchableView style={{
+                        flex: 1,
+                        height: 48,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: CommonStyle.tomato,
+                    }} onPress={() => {
+                        // this.onPay()
+                        this.showShort("申请退款")
+                    }}
+                    >
+                        <Text style={{fontSize: 16, color: '#fff'}}>申请退款</Text>
+                    </TouchableView>
+                    }
                 </View>
             </View>);
     }
@@ -182,7 +219,7 @@ export default class OrderDetail extends BaseComponent {
                 <ImageView style={{height: 70, width: 70}}
                            source={this.state.imageUrl} defaultSource={require('../../img/default_image.png')}/>
                 <Text
-                    style={{marginLeft: 15, flex: 1, fontSize: 16, color: '#333'}}>{item.goodName}</Text>
+                    style={{marginLeft: 15, flex: 1, fontSize: 16, color: '#333'}}>{item.goodsName}</Text>
                 <View style={{marginTop: 6, flexDirection: 'column'}}>
                     <Text style={{fontSize: 14, color: '#333'}}>￥{item.price}</Text>
                     <Text style={{marginTop: 6, fontSize: 14, color: '#333'}}>x{item.num}</Text>

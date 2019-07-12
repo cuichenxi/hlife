@@ -1,5 +1,14 @@
 import React from 'react'
-import {Image, ImageBackground, ScrollView, StyleSheet, Text, TextInput, View,} from 'react-native'
+import {
+    Image,
+    ImageBackground,
+    KeyboardAvoidingView,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    View,
+} from 'react-native'
 
 import {BaseComponent} from "../../components/base/BaseComponent";
 import {CommonStyle} from "../../common/CommonStyle";
@@ -133,7 +142,7 @@ export default class OrderConfirm extends BaseComponent {
             })
         }
         return (
-            <View style={styles.container}>
+            <View>
                 <ScrollView style={{
                     marginTop: 10,
                     marginBottom:50
@@ -214,7 +223,20 @@ export default class OrderConfirm extends BaseComponent {
                         borderTopWidth: 0.5,
                         borderColor: CommonStyle.lightGray
                     }} onPress={() => {
-                        this.showLong('红包');
+                        // "des": null,
+                        //     "id": 11,
+                        //     "instructions": null,
+                        //     "price": null,
+                        //     "title": "20元红包",
+                        //     "validity": "2019-07-09~2019-07-31"
+                        this.navigate('RedPacket',{from:1,},(e)=>{
+                            if (e) {
+                                this.setState({
+                                    redPacketId: e.id,
+                                    redPrice: e.price ,
+                                    redPacket: e.title
+                                })
+                            }})
                     }}>
                         <Text style={{
                             flex: 1,

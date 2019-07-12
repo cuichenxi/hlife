@@ -9,6 +9,9 @@ export default class RedPacket extends BaseComponent {
 
     onReady(e) {
         this.setTitle("红包")
+        this.setState({
+            from: e.from
+        })
     }
 
     _render() {
@@ -28,11 +31,13 @@ export default class RedPacket extends BaseComponent {
 
     renderPage(tab, index) {
         return (
-            <RedPacketView style={styles.container} tab={tab} index={index}
+            <RedPacketView style={styles.container} tab={tab} index={index} from={this.state.from}
                            onItemPress={(item) => {
-                               this.goBack(item)
+                               if (this.state.from === 1) {
+                                   this.goBack(item);
+                               }
                                // ToastUtil.showShort("item = " + JSON.stringify(item));
-                           }}/>)
+                           }}/>);
     }
 
 };
