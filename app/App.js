@@ -86,6 +86,7 @@ import IntegralExplain from "./pages/user/myintegral/IntegralExplain";
 import demorouter from "./pages/demorouter";
 import Main from "./pages/main";
 import RechargeRecord from "./pages/user/RechargeRecord";
+import PublishActivity from "./pages/housekeeper/PublishActivity";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -243,6 +244,7 @@ const App = createStackNavigator(
         IntegralExplain:{screen:IntegralExplain},//积分说明
         demorouter:{screen:demorouter},//购物车
         RechargeRecord:{screen:RechargeRecord},//充值记录
+        PublishActivity:{screen:PublishActivity},//发布活动
     },
     {
         // initialRouteName: 'Splash',

@@ -177,32 +177,53 @@ export default class Housekeeper extends BaseComponent {
     _render() {
         let activities = this.state.activities;
         return (
-            <ScrollView style={styles.container} refreshControl={
-                <RefreshControl
-                    refreshing={this.state.refreshing}
-                    onRefresh={this._onRefresh}
-                />}>
-                <View>
-                    {this._renderGridView()}
-                    {this._rendCardView()}
-                    <View style={[styles.titleLine, {marginTop: 5}]}>
-                        <Image style={{width:16,height:16}} source={require('../../img/icon_xqhd.png')}/>
-                        <Text style={{fontSize: 16, marginLeft:5,color: CommonStyle.color_333}}>小区活动</Text>
-                    </View>
+            <View style={{flex:1}}>
+                <ScrollView style={styles.container} refreshControl={
+                    <RefreshControl
+                        refreshing={this.state.refreshing}
+                        onRefresh={this._onRefresh}
+                    />}>
                     <View>
-                        {/*{this._renderBottomItem(activities)}*/}
-                        <GiftedListView
-                            style={styles.container}
-                            rowView={this._renderBottomItem.bind(this)}
-                            onFetch={this._onFetch.bind(this)}
-                            loadMore={true}
-                            renderSeparator={() => {
-                                return (null);
-                            }}
-                        />
+                        {this._renderGridView()}
+                        {this._rendCardView()}
+                        <View style={[styles.titleLine, {marginTop: 5}]}>
+                            <Image style={{width:16,height:16}} source={require('../../img/icon_xqhd.png')}/>
+                            <Text style={{fontSize: 16, marginLeft:5,color: CommonStyle.color_333}}>小区活动</Text>
+                        </View>
+                        <View>
+                            <GiftedListView
+                                style={styles.container}
+                                rowView={this._renderBottomItem.bind(this)}
+                                onFetch={this._onFetch.bind(this)}
+                                loadMore={true}
+                                renderSeparator={() => {
+                                    return (null);
+                                }}
+                            />
+                        </View>
+
                     </View>
-                </View>
-            </ScrollView>
+
+                </ScrollView>
+                <TouchableView style={{
+                    height: 70,
+                    width: 70,
+                    marginBottom: 10,
+                    position: 'absolute',
+                    bottom: 0,
+                    right: 10,
+                    alignSelf: 'center'
+                }} onPress={() => {
+                    // this.state.onButtonPress()
+                    this.navigate('PublishActivity')
+                }}>
+                    <Image source={require('../../img/green_plus.png')} style={{
+                        width: 65,
+                        height: 65, alignItems: 'center'
+                    }} resizeMode='cover'/>
+                </TouchableView>
+            </View>
+
         );
     }
 
