@@ -4,7 +4,7 @@ import {
     Image,
     ImageBackground,
     Keyboard,
-    KeyboardAvoidingView,
+    KeyboardAvoidingView, Linking,
     StyleSheet,
     Text,
     TextInput,
@@ -22,6 +22,7 @@ import ImageView from "../../components/ImageView";
 import QIcon from "../../components/icon";
 import {CALL_BACK_PUBLISH_HOUSE} from "../../constants/ActionTypes";
 import UserStore from "../../store/UserStore";
+import Modal from "antd-mobile-rn/es/modal/index.native";
 
 
 var {width, height} = Dimensions.get('window');
@@ -194,8 +195,6 @@ export default class AuthPage extends BaseComponent {
                                 api: '/api/user/selectelement',
                                 from: FROMAUTH},
                                 (data) => {
-                                    console.log('=======回传=========')
-                                    console.log(data)
                                     this.setState({
                                         element: data.name,
                                         roomName: '选择房间号',
@@ -309,19 +308,24 @@ export default class AuthPage extends BaseComponent {
                     }}>
                         <Text style={styles.loginText}>{authText}</Text>
                     </TouchableOpacity>
-                    <View style={{
-                        backgroundColor: '#fff',
-                        justifyContent: 'flex-end',
-                        alignItems: 'center',
-                        marginTop: 5,
-                        marginLeft: 30,
-                        marginRight: 30,
-                        flexDirection: 'row',
+                    <TouchableView onPress={()=>{
+                        this.onButtonClick('0558-5625395')
                     }}>
-                        <ImageView defaultSource={require("../../img/icon_auth_phone.png")} resizeMode='cover'
-                                   style={{width: 13, height: 13}}/>
-                        <Text style={{fontSize: 11, color: '#999', marginLeft: 7}}>客服电话</Text>
-                    </View>
+                        <View style={{
+                            backgroundColor: '#fff',
+                            justifyContent: 'flex-end',
+                            alignItems: 'center',
+                            marginTop: 5,
+                            marginLeft: 30,
+                            marginRight: 30,
+                            flexDirection: 'row',
+                        }}>
+                            <ImageView defaultSource={require("../../img/icon_auth_phone.png")} resizeMode='cover'
+                                       style={{width: 13, height: 13}}/>
+                            <Text style={{fontSize: 11, color: '#999', marginLeft: 7}}>客服电话</Text>
+                        </View>
+                    </TouchableView>
+
 
                 </KeyboardAvoidingView>
                 <View style={{
@@ -345,9 +349,16 @@ export default class AuthPage extends BaseComponent {
         )
     }
 
-    _register() {
-        this.push("Register");
-    }
+
+    onButtonClick = (tel) => {
+        Modal.alert('提示', '是否拨打电话', [
+            { text: '取消', onPress: () => {console.log('cancel')}, style: 'cancel' },
+            { text: '确定', onPress: () => {
+                    console.log('ok')
+                    Linking.openURL(`tel:${tel}`)
+                } },
+        ]);
+    };
 
     _forgetPassword() {
         const {navigate} = this.props.navigation;

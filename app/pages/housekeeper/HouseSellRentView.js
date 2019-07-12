@@ -93,7 +93,7 @@ export default class HouseSellRentView extends BaseView {
                     </View>
                     <TouchableView style={{marginRight: 30}}
                         onPress={() => {
-                        this.onButtonClick('10000000')
+                        this.onButtonClick(item.phone)
                     }}>
                         <Image source={require('../../img/bohao_icon.png')}
                                style={{width: 30, height: 30, resizeMode: 'contain'}}/>

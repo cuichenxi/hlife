@@ -26,7 +26,9 @@ export default class Payment extends BaseComponent {
                 activityNum: "",
                 id: 0,
                 status: "报名中"
-            }
+            },
+            // id:0,
+
         }
     }
 
@@ -36,8 +38,29 @@ export default class Payment extends BaseComponent {
     onReady(e) {
         this.setTitle(e.activityName);
         this.setState({
-            data: e
+            data: e,
         })
+
+        this.requestData(e.id)
+    }
+
+    requestData(id) {
+        Request.post('/api/neighbour/activityInfo', {id:id},
+            {
+                mock: false,
+                mockId: 1095640,
+            }).then(rep => {
+            if (rep.code == 0 && rep.data) {
+                this.setData({
+                    data:rep.data
+                })
+            }
+        }).catch(err => {
+
+        }).done(() => {
+            this.setState({refreshing: false});
+        })
+
     }
 
     onApply() {

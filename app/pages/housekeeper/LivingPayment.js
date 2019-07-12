@@ -66,7 +66,6 @@ export default class LivingPayment extends BaseComponent {
                         justifyContent: 'flex-start',
                         height: 40,
                         width: width,
-                        textAlign: 'center',
                         flexDirection: 'row',
                         paddingLeft: 5,
                         paddingRight: 5
@@ -78,11 +77,7 @@ export default class LivingPayment extends BaseComponent {
                         flex: 1,
                         height: 1000,
                         flexDirection: 'column'
-                    }} refreshControl={
-                        <RefreshControl
-                            refreshing={this.state.refreshing}
-                            onRefresh={this._onRefresh}
-                        />}>
+                    }} >
 
                         <FlatList ref={(flatList) => this._flatList = flatList}
                                   ItemSeparatorComponent={this._separator}
@@ -260,7 +255,7 @@ export default class LivingPayment extends BaseComponent {
 
         Request.post('/api/fee/list', param,
             {
-                mock: true,
+                mock: false,
                 mockId: 1125376,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {

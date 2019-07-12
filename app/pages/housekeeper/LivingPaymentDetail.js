@@ -69,12 +69,7 @@ export default class LivingPaymentDetail extends  BaseComponent{
                         refreshing={this.state.refreshing}
                         onRefresh={this._onRefresh}
                     />}>
-                    {/*<GiftedListView
-                        style={{ flex: 1}}
-                        rowView={this._renderRowView.bind(this)}
-                        onFetch={this.makeRemoteRequest.bind(this)}
-                        loadMore={false}
-                    />*/}
+
                     <FlatList ref={(flatList) => this._flatList = flatList}
                               ItemSeparatorComponent={this._separator}
                               renderItem={this._renderItem}

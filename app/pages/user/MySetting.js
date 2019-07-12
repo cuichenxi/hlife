@@ -37,7 +37,7 @@ export default class MySetting extends BaseComponent{
     constructor(props) {
         super(props);
         this.state={
-            checked:false,
+            checked:true,
             isShareModal: false,
             cacheSize:Math.floor(Math.random() * (1 - 5)) + 5
         }
@@ -71,7 +71,7 @@ export default class MySetting extends BaseComponent{
                                                 description: '分享自:' + DeviceInfo.getApplicationName(),
                                                 thumbImage: 'http://ww1.sinaimg.cn/large/61e6b52cly1g4qeaqe4arj2040040745.jpg',
                                                 type: 'news',
-                                                webpageUrl: 'www.baidu.com'
+                                                webpageUrl: 'https://www.pgyer.com/6vsc'
                                             }).catch((error) => {
                                                 this.showShort(error.message, true);
                                             });
@@ -95,7 +95,7 @@ export default class MySetting extends BaseComponent{
                                                 title: '幸福宜居',
                                                 thumbImage: 'http://ww1.sinaimg.cn/large/61e6b52cly1g4qeaqe4arj2040040745.jpg',
                                                 type: 'news',
-                                                webpageUrl: 'www.baidu.com'
+                                                webpageUrl: 'https://www.pgyer.com/6vsc'
                                             }).catch((error) => {
                                                 this.showShort(error.message, true);
                                             });

@@ -319,9 +319,9 @@ export default class GuestPassKey extends BaseComponent {
                 mockId: 1095647,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
-                // this.goBack()
                 this.navigate('TrafficPermit', {data: rep.data})
-                // this.reset('TrafficPermit')
+            } else {
+                this.showShort(rep.message)
             }
         }).catch(err => {
 

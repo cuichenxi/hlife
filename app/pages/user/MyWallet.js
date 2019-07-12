@@ -99,7 +99,7 @@ export default class MyWallet extends BaseComponent {
                         <Text style={{textAlign: 'center', color: '#fff', fontSize: 17}}>钱包</Text>
                     </View>
                     <TouchableView onPress={() => {
-                        this.goBack()
+                        this.navigate('RechargeRecord')
                     }} style={{flex: 1}}>
                         <View style={{flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', flex: 1}}>
                             <ImageView

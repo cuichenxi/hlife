@@ -18,6 +18,8 @@ import Request from "../../utils/Request";
 import ImageView from "../../components/ImageView";
 import UserStore from "../../store/UserStore";
 import util from "../../utils/util";
+import {PAGE_SIZE} from "../../constants/AppConstants";
+import GiftedListView from "../../components/refreshList/GiftedListView";
 
 
 export default class Housekeeper extends BaseComponent {
@@ -78,7 +80,7 @@ export default class Housekeeper extends BaseComponent {
             ],
             activities: [
 
-                {
+                /*{
                     imageUrl: "",
                     activityName: "三月八日女神节",
                     activityDate: "03月08日",
@@ -94,7 +96,7 @@ export default class Housekeeper extends BaseComponent {
                     activityNum: 100,
                     id: 0,
                     status: 0
-                },
+                },*/
             ]
         };
     }
@@ -117,6 +119,23 @@ export default class Housekeeper extends BaseComponent {
         }).done(() => {
             this.setState({refreshing: false});
         })
+
+    }
+
+    _onFetch(page = 1, callback){
+        let param = { page: page - 1, pageSize: PAGE_SIZE,};
+        Request.post("/api/neighbour/activityList", param
+        ).then(rep => {
+            if (rep.code == 0 && rep.data && !util.isArrayEmpty(rep.data.rows)) {
+                callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
+            } else {
+                callback(null, {emptyTitle: '暂无活动'})
+            }
+        }).catch(err => {
+            callback(null, {emptyTitle: err})
+        }).done(() => {
+            this.hideLoading();
+        });
     }
 
     /**
@@ -171,7 +190,16 @@ export default class Housekeeper extends BaseComponent {
                         <Text style={{fontSize: 16, marginLeft:5,color: CommonStyle.color_333}}>小区活动</Text>
                     </View>
                     <View>
-                        {this._renderBottomItem(activities)}
+                        {/*{this._renderBottomItem(activities)}*/}
+                        <GiftedListView
+                            style={styles.container}
+                            rowView={this._renderBottomItem.bind(this)}
+                            onFetch={this._onFetch.bind(this)}
+                            loadMore={true}
+                            renderSeparator={() => {
+                                return (null);
+                            }}
+                        />
                     </View>
                 </View>
             </ScrollView>
@@ -256,40 +284,38 @@ export default class Housekeeper extends BaseComponent {
         )
     }
 
-    _renderBottomItem = (data) => {
-        return data.map((item, i) => {
-            return (<TouchableOpacity style={{
-                backgroundColor: '#fff',
-                height: 100,
-                flexDirection: 'row',
-                paddingHorizontal:10,
-                paddingVertical:5,
-                borderColor: CommonStyle.lineColor,
-                borderTopWidth: .5
-            }} onPress={()=>{
-                this.navigate('activeDetail', item);
-             }
-            }>
-                <ImageView
-                    source={item.imageUrl}
-                    style={{
-                        width: 90,
-                        height: 90,
-                        paddingLeft:10
-                    }}
-                    defaultSource={require('../../img/default_image.png')}
-                />
-                <View style={{flex: 1, paddingLeft: 10}}>
-                    <Text style={{
-                        fontSize: 17,
-                        marginTop:10,
-                        textAlign: 'left', color: '#666666'
-                    }}>{item.activityName}</Text>
-                    <Text style={{textAlign: 'left', marginTop:5,color: '#999999', fontSize: 15}}>{item.activityDate}</Text>
-                    <Text style={{textAlign: 'left', marginTop:5,color: '#999999', fontSize: 15}}>已有{item.activityNum}人参加活动</Text>
-                </View>
-            </TouchableOpacity>)
-        })
+    _renderBottomItem(item){
+        return (<TouchableOpacity style={{
+            backgroundColor: '#fff',
+            flex:1,
+            flexDirection: 'row',
+            paddingHorizontal:10,
+            paddingVertical:5,
+            borderColor: CommonStyle.lineColor,
+            borderTopWidth: .5
+        }} onPress={()=>{
+            this.navigate('activeDetail', item);
+        }
+        }>
+            <ImageView
+                source={item.imageUrl}
+                style={{
+                    width: 90,
+                    height: 90,
+                    paddingLeft:10
+                }}
+                defaultSource={require('../../img/default_image.png')}
+            />
+            <View style={{flex: 1, paddingLeft: 10}}>
+                <Text style={{
+                    fontSize: 17,
+                    marginTop:10,
+                    textAlign: 'left', color: '#666666'
+                }}>{item.activityName}</Text>
+                <Text style={{textAlign: 'left', marginTop:5,color: '#999999', fontSize: 15}}>{item.activityDate}</Text>
+                <Text style={{textAlign: 'left', marginTop:5,color: '#999999', fontSize: 15}}>已有{item.activityNum}人参加活动</Text>
+            </View>
+        </TouchableOpacity>)
     };
     goReportMatter() {
         this.navigate('MyAddressWithTab')

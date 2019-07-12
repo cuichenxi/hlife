@@ -23,7 +23,7 @@ export default class ElectronicKey extends BaseComponent{
         );
     }
     _renderRowView(rowData){
-        return(<TouchableView onPress={() => {this.goBack(rowData)}}>
+        return(<TouchableView onPress={() => {this.makeElectronicKeyRequest(rowData.id)}}>
             <View style={{justifyContent: 'center',alignItems:'flex-start',height:40,width: '100%',backgroundColor:'#fff',paddingLeft:15}}>
                 <Text>{rowData.name}</Text>
             </View>
@@ -31,7 +31,7 @@ export default class ElectronicKey extends BaseComponent{
     }
 
     makeRemoteRequest(page = 1, callback) {
-        let param = {statusBODY: this.state.index, page: page - 1, pageSize: PAGE_SIZE};
+        let param = { page: page - 1, pageSize: PAGE_SIZE};
 
         Request.post('/api/steward/lockList',param,
             {
@@ -45,6 +45,25 @@ export default class ElectronicKey extends BaseComponent{
             }
         }).catch(err => {
             callback(null, {emptyTitle: err})
+        }).done(() => {
+            this.hideLoading()
+        })
+    }
+    makeElectronicKeyRequest(lockId) {
+        let param = {lockId: lockId};
+
+        Request.post('/api/steward/electronicKey',param,
+            {
+                mock: false,
+                mockId: 1095629,
+            }).then(rep => {
+            if (rep.code == 0 && rep.data) {
+                this.navigate('TrafficPermit', {data: rep.data,fromElectronKey:true})
+            } else {
+                this.showShort(rep.message)
+            }
+        }).catch(err => {
+
         }).done(() => {
             this.hideLoading()
         })

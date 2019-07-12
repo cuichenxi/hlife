@@ -21,7 +21,6 @@ export default class PaymentVerification extends BaseComponent{
             authState: '显示请求的状态',
             codeRequesting:false,
             password: '',
-            type:5
         }
     }
 
@@ -64,7 +63,7 @@ export default class PaymentVerification extends BaseComponent{
                         }}
                     />
                     <View style={{
-                        height: 35, justifyContent: 'center',
+                        height: 35, justifyContent: 'center', marginRight: 10
                     }}>
                         <CountDownButton
                             executeFunc={(shouldStartCounting)=>{
@@ -92,7 +91,6 @@ export default class PaymentVerification extends BaseComponent{
                         style={styles.loginInput}
                         underlineColorAndroid="transparent"
                         placeholder='请设置你新的支付密码'
-                        // keyboardType='numeric'
                         maxLength={26}
                         secureTextEntry={true}
                         onChangeText={(value) =>{
@@ -141,7 +139,6 @@ export default class PaymentVerification extends BaseComponent{
                 mock: false,
                 mockId: 1089766,
             }).then(rep => {
-            let requestSucc = true
             this.setState({
                 authState: `验证码获取${rep.code===0?'成功':'失败'}`,
                 codeRequesting:false

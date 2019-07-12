@@ -21,7 +21,7 @@ export default class IntegralDetailView extends BaseView {
     }
 
     makeRemoteRequest(page = 1, callback) {
-        let param = {statusBODY: this.state.index, page: page - 1, pageSize: PAGE_SIZE};
+        let param = { page: page - 1, pageSize: PAGE_SIZE};
 
         console.log('==========')
         console.log(this.props)
