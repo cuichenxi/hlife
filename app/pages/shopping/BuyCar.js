@@ -40,8 +40,13 @@ export default class Index extends BaseComponent {
         var _goodsList =[]
         Object.assign(_goodsList, goodsList);
         _goodsList.reverse();
+        var list =[]
+        _goodsList.map((item) => {
+            item.select = false;
+            list.push(item);
+        });
         this.setState({
-            goodsList: _goodsList
+            goodsList: list
         })
     }
 
@@ -204,7 +209,7 @@ export default class Index extends BaseComponent {
         return (
             <View style={{flex: 1}}>
                 <FlatList
-                    style={{flex: 1}}
+                    style={{flex: 1, marginBottom: 50}}
                     data={this.state.goodsList}
                     ListEmptyComponent={this._createEmptyView}
                     ItemSeparatorComponent={this._separator}
@@ -265,14 +270,17 @@ export default class Index extends BaseComponent {
                                        if (this.state.isEdit) {
                                            var list =[]
                                            this.state.goodsList.map((item) => {
-                                               if (item.select) {
+                                               if (!item.select) {
                                                    list.push(item);
                                                }
                                            });
                                            this.setState({
-                                               goodsList: list
+                                               goodsList: list.length == 0 ? null : list
                                            })
+                                           BuyCarStore.clear();
                                            BuyCarStore.save(list);
+                                           console.debug(JSON.stringify(list));
+                                           this.showShort('删除成功');
                                        } else {
                                            this.onSubmit()
                                        }
@@ -291,9 +299,9 @@ export default class Index extends BaseComponent {
      */
     _createEmptyView() {
         return (
-            <View style={{height: '100%', alignItems: 'center', justifyContent: 'center'}}>
+            <View style={{height: '100%', marginTop: 160, alignItems: 'center', justifyContent: 'center'}}>
                 <Text style={{fontSize: 16}}>
-
+                    暂无商品
                 </Text>
             </View>
         );

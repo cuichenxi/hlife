@@ -260,6 +260,7 @@ class BaseComponent extends React.Component {
             return true;
         }
         if (!this.canBack()) {
+            this.onLeftPress()
             return true;
         }
         if (this.canExitApp()) {

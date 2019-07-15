@@ -177,7 +177,7 @@ export default class Housekeeper extends BaseComponent {
     _render() {
         let activities = this.state.activities;
         return (
-            <View style={{flex:1}}>
+            <View style={{flex: 1}}>
                 <ScrollView style={styles.container} refreshControl={
                     <RefreshControl
                         refreshing={this.state.refreshing}
@@ -187,15 +187,16 @@ export default class Housekeeper extends BaseComponent {
                         {this._renderGridView()}
                         {this._rendCardView()}
                         <View style={[styles.titleLine, {marginTop: 5}]}>
-                            <Image style={{width:16,height:16}} source={require('../../img/icon_xqhd.png')}/>
-                            <Text style={{fontSize: 16, marginLeft:5,color: CommonStyle.color_333}}>小区活动</Text>
+                            <Image style={{width: 16, height: 16}} source={require('../../img/icon_xqhd.png')}/>
+                            <Text style={{fontSize: 16, marginLeft: 5, color: CommonStyle.color_333}}>小区活动</Text>
                         </View>
                         <View>
                             <GiftedListView
                                 style={styles.container}
                                 rowView={this._renderBottomItem.bind(this)}
                                 onFetch={this._onFetch.bind(this)}
-                                loadMore={true}
+                                loadMore={false}
+                                pagination={false}
                                 renderSeparator={() => {
                                     return (null);
                                 }}
