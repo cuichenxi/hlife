@@ -16,7 +16,6 @@ class BaseComponent extends React.Component {
         rightTitle: '',
         headerLeft: null,
         gesturesEnabled: true
-
     });
 
     constructor(props) {
@@ -35,6 +34,7 @@ class BaseComponent extends React.Component {
 
 
     componentWillMount() {
+
     }
 
     componentWillUpdate() {
@@ -66,8 +66,7 @@ class BaseComponent extends React.Component {
         this.onHide();
     }
     onDidBlur(payload) {
-        // console.debug('didBlur', payload);
-        this.onUnload();
+
     }
 
     componentWillUnmount() {
@@ -76,6 +75,10 @@ class BaseComponent extends React.Component {
         this.removeListener('didFocus');
         this.removeListener('willBlur');
         this.removeListener('didBlur');
+        if (this.deviceEventEmitter) {
+            this.deviceEventEmitter.remove();
+        }
+        this.onUnload();
     }
 
     addListener = (eventName,listener) => {
@@ -178,7 +181,7 @@ class BaseComponent extends React.Component {
     }
 
     registerCallBack(eventType ,callback){
-        DeviceEventEmitter.addListener(eventType, (param) => {
+        this.deviceEventEmitter = DeviceEventEmitter.addListener(eventType, (param) => {
             if (callback) {
                 callback(param)
             }
@@ -305,8 +308,9 @@ class BaseComponent extends React.Component {
             <View style={[styles.baseContainer, that.props.style]}>
                 {that.state.hideHeader ? null : this.renderNavigationBar()}
                 {that.state.inSideLoading ? <LoadingView loadingtext={that.state.loadingText}/> : this._render()}
-                {that.state.isLoading ?
-                    <Loading loadProps={{visible: that.state.isLoading, loadingText: that.state.loadingText}}/> : null}
+                {that.state.isLoading ?<Loading loadProps={{visible: that.state.isLoading, loadingText: that.state.loadingText, onRequestClose:() => {
+                    this.hideLoading()
+                }}}/> : null}
             </View>
         );
     }
@@ -318,5 +322,4 @@ const styles = StyleSheet.create({
         backgroundColor: CommonStyle.bgColor
     }
 })
-
 export {BaseComponent};

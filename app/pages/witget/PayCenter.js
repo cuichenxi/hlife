@@ -120,19 +120,6 @@ export default class PayCenter extends BaseComponent {
             from: PAY_FROM_CREATE_ORDER,
             password: 12345678
         }
-    }
-
-    onReady(e) {
-        let userInfo = UserStore.get();
-        this.setState({
-            id: e.id,
-            orderno: e.orderno,
-            totalPrice: e.totalPrice,
-            from: e.from,
-            balance: userInfo.balance,
-            type: e.from == PAY_FROM_WALLET ? 2 : 1,
-            orderDetailList: e.orderDetailList
-        })
         var that = this;
         WeChat.addListener(
             'PayReq.Resp',
@@ -149,6 +136,22 @@ export default class PayCenter extends BaseComponent {
                 }
             }
         );
+    }
+
+    onReady(e) {
+        let userInfo = UserStore.get();
+        this.setState({
+            id: e.id,
+            orderno: e.orderno,
+            totalPrice: e.totalPrice,
+            from: e.from,
+            balance: userInfo.balance,
+            type: e.from == PAY_FROM_WALLET ? 2 : 1,
+            orderDetailList: e.orderDetailList
+        })
+    }
+    onUnload(){
+        WeChat.removeAllListeners();
     }
     clearBuyCar(){
         if (this.state.orderDetailList) {

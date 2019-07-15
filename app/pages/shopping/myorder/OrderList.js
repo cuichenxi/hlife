@@ -24,6 +24,7 @@ export default class OrderList extends BaseComponent {
             {title: '订单取消'},
             {title: '支付成功'},
             {title: '支付失败'},
+            {title: '已发货'},
             {title: '申请退款'},
             {title: '退款完成'},
             {title: '订单完成'},
