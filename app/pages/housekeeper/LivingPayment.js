@@ -32,7 +32,6 @@ export default class LivingPayment extends BaseComponent {
             isAllChecked: false,
             communityinfo: '',
             isLoading: false,
-            isRefresh: true,
             rows: [],
             items: 0,
             totalPrice: 0,
@@ -41,13 +40,12 @@ export default class LivingPayment extends BaseComponent {
             endDate: undefined,
             endDatetime: '',
             startDate: undefined,
+            checkedItems:[]
         }
     }
 
     onReady() {
-        /*if (this.state.endDate) {
-            this.makeRemoteRequest()
-        }*/
+
     }
 
     refreshing = () => {
@@ -55,7 +53,7 @@ export default class LivingPayment extends BaseComponent {
     }
 
     _render() {
-        const {communityinfo, rows, items, totalPrice, defaultColor, enabledBt, endDate} = this.state
+        const {communityinfo, rows, items, totalPrice, defaultColor, enabledBt, endDate,checkedItems} = this.state
         if (endDate){
             return (
                 <View style={styles.container}>
@@ -75,7 +73,7 @@ export default class LivingPayment extends BaseComponent {
                     </View>
                     <ScrollView style={{
                         flex: 1,
-                        height: 1000,
+                        // height: 1000,
                         flexDirection: 'column'
                     }} >
 
@@ -98,18 +96,22 @@ export default class LivingPayment extends BaseComponent {
                             <CheckBox
                                 style={styles.checkBox}
                                 onClick={() => {
-                                    var datas = this.state.rows
+                                    var datas = rows
                                     if (datas.length == 0) {
                                         return
                                     }
                                     var totalPrice = 0
+                                    var checkedItems=[]
+
                                     for (var data of datas) {
                                         if (!this.state.isAllChecked) {
                                             data.checked = true
                                         } else {
                                             data.checked = false
                                         }
-                                        totalPrice = data.totolprice + totalPrice
+                                        totalPrice = data.fee + totalPrice
+                                        checkedItems = checkedItems.push(data.fee)
+
                                     }
                                     if (!this.state.isAllChecked) {
                                         this.setState({
@@ -118,7 +120,8 @@ export default class LivingPayment extends BaseComponent {
                                             items: datas.length,
                                             totalPrice: totalPrice,
                                             defaultColor: CommonStyle.themeColor,
-                                            enabledBt: true
+                                            enabledBt: true,
+                                            checkedItems:checkedItems
                                         })
                                     } else {
                                         this.setState({
@@ -127,7 +130,8 @@ export default class LivingPayment extends BaseComponent {
                                             items: 0,
                                             totalPrice: 0,
                                             defaultColor: CommonStyle.drakGray,
-                                            enabledBt: false
+                                            enabledBt: false,
+                                            checkedItems:[]
                                         })
                                     }
 
@@ -253,14 +257,14 @@ export default class LivingPayment extends BaseComponent {
             startDate: this.dateToString(new Date())
         };
 
-        Request.post('/api/fee/list', param,
+        Request.post('/api/fee/totallist', param,
             {
                 mock: false,
                 mockId: 1125376,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
                 var datas = []
-                for (var row of rep.data.rows) {
+                for (var row of rep.data) {
                     row.checked = false
                     datas.push(row)
                 }
@@ -325,7 +329,7 @@ export default class LivingPayment extends BaseComponent {
                             this.setState({
                                 items: ++this.state.items,
                                 rows: datas,
-                                totalPrice: item.item.totolprice + this.state.totalPrice,
+                                totalPrice: item.item.fee + this.state.totalPrice,
                                 defaultColor: defaultColor,
                                 enabledBt: enabledBt,
                                 isAllChecked: isAllChecked
@@ -334,7 +338,7 @@ export default class LivingPayment extends BaseComponent {
                             this.setState({
                                 items: --this.state.items,
                                 rows: datas,
-                                totalPrice: this.state.totalPrice - item.item.totolprice,
+                                totalPrice: this.state.totalPrice - item.item.fee,
                                 defaultColor: defaultColor,
                                 enabledBt: enabledBt,
                                 isAllChecked: isAllChecked
@@ -353,11 +357,11 @@ export default class LivingPayment extends BaseComponent {
                         textAlign: 'center',
                         color: CommonStyle.textBlockColor,
                         fontSize: 14
-                    }}>{item.item.yearList.id}</Text>
-                    <Text style={{textAlign: 'center', color: CommonStyle.textBlockColor, fontSize: 17}}>待缴费18项</Text>
+                    }}>{item.item.year}</Text>
+                    <Text style={{textAlign: 'center', color: CommonStyle.textBlockColor, fontSize: 17}}>待缴费{item.item.months}项</Text>
                 </View>
                 <TouchableView onPress={() => {
-                    this.navigate("LivingPaymentDetail", {yearId: item.item.yearList.id})
+                    this.navigate("LivingPaymentDetail", {year: item.item.year})
                 }}>
                     <Text style={{
                         color: CommonStyle.themeColor,

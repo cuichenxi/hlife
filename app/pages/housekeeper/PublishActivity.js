@@ -8,6 +8,9 @@ import ImagePicker from "react-native-image-crop-picker";
 import Request from "../../utils/Request";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import List from "antd-mobile-rn/es/list/index.native";
+import DatePicker from "antd-mobile-rn/es/date-picker/index.native";
+import Picker from "antd-mobile-rn/es/picker/index.native";
 // 一些常量设置
 let {width, height} = Dimensions.get('window')
 const Font = {
@@ -38,7 +41,9 @@ export default class PublishActivity extends BaseComponent {
             uploadImages:[],
             activityName:'',
             activityDate:'',
-            activityAddress:''
+            activityAddress:'',
+            date: undefined,
+            datetime: '',
         }
     }
 
@@ -49,31 +54,41 @@ export default class PublishActivity extends BaseComponent {
     _render() {
         const {images,activityName,activityDate,activityAddress} = this.state
         return (
-            <View style={{backgroundColor:'#fff',flex: 1}}>
-                <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
-                <View style={styles.inputRow}>
+            <View style={{flex: 1}}>
+                <View style={[styles.inputRow,styles.marginTop]}>
                     <Text style={{textAlign: 'center'}}>活动标题</Text>
                     <TextInput
                         ref="tax_file_num"
                         style={styles.inputItem}
                         underlineColorAndroid="transparent"
-                        placeholder=''
+                        placeholder='请输入活动标题'
+                        maxLength={20}
                         onChangeText={(text) => this.setState({activityName: text})}
                         value={activityName}
                     />
                 </View>
 
                 <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
-                <View style={styles.inputRow}>
-                    <Text style={{textAlign: 'center'}}>活动时间</Text>
-                    <TextInput
-                        ref="tax_file_num"
-                        style={styles.inputItem}
-                        underlineColorAndroid="transparent"
-                        placeholder=''
-                        onChangeText={(text) => this.setState({activityDate: text})}
-                        value={activityDate}
-                    />
+                <View style={{backgroundColor: '#ffffff'}}>
+                    <List>
+                        <DatePicker
+                            title={'选择活动时间'}
+                            value={this.state.date}
+                            mode="date"
+                            minDate={new Date()}
+                            maxDate={new Date(2026, 11, 3)}
+                            onChange={this.onChange}
+                            format="YYYY-MM-DD"
+                            extra=' '
+                            onOk={() => {
+                                this.props.extra = ' '
+                            }}
+                            itemStyle={{alignItems: 'center', justifyContent: 'center'}}
+                        >
+                            <List.Item arrow="horizontal" extra={' '}><Text>活动时间</Text></List.Item>
+                        </DatePicker>
+                    </List>
+
                 </View>
 
                 <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
@@ -83,7 +98,7 @@ export default class PublishActivity extends BaseComponent {
                         ref="tax_file_num"
                         style={styles.inputItem}
                         underlineColorAndroid="transparent"
-                        placeholder=''
+                        placeholder='请输入活动地点'
                         onChangeText={(text) => this.setState({activityAddress: text})}
                         value={activityAddress}
                     />
@@ -133,6 +148,27 @@ export default class PublishActivity extends BaseComponent {
 
     _keyExtractor = (item, index) => {
         return item.uri + index
+    }
+
+    onChange = (value) => {
+        console.log(value)
+        this.setState({datetime: this.dateToString(value)})
+        this.setState({date: value});
+    }
+
+    dateToString(date) {
+        var year = date.getFullYear();
+        var month = (date.getMonth() + 1).toString();
+        var day = (date.getDate()).toString();
+        if (month.length == 1) {
+            month = "0" + month;
+        }
+        if (day.length == 1) {
+            day = "0" + day;
+        }
+        var dateTime = year + "-" + month + "-" + day;
+        console.log(dateTime)
+        return dateTime;
     }
 
     renderRow(rowData) {
@@ -325,15 +361,25 @@ const styles = StyleSheet.create({
     },
     inputItem: {
         height: 40,
-        paddingLeft: 10,
+        // paddingLeft: 10,
+        marginLeft:10,
         flex: 1,
         fontSize: 16,
+        alignItems:'flex-end',
+        justifyContent:'flex-end',
+        padding: 0,
+        textAlign:'right',
+        marginRight: 10
     },
     lineStyle: {
         height: 0.5, backgroundColor: CommonStyle.lineColor, width: '100%'
     },
     inputRow: {
-        flexDirection: 'row', height: 40, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center',
-        paddingLeft: 15
+        flexDirection: 'row', height: 40, backgroundColor: '#fff', justifyContent: 'space-between', alignItems: 'center',
+        paddingLeft: 15,
+        width:'100%'
+    },
+    marginTop:{
+        marginTop:10
     }
 });

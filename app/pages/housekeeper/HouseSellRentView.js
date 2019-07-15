@@ -62,7 +62,7 @@ export default class HouseSellRentView extends BaseView {
                             marginLeft: 10,
                         }}
                     />
-                    <View style={{ flex:1,marginLeft: 10, justifyContent: 'space-between',marginRight:30}}>
+                    <View style={{ flex:1,marginLeft: 15, justifyContent: 'space-between',marginRight:30}}>
 
                         <Text style={{
                             fontSize: 15, color: '#333'
