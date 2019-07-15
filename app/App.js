@@ -88,6 +88,7 @@ import Main from "./pages/main";
 import RechargeRecord from "./pages/user/RechargeRecord";
 import PublishActivity from "./pages/housekeeper/PublishActivity";
 import RedPacketExplain from "./pages/user/redpacket/RedPacketExplain";
+import RepairOrderDetail from "./pages/user/RepairOrderDetail";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -247,6 +248,7 @@ const App = createStackNavigator(
         RechargeRecord:{screen:RechargeRecord},//充值记录
         PublishActivity:{screen:PublishActivity},//发布活动
         RedPacketExplain:{screen:RedPacketExplain},//红包说明
+        RepairOrderDetail:{screen:RepairOrderDetail},//工单记录详情
     },
     {
         // initialRouteName: 'Splash',

@@ -59,7 +59,7 @@ export default class RepairRecordList extends BaseComponent{
         const statusBgColor = item.statusBgColor;
         return (
             <TouchableView onPress={() => {
-                // this.navigate("HouseholdServer", {data: item})
+                this.navigate("RepairOrderDetail", item)
             }}>
                 <View style={{
                     backgroundColor: 'white',
