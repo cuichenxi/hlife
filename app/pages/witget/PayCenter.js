@@ -15,6 +15,7 @@ import TouchableView from "../../components/TouchableView";
 import {CommonStyle} from "../../common/CommonStyle";
 import util from "../../utils/util";
 import UserStore from "../../store/UserStore";
+import BuyCarStore from "../../store/BuyCarStore";
 
 var {width} = Dimensions.get('window');
 /**
@@ -62,7 +63,9 @@ export default class PayCenter extends BaseComponent {
                     '确定稍后支付',
                     '下单后15分钟内未支付成功,订单将被关闭,请尽快完成支付',
                     [
-                        {text: '稍后支付', onPress: () => this.goBack()},
+                        {text: '稍后支付', onPress: () => {
+                                NavigationUtil.resetGo(this.props.navigation, ['Home', 'OrderDetail'], {id: this.state.id});
+                            }},
                         {text: '继续支付', onPress: () => console.log('OK Pressed')},
                     ],
                     { cancelable: true }
@@ -127,7 +130,8 @@ export default class PayCenter extends BaseComponent {
             totalPrice: e.totalPrice,
             from: e.from,
             balance: userInfo.balance,
-            type: e.from == PAY_FROM_WALLET ? 2 : 1
+            type: e.from == PAY_FROM_WALLET ? 2 : 1,
+            orderDetailList: e.orderDetailList
         })
         var that = this;
         WeChat.addListener(
@@ -146,8 +150,16 @@ export default class PayCenter extends BaseComponent {
             }
         );
     }
+    clearBuyCar(){
+        if (this.state.orderDetailList) {
+            this.state.orderDetailList.map((item)=>{
+                BuyCarStore.remove(item.goodId);
+            })
+        }
+    }
 
     paySuccess() {
+        this.clearBuyCar();
         switch (this.state.from) {
             case PAY_FROM_CREATE_ORDER:
                 Alert.alert(

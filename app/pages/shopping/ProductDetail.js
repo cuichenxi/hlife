@@ -350,7 +350,7 @@ export default class ProductDetail extends BaseComponent {
                         //     BuyCarStore.remove(data.id);
                         // } else {
                             data.num = 1;
-                            BuyCarStore.save([data]);
+                            BuyCarStore.saveItem(data);
                             this.showShort('已加入购物车');
                         // }
                     }}>

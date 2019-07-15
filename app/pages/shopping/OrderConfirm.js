@@ -99,6 +99,7 @@ export default class OrderConfirm extends BaseComponent {
                     id: rep.data.id,
                     totalPrice:rep.data.totalPrice,
                     orderno:rep.data.orderno,
+                    orderDetailList: orderDetailList,
                     from: PAY_FROM_CREATE_ORDER})
             } else {
                 this.showShort(rep.message);
@@ -142,7 +143,7 @@ export default class OrderConfirm extends BaseComponent {
             })
         }
         return (
-            <View>
+            <KeyboardAvoidingView style={{flex: 1}} behavior="padding">
                 <ScrollView style={{
                     marginTop: 10,
                     marginBottom:50
@@ -366,7 +367,7 @@ export default class OrderConfirm extends BaseComponent {
                         <Text style={{fontSize: 14, color: '#fff'}}>立即下单</Text>
                     </TouchableView>
                 </View>
-            </View>
+            </KeyboardAvoidingView>
         );
 
 

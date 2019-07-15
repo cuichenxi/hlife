@@ -29,6 +29,27 @@ export default BuyCarStore = {
         console.log('get buyCar:' + JSON.stringify(buyCar));
         return buyCar;
     },
+
+    saveItem(data){
+        buyCar = util.isArray(buyCar) ? buyCar : [];
+
+        var _list = [];
+        var hasItem = false;
+        buyCar.map((item) => {
+            if (item.id === data.id) {
+                item.num = item.num + 1;
+                hasItem = true;
+            }
+            _list.push(item);
+        });
+        if (!hasItem) {
+            data.num = 1;
+            _list.push(data);
+        }
+        buyCar = _list;
+        store.save(buy_car_key, buyCar);
+        console.log('save buyCar:' + JSON.stringify(buyCar));
+    },
     save(data = []) {
         buyCar = util.isArray(buyCar) ? buyCar : [];
         buyCar = buyCar.concat(data)

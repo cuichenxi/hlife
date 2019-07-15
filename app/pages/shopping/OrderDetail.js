@@ -39,7 +39,7 @@ export default class OrderDetail extends BaseComponent {
 
     requestData() {
         let param = {id: this.state.id};
-        this.showInDLoading()
+        this.showLoading()
         Request.post('/api/goods/orderInfo', param).then(rep => {
             if (rep.code == 0 && rep.data) {
                 this.setState({
@@ -73,6 +73,24 @@ export default class OrderDetail extends BaseComponent {
 
     onPay() {
         this.navigate('PayCenter', {id: this.state.id, from: PAY_FROM_ORDER_DETAIL})
+    }
+    onRefund() {
+        let param = {orderId: this.state.data.id,orderNo:this.state.data.orderno};
+        this.showLoading('申请退款中')
+        setTimeout(() => {
+            Request.post('/api/pay/refund', param).then(rep => {
+                if (rep.code == 0 && rep.data) {
+                    this.requestData()
+                } else {
+                    this.showShort(rep.message);
+                }
+            }).catch(err => {
+
+            }).done(() => {
+                this.hideLoading()
+                this.setState({refreshing: false});
+            })
+        }, 1000);
     }
 
     _render() {
@@ -194,8 +212,7 @@ export default class OrderDetail extends BaseComponent {
                         justifyContent: 'center',
                         backgroundColor: CommonStyle.tomato,
                     }} onPress={() => {
-                        // this.onPay()
-                        this.showShort("申请退款")
+                        this.onRefund()
                     }}
                     >
                         <Text style={{fontSize: 16, color: '#fff'}}>申请退款</Text>

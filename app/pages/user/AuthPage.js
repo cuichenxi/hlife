@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+    Alert,
     Dimensions,
     Image,
     ImageBackground,
@@ -23,6 +24,7 @@ import QIcon from "../../components/icon";
 import {CALL_BACK_PUBLISH_HOUSE} from "../../constants/ActionTypes";
 import UserStore from "../../store/UserStore";
 import Modal from "antd-mobile-rn/es/modal/index.native";
+import NavigationUtil from "../../utils/NavigationUtil";
 
 
 var {width, height} = Dimensions.get('window');
@@ -108,16 +110,23 @@ export default class AuthPage extends BaseComponent {
         const {address} = this.state
         console.log(address)
         var {isAuth} = UserStore.get();
+
         var authText = '提交审核'
+        var warmAuth = '请提交认证';
         if (isAuth === 0){
             authText = '提交审核'
+            warmAuth = '请提交认证';
         } else if (isAuth === 1){
             authText = '重新提交审核'
+            warmAuth='你已经完成认证'
         } else if (isAuth === 2){
-            authText = '提交审核'
+            authText = '提交审核';
+            warmAuth = '你已提交认证,耐心等待管理员审核';
         } else if (isAuth === 3){
             authText = '提交审核'
+            warmAuth = '你的认证失败,重新提交';
         }
+
         return (
             <View style={styles.container}>
                 <KeyboardAvoidingView behavior='position'>
@@ -133,6 +142,9 @@ export default class AuthPage extends BaseComponent {
                         {this._renderHeader()}
                     </View>
 
+                    <View style={{backgroundColor: CommonStyle.yellow,width:'100%',height:30, justifyContent: 'center',paddingHorizontal:10}}>
+                        <Text style={{fontSize:13, color: '#333'}}>{warmAuth}</Text>
+                    </View>
 
                     <View style={{
                         backgroundColor: '#ffffff',
@@ -369,6 +381,14 @@ export default class AuthPage extends BaseComponent {
         var {isAuth} = UserStore.get();
         if (isAuth === 2) {
             this.showShort('认证中');
+            Alert.alert(
+                '提示',
+                '你已提交认证,管理员审核中,请耐心等待',
+                [
+                    {text: '确定', onPress: () => {
+
+                        }
+                    }],{cancelable: true});
             return;
         }
 
