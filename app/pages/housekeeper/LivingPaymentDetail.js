@@ -5,7 +5,6 @@ import {CommonStyle} from "../../common/CommonStyle";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import TouchableView from "../../components/TouchableView";
-import GiftedListView from "../../components/refreshList/GiftedListView";
 import {PAGE_SIZE} from "../../constants/AppConstants";
 import Request from "../../utils/Request";
 import CheckBox from "../../components/Checkbox";
@@ -27,15 +26,16 @@ export default class LivingPaymentDetail extends  BaseComponent{
         super(props);
         this.state = {
             isOneChecked:false,
-            isTwoChecked:false,
-            isThreeChecked:false,
             communityinfo:'',
 
             rows:[],
             totalPrice: 0,
             defaultColor: CommonStyle.drakGray,
             enabledBt: false,
-            items:0
+            items:0,
+            year:this.props.navigation.state.params.year,
+            isAllChecked: false,
+            isLoading: false,
         }
     }
 
@@ -44,7 +44,7 @@ export default class LivingPaymentDetail extends  BaseComponent{
     }
 
     _render() {
-        const {rows,communityinfo,totalPrice, defaultColor,items } = this.state
+        const {communityinfo, rows, items, totalPrice, defaultColor } = this.state
         return (
             <View style={styles.container}>
                 <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
@@ -62,18 +62,12 @@ export default class LivingPaymentDetail extends  BaseComponent{
                 </View>
                 <ScrollView style={{
                     flex: 1,
-                    height: 1000,
                     flexDirection: 'column'
-                }} refreshControl={
-                    <RefreshControl
-                        refreshing={this.state.refreshing}
-                        onRefresh={this._onRefresh}
-                    />}>
+                }}>
 
                     <FlatList ref={(flatList) => this._flatList = flatList}
                               ItemSeparatorComponent={this._separator}
-                              renderItem={this._renderItem}
-                              // ListEmptyComponent={this._createEmptyView}
+                              renderItem={this._renderItem.bind(this)}
                               refreshing={false}
                               onEndReachedThreshold={0.1}
                               data={rows}>
@@ -86,11 +80,40 @@ export default class LivingPaymentDetail extends  BaseComponent{
                         <CheckBox
                             style={styles.checkBox}
                             onClick={()=>{
-                                this.setState({
-                                    isOneChecked:!this.state.isOneChecked
-                                })
+                                var datas = rows
+                                if (datas.length == 0) {
+                                    return
+                                }
+                                var totalPrice = 0
+                                for (var data of datas) {
+                                    if (!this.state.isAllChecked) {
+                                        data.checked = true
+                                    } else {
+                                        data.checked = false
+                                    }
+                                    totalPrice = data.totalMoney + totalPrice
+                                }
+                                if (!this.state.isAllChecked) {
+                                    this.setState({
+                                        rows: datas,
+                                        isAllChecked: !this.state.isAllChecked,
+                                        items: datas.length,
+                                        totalPrice: totalPrice,
+                                        defaultColor: CommonStyle.themeColor,
+                                        enabledBt: true
+                                    })
+                                } else {
+                                    this.setState({
+                                        rows: datas,
+                                        isAllChecked: !this.state.isAllChecked,
+                                        items: 0,
+                                        totalPrice: 0,
+                                        defaultColor: CommonStyle.drakGray,
+                                        enabledBt: false
+                                    })
+                                }
                             }}
-                            isChecked={this.state.isOneChecked}
+                            isChecked={this.state.isAllChecked}
                             rightText={'全选'}
                             rightTextStyle = {styles.text}
                             checkedImage = {<Image source = {require('../../img/icon_buy_select.png')} style = {styles.image}/>}
@@ -127,18 +150,25 @@ export default class LivingPaymentDetail extends  BaseComponent{
     }
 
     makeRemoteRequest(page = 1) {
-        let param = { page: page - 1, pageSize: PAGE_SIZE};
+        let param = { page: page - 1, pageSize: PAGE_SIZE,startDate:this.state.year+'-01-01',endDate:this.state.year+'-12-31'};
 
-        Request.post('api/steward/propertyfeepaylist', param,
+        Request.post('/api/fee/list', param,
             {
-                mock: true,
+                mock: false,
                 mockId: 1125376,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
+                var datas = []
+                for (var row of rep.data) {
+                    row.checked = false
+                    datas.push(row)
+                }
+                console.log(datas)
                 this.setState({
-                    communityinfo:rep.data.communityinfo,
-                    rows:rep.data.rows
+                    rows: datas,
+                    communityinfo: rep.data.communityinfo
                 })
+                // callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             }
         }).catch(err => {
 
@@ -148,7 +178,6 @@ export default class LivingPaymentDetail extends  BaseComponent{
 
 
     _renderItem =(item)=> {
-        var isCheck = false
         return (
             <TouchableView onPress={()=>{
                 this.navigate("BillDetail")
@@ -165,18 +194,63 @@ export default class LivingPaymentDetail extends  BaseComponent{
                     <CheckBox
                         style={styles.checkBox}
                         onClick={()=>{
-                            this.setState({
-                                isOneChecked:!this.state.isOneChecked
-                            })
-                            isCheck = !isCheck
+
+                            var datas = this.state.rows
+                            datas[item.index].checked = !item.item.checked
+                            var defaultColor = CommonStyle.drakGray
+                            var enabledBt = false
+                            var isAllChecked = false
+                            var isSomeState = false
+
+                            for (var data of datas) {
+                                if (data.checked) {
+                                    defaultColor = CommonStyle.themeColor
+                                    enabledBt = true
+                                }
+                            }
+                            for (var i = 0; i < datas.length; i++) {
+                                if (datas[0].checked !== datas[i].checked) {
+                                    isSomeState = false
+                                    isAllChecked = false
+                                } else if (datas[0].checked === datas[i].checked) {
+                                    if (datas[0].checked) {
+                                        isAllChecked = true
+                                    } else {
+                                        isAllChecked = false
+                                    }
+                                    isSomeState = true
+                                }
+                            }
+
+                            if (datas[item.index].checked) {
+                                this.setState({
+                                    items: ++this.state.items,
+                                    rows: datas,
+                                    totalPrice: item.item.totalMoney + this.state.totalPrice,
+                                    defaultColor: defaultColor,
+                                    enabledBt: enabledBt,
+                                    isAllChecked: isAllChecked
+                                })
+                            } else {
+                                this.setState({
+                                    items: --this.state.items,
+                                    rows: datas,
+                                    totalPrice: this.state.totalPrice - item.item.totalMoney,
+                                    defaultColor: defaultColor,
+                                    enabledBt: enabledBt,
+                                    isAllChecked: isAllChecked
+                                })
+                            }
+
+                            console.log(item.item.checked)
                         }}
-                        isChecked={this.state.isOneChecked}
+                        isChecked={item.item.checked}
                         rightText={''}
-                        rightTextStyle = {styles.text}
-                        checkedImage = {<Image source = {require('../../img/icon_buy_select.png')} style = {styles.image}/>}
-                        unCheckedImage = {<Image source = {require('../../img/icon_buy_unselect.png')} style = {styles.image}/>}
+                        rightTextStyle={styles.text}
+                        checkedImage={<Image source={require('../../img/icon_buy_select.png')} style={styles.image}/>}
+                        unCheckedImage={<Image source={require('../../img/icon_buy_unselect.png')} style={styles.image}/>}
                     />
-                    <Text style={{paddingLeft: 5,color:'#333',fontSize:15}}>2019-06</Text>
+                    <Text style={{paddingLeft: 5,color:'#333',fontSize:15}}>{item.item.yearMonth}</Text>
                 </View>
 
                 <View style={{
@@ -190,7 +264,7 @@ export default class LivingPaymentDetail extends  BaseComponent{
                         color: CommonStyle.themeColor,
                         padding: 3,
                         fontSize: 20
-                    }}>¥100</Text>
+                    }}>¥{item.item.totalMoney}</Text>
                     <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
                                    color="#bbb"/>
                 </View>

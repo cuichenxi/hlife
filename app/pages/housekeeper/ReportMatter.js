@@ -256,6 +256,7 @@ export default class ReportMatter extends BaseComponent {
     }
 
     commitInfo() {
+
         Keyboard.dismiss();
         let {address,uploadImages,contentValue,phone,titleInput,repairType} = this.state;
         if (!titleInput.length) {
@@ -278,6 +279,7 @@ export default class ReportMatter extends BaseComponent {
 
         let param = {address:address,imageList:uploadImages,intro:contentValue,phone:phone,repairtype:repairType,title:titleInput };
 
+        this.showDLoading()
         console.log(param)
         Request.post('/api/steward/repairs', param,
             {
@@ -291,7 +293,7 @@ export default class ReportMatter extends BaseComponent {
         }).catch(err => {
 
         }).done(() => {
-            // this.hideLoading();
+            this.hideLoading();
         })
     }
 

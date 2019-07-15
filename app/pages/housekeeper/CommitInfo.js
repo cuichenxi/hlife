@@ -233,6 +233,7 @@ export default class CommitInfo extends BaseComponent {
         let param = {content: contentValue, type:type };
 
         console.log(param)
+        this.showDLoading()
         Request.post(commitType === COMPLAINTPRAISE ?'/api/steward/complaintpraise':'/api/steward/consultsuggest', param,
             {
                 mock: false,
@@ -244,7 +245,7 @@ export default class CommitInfo extends BaseComponent {
         }).catch(err => {
 
         }).done(() => {
-            // this.hideLoading();
+            this.hideLoading();
         })
     }
 
