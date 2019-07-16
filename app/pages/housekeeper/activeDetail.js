@@ -1,6 +1,6 @@
 import {BaseComponent} from "../../components/base/BaseComponent";
 import React from "react";
-import {Dimensions, Image, ScrollView, StyleSheet, Text, View} from "react-native";
+import {Image, ScrollView, StyleSheet, Text, View} from "react-native";
 import {CommonStyle} from "../../common/CommonStyle";
 import TouchableView from "../../components/TouchableView";
 import Request from "../../utils/Request";
@@ -8,7 +8,6 @@ import util from "../../utils/util";
 import Swiper from "react-native-swiper";
 import ImageView from "../../components/ImageView";
 
-let {width, height} = Dimensions.get('window')
 
 export default class Payment extends BaseComponent {
     navigationBarProps() {
@@ -31,6 +30,8 @@ export default class Payment extends BaseComponent {
                 isJoin: '',
                 persons: 0,
                 status: 0,
+                place: '',
+                author: ''
             },
         }
     }
@@ -65,6 +66,7 @@ export default class Payment extends BaseComponent {
     }
 
     onApply() {
+        this.showDLoading()
         Request.post('/api/neighbour/activityJoin', {id: this.state.data.id},
             {
                 mock: false,
@@ -78,7 +80,7 @@ export default class Payment extends BaseComponent {
         }).catch(err => {
 
         }).done(() => {
-
+            this.hideLoading()
         })
     }
 
@@ -88,66 +90,70 @@ export default class Payment extends BaseComponent {
             <View style={{flex: 1}}>
                 <ScrollView style={{
                     flex: 1,
-                    height: 1000,
+                    marginTop: 10,
                     flexDirection: 'column'
                 }}>
                     <View style={{flex: 1, backgroundColor: '#fff'}}>
                         {this._renderBanner()}
                         <View style={{paddingHorizontal: 15, marginTop: 15}}>
-                            <Text style={{fontSize: 14, color: CommonStyle.textBlockColor, flex: 1}}>{data.activityName}</Text>
+                            <Text style={{
+                                fontSize: 14,
+                                color: CommonStyle.textBlockColor,
+                                flex: 1
+                            }}>{data.activityName}</Text>
                             <Text style={{fontSize: 12, color: '#999'}}>{data.activityNum}人已参与</Text>
                         </View>
                         <Text style={{fontSize: 18, color: '#666', padding: 15}}>{data.content}</Text>
-                        {this.state.data.status === 1 ?
-                            <TouchableView style={{
-                                height: 40,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                flex:1,
-                                backgroundColor: CommonStyle.themeColor,
-                                borderRadius: 20,
-                                marginLeft: 50,
-                                marginRight:50
-                            }} onPress={() => {
-                                this.onApply();
-                            }}>
-                                <Text style={{fontSize: 18, color: '#fff', padding: 15}}>报名</Text>
-                            </TouchableView> :
-                            <View style={{
-                                height: 40,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                flex:1,
-                                backgroundColor: CommonStyle.gray,
-                                borderRadius: 20,
-                                marginLeft: 50,
-                                marginRight:50
-                            }} onPress={() => {
-                                this.goBack();
-                            }}>
-                                <Text style={{fontSize: 18, color: '#fff', padding: 15}}>报名已结束</Text>
-                            </View>
-                        }
+
                         <View style={styles.item}>
                             <Text style={styles.text}>发起人</Text>
-                            <View style={{flexDirection:'row'}}>
-                                <Text style={{color:'#999',fontSize:14,marginRight: 6}}></Text>
+                            <View style={{flexDirection: 'row'}}>
+                                <Text style={{color: '#999', fontSize: 14, marginRight: 6}}>{data.author}</Text>
                             </View>
                         </View>
                         <View style={styles.item}>
                             <Text style={styles.text}>活动时间</Text>
-                            <View style={{flexDirection:'row'}}>
-                                <Text style={{color:'#999',fontSize:14,marginRight: 6}}>{data.activityDate}</Text>
+                            <View style={{flexDirection: 'row'}}>
+                                <Text style={{color: '#999', fontSize: 14, marginRight: 6}}>{data.activityDate}</Text>
                             </View>
                         </View>
                         <View style={styles.item}>
                             <Text style={styles.text}>活动地址</Text>
-                            <View style={{flexDirection:'row'}}>
-                                <Text style={{color:'#999',fontSize:14,marginRight: 6}}>{data.activityDate}</Text>
+                            <View style={{flexDirection: 'row'}}>
+                                <Text style={{color: '#999', fontSize: 14, marginRight: 6}}>{data.place}</Text>
                             </View>
                         </View>
 
                     </View>
+
+                    {this.state.data.status === 1 ?
+                        <TouchableView style={{
+                            height: 40,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            flex: 1,
+                            backgroundColor: CommonStyle.themeColor,
+                            borderRadius: 20,
+                            margin: 50,
+                        }} onPress={() => {
+                            this.onApply();
+                        }}>
+                            <Text style={{fontSize: 18, color: '#fff', padding: 15}}>报名</Text>
+                        </TouchableView> :
+                        <View style={{
+                            height: 40,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            flex: 1,
+                            backgroundColor: CommonStyle.gray,
+                            borderRadius: 20,
+                            margin: 50,
+                        }} onPress={() => {
+                            this.goBack();
+                        }}>
+                            <Text style={{fontSize: 18, color: '#fff', padding: 15}}>报名已结束</Text>
+                        </View>
+                    }
 
                 </ScrollView>
 
@@ -168,7 +174,7 @@ export default class Payment extends BaseComponent {
                 {this.state.data.imageUrl.map((banner, i) => {
                     return (
                         <ImageView style={{
-                            height: 300, marginTop: 10, width: '100%',
+                            height: 300, width: '100%',
                             resizeMode: Image.resizeMode.contain,
                         }} source={banner} defaultSource={require("../../img/default_image.png")}></ImageView>
                     );
@@ -183,20 +189,20 @@ export default class Payment extends BaseComponent {
 
 const styles = StyleSheet.create(
     {
-        item:{
+        item: {
             backgroundColor: 'white',
-            height:50,
+            height: 50,
             flexDirection: 'row',
             alignItems: 'center',
-            justifyContent:'space-between',
+            justifyContent: 'space-between',
             paddingLeft: 20,
             paddingRight: 20,
         },
-        itemMarginTop:{
-            marginTop:10
+        itemMarginTop: {
+            marginTop: 10
         },
-        text:{
-            textAlign: 'center', color: CommonStyle.textBlockColor,fontSize:14
+        text: {
+            textAlign: 'center', color: CommonStyle.textBlockColor, fontSize: 14
         },
 
     }

@@ -312,7 +312,7 @@ export default class GuestPassKey extends BaseComponent {
         }
         let param = {name: name, gender: initId, startTime: datetime, lockId: lock.join(''), validTime: min};
 
-        console.log(param)
+        this.showDLoading()
         Request.post('/api/steward/guestpass', param,
             {
                 mock: false,
@@ -326,7 +326,7 @@ export default class GuestPassKey extends BaseComponent {
         }).catch(err => {
 
         }).done(() => {
-            // this.hideLoading();
+            this.hideLoading();
         })
     }
 }

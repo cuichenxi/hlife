@@ -51,6 +51,7 @@ export default class ElectronicKey extends BaseComponent{
     }
     makeElectronicKeyRequest(lockId) {
         let param = {lockId: lockId};
+        this.showDLoading()
 
         Request.post('/api/steward/electronicKey',param,
             {
