@@ -128,7 +128,11 @@ export default class Main extends BaseComponent {
         this.registerCallBack(CALL_BACK_TEST,(e)=>{
             this.showShort(JSON.stringify(e));
         })
+        this.initPush();
+        this.getAD();
+    }
 
+    initPush() {
         if (Platform.OS === 'android') {
             JPushModule.initPush()
             JPushModule.getInfo(map => {
@@ -136,14 +140,14 @@ export default class Main extends BaseComponent {
             })
             JPushModule.notifyJSDidLoad(resultCode => {
                 if (resultCode === 0) {
+
                 }
             })
         } else {
             JPushModule.setupPush()
         }
         // JPushModule.initPush();
-
-        this.receiveCustomMsgListener = map => {
+        JPushModule.addReceiveCustomMsgListener(map => {
             console.log('android extras: ' + JSON.stringify(map));
             /**
              * @param {Object} notification = {
@@ -158,41 +162,45 @@ export default class Main extends BaseComponent {
      *    'subtitle': String    // 子标题 （iOS10+ Only）
 	 *  }
              */
-            JPushModule.sendLocalNotification({
-
-            });
+            JPushModule.sendLocalNotification({});
             JPushModule.setBadge(1, success => {
             });
-        }
-
-        JPushModule.addReceiveCustomMsgListener(this.receiveCustomMsgListener)
-        this.receiveNotificationListener = map => {
+        })
+        JPushModule.addReceiveNotificationListener(map => {
             // console.log('alertContent: ' + map.alertContent)
             console.log(' extras: ' + JSON.stringify(map));
             if (Platform.OS === 'ios') {
-                JPushModule.setBadge(map.aps.badge, success => {});
-            }else {
+                JPushModule.setBadge(map.aps.badge, success => {
+                });
+            } else {
                 JPushModule.setBadge(1, success => {
                 });
             }
 
-        }
-        JPushModule.addReceiveNotificationListener(this.receiveNotificationListener)
+        })
 
-        this.openNotificationListener = map => {
+        JPushModule.addReceiveOpenNotificationListener(map => {
             console.log('Opening notification!')
             console.log('map.extra: ' + map.extras)
             this.jumpSecondActivity(map)
             JPushModule.clearAllNotifications();
-        }
-        JPushModule.addReceiveOpenNotificationListener(this.openNotificationListener)
+        })
 
-        this.getRegistrationIdListener = registrationId => {
+        //android
+        JPushModule.addGetRegistrationIdListener(registrationId => {
+            // alert('' + registrationId);
             console.log('Device register succeed, registrationId ' + registrationId)
-        }
-        JPushModule.addGetRegistrationIdListener(this.getRegistrationIdListener)
+        })
+        JPushModule.getRegistrationID((registrationId) => {
+            // alert('' + registrationId);
+            console.log('Device register succeed, registrationId ' + registrationId)
+        })
+        //ios
+        JPushModule.getAppkeyWithcallback((registrationId) => {
+            // alert('' + registrationId);
+            console.log('Device register succeed, registrationId ' + registrationId)
+        })
         JPushModule.clearAllNotifications();
-        this.getAD();
     }
 
     getAD(){
@@ -289,6 +297,9 @@ export default class Main extends BaseComponent {
     getHomeData() {
         Request.post('/api/user/getuserinfo', {}).then(rep => {
             if (rep.code === 0 && rep.data) {
+                JPushModule.setTags([rep.data.pushTag],(tags)=>{
+                    console.debug('pushtags=' + JSON.stringify(tags));
+                })
                 UserStore.save({
                     isAuth:rep.data.isAuth,
                     messages: rep.data.messageCount,
@@ -303,6 +314,7 @@ export default class Main extends BaseComponent {
                     integralCount: rep.data.integralCount,
                     balance: rep.data.balance,
                     tenementPhone: rep.data.tenementPhone,
+                    pushTag: rep.data.pushTag,
                 });
                 this.setState({
                     isAuth: rep.data.isAuth,
