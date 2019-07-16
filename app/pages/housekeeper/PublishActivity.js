@@ -11,6 +11,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import List from "antd-mobile-rn/es/list/index.native";
 import DatePicker from "antd-mobile-rn/es/date-picker/index.native";
 import Picker from "antd-mobile-rn/es/picker/index.native";
+import CheckBox from "../../components/Checkbox";
 // 一些常量设置
 let {width, height} = Dimensions.get('window')
 const Font = {
@@ -44,15 +45,18 @@ export default class PublishActivity extends BaseComponent {
             activityAddress:'',
             date: undefined,
             datetime: '',
+            limiting:false,
+            persons:0
+
         }
     }
 
     onRightPress(){
-        this.publishPost()
+        this.publishActivity()
     }
 
     _render() {
-        const {images,activityName,activityDate,activityAddress} = this.state
+        const {images,activityName,activityDate,activityAddress,limiting,persons} = this.state
         return (
             <View style={{flex: 1}}>
                 <View style={[styles.inputRow,styles.marginTop]}>
@@ -99,8 +103,43 @@ export default class PublishActivity extends BaseComponent {
                         style={styles.inputItem}
                         underlineColorAndroid="transparent"
                         placeholder='请输入活动地点'
+                        maxLength={100}
                         onChangeText={(text) => this.setState({activityAddress: text})}
                         value={activityAddress}
+                    />
+                </View>
+                <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
+                <View style={styles.inputRow}>
+                    <Text style={{textAlign: 'center'}}>人数</Text>
+                    <TextInput
+                        ref="tax_file_num"
+                        style={styles.inputItem}
+                        underlineColorAndroid="transparent"
+                        placeholder='请输入活动人数'
+                        maxLength={100}
+                        keyboardType='numeric'
+                        onChangeText={(text) => this.setState({persons: text})}
+                        value={persons}
+                    />
+                </View>
+                <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
+                <View style={styles.inputRow}>
+                    <Text style={{textAlign: 'center'}}>限制人数</Text>
+                    <CheckBox
+                        style={{backgroundColor: 'white',
+                            marginRight:10,
+                            justifyContent: 'center'}}
+                        onClick={() => {
+                            this.setState({
+                                limiting : !limiting
+                            })
+                        }}
+                        isChecked={limiting}
+                        rightText={''}
+                        checkedImage={<Image source={require('../../img/checked.png')}
+                                             style={styles.image}/>}
+                        unCheckedImage={<Image source={require('../../img/uncheck.png')}
+                                               style={styles.image}/>}
                     />
                 </View>
 
@@ -290,17 +329,37 @@ export default class PublishActivity extends BaseComponent {
         );
     }
 
-    publishPost() {
+    publishActivity() {
         Keyboard.dismiss();
-        let {content, uploadImages,topicId} = this.state;
-        if (!content.length) {
-            this.showLong('请输入内容');
+        let {content, uploadImages,activityName,datetime,limiting,persons,activityAddress} = this.state;
+
+        if (!activityName.length) {
+            this.showShort('请输入活动名称');
             return;
         }
-        let param = {content: content, imageUrlList: uploadImages, type: topicId,title: 'test'};
+        if (!datetime.length) {
+            this.showShort('请选择活动时间');
+            return;
+        }
+        if (!activityAddress.length) {
+            this.showShort('请输入活动地点');
+            return;
+        }
+        if (!persons.length) {
+            this.showShort('请输入活动人数');
+            return;
+        }
 
-        console.log(param)
-        Request.post('/api/neighbour/publishinvitation', param,
+
+
+        if (!content.length) {
+            this.showShort('请输入内容');
+            return;
+        }
+        let param = {content: content, imageUrl: uploadImages, activityName: activityName,activityDate: datetime,isLimit:limiting?1:0,persons:persons,place:activityAddress};
+
+        this.showDLoading()
+        Request.post('/api/neighbour/activity', param,
             {
                 mock: false,
                 mockId: 1095545,
@@ -313,7 +372,7 @@ export default class PublishActivity extends BaseComponent {
         }).catch(err => {
 
         }).done(() => {
-            // this.hideLoading();
+            this.hideLoading();
         })
     }
 
@@ -381,5 +440,10 @@ const styles = StyleSheet.create({
     },
     marginTop:{
         marginTop:10
-    }
+    },
+    image: {
+        marginLeft: 16,
+        width: 14,
+        height: 14,
+    },
 });

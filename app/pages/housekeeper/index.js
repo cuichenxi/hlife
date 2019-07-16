@@ -78,31 +78,16 @@ export default class Housekeeper extends BaseComponent {
                     active: 'GiveAdvice'
                 }
             ],
-            activities: [
-
-                /*{
-                    imageUrl: "",
-                    activityName: "三月八日女神节",
-                    activityDate: "03月08日",
-                    activityContent: "三月八日女神节,三月八日女神节,三月八日女神节 三月八日女神节三月八日女神节三月八日女神节",
-                    activityNum: 100,
-                    id: 0,
-                    status: 1
-                },{
-                    imageUrl: "",
-                    activityName: "三月八日女神节",
-                    activityDate: "03月08日",
-                    activityContent: "三月八日女神节,三月八日女神节,三月八日女神节 三月八日女神节三月八日女神节三月八日女神节",
-                    activityNum: 100,
-                    id: 0,
-                    status: 0
-                },*/
-            ]
+            activities: []
         };
     }
 
     onReady() {
         this.requestData();
+    }
+
+    onShow(){
+        this.listRef._refresh();
     }
 
     requestData() {
@@ -199,6 +184,9 @@ export default class Housekeeper extends BaseComponent {
                                 pagination={false}
                                 renderSeparator={() => {
                                     return (null);
+                                }}
+                                onRef={(ref)=>{
+                                    this.listRef = ref;
                                 }}
                             />
                         </View>
