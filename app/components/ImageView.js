@@ -18,6 +18,12 @@ class ImageView extends React.Component {
     }
 
     render() {
+        // console.debug('imageStyle=' + JSON.stringify(this.props.style));
+        var contentStyle = Object.assign({}, this.props.style);
+        delete contentStyle['resizeMode'];
+        // console.debug('contentStyle=' + JSON.stringify(contentStyle));
+        // console.debug('imageStyle=' + JSON.stringify(this.props.style));
+
         var isNumber = util.isNumber(this.props.source);
         if (Platform.OS === 'ios'){
             return isNumber ?
@@ -28,7 +34,7 @@ class ImageView extends React.Component {
 
         }else{
             return (
-                <View style={[this.props.style,{}]}>
+                <View style={contentStyle}>
                     {isNumber ?
                         <Image style={[styles.imageAndStyle, this.props.style]}
                                source={Number(this.props.source)} defaultSource={this.props.defaultSource}onLoad={() => this.setState({loading: false})}/> :

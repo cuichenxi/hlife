@@ -47,7 +47,7 @@ export default  UserStore = {
     save(data = {}) {
         userInfo = Object.assign(userInfo, data);
         store.save(user_info_key, userInfo);
-        console.log('save user:' + JSON.stringify(userInfo));
+        console.debug('user=' + JSON.stringify(userInfo, null, 2));
     },
 
     remove(key = {}) {

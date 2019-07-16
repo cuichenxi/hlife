@@ -27,7 +27,7 @@ const post = (url, params = {}, options = {}, cacheCallback) => {
                 if (data) {
                     cacheCallback(data);
                 }
-                console.log('cacheData:' + JSON.stringify(data));
+                console.debug('cacheData:' + JSON.stringify(data));
             });
         }
     }
@@ -35,7 +35,7 @@ const post = (url, params = {}, options = {}, cacheCallback) => {
     if (url.indexOf('http') == -1) {
         url = getHost() + url;
     }
-    console.log("url=" + url);
+    console.debug("url=" + url);
     var {token} = UserStore.get();
     let cparam = {
         deviceId: dInfo.getUniqueID(),
@@ -46,10 +46,10 @@ const post = (url, params = {}, options = {}, cacheCallback) => {
         token: token
     }
     let paramJson = {cparam, ...params};
-    let paramString = JSON.stringify(paramJson);
-    console.log("request=" + paramString);
+    let paramString = JSON.stringify(paramJson, null, 2);
+    console.debug("request=" + paramString);
     let encodeParam = aes.Encrypt(paramString);
-    // console.log("request:encodeParam=" + encodeParam);
+    // console.debug("request:encodeParam=" + encodeParam);
     let isOk;
     let fetchOptions = {
         method: 'POST',
@@ -74,7 +74,7 @@ const post = (url, params = {}, options = {}, cacheCallback) => {
             return response.text();
         }).then((responseData) => {
             if (isMock) {
-                console.log("response=" + responseData);
+                console.debug("response=" + responseData);
                 var rep = JSON.parse(responseData)
                 if (isCache) {
                     store.save(cache_key, rep);
@@ -82,11 +82,11 @@ const post = (url, params = {}, options = {}, cacheCallback) => {
                 resolve(rep);
                 return;
             }
-            // console.log("response密文=" + responseData);
+            // console.debug("response密文=" + responseData);
             let decryptData = aes.Decrypt(responseData);
-            console.log("urlPath=" + urlpath);
-            console.log("response=" + decryptData);
+            console.debug("urlPath=" + urlpath);
             responseData = JSON.parse(decryptData);
+            console.debug("response=" + JSON.stringify(responseData, null, 2));
             if (isOk) {
                 if (isCache) {
                     store.save(cache_key, responseData);
@@ -124,7 +124,7 @@ const post = (url, params = {}, options = {}, cacheCallback) => {
  */
 const uploadFile = (url, files = []) => {
 
-    console.log('files', files);
+    console.debug('files', files);
     let formData = new FormData();       //因为需要上传多张图片,所以需要遍历数组,把图片的路径数组放入formData中
     for (var i = 0; i < files.length; i++) {
 //截取获取文件名
@@ -145,7 +145,7 @@ const uploadFile = (url, files = []) => {
     if (url.indexOf('http') == -1) {
         url = getHost() + url;
     }
-    console.log("url=" + url);
+    console.debug("url=" + url);
     let isOk;
     let fetchOptions = {
         method: 'POST',
@@ -165,7 +165,7 @@ const uploadFile = (url, files = []) => {
             return response.text();
         }).then((responseData) => {
             let decryptData = aes.Decrypt(responseData);
-            console.log("response明文=" + decryptData);
+            console.debug("response明文=" + decryptData);
             responseData = JSON.parse(decryptData);
             if (isOk) {
                 resolve(responseData);
@@ -174,7 +174,7 @@ const uploadFile = (url, files = []) => {
             }
 
         }).catch((error) => {
-            console.log("error=" + error);
+            console.debug("error=" + error);
             reject(error);
         });
     });

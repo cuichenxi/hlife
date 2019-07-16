@@ -31,12 +31,21 @@ const store = configureStore();
 // run root saga
 store.runSaga(rootSaga);
 
-const Root = () => (
-    <Provider store={store}>
-        <App ref={navigatorRef => {
-            NavigationUtil.init(navigatorRef);
-        }}/>
-    </Provider>
-);
+class Root extends React.Component{
+    constructor(props) {
+        super(props)
+        // console.debug('global=' + JSON.stringify(props));
+        // global.globalProps={debug: true}
+    }
+    render() {
+        return (
+            <Provider store={store}>
+                <App ref={navigatorRef => {
+                    NavigationUtil.init(navigatorRef);
+                }}/>
+            </Provider>
+        );
+    }
+}
 
 export default Root;
