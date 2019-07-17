@@ -12,7 +12,6 @@ import GridView from "../../components/GridView";
 /**
  * 话题view
  */
-let {width, height} = Dimensions.get('window')
 
 export default class Index extends BaseView {
     constructor(props) {
@@ -27,13 +26,10 @@ export default class Index extends BaseView {
     makeRemoteRequest(page = 1, callback) {
         let param = {status: this.state.index, page: page - 1, pageSize: PAGE_SIZE};
 
-        Request.post('/api/neighbour/topic', param,
-            {
-                mock: false,
-                mockId: 1218198,
-            }).then(rep => {
+        Request.post('/api/neighbour/topic', param)
+            .then(rep => {
             if (rep.code == 0 && rep.data) {
-                callback(rep.data, {allLoaded: true})
+                callback(rep.data, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             } else {
                 callback(null, {emptyTitle: rep.message})
             }
@@ -46,7 +42,7 @@ export default class Index extends BaseView {
 
     _renderRowView(item) {
         return (
-            <TouchableView onPress={()=>{
+            <TouchableView onPress={() => {
                 this.state.onItemPress(item)
             }}>
                 <View style={{
@@ -60,13 +56,18 @@ export default class Index extends BaseView {
                         source={item.pic}
                         defaultSource={require("../../img/default_image.png")}
                         style={{
-                            width: 118,
-                            height: 86,
-                            marginLeft: 10,
-                            resizeMode: "contain",//contain 等比例缩放 cover 模式只求在显示比例不失真的情况下填充整个显示区域。
+                            width: 80,
+                            height: 80,
+                            resizeMode: "cover",//contain 等比例缩放 cover 模式只求在显示比例不失真的情况下填充整个显示区域。
                         }}
                     />
-                    <View style={{flex: 1, marginLeft: 10,padding:10, justifyContent: 'flex-start', alignItems: 'flex-start'}}>
+                    <View style={{
+                        flex: 1,
+                        marginLeft: 10,
+                        padding: 10,
+                        justifyContent: 'flex-start',
+                        alignItems: 'flex-start'
+                    }}>
                         <Text style={{
                             fontSize: 14,
                             textAlign: 'left', color: '#333'
@@ -97,7 +98,7 @@ export default class Index extends BaseView {
                 flexDirection: 'column'
             }}>
                 <GiftedListView
-                    style={{ flex: 1}}
+                    style={{flex: 1}}
                     rowView={this._renderRowView.bind(this)}
                     onFetch={this.makeRemoteRequest.bind(this)}
                     loadMore={false}
