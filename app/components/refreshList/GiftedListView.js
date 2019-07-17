@@ -219,7 +219,7 @@ class GiftedListView extends React.Component {
                 <TouchableHighlight
                     underlayColor='#f8f8f8'
                     onPress={refreshCallback}>
-                    <View style={{borderRadius: 12, borderWidth: 1, borderColor: CommonStyle.themeColor}}>
+                    <View style={{borderRadius: 6, borderWidth: 1, borderColor: CommonStyle.themeColor}}>
                         <Text style={{color: CommonStyle.themeColor, fontSize: 16, paddingHorizontal: 10,
                             paddingVertical: 5}}>
                             点击刷新
