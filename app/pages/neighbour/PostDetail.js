@@ -41,19 +41,17 @@ export default class PostDetail extends BaseComponent {
         }
     }
 
-    componentWillMount() {
+
+    onReady(){
         this.makeRemoteRequest()
     }
 
     _render() {
         const {data, like} = this.state
-        console.log('=====渲染====')
-        console.log(like)
         return (
             <View style={{flex: 1}}>
                 <ScrollView style={{
                     flex: 1,
-                    height: 1000,
                     flexDirection: 'column'
                 }}>
 
