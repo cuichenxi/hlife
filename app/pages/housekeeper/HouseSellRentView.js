@@ -24,7 +24,7 @@ export default class HouseSellRentView extends BaseView {
     }
 
     makeRemoteRequest(page = 1, callback) {
-        let param = {type: this.state.index, page: page - 1, pageSize: PAGE_SIZE,communityId:1};
+        let param = {type: this.state.index, page: page - 1, pageSize: PAGE_SIZE,communityId:this.state.communityId};
 
         Request.post('/api/steward/housingList', param,
             {
@@ -132,6 +132,8 @@ export default class HouseSellRentView extends BaseView {
             </View>
         );
     }
+
+
 
 }
 ;

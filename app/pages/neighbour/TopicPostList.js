@@ -97,7 +97,8 @@ export default class TopicPostList extends BaseComponent {
                     </View>
                 </View>
                 <Text style={{fontSize: 14, color: '#333', padding: 10}}>{item.content}</Text>
-                {this._renderGridView(item.imageUrlList)}
+                {item.imageUrlList?this._renderGridView(item.imageUrlList):<View></View>}
+
                 <View style={{
                     alignItems: 'center',
                     justifyContent: 'flex-start',

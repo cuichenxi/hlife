@@ -61,6 +61,7 @@ export default class Neighbour extends BaseComponent {
                                     })
                                 });
                             }}
+                            onRef={this.onRef}
                 />
             )
         } else if (index === 1){
@@ -78,6 +79,15 @@ export default class Neighbour extends BaseComponent {
                 />
             )
         }
+    }
+
+    onShow(){
+        //父组件调用子组件方法，刷新列表
+        this.child.refreshList()
+    }
+
+    onRef =(ref) =>{
+        this.child=ref
     }
 }
 

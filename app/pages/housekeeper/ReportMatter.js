@@ -6,7 +6,6 @@ import TouchableView from "../../components/TouchableView";
 import {CommonStyle} from "../../common/CommonStyle";
 import ImagePicker from "react-native-image-crop-picker";
 import Request from "../../utils/Request";
-import {COMPLAINTPRAISE, GIVEADVICE} from "../../constants/AppConstants";
 // 一些常量设置
 let {width, height} = Dimensions.get('window')
 
@@ -289,6 +288,8 @@ export default class ReportMatter extends BaseComponent {
             this.showShort(rep.message)
             if (rep.code == 0) {
                 this.goBack()
+            } else {
+                this.showShort(rep.message)
             }
         }).catch(err => {
 
