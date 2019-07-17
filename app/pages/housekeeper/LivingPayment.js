@@ -361,7 +361,7 @@ export default class LivingPayment extends BaseComponent {
                     <Text style={{textAlign: 'center', color: CommonStyle.textBlockColor, fontSize: 17}}>待缴费{item.item.months}项</Text>
                 </View>
                 <TouchableView onPress={() => {
-                    this.navigate("LivingPaymentDetail", {year: item.item.year})
+                    this.navigate("LivingPaymentDetail", {startDate: item.item.startDate,endDate:item.item.endDate})
                 }}>
                     <Text style={{
                         color: CommonStyle.themeColor,

@@ -37,6 +37,8 @@ export default class LivingPaymentDetail extends BaseComponent {
             enabledBt: false,
             items: 0,
             year: this.props.navigation.state.params.year,
+            startDate: this.props.navigation.state.params.startDate,
+            endDate: this.props.navigation.state.params.endDate,
             isAllChecked: false,
             isLoading: false,
         }
@@ -224,15 +226,14 @@ export default class LivingPaymentDetail extends BaseComponent {
             })
         }
 
-        console.log(item.checked)
     }
 
     makeRemoteRequest(page = 1) {
         let param = {
             page: page - 1,
             pageSize: PAGE_SIZE,
-            startDate: this.state.year + '-01-01',
-            endDate: this.state.year + '-12-31'
+            startDate: this.state.startDate.substring(0,10) ,
+            endDate: this.state.endDate.substring(0,10)
         };
 
         Request.post('/api/fee/list', param,
@@ -324,7 +325,6 @@ export default class LivingPaymentDetail extends BaseComponent {
                                     })
                                 }
 
-                                console.log(item.item.checked)
                             }}
                             isChecked={item.item.checked}
                             rightText={''}
