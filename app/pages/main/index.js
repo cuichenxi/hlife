@@ -1,16 +1,5 @@
 import React from 'react';
-import {
-    Image,
-    Linking,
-    ListView,
-    RefreshControl,
-    ScrollView,
-    StyleSheet,
-    Text,
-    Platform,
-    TouchableHighlight,
-    View
-} from "react-native";
+import {Image, Linking, ListView, Platform, RefreshControl, ScrollView, StyleSheet, Text, View} from "react-native";
 import Swiper from 'react-native-swiper'
 import {BaseComponent} from "../../components/base/BaseComponent";
 import GridView from "../../components/GridView";
@@ -19,7 +8,7 @@ import {CommonStyle} from "../../common/CommonStyle";
 import BarcodePage from "../witget/BarcodePage";
 import Request from "../../utils/Request";
 import {Badge} from "antd-mobile-rn";
-import {LINK_APIPAYS_CZ, LINK_APIPAYS_EXPRESS, LINK_APIPAYS_WZ} from "../../constants/UrlConstant";
+import {LINK_APIPAYS_EXPRESS, LINK_APIPAYS_WZ} from "../../constants/UrlConstant";
 import ImageView from "../../components/ImageView";
 import UserStore from "../../store/UserStore";
 import {CALL_BACK_TEST} from "../../constants/ActionTypes";
@@ -298,9 +287,11 @@ export default class Main extends BaseComponent {
     getHomeData() {
         Request.post('/api/user/getuserinfo', {}).then(rep => {
             if (rep.code === 0 && rep.data) {
-                JPushModule.setTags([rep.data.pushTag],(tags)=>{
-                    console.debug('pushtags=' + JSON.stringify(tags));
-                })
+                if(!util.isEmpty(rep.data.pushTag)){
+                    JPushModule.setTags([rep.data.pushTag],(tags)=>{
+                        console.debug('pushtags=' + JSON.stringify(tags));
+                    })
+                }
                 UserStore.save({
                     isAuth:rep.data.isAuth,
                     messages: rep.data.messageCount,

@@ -7,6 +7,7 @@ import Request from "../../utils/Request";
 import util from "../../utils/util";
 import Swiper from "react-native-swiper";
 import ImageView from "../../components/ImageView";
+import {ThemeStyle} from "../../common/ThemeStyle";
 
 
 export default class Payment extends BaseComponent {
@@ -127,32 +128,24 @@ export default class Payment extends BaseComponent {
                     </View>
 
                     {this.state.data.status === 1 ?
-                        <TouchableView style={{
-                            height: 40,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            flex: 1,
-                            backgroundColor: CommonStyle.themeColor,
-                            borderRadius: 20,
-                            margin: 50,
-                        }} onPress={() => {
+                        <TouchableView style={[ThemeStyle.btn_submit,{
+                            marginLeft: 15,
+                            marginRight: 15,
+                            marginTop: 20,
+                        }]} onPress={() => {
                             this.onApply();
                         }}>
-                            <Text style={{fontSize: 18, color: '#fff', padding: 15}}>报名</Text>
+                            <Text style={{fontSize: 17, color: '#fff'}}>报名</Text>
                         </TouchableView> :
-                        <View style={{
-                            height: 40,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            flex: 1,
-                            backgroundColor: CommonStyle.gray,
-                            borderRadius: 20,
-                            margin: 50,
-                        }} onPress={() => {
-                            this.goBack();
+                        <TouchableView style={[ThemeStyle.btn_gray,{
+                            marginLeft: 15,
+                            marginRight: 15,
+                            marginTop: 20,
+                        }]} onPress={() => {
+                            // this.goBack();
                         }}>
-                            <Text style={{fontSize: 18, color: '#fff', padding: 15}}>报名已结束</Text>
-                        </View>
+                            <Text style={{fontSize: 15, color: '#fff'}}>报名已结束</Text>
+                        </TouchableView>
                     }
 
                 </ScrollView>

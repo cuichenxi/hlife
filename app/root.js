@@ -47,5 +47,9 @@ class Root extends React.Component{
         );
     }
 }
-
+// const Root = () => (
+//     <Provider store={store}>
+//         <App/>
+//     </Provider>
+// );
 export default Root;

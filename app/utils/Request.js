@@ -92,10 +92,10 @@ const post = (url, params = {}, options = {}, cacheCallback) => {
                     store.save(cache_key, responseData);
                 }
                 resolve(responseData);
-                if (responseData.code == 612) {
-                    ToastUtil.showShort(responseData.message)
-                    NavigationUtil.goTo('AuthPage');
-                }
+                // if (responseData.code == 612) {
+                //     ToastUtil.showShort(responseData.message)
+                //     NavigationUtil.goTo('AuthPage');
+                // }
                 if (responseData.code == 605) {
                     ToastUtil.showShort(responseData.message)
                     NavigationUtil.goTo('Login');
