@@ -84,10 +84,7 @@ export default class Housekeeper extends BaseComponent {
 
     onReady() {
         this.requestData();
-    }
-
-    onShow(){
-        this.listRef._refresh();
+        // this.listRef._refresh();
     }
 
     requestData() {

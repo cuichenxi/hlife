@@ -37,12 +37,15 @@ class ImageView extends React.Component {
                 <View style={contentStyle}>
                     {isNumber ?
                         <Image style={[styles.imageAndStyle, this.props.style]}
-                               source={Number(this.props.source)} defaultSource={this.props.defaultSource}onLoad={() => this.setState({loading: false})}/> :
-                        <Image style={[ styles.imageAndStyle, this.props.style]}
-                               source={{uri: String(this.props.source)}} defaultSource={this.props.defaultSource}onLoad={() => this.setState({loading: false})}/>}
-                    {this.state.loading ? <Image style={[ styles.imageAndStyle,this.props.style]} source={this.props.defaultSource}/> : null}
+                               source={Number(this.props.source)} defaultSource={this.props.defaultSource}
+                               onLoad={() => this.setState({loading: false})}/> :
+                        <Image style={[styles.imageAndStyle, this.props.style]}
+                               source={{uri: String(this.props.source)}} defaultSource={this.props.defaultSource}
+                               onLoad={() => this.setState({loading: false})}/>}
+                    {this.state.loading ? <Image style={[styles.imageAndStyle, this.props.style]}
+                                                 source={this.props.defaultSource}/> : null}
                 </View>
-            )
+            );
         }
     }
 

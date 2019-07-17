@@ -18,6 +18,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {View, StyleSheet, ViewPropTypes} from 'react-native';
+import util from "../utils/util";
 
 const propTypes = {
     items: PropTypes.array,
@@ -57,8 +58,10 @@ const GridView = ({
         return <View style={styles.group} key={pIndex}>{itemViews}</View>;
     };
 
+    if (util.isArrayEmpty(items)) {
+        return null;
+    }
     const groups = groupItems(items, num);
-
     return (
         <View style={[{flex: 1,}, style]}>{
             groups.map((item, index) => {

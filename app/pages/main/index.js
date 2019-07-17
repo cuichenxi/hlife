@@ -287,9 +287,9 @@ export default class Main extends BaseComponent {
     getHomeData() {
         Request.post('/api/user/getuserinfo', {}).then(rep => {
             if (rep.code === 0 && rep.data) {
-                if(!util.isEmpty(rep.data.pushTag)){
-                    JPushModule.setTags([rep.data.pushTag],(tags)=>{
-                        console.debug('pushtags=' + JSON.stringify(tags));
+                if(!util.isArrayEmpty(rep.data.pushTag)){
+                    JPushModule.setTags(rep.data.pushTag,(tags)=>{
+                        // console.debug('pushtags=' + JSON.stringify(tags));
                     })
                 }
                 UserStore.save({

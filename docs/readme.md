@@ -7,7 +7,7 @@ Chenghui1989
 密钥
 Chenghui1989
 
-蒲公英的账号是18963720709  1234567890
+蒲公英的账号是 18963720709  1234567890
 
 app store
 ch.colorful@gmail.com 

@@ -35,7 +35,7 @@ export default class ComplaintList extends BaseComponent{
         let param = { page: page - 1, pageSize: PAGE_SIZE};
 
         console.log(this.props)
-        Request.post('/api/user/repairList', param,
+        Request.post('/api/steward/complaintpraiseList', param,
             {
                 mock: false,
                 mockId: 1095356,
@@ -44,7 +44,7 @@ export default class ComplaintList extends BaseComponent{
                 // console.log(JSON.stringify(rep))
                 callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             } else {
-                callback(null,{emptyTitle: '暂无工单记录'})
+                callback(null,{emptyTitle: '暂无记录'})
             }
         }).catch(err => {
             callback(null,{emptyTitle: err})

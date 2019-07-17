@@ -1,16 +1,17 @@
 import React from 'react';
-import {Dimensions, Image, Linking, ScrollView, StyleSheet, Text, View} from "react-native";
+import {Dimensions, Image, Linking, RefreshControl, ScrollView, StyleSheet, Text, View} from "react-native";
 import {BaseComponent} from "../../components/base/BaseComponent";
 import GridView from "../../components/GridView";
 import TouchableView from "../../components/TouchableView";
 import {CommonStyle} from "../../common/CommonStyle";
 import BarcodePage from "../witget/BarcodePage";
 import Request from "../../utils/Request";
-import {Badge} from "antd-mobile-rn";
+import {Badge, Grid} from "antd-mobile-rn";
 import {LINK_APIPAYS_CZ, LINK_APIPAYS_EXPRESS, LINK_APIPAYS_WZ} from "../../constants/UrlConstant";
 import ImageView from "../../components/ImageView";
 import UserStore from "../../store/UserStore";
 import util from "../../utils/util";
+
 let {width, height} = Dimensions.get('window')
 let bottomHeight = 0;
 
@@ -21,9 +22,27 @@ export default class Shopping extends BaseComponent {
             title: '生活',
         }
     }
-    canExitApp(){
+
+    canExitApp() {
         return true;
     }
+// , {
+//     name: '家政服务',
+//     imageUrl: require('../../img/menu_jzfw.png'),
+//     active: 'HouseholdServerList'
+// }, {
+//     name: '快递查询',
+//         imageUrl: require('../../img/menu_kdcx.png'),
+//         active: LINK_APIPAYS_EXPRESS
+// }, {
+//     name: '违章查询',
+//         imageUrl: require('../../img/menu_wzcx.png'),
+//         active: LINK_APIPAYS_WZ
+// }, {
+//     name: '水电缴费',
+//         imageUrl: require('../../img/menu_sdjf.png'),
+//         active: 'WaterElectricityPayment'
+// },
     constructor(props) {
         super(props);
         this.state = {
@@ -31,35 +50,23 @@ export default class Shopping extends BaseComponent {
                 {
                     name: '送水上门',
                     imageUrl: require('../../img/menu_sssm.png'),
-                    active: 'goodsList'
+                    active: 'goodsList',
+                    type: 1,
                 }, {
                     name: '园区超市',
                     imageUrl: require('../../img/menu_yqcs.png'),
-                    active: 'goodsList'
-                }, {
-                    name: '家政服务',
-                    imageUrl: require('../../img/menu_jzfw.png'),
-                    active: 'HouseholdServerList'
-                }, {
-                    name: '快递查询',
-                    imageUrl: require('../../img/menu_kdcx.png'),
-                    active: LINK_APIPAYS_EXPRESS
-                }, {
-                    name: '违章查询',
-                    imageUrl: require('../../img/menu_wzcx.png'),
-                    active: LINK_APIPAYS_WZ
-                }, {
-                    name: '水电缴费',
-                    imageUrl: require('../../img/menu_sdjf.png'),
-                    active: 'WaterElectricityPayment'
+                    active: 'goodsList',
+                    type: 1,
                 }, {
                     name: '日用百货',
                     imageUrl: require('../../img/menu_rcbh.png'),
-                    active: 'goodsList'
+                    active: 'goodsList',
+                    type: 1,
                 }, {
                     name: '健康养生',
                     imageUrl: require('../../img/menu_jkys.png'),
-                    active: 'goodsList'
+                    active: 'goodsList',
+                    type: 1,
                 }
             ],
             typeIds: [],
@@ -71,23 +78,16 @@ export default class Shopping extends BaseComponent {
 
 
     onReady(param) {
-        this.hideHeader(this);
-        bottomHeight = (height - 290 - 10 - 60) / 3 ;
-    }
-
-    _loadWeb(title, url) {
-        this.push('Web', {article: {title: title, url: url}})
-    }
-
-    onShow(e){
+        this.hideHeader(true);
+        bottomHeight = (height - 290 - 10 - 60) / 3;
         Request.post('/api/user/getuserinfo', {}).then(rep => {
             if (rep.code === 0 && rep.data) {
                 UserStore.save({
-                    isAuth:rep.data.isAuth,
+                    isAuth: rep.data.isAuth,
                     messages: rep.data.messageCount,
-                    searchHint: !util.isEmpty(rep.data.searchHint)?rep.data.searchHint:'搜索',
+                    searchHint: !util.isEmpty(rep.data.searchHint) ? rep.data.searchHint : '搜索',
                     userName: rep.data.userName,
-                    phone:rep.data.phone,
+                    phone: rep.data.phone,
                     avatar: rep.data.avatar,
                     sign: rep.data.sign,
                     gender: rep.data.gender,
@@ -108,6 +108,57 @@ export default class Shopping extends BaseComponent {
         }).done(() => {
             this.setState({refreshing: false});
         })
+        this.housekeeping();
+    }
+
+    _onRefresh = () => {
+        this.setState({refreshing: true});
+        this.housekeeping();
+    }
+
+    housekeeping() {
+        Request.post('/api/life/basic', {}, {cache: 1}, (cache) => {
+            if (cache.code === 0 && cache.data) {
+                console.debug('cache=' + JSON.stringify(cache.data));
+                this.setMenuData(cache.data.menuList)
+            }
+        }).then(rep => {
+            if (rep.code === 0 && rep.data) {
+                this.setMenuData(rep.data.menuList)
+            }
+        }).catch(err => {
+
+        }).done(() => {
+            this.setState({refreshing: false});
+        });
+    }
+
+    // "categoryIcon":"mock",                //类型：String  必有字段  备注：分类图标
+    // "categoryName":"mock",                //类型：String  必有字段  备注：分类名称
+    // "id":1
+    // name: '送水上门',
+    // imageUrl: require('../../img/menu_sssm.png'),
+    // active: 'goodsList',
+    // type:1,
+    setMenuData(menuList) {
+        var _list = [];
+        if (!util.isArrayEmpty(menuList)) {
+            menuList.map((item) => {
+                _list.push({
+                    name: item.categoryName,
+                    imageUrl: item.categoryIcon,
+                    active: 'goodsList',
+                    type: item.id
+                })
+            });
+            this.setState({
+                types: _list
+            })
+        }
+    }
+
+    _loadWeb(title, url) {
+        this.push('Web', {article: {title: title, url: url}})
     }
 
 
@@ -142,24 +193,11 @@ export default class Shopping extends BaseComponent {
     }
 
 
-    _onRefresh = () => {
-        this.setState({refreshing: true});
-        this.getHomeData()
-    }
-
     _jumpRouter(typeItem) {
-        if (typeItem&&typeItem.active.indexOf('alipays://') === 0) {
+        if (typeItem && typeItem.active.indexOf('alipays://') === 0) {
             Linking.openURL(typeItem.active).catch(err => this.showShort("未检测到支付宝"));
-        }else if (typeItem.name == '园区超市') {
-            this.navigate('goodsList', {'type': 1, title: '园区超市'});
-        }else if (typeItem.name == '日用百货') {
-            this.navigate('goodsList', {'type': 2, title: '日用百货'});
-        }else if (typeItem.name == '健康养生') {
-            this.navigate('goodsList', {'type': 3, title: '健康养生'});
-        }else if (typeItem.name == '送水上门') {
-            this.navigate('goodsList', {'type': 4, title: '送水上门'});
-        }else {
-            this.navigate(typeItem.active);
+        } else {
+            this.navigate(typeItem.active, {'type': typeItem.type, title: typeItem.name});
         }
     }
 
@@ -167,27 +205,19 @@ export default class Shopping extends BaseComponent {
         this.navigate("BarcodePage", {},
             (backData) => {
                 setTimeout(() => {
-                    this.navigate('scanInfo',{serialNum: backData})
+                    this.navigate('scanInfo', {serialNum: backData})
                 }, 500);
 
-        });
+            });
     }
 
     _renderGridView() {
         return (
-            <GridView
-                style={{
-                    flex: 1,
-                    paddingBottom: 20,
-                    paddingTop: 10,
-                    borderRadius: 10, backgroundColor: '#fff',
-                    borderColor: '#fff',
-                    borderWidth: 1,
-                    marginLeft: 10,
-                    marginRight: 10
-                }}
-                items={this.state.types}
-                num={4}
+            <Grid
+                data={this.state.types}
+                columnNum={4}
+                hasLine={false}
+                itemStyle={{height: 70}}
                 renderItem={this._renderGridItem.bind(this)}
             />
         )
@@ -195,15 +225,16 @@ export default class Shopping extends BaseComponent {
 
     _renderGridItem(item, index) {
         return (
-            <TouchableView style={{flex: 1}} key={index} onPress={() => {
+            <TouchableView style={{height: 70}} onPress={() => {
                 this._jumpRouter(item)
             }}>
-                <View style={[{flex: 1}, styles.typesItem]}>
-                    <Image source={item.imageUrl} style={{width: 30, height: 30, marginTop: 20, }}/>
+                <View style={[{flex: 1, height: 70}, styles.typesItem]}>
+                    <ImageView source={item.imageUrl} style={{width: 30, height: 30,}}
+                               defaultSource={require("../../img/default_image.png")}/>
                     <Text style={{fontSize: 14, color: "#333", marginTop: 10}}>{item.name}</Text>
                 </View>
             </TouchableView>
-        )
+        );
     }
 
     _renderHeader() {
@@ -219,7 +250,7 @@ export default class Shopping extends BaseComponent {
                         <Image style={{
                             width: 18,
                             height: 18,
-                            marginHorizontal:15
+                            marginHorizontal: 15
                         }} source={require("../../img/icon_gwc.png")}/>
                     </TouchableView>
                     <TouchableView style={{
@@ -239,28 +270,34 @@ export default class Shopping extends BaseComponent {
                             <Image style={{
                                 width: 12,
                                 height: 12,
-                                marginLeft:10
+                                marginLeft: 10
                             }} source={require("../../img/icon_search.png")}/>
-                            <Text style={{color: "#fff", fontSize: 14,flex:1, marginLeft: 5}}>{util.isEmpty(this.state.searchHint)?'搜索':this.state.searchHint}</Text>
-                            <TouchableView style={{width: 60, alignItems: 'center',justifyContent:'center'}} onPress={() => {
-                                this.onScanClick()
-                            }}>
+                            <Text style={{
+                                color: "#fff",
+                                fontSize: 14,
+                                flex: 1,
+                                marginLeft: 5
+                            }}>{util.isEmpty(this.state.searchHint) ? '搜索' : this.state.searchHint}</Text>
+                            <TouchableView style={{width: 60, alignItems: 'center', justifyContent: 'center'}}
+                                           onPress={() => {
+                                               this.onScanClick()
+                                           }}>
                                 <Image style={{
                                     width: 16,
-                                    height: 16,marginLeft: 8
+                                    height: 16, marginLeft: 8
                                 }} source={require("../../img/icon_scan_w.png")}/>
                             </TouchableView>
                         </View>
                     </TouchableView>
-                    <TouchableView style={{ alignItems: 'center',justifyContent:'center', height: 50}} onPress={() => {
+                    <TouchableView style={{alignItems: 'center', justifyContent: 'center', height: 50}} onPress={() => {
                         this.navigate("Message")
                     }}>
-                        <Badge text={this.state.unreadMessageCount} overflowCount={99} small >
+                        <Badge text={this.state.unreadMessageCount} overflowCount={99} small>
                             <View style={{
                                 width: 48,
                                 height: 20,
-                                paddingLeft:8,
-                                paddingRight:18,
+                                paddingLeft: 8,
+                                paddingRight: 18,
                             }}>
                                 <ImageView style={{
                                     width: 20,
@@ -275,46 +312,65 @@ export default class Shopping extends BaseComponent {
         );
     }
 
-    _renderBottomView(index,image){
+    _renderBottomView(index, image) {
         return (
             <TouchableView style={{
-                marginHorizontal:10,
+                marginHorizontal: 10,
                 marginVertical: 5,
-                flex:1
+                height: 100
             }} onPress={() => {
                 if (index == 0) {
-                    this.navigate('goodsList', {'type': 5, title: '家用电器'});
-                }else if (index == 1) {
+                    this.navigate('WaterElectricityPayment')
+                } else if (index == 1) {
                     this.navigate('goodsList', {'type': 4, title: '送水上门'});
-                }else if (index == 2) {
+                } else if (index == 2) {
                     this.navigate('HouseholdServerList')
                 }
             }}>
                 <ImageView style={{
-                    height:bottomHeight, width: (width - 20),resizeMode: Image.resizeMode.cover
+                    height: 100, width: (width - 20), resizeMode: Image.resizeMode.cover
                 }}
-                       source={image}></ImageView>
+                           source={image}></ImageView>
             </TouchableView>
         )
     }
 
     _render() {
-
+        var len = 0
+        if (!util.isArrayEmpty(this.state.types)) {
+            len = Math.ceil(this.state.types.length / 4);
+        }
+        var marginTop = len * 70 + 20;
+        console.debug('len=' + len + 'marinTop' + marginTop);
         return (
-            <View style={styles.container} >
+            <ScrollView style={styles.container} refreshControl={
+                <RefreshControl
+                    refreshing={this.state.refreshing}
+                    onRefresh={this._onRefresh}
+                />}>
                 <View style={{backgroundColor: CommonStyle.themeColor, height: 140}}></View>
-                <View style={{marginTop: 100, position: CommonStyle.absolute, top: 0, left: 0, right: 0, flex: 1}}>
+                <View style={{
+                    marginTop: 100, position: CommonStyle.absolute, top: 0, left: 0, right: 0,
+                    height: marginTop + 10,
+                    paddingBottom: 10,
+                    paddingTop: 10,
+                    borderRadius: 10, backgroundColor: '#fff',
+                    borderColor: '#ccc',
+                    borderWidth: 1,
+                    marginLeft: 10,
+                    marginRight: 10
+                }}>
                     {this._renderGridView()}
                 </View>
-                <View style={{marginTop: 290,paddingTop:10,backgroundColor:'#fff', position: CommonStyle.absolute, bottom:0,top: 0, left: 0, right: 0, flex: 1,}}>
-                    {this._renderBottomView(0,require('../../img/bg_live_dq.png'))}
-                    {this._renderBottomView(1,require('../../img/bg_live_ss.png'))}
-                    {this._renderBottomView(2,require('../../img/bg_live_jz.png'))}
+                <View style={{marginTop: marginTop - 20, paddingTop: 10, backgroundColor: '#fff',}}>
+                    {this._renderBottomView(0, require('../../img/bg_live_sdf.png'))}
+                    {this._renderBottomView(1, require('../../img/bg_live_ss.png'))}
+                    {this._renderBottomView(2, require('../../img/bg_live_jz.png'))}
                 </View>
                 <View style={{position: CommonStyle.absolute, left: 0, top: 0, right: 0,}}>
                     {this._renderHeader()}
                 </View>
-            </View>
+            </ScrollView>
         );
     }
 
