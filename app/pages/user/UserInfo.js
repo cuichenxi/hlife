@@ -10,6 +10,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import UserStore from "../../store/UserStore";
 import ImageView from "../../components/ImageView";
 import List from "antd-mobile-rn/es/list/index.native";
+import {ThemeStyle} from "../../common/ThemeStyle";
 
 export default class UserInfo extends BaseComponent {
 
@@ -231,8 +232,13 @@ export default class UserInfo extends BaseComponent {
                     </View>
                 </TouchableView>
                 <View style={{backgroundColor: CommonStyle.lineColor, height: 0.5}}/>
-                <TouchableOpacity style={styles.loginOutBtn} onPress={this._logout.bind(this)}>
-                    <Text style={{fontSize: 16, color: CommonStyle.white}}>退出登录</Text>
+                <TouchableOpacity style={[ThemeStyle.btn_submit,{
+                    marginLeft: 15,
+                    marginRight: 15,
+                    marginTop: 50,
+                    backgroundColor: CommonStyle.red
+                }]} onPress={this._logout.bind(this)}>
+                    <Text style={{fontSize: 17, color: CommonStyle.white}}>退出登录</Text>
                 </TouchableOpacity>
             </View>
         );

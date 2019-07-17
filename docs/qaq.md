@@ -26,3 +26,6 @@ https://blog.csdn.net/theVicTory/article/details/80113394
 
 
 TextInput设置了宽高后，输入内容无法显示的问题，解决办法：如果要想使其看起来和iOS上尽量一致，则需要设置padding: 0，同时设置underlineColorAndroid="transparent"来去掉底边框。
+
+支付宝编译错误
+https://www.jianshu.com/p/a3e0485ad741 

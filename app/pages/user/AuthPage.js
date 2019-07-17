@@ -25,6 +25,7 @@ import {CALL_BACK_PUBLISH_HOUSE} from "../../constants/ActionTypes";
 import UserStore from "../../store/UserStore";
 import Modal from "antd-mobile-rn/es/modal/index.native";
 import NavigationUtil from "../../utils/NavigationUtil";
+import {ThemeStyle} from "../../common/ThemeStyle";
 
 
 var {width, height} = Dimensions.get('window');
@@ -142,8 +143,14 @@ export default class AuthPage extends BaseComponent {
                         {this._renderHeader()}
                     </View>
 
-                    <View style={{backgroundColor: CommonStyle.yellow,width:'100%',height:30, justifyContent: 'center',paddingHorizontal:10}}>
-                        <Text style={{fontSize:13, color: '#333'}}>{warmAuth}</Text>
+                    <View style={{
+                        backgroundColor: CommonStyle.yellow,
+                        width: '100%',
+                        height: 30,
+                        justifyContent: 'center',
+                        paddingHorizontal: 10
+                    }}>
+                        <Text style={{fontSize: 13, color: '#333'}}>{warmAuth}</Text>
                     </View>
 
                     <View style={{
@@ -155,8 +162,9 @@ export default class AuthPage extends BaseComponent {
 
                         <TouchableView onPress={() => {
                             this.navigate('HousingAddressList', {
-                                title: '选择小区',
-                                api: '/api/user/selectCommunity'},
+                                    title: '选择小区',
+                                    api: '/api/user/selectCommunity'
+                                },
                                 (data) => {
                                     this.setState({
                                         housingAddress: data.name,
@@ -202,16 +210,17 @@ export default class AuthPage extends BaseComponent {
                                 return;
                             }
                             this.navigate('ElementList', {
-                                title: '选择楼栋/单元',
-                                housingId: this.state.housingId,
-                                api: '/api/user/selectelement',
-                                from: FROMAUTH},
+                                    title: '选择楼栋/单元',
+                                    housingId: this.state.housingId,
+                                    api: '/api/user/selectelement',
+                                    from: FROMAUTH
+                                },
                                 (data) => {
                                     this.setState({
                                         element: data.name,
                                         roomName: '选择房间号',
                                     })
-                            }, true)
+                                }, true)
                         }}>
 
                             <View
@@ -249,17 +258,18 @@ export default class AuthPage extends BaseComponent {
                                 return;
                             }
                             this.navigate('RoomList', {
-                                title: '选择房间号',
-                                buildingId: this.state.buildingId,
-                                api: '/api/user/selectroom',
-                                unitId: this.state.unitId,
-                                from: FROMAUTH},
-                                 (data) => {
+                                    title: '选择房间号',
+                                    buildingId: this.state.buildingId,
+                                    api: '/api/user/selectroom',
+                                    unitId: this.state.unitId,
+                                    from: FROMAUTH
+                                },
+                                (data) => {
                                     this.setState({
                                         roomName: data.name,
                                         roomId: data.id
                                     })
-                            })
+                                })
                         }}>
 
                             <View
@@ -306,21 +316,16 @@ export default class AuthPage extends BaseComponent {
 
                     </View>
                     <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
-                    <TouchableOpacity style={{
-                        height: 40,
-                        marginLeft: 30,
-                        marginRight: 30,
+                    <TouchableOpacity style={[{
+                        marginLeft: 15,
+                        marginRight: 15,
                         marginTop: 20,
-                        borderRadius: 30,
-                        backgroundColor: CommonStyle.themeColor,
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                    }} onPress={() => {
+                    }, ThemeStyle.btn_submit]} onPress={() => {
                         this._auth()
                     }}>
                         <Text style={styles.loginText}>{authText}</Text>
                     </TouchableOpacity>
-                    <TouchableView onPress={()=>{
+                    <TouchableView onPress={() => {
                         this.onButtonClick('0558-5625395')
                     }}>
                         <View style={{
@@ -358,7 +363,7 @@ export default class AuthPage extends BaseComponent {
                     <Text style={{fontSize: 11, color: '#999', marginLeft: 7}}>提交申请后，我们会在一个工作日之内完成审核</Text>
                 </View>
             </View>
-        )
+        );
     }
 
 

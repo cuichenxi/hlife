@@ -16,6 +16,7 @@ import {BaseComponent} from '../../components/base/BaseComponent'
 import NavigationUtil from "../../utils/NavigationUtil";
 import {CommonStyle} from "../../common/CommonStyle";
 import CountDownButton from "../../components/CountDownButton";
+import {ThemeStyle} from "../../common/ThemeStyle";
 
 
 export default class ModifyPhone extends BaseComponent {
@@ -48,17 +49,18 @@ export default class ModifyPhone extends BaseComponent {
         const {mobile, codeRequesting} = this.state
         return (
             <View style={styles.container}>
-                <View style={{backgroundColor:CommonStyle.bgColor,height:10, width: '100%'}}/>
-                <Text style={{fontSize: 12, marginLeft: 20,marginTop:15, color: '#333'}}>旧号码</Text>
+                <View style={{backgroundColor: CommonStyle.bgColor, height: 10, width: '100%'}}/>
+                <Text style={{fontSize: 12, marginLeft: 20, marginTop: 15, color: '#333'}}>旧号码</Text>
                 <View style={[{
                     height: 45,
                     justifyContent: 'center',
                     marginLeft: 20,
                 }, styles.formInputSplit]}>
-                    <Text style={[{ fontSize: 18, color: '#333'
+                    <Text style={[{
+                        fontSize: 18, color: '#333'
                     }, styles.formInputSplit]}>{this.state.oldPhone}</Text>
                 </View>
-                <Text style={{fontSize: 12, marginLeft: 20, marginTop:15,color: '#333'}}>新号码</Text>
+                <Text style={{fontSize: 12, marginLeft: 20, marginTop: 15, color: '#333'}}>新号码</Text>
                 <View style={[{
                     height: 45,
                     justifyContent: 'center',
@@ -73,7 +75,7 @@ export default class ModifyPhone extends BaseComponent {
                         maxLength={11}
                         onChangeText={this.onChangeMobile.bind(this)}/>
                 </View>
-                <Text style={{fontSize: 12, marginLeft: 20, marginTop:15,color: '#333'}}>验证码</Text>
+                <Text style={{fontSize: 12, marginLeft: 20, marginTop: 15, color: '#333'}}>验证码</Text>
                 <View style={[styles.formInput, styles.formInputSplit]}>
                     <TextInput
                         ref="login_auth"
@@ -105,24 +107,15 @@ export default class ModifyPhone extends BaseComponent {
                             }}/>
                     </View>
                 </View>
-                <TouchableOpacity style={{
-                    height: 40,
-                    width: 300,
-                    marginLeft: 30,
-                    marginRight: 30,
-                    borderRadius: 30,
-                    backgroundColor: CommonStyle.themeColor,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    position: 'absolute',
-                    bottom: 0,
-                    marginBottom: 150,
-                    alignSelf: 'center'
-                }} onPress={this._save.bind(this)}>
+                <TouchableOpacity style={[ThemeStyle.btn_submit, {
+                    marginTop: 20,
+                    marginLeft: 15,
+                    marginRight: 15,
+                }]} onPress={this._save.bind(this)}>
                     <Text style={styles.loginText}>保存</Text>
                 </TouchableOpacity>
             </View>
-        )
+        );
     }
 
     _register() {

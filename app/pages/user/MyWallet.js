@@ -13,6 +13,7 @@ import Request from "../../utils/Request";
 import {PAY_FROM_CREATE_ORDER, PAY_FROM_WALLET} from "../../constants/ActionTypes";
 import {Modal} from "antd-mobile-rn/lib/index.native";
 import util from "../../utils/util";
+import {ThemeStyle} from "../../common/ThemeStyle";
 
 let {width, height} = Dimensions.get('window')
 
@@ -262,19 +263,14 @@ export default class MyWallet extends BaseComponent {
                 <View style={{marginTop: 27, justifyContent: 'center', alignItems: 'center'}}>
                     <Text style={{color: '#999', fontSize: 10}}>温馨提示：充值成功后，到账可能会有一定延迟，请耐心等待。</Text>
                 </View>
-                <TouchableView style={{
-                    height: 40,
-                    marginLeft: 30,
-                    marginRight: 30,
-                    marginTop: 30,
-                    borderRadius: 30,
-                    backgroundColor: CommonStyle.themeColor,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }} onPress={() => {
+                <TouchableView style={[ThemeStyle.btn_submit, {
+                    marginTop: 20,
+                    marginLeft: 15,
+                    marginRight: 15,
+                }]}  onPress={() => {
                     this.submit();
                 }}>
-                    <Text style={{color: '#ffffff', fontSize: 14}}>立即充值</Text>
+                    <Text style={{color: '#ffffff', fontSize: 17}}>立即充值</Text>
                 </TouchableView>
             </View>
         );

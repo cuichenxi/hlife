@@ -196,10 +196,11 @@ export default class Main extends BaseComponent {
             console.log('Device register succeed, registrationId ' + registrationId)
         })
         //ios
-        JPushModule.getAppkeyWithcallback((registrationId) => {
-            // alert('' + registrationId);
-            console.log('Device register succeed, registrationId ' + registrationId)
-        })
+        // JPushModule.getAppkeyWithcallback((registrationId) => {
+        //     // alert('' + registrationId);
+        //     console.log('Device register succeed, registrationId ' + registrationId)
+        // })
+        // JPushModule.getAppkeyWithcallback()
         JPushModule.clearAllNotifications();
     }
 

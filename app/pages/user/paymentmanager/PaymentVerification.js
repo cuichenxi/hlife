@@ -5,6 +5,7 @@ import CountDownButton from "../../../components/CountDownButton";
 import {CommonStyle} from "../../../common/CommonStyle";
 import UserStore from "../../../store/UserStore";
 import Request from "../../../utils/Request";
+import {ThemeStyle} from "../../../common/ThemeStyle";
 
 export default class PaymentVerification extends BaseComponent{
     navigationBarProps() {
@@ -102,20 +103,15 @@ export default class PaymentVerification extends BaseComponent{
                     />
                 </View>
 
-                <TouchableOpacity style={{
-                    height: 40,
-                    marginLeft: 30,
-                    marginRight: 30,
-                    borderRadius: 30,
-                    backgroundColor: CommonStyle.themeColor,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginTop:30
-                }} onPress={()=>{
+                <TouchableView style={[ThemeStyle.btn_submit, {
+                    marginTop: 20,
+                    marginLeft: 15,
+                    marginRight: 15,
+                }]}onPress={()=>{
                     this.commitPaymentCode()
                 }}>
                     <Text style={styles.loginText}>保存</Text>
-                </TouchableOpacity>
+                </TouchableView>
             </View>
         );
     }

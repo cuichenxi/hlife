@@ -16,6 +16,7 @@ import {BaseComponent} from '../../components/base/BaseComponent'
 import NavigationUtil from "../../utils/NavigationUtil";
 import {CommonStyle} from "../../common/CommonStyle";
 import CountDownButton from "../../components/CountDownButton";
+import {ThemeStyle} from "../../common/ThemeStyle";
 
 var { width, height } = Dimensions.get('window');
 
@@ -102,16 +103,11 @@ export default class Login extends BaseComponent {
                             }}/>
                     </View>
                 </View>
-                <TouchableOpacity style={{
-                    height: 40,
-                    marginLeft: 30,
-                    marginRight: 30,
+                <TouchableOpacity style={[{
+                    marginLeft: 15,
+                    marginRight: 15,
                     marginTop: 20,
-                    borderRadius: 30,
-                    backgroundColor: CommonStyle.themeColor,
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                }} onPress={this._login.bind(this)}>
+                }, ThemeStyle.btn_submit]} onPress={this._login.bind(this)}>
                     <Text style={styles.loginText}>登录</Text>
                 </TouchableOpacity>
             </View>
