@@ -1,4 +1,3 @@
-import {BaseComponent} from "../../components/base/BaseComponent";
 import {Dimensions, Image, Text, View} from "react-native";
 import React from "react";
 import GiftedListView from "../../components/refreshList/GiftedListView";
@@ -9,7 +8,7 @@ import util from "../../utils/util";
 import TouchableView from "../../components/TouchableView";
 
 let {width, height} = Dimensions.get('window')
-export default class MessageList extends BaseView {
+export default class MessageListView extends BaseView {
     constructor(props) {
         super(props)
         this.state = {
@@ -81,7 +80,7 @@ export default class MessageList extends BaseView {
                         textAlign: 'left', color: '#999'
                     }}>{item.content}</Text>
                 </View>
-            </To>
+            </TouchableView>
 
 
         )
