@@ -4,12 +4,36 @@ import {BaseComponent} from '../../components/base/BaseComponent'
 import {CommonStyle} from "../../common/CommonStyle";
 import Tabs from "antd-mobile-rn/es/tabs/index.native";
 import MessageListView from "./MessageListView";
+import Request from "../../utils/Request";
 
 export default class Message extends BaseComponent {
     navigationBarProps() {
         return {
             title: '通知',
+            rightTitle:'全部已读'
         }
+    }
+    onRightPress(){
+        Request.post('/api/home/msgreadAll', {evaluate:1,id:item.id}).then(rep => {
+            if (rep.code == 0 && rep.data) {
+            } else {
+            }
+        }).catch(err => {
+        }).done(() => {
+            this.hideLoading();
+        })
+    }
+    msgread(){
+        Request.post('/api/home/msgread', {evaluate:1,id:item.id}).then(rep => {
+            if (rep.code == 0 && rep.data) {
+
+            } else {
+
+            }
+        }).catch(err => {
+        }).done(() => {
+            this.hideLoading();
+        })
     }
 
     _render() {
@@ -38,8 +62,9 @@ export default class Message extends BaseComponent {
                 flex: 1,
                 backgroundColor: 'white',
                 flexDirection: 'column'
-            }} tab={tab} index={index} onButtonPress={() =>{
-                this.navigate('PublishPost')
+            }} tab={tab} index={index} onButtonPress={(item) =>{
+                this.msgread();
+                this.navigate('MessageDetail',item)
             }}/>
         )
     }

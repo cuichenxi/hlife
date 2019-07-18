@@ -40,7 +40,7 @@ import MyShippingAddress from "./pages/user/myaddress/MyShippingAddress";
 import AddShippingAddress from "./pages/user/myaddress/AddShippingAddress";
 import MySetting from "./pages/user/MySetting";
 import AuthPage from "./pages/user/AuthPage";
-import MessageList from "./pages/main/MessageList";
+import MessageDetail from "./pages/main/MessageDetail";
 import ProductDetail from "./pages/shopping/ProductDetail";
 import GiveAdvice from "./pages/housekeeper/GiveAdvice";
 import RepairsSelect from "./pages/housekeeper/RepairsSelect";
@@ -90,6 +90,7 @@ import PublishActivity from "./pages/housekeeper/PublishActivity";
 import RedPacketExplain from "./pages/user/redpacket/RedPacketExplain";
 import RepairOrderDetail from "./pages/user/RepairOrderDetail";
 import ComplaintList from "./pages/user/ComplaintList";
+import ComplaintDetail from "./pages/user/ComplaintDetail";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -203,7 +204,7 @@ const App = createStackNavigator(
         MyInvoiceList:{screen:MyInvoiceList},//我的发票
         MySetting:{screen:MySetting},//我的设置
         AuthPage:{screen:AuthPage},//认证
-        MessageList:{screen:MessageList},//消息列表
+        MessageDetail:{screen:MessageDetail},//消息详情
         ProductDetail:{screen:ProductDetail},//商品详情
         GiveAdvice:{screen:GiveAdvice},//咨询建议
         RepairsSelect:{screen:RepairsSelect},//报修报事
@@ -251,6 +252,7 @@ const App = createStackNavigator(
         RedPacketExplain:{screen:RedPacketExplain},//红包说明
         RepairOrderDetail:{screen:RepairOrderDetail},//工单记录详情
         ComplaintList:{screen:ComplaintList},//投诉表扬
+        ComplaintDetail:{screen: ComplaintDetail},//投诉表扬详情
     },
     {
         // initialRouteName: 'Splash',

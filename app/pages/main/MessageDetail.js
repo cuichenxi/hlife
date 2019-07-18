@@ -6,7 +6,7 @@ import {PAGE_SIZE} from "../../constants/AppConstants";
 import Request from "../../utils/Request";
 
 let {width} = Dimensions.get('window')
-export default class MessageList extends BaseComponent {
+export default class MessageDetail extends BaseComponent {
     navigationBarProps() {
         return {
             title: '通知',

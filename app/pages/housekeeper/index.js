@@ -235,7 +235,7 @@ export default class Housekeeper extends BaseComponent {
                 this._jumpRouter(item)
             }}>
                 <View style={[{flex: 1}, styles.typesItem]}>
-                    <ImageView source={item.imageUrl} style={{width: 30, height: 30, marginTop: 20, }}/>
+                    <ImageView source={item.imageUrl} style={{width: 30, height: 30, marginTop: 10, }}/>
                     <Text style={{fontSize: 12, color: "#333", marginTop: 20}}>{item.name}</Text>
                 </View>
             </TouchableView>

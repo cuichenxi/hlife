@@ -31,7 +31,19 @@ export default class RepairRecordList extends BaseComponent{
             </View>
         );
     }
-
+//
+    postComment(){
+        //类型：Number  必有字段  备注：1不满意 2 满意
+        Request.post('/api/user/repairComment', {evaluate:1,id:item.id}).then(rep => {
+            if (rep.code == 0 && rep.data) {
+                // console.log(JSON.stringify(rep))
+            } else {
+            }
+        }).catch(err => {
+        }).done(() => {
+            this.hideLoading();
+        })
+    }
     makeRemoteRequest(page = 1, callback) {
         let param = { page: page - 1, pageSize: PAGE_SIZE};
 
@@ -62,7 +74,7 @@ export default class RepairRecordList extends BaseComponent{
                 this.navigate("RepairOrderDetail", item)
             }}>
                 <View style={{
-                    backgroundColor: 'white',
+                    backgroundColor: '#fff',
                     height: 80,
                     flexDirection: 'row',
                     alignItems: 'center',
@@ -71,8 +83,8 @@ export default class RepairRecordList extends BaseComponent{
                 }}>
                     <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
                         <ImageView defaultSource={require("../../img/icon_tools.png")} style={{
-                            width: 17,
-                            height: 27, alignItems: 'center', marginLeft: 12
+                            width: 27,
+                            height: 27, alignItems: 'center', marginLeft: 10
                         }} resizeMode='cover'/>
                         <View style={{justifyContent: 'flex-start', alignItems: 'flex-start', marginLeft: 15}}>
                             <Text style={{

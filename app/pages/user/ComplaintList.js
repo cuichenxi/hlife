@@ -32,7 +32,8 @@ export default class ComplaintList extends BaseComponent{
     }
 
     makeRemoteRequest(page = 1, callback) {
-        let param = { page: page - 1, pageSize: PAGE_SIZE};
+        // let param = { page: page - 1, pageSize: PAGE_SIZE};
+        let param = { page: page - 1, pageSize: 100};
 
         console.log(this.props)
         Request.post('/api/steward/complaintpraiseList', param,
@@ -40,9 +41,10 @@ export default class ComplaintList extends BaseComponent{
                 mock: false,
                 mockId: 1095356,
             }).then(rep => {
-            if (rep.code == 0 && rep.data && !util.isArrayEmpty(rep.data.rows)) {
+            if (rep.code == 0 && rep.data ) {
+            // if (rep.code == 0 && rep.data && !util.isArrayEmpty(rep.data.rows)) {
                 // console.log(JSON.stringify(rep))
-                callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
+                callback(rep.data, {allLoaded: true})
             } else {
                 callback(null,{emptyTitle: '暂无记录'})
             }
@@ -54,11 +56,9 @@ export default class ComplaintList extends BaseComponent{
     }
 
     _renderRowView(item) {
-        const statusFontColor = item.statusFontColor;
-        const statusBgColor = item.statusBgColor;
         return (
             <TouchableView onPress={() => {
-                this.navigate("RepairOrderDetail", item)
+                this.navigate("ComplaintDetail", item)
             }}>
                 <View style={{
                     backgroundColor: 'white',
@@ -69,37 +69,34 @@ export default class ComplaintList extends BaseComponent{
                     // padding: 10,
                 }}>
                     <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                        <ImageView defaultSource={require("../../img/icon_tools.png")} style={{
-                            width: 17,
-                            height: 27, alignItems: 'center', marginLeft: 12
+                        <ImageView defaultSource={require("../../img/menu_tsby.png")} style={{
+                            width: 27,
+                            height: 27, alignItems: 'center', marginLeft: 10
                         }} resizeMode='cover'/>
                         <View style={{justifyContent: 'flex-start', alignItems: 'flex-start', marginLeft: 15}}>
                             <Text style={{
                                 color: '#333',
                                 padding: 3,
                                 fontSize: 15
-                            }}>{item.title}</Text>
+                            }}>{item.memberName}</Text>
                             <Text style={{
                                 color: '#999',
                                 padding: 3,
                                 fontSize: 13
-                            }}>报修时间:{item.createtime}</Text>
+                            }}>{item.createTime}</Text>
                         </View>
                     </View>
 
-                        <Text style={{
-                            color: statusFontColor,
-                            borderRadius: 30,
-                            borderWidth: 1,
-                            borderColor: statusBgColor,
-                            backgroundColor:statusBgColor,
-                            paddingTop:3,
-                            paddingBottom:3,
-                            paddingRight:5,
-                            paddingLeft:5,
-                            fontSize: 12,
-                            marginRight: 12
-                        }}>{item.statusName}</Text>
+                        {/*<Text style={{*/}
+                            {/*borderRadius: 30,*/}
+                            {/*borderWidth: 1,*/}
+                            {/*paddingTop:3,*/}
+                            {/*paddingBottom:3,*/}
+                            {/*paddingRight:5,*/}
+                            {/*paddingLeft:5,*/}
+                            {/*fontSize: 12,*/}
+                            {/*marginRight: 12*/}
+                        {/*}}>{item.status}</Text>*/}
 
                 </View>
             </TouchableView>

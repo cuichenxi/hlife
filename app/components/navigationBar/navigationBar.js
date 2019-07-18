@@ -13,7 +13,7 @@ const defaultNavigationBarProps = {
     hiddenRightItem: false,
     leftIcon: {
         name: 'icon-back',
-        size: 25,
+        size: 20,
         color: '#333'
     }
 }
@@ -76,7 +76,7 @@ export default class NavigationBar extends Component {
             )
         } else {
             tempComponent = (
-                <QIcon name={'nav_back_o'} size={18} color={CommonStyle.iconGray}/>
+                <QIcon name={'nav_back_o'} size={12} color={CommonStyle.iconGray}/>
             )
         }
         return (

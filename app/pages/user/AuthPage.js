@@ -95,7 +95,7 @@ export default class AuthPage extends BaseComponent {
                     <TouchableView onPress={() => {
                         this.goBack()
                     }}>
-                        <QIcon name={'icon-back'} size={25} color={'#fff'}/>
+                        <QIcon name={'icon-back'} size={20} color={'#fff'}/>
                     </TouchableView>
 
                     <View style={{flex: 1, height: 50, alignItems: 'center', justifyContent: 'center'}}>

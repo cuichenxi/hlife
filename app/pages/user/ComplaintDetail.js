@@ -8,45 +8,40 @@ import {PAY_FROM_ORDER_DETAIL} from "../../constants/ActionTypes";
 import ImageView from "../../components/ImageView";
 
 
-export default class RepairOrderDetail extends BaseComponent {
+export default class ComplaintDetail extends BaseComponent {
     navigationBarProps() {
         return {
-            title: '详情',
+            title: '投诉表扬',
         }
     }
 
     constructor(props) {
         super(props);
         this.state = {
+            item: {},
             data: {},
-            headerUrl: '',
-            leaveMessage: null,
-            id: null,
-            num: 0,
-            redPacketId: 0,
-            addressId: 1,
             refreshing: false
         }
     }
-// {
-//     "createtime": "2019-07-10 16:09:53",
-//     "repairtype": 1,
-//     "status": 1,
-//     "statusBgColor": "#FF0000",
-//     "statusFontColor": "#ffffff",
-//     "statusName": "未处理",
-//     "title": "看"
-// }
-    onShow(e) {
+
+    // "communityName": "药都蓝湾",
+    // "content": "哈哈",
+    // "createTime": "2019-07-15 15:06:07",
+    // "id": 2,
+    // "memberName": "Tracy",
+    // "reply": null,
+    // "replyTime": null,
+    // "status": 0
+    onReady(e) {
         this.setState({
-            data: e,
+            item: e,
         }, () => {
-            // this.requestData();
+            this.requestData();
         });
     }
 
     requestData() {
-        let param = {id: this.state.id};
+        let param = {id: this.state.item.id};
         this.showLoading()
         Request.post('/api/steward/complaintpraiseInfo', param).then(rep => {
             if (rep.code == 0 && rep.data) {
@@ -69,38 +64,18 @@ export default class RepairOrderDetail extends BaseComponent {
         this.requestData();
     }
 
-
-    onPay() {
-        this.navigate('PayCenter', {id: this.state.id, from: PAY_FROM_ORDER_DETAIL})
-    }
-    onRefund() {
-        let param = {orderId: this.state.data.id,orderNo:this.state.data.orderno};
-        this.showLoading('申请退款中')
-        setTimeout(() => {
-            Request.post('/api/pay/refund', param).then(rep => {
-                if (rep.code == 0 && rep.data) {
-                    this.requestData()
-                } else {
-                    this.showShort(rep.message);
-                }
-            }).catch(err => {
-
-            }).done(() => {
-                this.hideLoading()
-                this.setState({refreshing: false});
-            })
-        }, 1000);
-    }
-
+    // "communityName": "药都蓝湾",
+    // "content": "哈哈",
+    // "createTime": "2019-07-15 15:06:07",
+    // "id": 2,
+    // "memberName": "Tracy",
+    // "reply": null,
+    // "replyTime": null,
+    // "status": 0
     _render() {
         const {data} = this.state
-        var statusStr = data.statusName;
-
-        var sh = data.shippingAddressListDTO;
-        var address = ''
-        if (sh) {
-            address = sh.detail + '\r\n' + sh.name + ' ' + sh.tel;
-        }
+        var statusStr = data.status === 0 ? '处理中' : '已处理';
+        var address = data.communityName + '\r\n' + data.memberName;
         return (
             <View style={{flex: 1}}>
                 <ScrollView style={{
@@ -119,15 +94,10 @@ export default class RepairOrderDetail extends BaseComponent {
                             <Text style={{marginLeft: 5, fontSize: 14, color: '#333'}}>{statusStr}</Text>
                         </View>
                         <View style={{flexDirection: 'row', marginTop: 10}}>
-                            <Text style={{fontSize: 14, color: '#333'}}>订单编号 : </Text>
-                            <Text style={{marginLeft: 5, fontSize: 14, color: '#333'}}>{data.orderno}</Text>
-                        </View>
-                        <View style={{flexDirection: 'row', marginTop: 10}}>
                             <Text style={{fontSize: 14, color: '#333'}}>下单时间 : </Text>
-                            <Text style={{marginLeft: 5, fontSize: 14, color: '#333'}}>{data.createtime}</Text>
+                            <Text style={{marginLeft: 5, fontSize: 14, color: '#333'}}>{data.createTime}</Text>
                         </View>
                     </View>
-                    {data.goodsList && data.goodsList.map((item) => this._renderOrderItem(item))}
                     <View style={{
                         flexDirection: 'row',
                         flex: 1,
@@ -149,65 +119,23 @@ export default class RepairOrderDetail extends BaseComponent {
                     <ImageBackground style={{height: 3, width: '100%'}}
                                      source={require('../../img/bg_order_confirm.png')}></ImageBackground>
 
+                    <View style={{marginTop: 15, backgroundColor: '#fff', paddingLeft: 15}}>
+                        <Text style={{fontSize: 16, color: '#333', height: 40, textAlignVertical: 'center'}}>投诉表扬</Text>
+                        <View style={{backgroundColor: CommonStyle.lightGray, flex: 1, height: .5}}/>
+                        <Text style={{fontSize: 16, color: '#333', paddingVertical: 15,}}>{data.content}</Text>
+                    </View>
+                    <View style={{marginTop: 15, backgroundColor: '#fff', paddingLeft: 15}}>
+                        <Text style={{fontSize: 16, color: '#333', height: 40, textAlignVertical: 'center'}}>处理反馈</Text>
+                        <View style={{backgroundColor:CommonStyle.lightGray,flex:1, height: .5}}/>
+                        <Text style={{
+                            fontSize: 16,
+                            color: '#333',
+                            paddingVertical: 15,
+                        }}>{data.reply ? data.reply : '暂无'}</Text>
+                    </View>
                 </ScrollView>
-                <View style={{
-                    position: CommonStyle.absolute,
-                    bottom: 0,
-                    height: 48,
-                    width: '100%',
-                    alignItems: 'center',
-                    flexDirection: 'row'
-                }}>
-                    {data.status === 1 && <TouchableView style={{
-                        flex: 1,
-                        height: 48,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        backgroundColor: CommonStyle.tomato,
-                    }} onPress={() => {
-                        this.onPay()
-                    }}
-                    >
-                        <Text style={{fontSize: 16, color: '#fff'}}>付款</Text>
-                    </TouchableView>
-                    }
-                    {data.status === 3 && <TouchableView style={{
-                        flex: 1,
-                        height: 48,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        backgroundColor: CommonStyle.tomato,
-                    }} onPress={() => {
-                        this.onRefund()
-                    }}
-                    >
-                        <Text style={{fontSize: 16, color: '#fff'}}>申请退款</Text>
-                    </TouchableView>
-                    }
-                </View>
-            </View>);
+            </View>
+        );
     }
 
-    _renderOrderItem(item) {
-        return (
-            <View style={{
-                paddingHorizontal: 12,
-                paddingVertical: 15,
-                marginTop: 10,
-                backgroundColor: '#fff',
-                flexDirection: 'row',
-                height: 100,
-                flex: 1,
-            }}>
-                <ImageView style={{height: 70, width: 70}}
-                           source={this.state.imageUrl} defaultSource={require('../../img/default_image.png')}/>
-                <Text
-                    style={{marginLeft: 15, flex: 1, fontSize: 16, color: '#333'}}>{item.goodsName}</Text>
-                <View style={{marginTop: 6, flexDirection: 'column'}}>
-                    <Text style={{fontSize: 14, color: '#333'}}>￥{item.price}</Text>
-                    <Text style={{marginTop: 6, fontSize: 14, color: '#333'}}>x{item.num}</Text>
-                </View>
-            </View>
-        )
-    }
 }

@@ -6,6 +6,7 @@ import {PAGE_SIZE} from "../../constants/AppConstants";
 import Request from "../../utils/Request";
 import {BaseView} from "../../components/base/BaseView";
 import util from "../../utils/util";
+import TouchableView from "../../components/TouchableView";
 
 let {width, height} = Dimensions.get('window')
 export default class MessageList extends BaseView {
@@ -54,12 +55,14 @@ export default class MessageList extends BaseView {
     _renderRowView(item, i) {
         return (
 
-            <View style={{
+            <TouchableView style={{
                 backgroundColor: 'white',
                 // height:50,
                 flexDirection: 'row',
                 alignItems: 'center',
                 padding: 5
+            }} onPress={()=>{
+                this.state.onButtonPress(item)
             }}>
                 <Image
                     source={require('../../img/order_message.png')}
@@ -78,7 +81,7 @@ export default class MessageList extends BaseView {
                         textAlign: 'left', color: '#999'
                     }}>{item.content}</Text>
                 </View>
-            </View>
+            </To>
 
 
         )
