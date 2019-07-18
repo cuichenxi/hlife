@@ -24,6 +24,14 @@ export default class Index extends BaseView {
         console.log(this.props)
     }
 
+    componentDidMount() {
+        this.props.onRef(this)
+    }
+
+    refreshList =() =>{
+        this.listRef._refresh();
+    }
+
     makeRemoteRequest(page = 1, callback) {
         let param = {status: this.state.index, page: page - 1, pageSize: PAGE_SIZE};
 
@@ -101,7 +109,7 @@ export default class Index extends BaseView {
                     </View>
                 </View>
                 <Text style={{fontSize: 14, color: '#333', padding: 10}}>{item.content}</Text>
-                {this._renderGridView(item.imageUrlList)}
+                {item.imageUrlList?this._renderGridView(item.imageUrlList):<View></View>}
                 <View style={{
                     alignItems: 'center',
                     justifyContent: 'flex-start',
@@ -121,7 +129,7 @@ export default class Index extends BaseView {
                     <Text style={{color: '#999', fontSize: 12, marginRight: 40}}>{item.likeCount}</Text>
                     <ImageView source={require("../../img/comment_icon.png")}
                                style={{
-                                   width: 17,
+                                   width: 16.5,
                                    height: 15,
                                    resizeMode: "cover",
                                    marginRight: 10
@@ -222,6 +230,7 @@ export default class Index extends BaseView {
     _renderGridItem(item, index) {
         return (
             <ImageView source={item}
+                       key={index}
                        style={{
                            width: 175,
                            height: 131,

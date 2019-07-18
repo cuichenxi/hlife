@@ -19,6 +19,7 @@ export default class ElectronicKey extends BaseComponent{
                 rowView={this._renderRowView.bind(this)}
                 onFetch={this.makeRemoteRequest.bind(this)}
                 loadMore={false}
+                pagination={false}
             />
         );
     }

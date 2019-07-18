@@ -1,6 +1,6 @@
 import {BaseComponent} from "../../components/base/BaseComponent";
 import React from "react";
-import {Dimensions, FlatList, Image, ImageBackground, RefreshControl, ScrollView, Text, View} from "react-native";
+import {Dimensions, FlatList, Image, ImageBackground, ScrollView, Text, View} from "react-native";
 import {CommonStyle} from "../../common/CommonStyle";
 import TouchableView from "../../components/TouchableView";
 import UserStore from "../../store/UserStore";
@@ -25,9 +25,6 @@ export default class RepairsSelect extends BaseComponent {
     constructor(props) {
         super(props);
         this.state = {
-            // title: this.props.navigation.state.params.title,
-            // firstType: this.props.navigation.state.params.title === '咨询建议' ? '发表建议' : '我要投诉',
-            // secondType: this.props.navigation.state.params.title === '咨询建议' ? '我要咨询' : '我要表扬',
             types: [
                 {
                     name: '居家报修',
@@ -162,6 +159,7 @@ export default class RepairsSelect extends BaseComponent {
     fetchData(page = 1) {
         let param = { page: page - 1, pageSize: PAGE_SIZE};
 
+        this.showDLoading()
         Request.post('/api/user/mycommunityList', param,
             {
                 mock: false,
@@ -183,7 +181,7 @@ export default class RepairsSelect extends BaseComponent {
         }).catch(err => {
 
         }).done(() => {
-            // this.hideLoading();
+            this.hideLoading();
         })
     }
 

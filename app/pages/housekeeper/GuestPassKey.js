@@ -72,6 +72,7 @@ export default class GuestPassKey extends BaseComponent {
         })
 
         this.makeRemoteRequest()
+        this.fetchData()
     }
 
     onPress = () => {
@@ -279,6 +280,34 @@ export default class GuestPassKey extends BaseComponent {
         })
     }
 
+
+    fetchData(page = 1) {
+        let param = { page: page - 1, pageSize: PAGE_SIZE};
+
+        Request.post('/api/user/mycommunityList', param,
+            {
+                mock: false,
+                mockId: 1095864,
+            }).then(rep => {
+            if (rep.code == 0 && rep.data) {
+                this.setState({
+                    rows: rep.data
+                })
+                for (var community of rep.data){
+                    if (community.isAuth == 1) {
+                        this.setState({
+                            address:community.communityName+community.buildingName+community.unitName+community.roomName
+                        })
+                        break
+                    }
+                }
+            }
+        }).catch(err => {
+
+        }).done(() => {
+            // this.hideLoading();
+        })
+    }
 
 
     guestPass() {

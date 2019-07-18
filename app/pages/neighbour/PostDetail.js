@@ -54,8 +54,6 @@ export default class PostDetail extends BaseComponent {
                     flex: 1,
                     flexDirection: 'column'
                 }}>
-
-
                     <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: '100%'}}/>
                     <View style={{
                         backgroundColor: 'white',
@@ -180,7 +178,6 @@ export default class PostDetail extends BaseComponent {
                              (message) => {
                                 console.log('=======go back======' + message)
                                 this.makeRemoteRequest()
-                                // this.makeCommentRequest()
                         })
                     }
                     }>
@@ -212,7 +209,7 @@ export default class PostDetail extends BaseComponent {
     _rendrImage = (images) => {
         return images.map((item, i) => {
             return (
-                <ImageView source={item}
+                <ImageView source={item} key={i}
                            style={{
                                width: width,
                                height: 213,
@@ -286,6 +283,7 @@ export default class PostDetail extends BaseComponent {
     makeRemoteRequest() {
         let param = {id: this.state.id};
 
+        this.showDLoading()
         Request.post('/api/neighbour/invitation/detail', param,
             {
                 mock: false,
@@ -305,17 +303,19 @@ export default class PostDetail extends BaseComponent {
                         like: false
                     })
                 }
+            } else {
+                this.showShort(rep.message)
             }
         }).catch(err => {
 
         }).done(() => {
+            this.hideLoading()
         })
     }
 
     makeCommentRequest(page = 1, callback) {
         let param = {id: this.state.id, page: page - 1, pageSize: PAGE_SIZE};
 
-        console.log(this.props)
         Request.post('/api/neighbour/comment/list', param,
             {
                 mock: false,
@@ -338,8 +338,6 @@ export default class PostDetail extends BaseComponent {
         console.log(this.state.like)
         this.state.like = !this.state.like
 
-        console.log('=============')
-        console.log(this.state.like)
         let param = {id: this.state.id, type: this.state.like === true ? 1 : 0};
 
         Request.post('/api/neighbour/like', param,
@@ -365,11 +363,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingBottom: 68,
-    },
-    banner: {height: 180,},
-    slide: {
-        height: 180,
-        resizeMode: Image.resizeMode.stretch,
     },
     bottomIcon: {
         width: 15, height: 15, resizeMode: 'contain'
