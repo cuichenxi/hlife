@@ -10,6 +10,7 @@ import Request from "../../utils/Request";
 import CheckBox from "../../components/Checkbox";
 import LivingPaymentItem from "./LivingPaymentItem";
 import util from "../../utils/util";
+import {ORDER_TYPE_JF, PAY_FROM_CREATE_ORDER, PAY_FROM_JF} from "../../constants/ActionTypes";
 
 let {width} = Dimensions.get('window')
 const Font = {
@@ -42,7 +43,7 @@ export default class LivingPaymentDetail extends BaseComponent {
             endDate: this.props.navigation.state.params.endDate,
             isAllChecked: false,
             isLoading: false,
-            months:[]
+            months: []
         }
     }
 
@@ -51,7 +52,7 @@ export default class LivingPaymentDetail extends BaseComponent {
     }
 
     _render() {
-        const {communityinfo, rows, items, totalPrice, defaultColor,months} = this.state
+        const {communityinfo, rows, items, totalPrice, defaultColor, months} = this.state
         return (
             <View style={styles.container}>
                 <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
@@ -126,7 +127,7 @@ export default class LivingPaymentDetail extends BaseComponent {
                                         totalPrice: totalPrice,
                                         defaultColor: CommonStyle.themeColor,
                                         enabledBt: true,
-                                        months:months
+                                        months: months
                                     })
                                 } else {
                                     this.setState({
@@ -136,7 +137,7 @@ export default class LivingPaymentDetail extends BaseComponent {
                                         totalPrice: 0,
                                         defaultColor: CommonStyle.drakGray,
                                         enabledBt: false,
-                                        months:[]
+                                        months: []
                                     })
                                 }
                             }}
@@ -228,9 +229,9 @@ export default class LivingPaymentDetail extends BaseComponent {
             })
 
         } else {
-            for (var i=0;i<this.state.months.length;i++){
-                if (this.state.months[i] == parseInt(datas[index].yearMonth)){
-                    this.state.months.splice(i,1)
+            for (var i = 0; i < this.state.months.length; i++) {
+                if (this.state.months[i] == parseInt(datas[index].yearMonth)) {
+                    this.state.months.splice(i, 1)
                 }
             }
 
@@ -251,8 +252,8 @@ export default class LivingPaymentDetail extends BaseComponent {
         let param = {
             page: page - 1,
             pageSize: PAGE_SIZE,
-            startDate: this.state.startDate.substring(0,10) ,
-            endDate: this.state.endDate.substring(0,10)
+            startDate: this.state.startDate.substring(0, 10),
+            endDate: this.state.endDate.substring(0, 10)
         };
 
         Request.post('/api/fee/list', param,
@@ -382,25 +383,24 @@ export default class LivingPaymentDetail extends BaseComponent {
         console.log(this.state.months)
 
 
-        if (util.isArrayEmpty(this.state.months)){
+        if (util.isArrayEmpty(this.state.months)) {
             return
         }
         this.showLoading("生单中...");
 
         let param = {
-            month:this.state.months
+            month: this.state.months
         };
         Request.post('/api/pay/chargeBatch', param).then(rep => {
             if (rep.code === 0 && rep.data) {
                 this.navigate('PayCenter', {
-                    id: rep.data.id,
-                    totalPrice:rep.data.totalPrice,
-                    orderno:rep.data.orderno,
-                    type:3
-                    // orderDetailList: orderDetailList,
-                    // from: PAY_FROM_CREATE_ORDER
-                }
-                    )
+                        id: rep.data.id,
+                        totalPrice: rep.data.totalPrice,
+                        orderno: rep.data.orderno,
+                        type: ORDER_TYPE_JF,
+                        from: PAY_FROM_JF
+                    }
+                )
             } else {
                 this.showShort(rep.message);
             }

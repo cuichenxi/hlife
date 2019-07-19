@@ -12,7 +12,7 @@ import {
 
 import {BaseComponent} from "../../components/base/BaseComponent";
 import {CommonStyle} from "../../common/CommonStyle";
-import {PAY_FROM_CREATE_ORDER} from "../../constants/ActionTypes";
+import {ORDER_TYPE_DD, PAY_FROM_CREATE_ORDER} from "../../constants/ActionTypes";
 import Request from "../../utils/Request";
 import TouchableView from "../../components/TouchableView";
 import ImageView from "../../components/ImageView";
@@ -100,7 +100,8 @@ export default class OrderConfirm extends BaseComponent {
                     totalPrice:rep.data.totalPrice,
                     orderno:rep.data.orderno,
                     orderDetailList: orderDetailList,
-                    from: PAY_FROM_CREATE_ORDER})
+                    from: PAY_FROM_CREATE_ORDER,
+                    orderType: ORDER_TYPE_DD})
             } else {
                 this.showShort(rep.message);
             }

@@ -334,15 +334,15 @@ export default class Main extends BaseComponent {
     }
 
     onScanClick() {
-        // this.navigate("BarcodePage", {},
-        //     (backData) => {
-        //         setTimeout(() => {
-        //             this.navigate('scanInfo',{serialNum: backData})
-        //         }, 500);
-        //
-        //     }
-        // );
-        $router();
+        this.navigate("BarcodePage", {},
+            (backData) => {
+                setTimeout(() => {
+                    this.navigate('scanInfo',{serialNum: backData})
+                }, 500);
+
+            }
+        );
+        // $router();
         // this.navigate('scanInfo',{serialNum: 1111111})
     }
 

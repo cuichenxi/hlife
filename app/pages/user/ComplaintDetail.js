@@ -2,9 +2,7 @@ import {BaseComponent} from "../../components/base/BaseComponent";
 import React from "react";
 import {ImageBackground, RefreshControl, ScrollView, Text, View} from "react-native";
 import {CommonStyle} from "../../common/CommonStyle";
-import TouchableView from "../../components/TouchableView";
 import Request from "../../utils/Request";
-import {PAY_FROM_ORDER_DETAIL} from "../../constants/ActionTypes";
 import ImageView from "../../components/ImageView";
 
 

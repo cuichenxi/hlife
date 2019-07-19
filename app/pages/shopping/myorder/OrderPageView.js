@@ -9,7 +9,7 @@ import {CommonStyle} from "../../../common/CommonStyle";
 import util from "../../../utils/util";
 import ImageView from "../../../components/ImageView";
 import NavigationUtil from "../../../utils/NavigationUtil";
-import {PAY_FROM_ORDER_ORDER_LIST} from "../../../constants/ActionTypes";
+import {ORDER_TYPE_DD, PAY_FROM_ORDER_ORDER_LIST} from "../../../constants/ActionTypes";
 
 export default class Index extends BaseView {
     constructor(props) {
@@ -113,6 +113,7 @@ export default class Index extends BaseView {
                             id: item.id,
                             totalPrice: totalPrice,
                             orderno: item.orderno,
+                            orderType: ORDER_TYPE_DD,
                             from: PAY_FROM_ORDER_ORDER_LIST
                         })
                     }}>

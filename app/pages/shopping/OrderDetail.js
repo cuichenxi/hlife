@@ -4,7 +4,7 @@ import {ImageBackground, RefreshControl, ScrollView, Text, View} from "react-nat
 import {CommonStyle} from "../../common/CommonStyle";
 import TouchableView from "../../components/TouchableView";
 import Request from "../../utils/Request";
-import {PAY_FROM_ORDER_DETAIL} from "../../constants/ActionTypes";
+import {ORDER_TYPE_DD, PAY_FROM_ORDER_DETAIL} from "../../constants/ActionTypes";
 import ImageView from "../../components/ImageView";
 
 
@@ -72,7 +72,7 @@ export default class OrderDetail extends BaseComponent {
 // ,"status":1,"totalprice":1.5}
 
     onPay() {
-        this.navigate('PayCenter', {id: this.state.id, from: PAY_FROM_ORDER_DETAIL})
+        this.navigate('PayCenter', {id: this.state.id, from: PAY_FROM_ORDER_DETAIL,orderType: ORDER_TYPE_DD})
     }
     onRefund() {
         let param = {orderId: this.state.data.id,orderNo:this.state.data.orderno};

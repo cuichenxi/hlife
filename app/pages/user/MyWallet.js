@@ -4,15 +4,12 @@ import {Dimensions, Image, Text, TextInput, View} from "react-native";
 import {CommonStyle} from "../../common/CommonStyle";
 import LinearGradient from "react-native-linear-gradient";
 import TouchableView from "../../components/TouchableView";
-import RadioModal from "../../components/RadioModal";
 import ImageView from "../../components/ImageView";
 import UserStore from "../../store/UserStore";
 import QIcon from "../../components/icon";
-import {PAGE_SIZE} from "../../constants/AppConstants";
 import Request from "../../utils/Request";
-import {PAY_FROM_CREATE_ORDER, PAY_FROM_WALLET} from "../../constants/ActionTypes";
+import {ORDER_TYPE_CZ, PAY_FROM_WALLET} from "../../constants/ActionTypes";
 import {Modal} from "antd-mobile-rn/lib/index.native";
-import util from "../../utils/util";
 import {ThemeStyle} from "../../common/ThemeStyle";
 
 let {width, height} = Dimensions.get('window')
@@ -53,6 +50,7 @@ export default class MyWallet extends BaseComponent {
                     id: rep.data.id,
                     totalPrice: rep.data.totalPrice,
                     orderno: rep.data.orderno,
+                    orderType: ORDER_TYPE_CZ,
                     from: PAY_FROM_WALLET
                 })
             } else if (rep.code == 1060) {

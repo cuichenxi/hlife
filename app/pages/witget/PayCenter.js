@@ -146,7 +146,7 @@ export default class PayCenter extends BaseComponent {
             totalPrice: e.totalPrice,
             from: e.from,
             balance: userInfo.balance,
-            type: e.from == PAY_FROM_WALLET ? 2 : 1,
+            type: e.orderType,
             orderDetailList: e.orderDetailList
         })
     }
