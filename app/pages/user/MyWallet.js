@@ -127,7 +127,7 @@ export default class MyWallet extends BaseComponent {
         this.setState({
             balance: userInfo.balance,
         })
-        this.showLoading('查询余额...');
+        // this.showLoading('查询余额...');
         Request.post('/api/user/getuserinfo', {}).then(rep => {
             if (rep.code === 0 && rep.data) {
                 UserStore.save({

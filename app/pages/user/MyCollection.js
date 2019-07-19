@@ -48,7 +48,7 @@ export default class MyCollection extends BaseComponent{
 
     _renderRowView(item) {
         return (
-            <TouchableView onPress={() => this.navigate('ProductDetail', {id: item.id})}>
+            <TouchableView onPress={() => this.navigate('ProductDetail', {id: item.productId})}>
                 <View style={{
                     backgroundColor: 'white',
                     // height:50,

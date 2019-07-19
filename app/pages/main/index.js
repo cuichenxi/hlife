@@ -15,7 +15,7 @@ import {CALL_BACK_TEST} from "../../constants/ActionTypes";
 import JPushModule from "jpush-react-native/index";
 import ADStore from "../../store/ADStore";
 import util from "../../utils/util";
-import * as WeChat from 'react-native-wechat';
+import {registerApp} from "react-native-wechat";
 
 export default class Main extends BaseComponent {
 
@@ -93,7 +93,7 @@ export default class Main extends BaseComponent {
     }
 
     onReady(e) {
-        WeChat.registerApp('wxb4f5998bd885e481');
+        // registerApp('wxb4f5998bd885e481');
         // this.showShort('onReady')
         // CodePush.sync({
         //     // deploymentKey: 'rOfQ8XGOt98_57EL3FJIogtaEFaL1847071a-a410-40be-8295-ea5fb8bf4b4a"',

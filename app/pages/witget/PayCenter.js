@@ -126,8 +126,8 @@ export default class PayCenter extends BaseComponent {
             (response) => {
                 that.showLoading('获取支付信息中...')
                 if (parseInt(response.errCode) === 0) {
+                    that.hideLoading()
                     setTimeout(() => {
-                        that.hideLoading()
                         that.paySuccess();
                     }, 500);
                 } else {
@@ -152,7 +152,7 @@ export default class PayCenter extends BaseComponent {
         })
     }
     onUnload(){
-        // WeChat.removeAllListeners();
+        WeChat.removeAllListeners();
     }
     clearBuyCar(){
         if (this.state.orderDetailList) {
@@ -252,6 +252,7 @@ export default class PayCenter extends BaseComponent {
                                 package: rep.data.packageContent,   // 商家根据财付通文档填写的数据和签名
                                 sign: rep.data.sign        // 商家根据微信开放平台文档对数据做的签名
                             }).catch((error) => {
+                                console.debug('wx error' + JSON.parse(error));
                                 this.showShort('取消支付');
                             });
                         } else {
