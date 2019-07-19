@@ -27,8 +27,8 @@ export const RECEIVE_TYPE_LIST = 'RECEIVE_TYPE_LIST';
 export const PAY_FROM_CREATE_ORDER = 0;
 export const PAY_FROM_ORDER_DETAIL = 1;
 export const PAY_FROM_ORDER_ORDER_LIST = 2;
-export const PAY_FROM_WALLET = 2;
-export const PAY_FROM_JF = 3;
+export const PAY_FROM_WALLET = 3;
+export const PAY_FROM_JF = 4;
 
 export const ORDER_TYPE_DD = 1;
 export const ORDER_TYPE_CZ = 2;

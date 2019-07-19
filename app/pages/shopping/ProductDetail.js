@@ -101,6 +101,7 @@ export default class ProductDetail extends BaseComponent {
                     id: this.state.data.id,
                     price: this.state.data.goodsPrice,
                     goodName: this.state.data.goodsName,
+                    imageList: this.state.data.imageList,
                     num: this.state.num,
                 }
             ]}
@@ -252,10 +253,11 @@ export default class ProductDetail extends BaseComponent {
                             flexDirection: 'row',
                             justifyContent: 'space-between',
                             alignItems: 'center',
-                            padding: 10
+                            padding: 10,
+                            marginRight: 12
                         }}>
-                            <Text style={{fontSize: 18, color: '#333'}}>{data.goodsName}</Text>
-                            <TouchableView onPress={() => {
+                            <Text style={{fontSize: 18, color: '#333', marginRight: 20}}>{data.goodsName}</Text>
+                            <TouchableView style={{marginRight: 15}}onPress={() => {
                                 this.setState({
                                     isCollect: !this.state.isCollect
                                 },()=>{

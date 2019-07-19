@@ -136,7 +136,7 @@ export default class Index extends BaseView {
                 borderColor: CommonStyle.lightGray, borderBottomWidth: 0.8,
             }}>
                 <ImageView style={{height: 70, width: 70}}
-                           source={this.state.imageUrl} defaultSource={require('../../../img/default_image.png')}/>
+                           source={item.pic} defaultSource={require('../../../img/default_image.png')}/>
                 <Text
                     style={{
                         marginLeft: 15,

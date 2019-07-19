@@ -323,7 +323,7 @@ export default class Shopping extends BaseComponent {
                 if (index == 0) {
                     this.navigate('WaterElectricityPayment')
                 } else if (index == 1) {
-                    this.navigate('goodsList', {'type': 4, title: '送水上门'});
+                    this.navigate('goodsList', {'type': 17, title: '送水上门'});
                 } else if (index == 2) {
                     this.navigate('HouseholdServerList')
                 }
@@ -356,7 +356,7 @@ export default class Shopping extends BaseComponent {
                     paddingBottom: 10,
                     paddingTop: 10,
                     borderRadius: 10, backgroundColor: '#fff',
-                    borderColor: '#ccc',
+                    borderColor: '#fff',
                     borderWidth: 1,
                     marginLeft: 10,
                     marginRight: 10

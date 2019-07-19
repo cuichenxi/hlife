@@ -47,7 +47,7 @@ class Splash extends BaseComponent {
             AdImageLoaded: false
         };
         //3e1157097a95a2f93c0548bdaf7fbcca
-        registerApp('wxb4f5998bd885e481');
+        // registerApp('wxb4f5998bd885e481');
         // if (!AV.applicationId) {
         //     AV.init({
         //         appId: 'Tfi1z7dN9sjMwSul8sYaTEvg-gzGzoHsz',

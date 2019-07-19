@@ -49,6 +49,20 @@ export default class Index extends BaseComponent {
             goodsList: list
         })
     }
+    onReady(){
+        var goodsList = BuyCarStore.get();
+        var _goodsList =[]
+        Object.assign(_goodsList, goodsList);
+        _goodsList.reverse();
+        var list =[]
+        _goodsList.map((item) => {
+            item.select = false;
+            list.push(item);
+        });
+        this.setState({
+            goodsList: list
+        })
+    }
 
     onSubmit() {
         if (!util.isArrayEmpty(this.state.goodsList)) {
@@ -59,6 +73,7 @@ export default class Index extends BaseComponent {
                         id: item.id,
                         price: item.goodsPrice,
                         goodName: item.goodsName,
+                        imageList: item.imageList,
                         num: item.num,
                     });
                 }
@@ -130,7 +145,7 @@ export default class Index extends BaseComponent {
                     </TouchableView>
 
                     <ImageView style={{height: 70, width: 70}}
-                               source={this.state.imageUrl} defaultSource={require('../../img/default_image.png')}/>
+                               source={util.isArrayEmpty(item.imageList) ? '' : item.imageList[0]} defaultSource={require('../../img/default_image.png')}/>
                     <View style={{flex: 1,marginLeft:15, marginTop: 10 ,justifyContent:'space-between'}}>
                         <Text  style={{ flex: 1, fontSize: 16, color: '#333'}}>{item.goodsName}</Text>
                         <View style={{ flexDirection: 'row',alignItems:'center'}}>

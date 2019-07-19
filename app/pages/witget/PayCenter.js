@@ -16,6 +16,7 @@ import {CommonStyle} from "../../common/CommonStyle";
 import util from "../../utils/util";
 import UserStore from "../../store/UserStore";
 import BuyCarStore from "../../store/BuyCarStore";
+import {Modal} from "antd-mobile-rn/lib/index.native";
 
 var {width} = Dimensions.get('window');
 /**
@@ -118,8 +119,10 @@ export default class PayCenter extends BaseComponent {
             totalPrice: 0,
             balance: 0,
             from: PAY_FROM_CREATE_ORDER,
-            password: 12345678
         }
+    }
+
+    onReady(e) {
         var that = this;
         WeChat.addListener(
             'PayReq.Resp',
@@ -136,9 +139,6 @@ export default class PayCenter extends BaseComponent {
                 }
             }
         );
-    }
-
-    onReady(e) {
         let userInfo = UserStore.get();
         this.setState({
             id: e.id,
@@ -205,6 +205,14 @@ export default class PayCenter extends BaseComponent {
                 );
                 break
             default:
+                Alert.alert(
+                    '提示',
+                    '支付成功',
+                    [
+                        {text: '查看金额', onPress: () => this.goBack()},
+                    ],
+                    {cancelable: false}
+                );
                 break
         }
 
@@ -259,9 +267,9 @@ export default class PayCenter extends BaseComponent {
                 this.hideLoading();
                 if (rep.code == 0) {
                     AliPay.pay(rep.data.content).then(function (data) {
-                        that.showLoading('获取支付信息中...')
+                        // that.showLoading('获取支付信息中...')
                         setTimeout(() => {
-                            that.hideLoading('获取支付信息中...')
+                            // that.hideLoading()
                             that.paySuccess()
                         }, 500);
                     }, function (err) {
@@ -276,31 +284,48 @@ export default class PayCenter extends BaseComponent {
                 this.hideLoading();
             })
         } else if (this.state.select === 3) {//余额支付
-            this.showLoading('支付中...');
-            Request.post('/api/pay/createPay', {
-                money: this.state.totalPrice,
-                password: this.state.password,
-                type: this.state.type,
-                payType: 3,
-                orderId: this.state.id
-            }).then(rep => {
-                this.showLoading('获取支付信息中...')
-                var that = this;
-                if (rep.code == 0) {
-                    that.hideLoading()
-                    setTimeout(() => {
-                        that.paySuccess()
-                    }, 500);
-                } else {
-                    this.hideLoading()
-                    this.showShort(rep.message);
-                }
-            }).catch(err => {
+            Modal.prompt(
+                null,
+                '余额支付',
+                (value) => {
+                    this.setState({
+                        password: value
+                    },()=>{
+                        this.yePay();
+                    })
+                },
+                'default',
+                null,
+                ['请输入支付密码'],
+            );
 
-            }).done(() => {
-                this.hideLoading();
-            })
         }
+    }
+    yePay(){
+        this.showLoading('支付中...');
+        Request.post('/api/pay/createPay', {
+            money: this.state.totalPrice,
+            password: this.state.password,
+            type: this.state.type,
+            payType: 3,
+            orderId: this.state.id
+        }).then(rep => {
+            this.showLoading('获取支付信息中...')
+            var that = this;
+            if (rep.code == 0) {
+                that.hideLoading()
+                setTimeout(() => {
+                    that.paySuccess()
+                }, 500);
+            } else {
+                this.hideLoading()
+                this.showShort(rep.message);
+            }
+        }).catch(err => {
+
+        }).done(() => {
+            this.hideLoading();
+        })
     }
 
     _render() {
@@ -393,7 +418,7 @@ export default class PayCenter extends BaseComponent {
                         );
                     }}>
                         <Image style={{height: 35, width: 35}} source={require('../../img/icon_pay_ye.png')}/>
-                        <Text style={{fontSize: 14, color: '333', marginLeft: 15, flex: 1}}>余额支付</Text>
+                        <Text style={{fontSize: 14, color: '#333', marginLeft: 15, flex: 1}}>余额支付</Text>
                         <Text style={{
                             fontSize: 14,
                             color: CommonStyle.themeColor,

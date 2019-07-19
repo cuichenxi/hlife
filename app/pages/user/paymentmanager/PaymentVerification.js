@@ -6,6 +6,7 @@ import {CommonStyle} from "../../../common/CommonStyle";
 import UserStore from "../../../store/UserStore";
 import Request from "../../../utils/Request";
 import {ThemeStyle} from "../../../common/ThemeStyle";
+import TouchableView from "../../../components/TouchableView";
 
 export default class PaymentVerification extends BaseComponent{
     navigationBarProps() {

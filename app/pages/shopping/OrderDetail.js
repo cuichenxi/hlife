@@ -234,7 +234,7 @@ export default class OrderDetail extends BaseComponent {
                 flex: 1,
             }}>
                 <ImageView style={{height: 70, width: 70}}
-                           source={this.state.imageUrl} defaultSource={require('../../img/default_image.png')}/>
+                           source={item.pic} defaultSource={require('../../img/default_image.png')}/>
                 <Text
                     style={{marginLeft: 15, flex: 1, fontSize: 16, color: '#333'}}>{item.goodsName}</Text>
                 <View style={{marginTop: 6, flexDirection: 'column'}}>

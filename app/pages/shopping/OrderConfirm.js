@@ -122,7 +122,7 @@ export default class OrderConfirm extends BaseComponent {
                 borderColor: CommonStyle.lightGray, borderBottomWidth: 0.5,
             }}>
                 <ImageView style={{height: 70, width: 70}}
-                           source={this.state.imageUrl} defaultSource={require('../../img/default_image.png')}/>
+                           source={util.isArrayEmpty(item.imageList) ? '' : item.imageList[0]} defaultSource={require('../../img/default_image.png')}/>
                 <Text
                     style={{marginLeft: 15,marginTop:10, flex: 1, fontSize: 16, color: '#333'}}>{`${item.goodName}`}</Text>
                 <View style={{marginTop: 6, flexDirection: 'column'}}>

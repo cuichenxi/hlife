@@ -15,6 +15,7 @@ import {CALL_BACK_TEST} from "../../constants/ActionTypes";
 import JPushModule from "jpush-react-native/index";
 import ADStore from "../../store/ADStore";
 import util from "../../utils/util";
+import * as WeChat from 'react-native-wechat';
 
 export default class Main extends BaseComponent {
 
@@ -92,6 +93,7 @@ export default class Main extends BaseComponent {
     }
 
     onReady(e) {
+        WeChat.registerApp('wxb4f5998bd885e481');
         // this.showShort('onReady')
         // CodePush.sync({
         //     // deploymentKey: 'rOfQ8XGOt98_57EL3FJIogtaEFaL1847071a-a410-40be-8295-ea5fb8bf4b4a"',
@@ -479,9 +481,10 @@ export default class Main extends BaseComponent {
             <TouchableView style={{flex: 1}} key={index} onPress={() => {
                 this._jumpRouter(item)
             }}>
-                <View style={[{flex: 1}, styles.typesItem]}>
-                    <ImageView source={item.imageUrl} style={{width: 30, height: 30,marginTop: 6}}/>
-                    <Text style={{fontSize: 12, color: "#333", marginTop: 10}}>{item.name}</Text>
+                <View style={[{flex: 1, height: 70}, styles.typesItem]}>
+                    <ImageView source={item.imageUrl} style={{width: 30, height: 30,}}
+                               defaultSource={require("../../img/default_image.png")}/>
+                    <Text style={{fontSize: 14, color: "#333", marginTop: 10}}>{item.name}</Text>
                 </View>
             </TouchableView>
         )
@@ -576,7 +579,7 @@ export default class Main extends BaseComponent {
                 <View style={{position: CommonStyle.absolute, left: 0, right: 0, top: 200,}}>
                     {this._renderGridView()}
                 </View>
-                <View style={{marginTop: 45}}>
+                <View style={{marginTop: 55}}>
                     {this._renderCenterView()}
                 </View>
                 {this.state.goodsRecommend && <TouchableView onPress={() => {
