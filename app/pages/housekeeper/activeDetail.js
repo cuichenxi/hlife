@@ -127,7 +127,7 @@ export default class Payment extends BaseComponent {
 
                     </View>
 
-                    {this.state.data.status === 1 ?
+                    {this.state.data.status === 1&&this.state.data.isJoin ===0?
                         <TouchableView style={[ThemeStyle.btn_submit,{
                             marginLeft: 15,
                             marginRight: 15,
@@ -144,7 +144,7 @@ export default class Payment extends BaseComponent {
                         }]} onPress={() => {
                             // this.goBack();
                         }}>
-                            <Text style={{fontSize: 15, color: '#fff'}}>报名已结束</Text>
+                            <Text style={{fontSize: 15, color: '#fff'}}>{this.state.data.isJoin ===0?'报名已结束':'已报名'}</Text>
                         </TouchableView>
                     }
 

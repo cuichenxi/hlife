@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+    FlatList,
     Image,
     ImageBackground,
     Linking,
@@ -83,38 +84,47 @@ export default class Housekeeper extends BaseComponent {
     }
 
     onReady() {
-        this.requestData();
+        // this.requestData();
         // this.listRef._refresh();
+    }
+    onShow(){
+        this.requestData();
     }
 
     requestData() {
-        Request.post('/api/steward/basci', {},
-            {
-                mock: true,
-                mockId: 1095640,
-            }).then(rep => {
+        let param = { page: 0, pageSize: 100,};
+        Request.post("/api/neighbour/activityList", param
+        ).then(rep => {
             if (rep.code == 0 && rep.data) {
-                // this.setData(rep.data)
+                this.setState({
+                    activities: rep.data.rows
+                })
+                // callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
+            } else {
+                // callback(null, {emptyTitle: '暂无活动'})
             }
         }).catch(err => {
-
+            // callback(null, {emptyTitle: err})
         }).done(() => {
             this.setState({refreshing: false});
-        })
+        });
 
     }
 
-    _onFetch(page = 1, callback){
-        let param = { page: page - 1, pageSize: PAGE_SIZE,};
+    _onFetch(page = 1){
+        let param = { page: page - 1, pageSize: 100,};
         Request.post("/api/neighbour/activityList", param
         ).then(rep => {
-            if (rep.code == 0 && rep.data && !util.isArrayEmpty(rep.data.rows)) {
-                callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
+            if (rep.code == 0 && rep.data) {
+                this.setState({
+                    activities: rep.data.rows
+                })
+                // callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             } else {
-                callback(null, {emptyTitle: '暂无活动'})
+                // callback(null, {emptyTitle: '暂无活动'})
             }
         }).catch(err => {
-            callback(null, {emptyTitle: err})
+            // callback(null, {emptyTitle: err})
         }).done(() => {
             this.hideLoading();
         });
@@ -155,9 +165,12 @@ export default class Housekeeper extends BaseComponent {
             this.push(typeItem.active, {title: typeItem.name});
         }
     }
+    _onRefresh = () => {
+        this.setState({refreshing: true});
+        this.requestData();
+    }
 
     _render() {
-        let activities = this.state.activities;
         return (
             <View style={{flex: 1}}>
                 <ScrollView style={styles.container} refreshControl={
@@ -173,21 +186,14 @@ export default class Housekeeper extends BaseComponent {
                             <Text style={{fontSize: 16, marginLeft: 5, color: CommonStyle.color_333}}>小区活动</Text>
                         </View>
                         <View>
-                            <GiftedListView
+                            <FlatList
                                 style={styles.container}
-                                rowView={this._renderBottomItem.bind(this)}
-                                onFetch={this._onFetch.bind(this)}
-                                loadMore={false}
-                                pagination={false}
-                                renderSeparator={() => {
-                                    return (null);
-                                }}
-                                onRef={(ref)=>{
-                                    this.listRef = ref;
-                                }}
+                                data={this.state.activities}
+                                ListEmptyComponent={this._createEmptyView}
+                                ItemSeparatorComponent={this._separator}
+                                renderItem={({item, index}) => this._renderBottomItem(item, index)}
                             />
                         </View>
-
                     </View>
 
                 </ScrollView>
@@ -228,6 +234,26 @@ export default class Housekeeper extends BaseComponent {
             />
         );
     }
+    /**
+     * 空布局
+     */
+    _createEmptyView() {
+        return (
+            <View style={{height: '100%', marginTop: 100, alignItems: 'center', justifyContent: 'center'}}>
+                <Text style={{fontSize: 14}}>
+                    暂无数据
+                </Text>
+            </View>
+        );
+    }
+
+    /**
+     * 分割线
+     */
+    _separator() {
+        return null;
+
+    }
 
     _renderGridItem(item, index) {
         return (
@@ -237,7 +263,7 @@ export default class Housekeeper extends BaseComponent {
                 <View style={[{flex: 1, height: 70}, styles.typesItem]}>
                     <ImageView source={item.imageUrl} style={{width: 30, height: 30,}}
                                defaultSource={require("../../img/default_image.png")}/>
-                    <Text style={{fontSize: 14, color: "#333", marginTop: 10}}>{item.name}</Text>
+                    <Text style={{fontSize: 12, color: "#333", marginTop: 10}}>{item.name}</Text>
                 </View>
             </TouchableView>
         )

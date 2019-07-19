@@ -12,7 +12,7 @@ export const ThemeStyle = {
     btn_gray: {
         height: 44,
         borderRadius: 10,
-        backgroundColor: CommonStyle.themeColor,
+        backgroundColor: CommonStyle.gray,
         justifyContent: 'center',
         alignItems: 'center'
     }

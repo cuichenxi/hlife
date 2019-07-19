@@ -232,7 +232,7 @@ export default class Shopping extends BaseComponent {
                 <View style={[{flex: 1, height: 70}, styles.typesItem]}>
                     <ImageView source={item.imageUrl} style={{width: 30, height: 30,}}
                                defaultSource={require("../../img/default_image.png")}/>
-                    <Text style={{fontSize: 14, color: "#333", marginTop: 10}}>{item.name}</Text>
+                    <Text style={{fontSize: 12, color: "#333", marginTop: 10}}>{item.name}</Text>
                 </View>
             </TouchableView>
         );
