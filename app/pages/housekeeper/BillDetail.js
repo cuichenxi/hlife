@@ -30,7 +30,8 @@ export default class BillDetail extends BaseComponent {
         }
     }
 
-    componentWillMount(){
+
+    onReady(){
         this.makeRemoteRequest()
     }
 
@@ -113,7 +114,7 @@ export default class BillDetail extends BaseComponent {
     makeRemoteRequest(id) {
         let param = {statusBODY: this.state.index, id: id};
 
-        Request.post('api/steward/propertyfeeinfo', param,
+        Request.post('/api/fee/feeInfo', param,
             {
                 mock: true,
                 mockId: 1095672,

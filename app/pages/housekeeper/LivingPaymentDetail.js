@@ -189,7 +189,6 @@ export default class LivingPaymentDetail extends BaseComponent {
 
     onItemSelected(item, index) {
         var datas = this.state.rows
-        var months = []
         datas[index].checked = !item.checked
         var defaultColor = CommonStyle.drakGray
         var enabledBt = false
@@ -397,6 +396,7 @@ export default class LivingPaymentDetail extends BaseComponent {
                     id: rep.data.id,
                     totalPrice:rep.data.totalPrice,
                     orderno:rep.data.orderno,
+                    type:3
                     // orderDetailList: orderDetailList,
                     // from: PAY_FROM_CREATE_ORDER
                 }
