@@ -18,7 +18,7 @@ export default class Index extends BaseComponent {
                 orderColumn:'goods_price',
                 orderRule:'DESC',
             },
-            type: 0
+            type: this.props.navigation.state.params.type
         };
     }
 
@@ -31,10 +31,10 @@ export default class Index extends BaseComponent {
     }
     // {'type': 0,title:'商品列表'}
     onReady(e) {
-        this.setState({
-                type: e.type
-            }
-        )
+        // this.setState({
+        //         type: e.type
+        //     }
+        // )
         this.setTitle(e.title);
     }
 

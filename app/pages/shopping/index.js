@@ -194,10 +194,11 @@ export default class Shopping extends BaseComponent {
 
 
     _jumpRouter(typeItem) {
+        console.log(typeItem)
         if (typeItem && typeItem.active.indexOf('alipays://') === 0) {
             Linking.openURL(typeItem.active).catch(err => this.showShort("未检测到支付宝"));
         } else {
-            this.navigate(typeItem.active, {'type': typeItem.type, title: typeItem.name});
+            this.navigate(typeItem.active, {type: typeItem.type, title: typeItem.name});
         }
     }
 

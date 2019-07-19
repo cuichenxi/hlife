@@ -9,6 +9,7 @@ import {PAGE_SIZE} from "../../constants/AppConstants";
 import Request from "../../utils/Request";
 import CheckBox from "../../components/Checkbox";
 import LivingPaymentItem from "./LivingPaymentItem";
+import util from "../../utils/util";
 
 let {width} = Dimensions.get('window')
 const Font = {
@@ -41,6 +42,7 @@ export default class LivingPaymentDetail extends BaseComponent {
             endDate: this.props.navigation.state.params.endDate,
             isAllChecked: false,
             isLoading: false,
+            months:[]
         }
     }
 
@@ -49,7 +51,7 @@ export default class LivingPaymentDetail extends BaseComponent {
     }
 
     _render() {
-        const {communityinfo, rows, items, totalPrice, defaultColor} = this.state
+        const {communityinfo, rows, items, totalPrice, defaultColor,months} = this.state
         return (
             <View style={styles.container}>
                 <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
@@ -100,6 +102,7 @@ export default class LivingPaymentDetail extends BaseComponent {
                             style={styles.checkBox}
                             onClick={() => {
                                 var datas = rows
+                                var months = []
                                 if (datas.length == 0) {
                                     return
                                 }
@@ -107,11 +110,14 @@ export default class LivingPaymentDetail extends BaseComponent {
                                 for (var data of datas) {
                                     if (!this.state.isAllChecked) {
                                         data.checked = true
+                                        months.push(parseInt(data.yearMonth))
                                     } else {
                                         data.checked = false
                                     }
                                     totalPrice = data.totalMoney + totalPrice
                                 }
+                                this.state.months = months
+                                console.log(this.state.months)
                                 if (!this.state.isAllChecked) {
                                     this.setState({
                                         rows: datas,
@@ -119,7 +125,8 @@ export default class LivingPaymentDetail extends BaseComponent {
                                         items: datas.length,
                                         totalPrice: totalPrice,
                                         defaultColor: CommonStyle.themeColor,
-                                        enabledBt: true
+                                        enabledBt: true,
+                                        months:months
                                     })
                                 } else {
                                     this.setState({
@@ -128,7 +135,8 @@ export default class LivingPaymentDetail extends BaseComponent {
                                         items: 0,
                                         totalPrice: 0,
                                         defaultColor: CommonStyle.drakGray,
-                                        enabledBt: false
+                                        enabledBt: false,
+                                        months:[]
                                     })
                                 }
                             }}
@@ -161,7 +169,8 @@ export default class LivingPaymentDetail extends BaseComponent {
                         height: 60,
                         width: width / 3,
                     }} onPress={() => {
-                        this.navigate('Payment')
+                        // this.navigate('Payment')
+                        this.onSubmit()
                     }}>
                         <Text style={{color: 'white', fontSize: 16}}>去缴费</Text>
                     </TouchableView>
@@ -180,6 +189,7 @@ export default class LivingPaymentDetail extends BaseComponent {
 
     onItemSelected(item, index) {
         var datas = this.state.rows
+        var months = []
         datas[index].checked = !item.checked
         var defaultColor = CommonStyle.drakGray
         var enabledBt = false
@@ -207,22 +217,32 @@ export default class LivingPaymentDetail extends BaseComponent {
         }
 
         if (datas[index].checked) {
+            this.state.months.push(parseInt(datas[index].yearMonth))
             this.setState({
                 items: ++this.state.items,
                 rows: datas,
                 totalPrice: item.totalMoney + this.state.totalPrice,
                 defaultColor: defaultColor,
                 enabledBt: enabledBt,
-                isAllChecked: isAllChecked
+                isAllChecked: isAllChecked,
+                // months:months
             })
+
         } else {
+            for (var i=0;i<this.state.months.length;i++){
+                if (this.state.months[i] == parseInt(datas[index].yearMonth)){
+                    this.state.months.splice(i,1)
+                }
+            }
+
             this.setState({
                 items: --this.state.items,
                 rows: datas,
                 totalPrice: this.state.totalPrice - item.totalMoney,
                 defaultColor: defaultColor,
                 enabledBt: enabledBt,
-                isAllChecked: isAllChecked
+                isAllChecked: isAllChecked,
+                // months:months
             })
         }
 
@@ -357,6 +377,38 @@ export default class LivingPaymentDetail extends BaseComponent {
             </TouchableView>
 
         )
+    }
+
+    onSubmit() {
+        console.log(this.state.months)
+
+
+        if (util.isArrayEmpty(this.state.months)){
+            return
+        }
+        this.showLoading("生单中...");
+
+        let param = {
+            month:this.state.months
+        };
+        Request.post('/api/pay/chargeBatch', param).then(rep => {
+            if (rep.code === 0 && rep.data) {
+                this.navigate('PayCenter', {
+                    id: rep.data.id,
+                    totalPrice:rep.data.totalPrice,
+                    orderno:rep.data.orderno,
+                    // orderDetailList: orderDetailList,
+                    // from: PAY_FROM_CREATE_ORDER
+                }
+                    )
+            } else {
+                this.showShort(rep.message);
+            }
+        }).catch(err => {
+
+        }).done(() => {
+            this.hideLoading()
+        })
     }
 }
 const styles = StyleSheet.create({
