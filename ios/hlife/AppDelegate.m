@@ -18,6 +18,7 @@
 #import <Bugly/Bugly.h>
 #import "SplashScreen.h"
 #import "AlipayModule.h"
+#import "RCTWeChat.h"
 
 @implementation AppDelegate
 
@@ -39,6 +40,11 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)   (UIBackgroundFetchResult))completionHandler
 {
   [[NSNotificationCenter defaultCenter] postNotificationName:kJPFDidReceiveRemoteNotification object:userInfo];
+}
+//微信支付
+-(BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options
+{
+  return [[RCTWeChat sharedManager] handleOpenURL: url];
 }
 
 - (void)jpushNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(NSInteger))completionHandler

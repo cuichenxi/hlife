@@ -120,9 +120,6 @@ export default class PayCenter extends BaseComponent {
             balance: 0,
             from: PAY_FROM_CREATE_ORDER,
         }
-    }
-
-    onReady(e) {
         var that = this;
         WeChat.addListener(
             'PayReq.Resp',
@@ -139,6 +136,10 @@ export default class PayCenter extends BaseComponent {
                 }
             }
         );
+    }
+
+    onReady(e) {
+
         let userInfo = UserStore.get();
         this.setState({
             id: e.id,
@@ -151,7 +152,7 @@ export default class PayCenter extends BaseComponent {
         })
     }
     onUnload(){
-        WeChat.removeAllListeners();
+        // WeChat.removeAllListeners();
     }
     clearBuyCar(){
         if (this.state.orderDetailList) {
