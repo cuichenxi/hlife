@@ -397,10 +397,10 @@ export default class LivingPaymentDetail extends BaseComponent {
                         id: rep.data.id,
                         totalPrice: rep.data.totalPrice,
                         orderno: rep.data.orderno,
-                        type: ORDER_TYPE_JF,
+                        orderType: ORDER_TYPE_JF,
                         from: PAY_FROM_JF
                     }
-                )
+                );
             } else {
                 this.showShort(rep.message);
             }
