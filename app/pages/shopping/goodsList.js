@@ -47,7 +47,7 @@ export default class Index extends BaseComponent {
         let param = {
             orderColumn: this.state.params.orderColumn,
             orderRule:this.state.params.orderRule,
-            // type: this.state.type,
+            type: this.state.type,
             page: page-1 ,
             pageSize: PAGE_SIZE,};
         Request.post("/api/goods/basic", param,
