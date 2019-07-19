@@ -5,7 +5,7 @@ import * as WeChat from "react-native-wechat";
 import AliPay from '../../utils/AilPay';
 import Request from "../../utils/Request";
 import {
-    PAY_FROM_CREATE_ORDER,
+    PAY_FROM_CREATE_ORDER, PAY_FROM_JF,
     PAY_FROM_ORDER_DETAIL,
     PAY_FROM_ORDER_ORDER_LIST,
     PAY_FROM_WALLET
@@ -204,6 +204,16 @@ export default class PayCenter extends BaseComponent {
                     ],
                     {cancelable: false}
                 );
+                break
+            case PAY_FROM_JF:
+                Alert.alert(
+                    '提示', '支付成功',
+                    [{
+                        text: '查看订单', onPress: () => {
+                            NavigationUtil.resetGo(this.props.navigation, ['Home', 'MyPaymentRecord', 'BillDetail'], {id: this.state.id});
+                        }
+                    }],
+                    {cancelable: false});
                 break
             default:
                 Alert.alert(

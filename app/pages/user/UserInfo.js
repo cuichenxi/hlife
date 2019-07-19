@@ -221,7 +221,6 @@ export default class UserInfo extends BaseComponent {
 
                 <View style={{backgroundColor: CommonStyle.lineColor, marginTop: 10, height: 0.5}}/>
                 <TouchableView style={{height: 45}} onPress={() => {
-                    // this._onUpdatePaymentCode()
                     this.navigate('PaymentVerification')
                 }}>
                     <View style={styles.itemStyle}>

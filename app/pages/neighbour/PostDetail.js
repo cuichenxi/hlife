@@ -103,7 +103,7 @@ export default class PostDetail extends BaseComponent {
                         padding: 10,
                         backgroundColor: '#fff'
                     }}>{data.content}</Text>
-                    {this._rendrImage(data.imageUrlList)}
+                    {data.imageUrlList?this._rendrImage(data.imageUrlList):<View/>}
 
                     <View style={{
                         height: 40,

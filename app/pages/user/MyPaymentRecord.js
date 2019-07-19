@@ -42,7 +42,7 @@ export default class MyPaymentRecord extends BaseComponent {
     makeRemoteRequest(page = 1, callback) {
         let param = {status: this.state.index, page: page - 1, pageSize: PAGE_SIZE};
 
-        Request.post('/api/goods/orderList', param,
+        Request.post('/api/fee/feelist', param,
             {
                 mock: false,
                 mockId: 1095582,

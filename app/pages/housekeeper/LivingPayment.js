@@ -10,6 +10,8 @@ import Request from "../../utils/Request";
 import CheckBox from "../../components/Checkbox";
 import List from "antd-mobile-rn/es/list/index.native";
 import DatePicker from "antd-mobile-rn/es/date-picker/index.native";
+import util from "../../utils/util";
+import {ORDER_TYPE_JF, PAY_FROM_JF} from "../../constants/ActionTypes";
 
 let {width, height} = Dimensions.get('window')
 const Font = {
@@ -74,7 +76,8 @@ export default class LivingPayment extends BaseComponent {
                     <ScrollView style={{
                         flex: 1,
                         // height: 1000,
-                        flexDirection: 'column'
+                        flexDirection: 'column',
+                        marginBottom:60
                     }} >
 
                         <FlatList ref={(flatList) => this._flatList = flatList}
@@ -146,9 +149,9 @@ export default class LivingPayment extends BaseComponent {
                             />
                             <Text style={{fontSize: 14, color: '#333'}}>全选</Text>
                         </TouchableView>
-                        <View style={{height: 60, width: 0.5, backgroundColor: CommonStyle.lineColor,}}/>
+                        <View style={{height: 50, width: 0.5, backgroundColor: CommonStyle.lineColor,}}/>
                         <TouchableView style={[styles.bottomLeftBt, styles.centerBottomRow]} onPress={() => {
-
+                            this.onSubmit()
                         }}>
                             <View style={{justifyContent: 'center', alignItems: 'flex-end',}}>
                                 <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-end'}}>
@@ -162,7 +165,7 @@ export default class LivingPayment extends BaseComponent {
                             alignItems: 'center',
                             backgroundColor: defaultColor,
                             justifyContent: 'center',
-                            height: 60,
+                            height: 50,
                             width: width / 3,
                         }} onPress={() => {
                             if (enabledBt) {
@@ -381,6 +384,33 @@ export default class LivingPayment extends BaseComponent {
         )
     }
 
+    onSubmit() {
+        this.showLoading("生单中...");
+
+        let param = {
+            startDate: this.dateToString(this.state.startDate),
+            endDate: this.dateToString(this.state.endDate)
+        };
+        Request.post('/api/pay/chargeBatch', param).then(rep => {
+            if (rep.code === 0 && rep.data) {
+                this.navigate('PayCenter', {
+                        id: rep.data.id,
+                        totalPrice: rep.data.totalPrice,
+                        orderno: rep.data.orderno,
+                        orderType: ORDER_TYPE_JF,
+                        from: PAY_FROM_JF
+                    }
+                );
+            } else {
+                this.showShort(rep.message);
+            }
+        }).catch(err => {
+
+        }).done(() => {
+            this.hideLoading()
+        })
+    }
+
 }
 const styles = StyleSheet.create({
     container: {
@@ -398,7 +428,7 @@ const styles = StyleSheet.create({
     bottomView: {
         flexDirection: 'row', justifyContent: 'space-between', width: width, position: 'absolute',
         bottom: 0,
-        height: 60,
+        height: 50,
         alignSelf: 'center'
     }
     ,
@@ -406,7 +436,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: CommonStyle.white,
         justifyContent: 'center',
-        height: 60,
+        height: 50,
         width: width / 3,
     },
     marginBottom: {

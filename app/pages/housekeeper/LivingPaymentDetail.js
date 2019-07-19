@@ -71,7 +71,8 @@ export default class LivingPaymentDetail extends BaseComponent {
                 </View>
                 <ScrollView style={{
                     flex: 1,
-                    flexDirection: 'column'
+                    flexDirection: 'column',
+                    marginBottom:60
                 }}>
 
                     <FlatList ref={(flatList) => this._flatList = flatList}
@@ -151,9 +152,9 @@ export default class LivingPaymentDetail extends BaseComponent {
                         />
                         <Text style={{fontSize: 14, color: '#333'}}>全选</Text>
                     </TouchableView>
-                    <View style={{height: 60, width: 0.5, backgroundColor: CommonStyle.lineColor,}}/>
+                    <View style={{height: 50, width: 0.5, backgroundColor: CommonStyle.lineColor,}}/>
                     <TouchableView style={[styles.bottomLeftBt, styles.centerBottomRow]} onPress={() => {
-                        this.navigate('ShoppingCart')
+                        // this.navigate('ShoppingCart')
                     }}>
                         <View style={{justifyContent: 'center', alignItems: 'flex-end',}}>
                             <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-end'}}>
@@ -167,7 +168,7 @@ export default class LivingPaymentDetail extends BaseComponent {
                         alignItems: 'center',
                         backgroundColor: defaultColor,
                         justifyContent: 'center',
-                        height: 60,
+                        height: 50,
                         width: width / 3,
                     }} onPress={() => {
                         // this.navigate('Payment')
@@ -422,7 +423,7 @@ const styles = StyleSheet.create({
     bottomView: {
         flexDirection: 'row', justifyContent: 'space-between', width: width, position: 'absolute',
         bottom: 0,
-        height: 60,
+        height: 50,
         alignSelf: 'center'
     }
     ,
@@ -430,7 +431,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: CommonStyle.white,
         justifyContent: 'center',
-        height: 60,
+        height: 50,
         width: width / 3,
     },
     marginBottom: {
