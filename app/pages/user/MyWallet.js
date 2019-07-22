@@ -150,7 +150,7 @@ export default class MyWallet extends BaseComponent {
             <View style={{flex: 1}}>
                 <LinearGradient start={{x: 0.0, y: 0}} end={{x: 0, y: .8}}
                                 colors={['#63D5A2', CommonStyle.themeColor]}
-                                style={{height: 150, justifyContent: 'center', alignItems: 'center'}}>
+                                style={{height: 150 + CommonStyle.navStatusBarHeight, justifyContent: 'center', alignItems: 'center'}}>
                     <View style={{position: CommonStyle.absolute, left: 0, top: 0, right: 0,}}>
                         {this._renderHeader()}
                     </View>
@@ -159,7 +159,7 @@ export default class MyWallet extends BaseComponent {
                         justifyContent: 'center',
                         alignItems: 'center',
                         padding: 8,
-                        marginTop: 50
+                        marginTop: 50 + CommonStyle.navStatusBarHeight
                     }}>
                         <Text style={{fontSize: 12, color: '#fff'}}>我的余额(元)</Text>
                         <Image source={require('../../img/money_icon.png')}

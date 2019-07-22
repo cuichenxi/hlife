@@ -1,6 +1,6 @@
 import {BaseComponent} from "../../components/base/BaseComponent";
 import React from "react";
-import {Dimensions, Image, Modal as ModalView, ScrollView, StyleSheet, Text, View,} from "react-native";
+import {Dimensions, Image, Modal as ModalView, ScrollView, StyleSheet, Text, View, WebView,} from "react-native";
 import {CommonStyle} from "../../common/CommonStyle";
 import Swiper from "react-native-swiper";
 import TouchableView from "../../components/TouchableView";
@@ -11,7 +11,11 @@ import LinearGradient from "react-native-linear-gradient";
 import ImageView from "../../components/ImageView";
 import util from "../../utils/util";
 import BuyCarStore from "../../store/BuyCarStore";
+import Ionicons from 'react-native-vector-icons/Ionicons'
 
+const Font = {
+    Ionicons,
+}
 let {width, height} = Dimensions.get('window')
 
 
@@ -54,8 +58,8 @@ export default class ProductDetail extends BaseComponent {
                         data: rep.data
                     }
                 )
-            }else {
-              this.showShort(rep.message)
+            } else {
+                this.showShort(rep.message)
             }
         }).catch(err => {
 
@@ -63,6 +67,7 @@ export default class ProductDetail extends BaseComponent {
             this.hideLoading()
         })
     }
+
     requestCollect() {
         if (this.state.isCollect) {
             let param = {goodId: this.state.goodId};
@@ -77,7 +82,7 @@ export default class ProductDetail extends BaseComponent {
             }).done(() => {
                 this.hideLoading()
             })
-        }else {
+        } else {
             let param = {id: this.state.goodId};
             this.showDLoading('移除收藏...')
             Request.post('/api/user/collectDelete', param).then(rep => {
@@ -95,7 +100,7 @@ export default class ProductDetail extends BaseComponent {
     }
 
     onSubmit() {
-        var param ={
+        var param = {
             goodsList: [
                 {
                     id: this.state.data.id,
@@ -104,9 +109,11 @@ export default class ProductDetail extends BaseComponent {
                     imageList: this.state.data.imageList,
                     num: this.state.num,
                 }
-            ]}
+            ]
+        }
         this.navigate('OrderConfirm', param)
     }
+
 
     _renderSubmit() {
         return (
@@ -151,7 +158,7 @@ export default class ProductDetail extends BaseComponent {
                         </View>
                         <View style={{
                             flexDirection: 'row',
-                            justifyContent : 'space-between',
+                            justifyContent: 'space-between',
                             alignItems: 'center',
                             marginHorizontal: 15, marginVertical: 12,
                         }}>
@@ -159,11 +166,17 @@ export default class ProductDetail extends BaseComponent {
                                 fontSize: 16,
                                 color: '#666'
                             }}>购买数量</Text>
-                            <View style={{flexDirection:'row'}}>
+                            <View style={{flexDirection: 'row'}}>
                                 <TouchableView style={{
-                                    width:35,height:35,borderColor:CommonStyle.lightGray ,borderWidth:0.5,
-                                    borderBottomLeftRadius:2, borderTopLeftRadius: 2,justifyContent:'center',alignItems:'center'
-                                }} onPress={()=>{
+                                    width: 35,
+                                    height: 35,
+                                    borderColor: CommonStyle.lightGray,
+                                    borderWidth: 0.5,
+                                    borderBottomLeftRadius: 2,
+                                    borderTopLeftRadius: 2,
+                                    justifyContent: 'center',
+                                    alignItems: 'center'
+                                }} onPress={() => {
                                     if (this.state.num == 0) {
                                         return;
                                     }
@@ -173,22 +186,28 @@ export default class ProductDetail extends BaseComponent {
                                 }}>
                                     <Text style={{
                                         fontSize: 22,
-                                        color: '#666',fontWeight: 'bold'
+                                        color: '#666', fontWeight: 'bold'
                                     }}>-</Text>
                                 </TouchableView>
                                 <View style={{
-                                    width:35,height:35,borderColor:CommonStyle.lightGray ,borderWidth:0.5,
-                                    justifyContent:'center',alignItems:'center' ,
+                                    width: 35, height: 35, borderColor: CommonStyle.lightGray, borderWidth: 0.5,
+                                    justifyContent: 'center', alignItems: 'center',
                                 }}>
-                                <Text style={{
-                                    fontSize: 18,
-                                    color: '#333',fontWeight: 'bold'
-                                }}>{this.state.num}</Text>
+                                    <Text style={{
+                                        fontSize: 18,
+                                        color: '#333', fontWeight: 'bold'
+                                    }}>{this.state.num}</Text>
                                 </View>
                                 <TouchableView style={{
-                                    width:35,height:35,borderColor:CommonStyle.lightGray ,borderWidth:0.5,
-                                    borderBottomLeftRadius:2, borderTopLeftRadius: 2,justifyContent:'center',alignItems:'center'
-                                }} onPress={()=>{
+                                    width: 35,
+                                    height: 35,
+                                    borderColor: CommonStyle.lightGray,
+                                    borderWidth: 0.5,
+                                    borderBottomLeftRadius: 2,
+                                    borderTopLeftRadius: 2,
+                                    justifyContent: 'center',
+                                    alignItems: 'center'
+                                }} onPress={() => {
                                     if (this.state.num == 10) {
                                         this.showShort('最多选10件')
                                         return;
@@ -199,7 +218,7 @@ export default class ProductDetail extends BaseComponent {
                                 }}>
                                     <Text style={{
                                         fontSize: 22,
-                                        color: '#666',fontWeight: 'bold'
+                                        color: '#666', fontWeight: 'bold'
                                     }}>+</Text>
                                 </TouchableView>
                             </View>
@@ -207,10 +226,10 @@ export default class ProductDetail extends BaseComponent {
                         <TouchableView style={{
                             backgroundColor: CommonStyle.tomato, height: 48, marginTop: 30, justifyContent: 'center'
                             , alignItems: 'center'
-                        }} onPress={()=>{
+                        }} onPress={() => {
                             this.setState({
-                            submitVisible: false
-                        })
+                                submitVisible: false
+                            })
                             this.onSubmit()
                         }}>
                             <Text style={{fontSize: 16, color: '#fff'}}>确定</Text>
@@ -220,6 +239,7 @@ export default class ProductDetail extends BaseComponent {
             </ModalView>
         );
     }
+
     render() {
         const that = this;
         return (
@@ -238,14 +258,13 @@ export default class ProductDetail extends BaseComponent {
 
     _render() {
         const {data} = this.state
+        var htmlContent = data.goodsBody;
         return (
             <View style={{
                 flex: 1
             }}>
                 <ScrollView style={{
                     flex: 1,
-                    height: 1000,
-                    flexDirection: 'column'
                 }}>
                     <View style={{flex: 1, backgroundColor: '#fff'}}>
                         {this._renderBanner()}
@@ -257,10 +276,10 @@ export default class ProductDetail extends BaseComponent {
                             marginRight: 12
                         }}>
                             <Text style={{fontSize: 18, color: '#333', marginRight: 20}}>{data.goodsName}</Text>
-                            <TouchableView style={{marginRight: 15}}onPress={() => {
+                            <TouchableView style={{marginRight: 15}} onPress={() => {
                                 this.setState({
                                     isCollect: !this.state.isCollect
-                                },()=>{
+                                }, () => {
                                     this.requestCollect()
                                 })
 
@@ -321,51 +340,72 @@ export default class ProductDetail extends BaseComponent {
                     </View>
                     <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: '100%'}}/>
 
-                    <View style={{height: 30}}></View>
+                    {htmlContent && <TouchableView style={{
+                        paddingHorizontal: 10, paddingVertical: 15, marginTop: 10, flex: 1, flexDirection: 'row',
+                        alignItems: 'center', backgroundColor: '#fff', borderColor: CommonStyle.lineColor,
+                        borderBottomWidth: .5
+                    }} onPress={() => {
+                        this.navigate('ProductInfo',{htmlContent: htmlContent})
+                    }}>
+                        <View style={{backgroundColor: CommonStyle.themeColor, height: 18, width: 2}}></View>
+                        <Text style={{fontSize: 15, color: CommonStyle.themeColor, marginLeft: 5, flex: 1}}>商品详情</Text>
+                        <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
+                                       color="#bbb"/>
+                    </TouchableView>}
                 </ScrollView>
-                <View style={{  flexDirection: 'row',width: '100%', position: 'absolute',
+
+                <View style={{
+                    flexDirection: 'row', width: '100%', position: 'absolute',
                     bottom: 0,
                     height: 48,
-                    alignItems: 'center'}}>
+                    alignItems: 'center'
+                }}>
                     <TouchableView style={{
                         alignItems: 'center',
                         backgroundColor: CommonStyle.white,
                         justifyContent: 'center',
                         height: 48,
-                        flex: 1}} onPress={() => {
+                        flex: 1
+                    }} onPress={() => {
                         this.navigate('BuyCar')
                     }}>
-                            <Image source={require('../../img/shopping_cart.png')}
-                                   style={{ width: 25, height: 25, resizeMode: 'contain'}}/>
+                        <Image source={require('../../img/shopping_cart.png')}
+                               style={{width: 25, height: 25, resizeMode: 'contain'}}/>
                     </TouchableView>
                     <View style={{height: 48, width: 0.5, backgroundColor: CommonStyle.lineColor,}}/>
-                    <TouchableView style={{ alignItems: 'center',
+                    <TouchableView style={{
+                        alignItems: 'center',
                         backgroundColor: '#FF6347',
                         justifyContent: 'center',
                         height: 48,
-                        flex: 1.2}} onPress={() => {
-                            this.setState({
-                                addBuy: !this.state.addBuy
-                            })
+                        flex: 1.2
+                    }} onPress={() => {
+                        this.setState({
+                            addBuy: !this.state.addBuy
+                        })
                         // if (this.state.addBuy) {
                         //     this.showShort('已移除购物车');
                         //     BuyCarStore.remove(data.id);
                         // } else {
-                            data.num = 1;
-                            BuyCarStore.saveItem(data);
-                            this.showShort('已加入购物车');
+                        data.num = 1;
+                        BuyCarStore.saveItem(data);
+                        this.showShort('已加入购物车');
                         // }
                     }}>
-                            {/*<Text style={{color: '#fff', fontSize: 15}}>{this.state.addBuy?'移除购物车':'加入购物车'}</Text>*/}
-                            <Text style={{color: '#fff', fontSize: 15}}>加入购物车</Text>
+                        {/*<Text style={{color: '#fff', fontSize: 15}}>{this.state.addBuy?'移除购物车':'加入购物车'}</Text>*/}
+                        <Text style={{color: '#fff', fontSize: 15}}>加入购物车</Text>
                     </TouchableView>
-                    <TouchableView style={{ alignItems: 'center',
+                    <TouchableView style={{
+                        alignItems: 'center',
                         backgroundColor: CommonStyle.themeColor,
                         justifyContent: 'center',
                         height: 48,
-                        flex: 1.5}} onPress={() => {this.setState({
-                        submitVisible: true
-                    })}}>
+                        flex: 1.5
+                    }} onPress={() => {
+                        this.setState({
+                            submitVisible: true
+                        })
+                    }}>
                         <Text style={{color: '#fff', fontSize: 15}}>立即购买</Text>
                     </TouchableView>
                 </View>
@@ -408,7 +448,6 @@ export default class ProductDetail extends BaseComponent {
         );
 
     }
-
 
 
 }

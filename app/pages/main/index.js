@@ -560,7 +560,7 @@ export default class Main extends BaseComponent {
                         }}>{item.goodsName}</Text>
                     <View style={{flex:1 ,flexDirection:'row', alignItems: "flex-end", marginTop: 10}}>
                         <Text style={{fontSize: 12, color: CommonStyle.themeColor}}>￥<Text style={{fontSize: 24, color: CommonStyle.themeColor,}}>{item.goodsPrice}</Text></Text>
-                        <Text style={{fontSize: 12, color: '#666',marginLeft:5 , marginBottom: 5 }}>{`￥${item.marketPrice}`}</Text>
+                        <Text style={{fontSize: 12, color: '#666',marginLeft:5 , marginBottom: 5 ,textDecorationLine: 'line-through'}}>{`￥${item.marketPrice}`}</Text>
                     </View>
                 </View>
             </TouchableView>
@@ -591,8 +591,8 @@ export default class Main extends BaseComponent {
                         borderBottomWidth: .5
                     }}>
                         <View style={{backgroundColor: CommonStyle.themeColor, height: 18, width: 2}}></View>
-                        <Text style={{fontSize: 16, color: CommonStyle.themeColor, marginLeft: 5, flex: 1}}>商品推荐</Text>
-                        <Text style={{fontSize: 14, color: '#666', }}>更多</Text>
+                        <Text style={{fontSize: 15, color: CommonStyle.themeColor, marginLeft: 5, flex: 1}}>商品推荐</Text>
+                        <Text style={{fontSize: 13, color: '#666', }}>更多</Text>
                     </View>
                 </TouchableView>
                 }

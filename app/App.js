@@ -91,6 +91,7 @@ import RedPacketExplain from "./pages/user/redpacket/RedPacketExplain";
 import RepairOrderDetail from "./pages/user/RepairOrderDetail";
 import ComplaintList from "./pages/user/ComplaintList";
 import ComplaintDetail from "./pages/user/ComplaintDetail";
+import ProductInfo from "./pages/shopping/ProductInfo";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -253,6 +254,7 @@ const App = createStackNavigator(
         RepairOrderDetail:{screen:RepairOrderDetail},//工单记录详情
         ComplaintList:{screen:ComplaintList},//投诉表扬
         ComplaintDetail:{screen: ComplaintDetail},//投诉表扬详情
+        ProductInfo:{screen: ProductInfo},//投诉表扬详情
     },
     {
         // initialRouteName: 'Splash',

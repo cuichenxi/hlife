@@ -118,12 +118,12 @@ export default class RepairOrderDetail extends BaseComponent {
                                      source={require('../../img/bg_order_confirm.png')}></ImageBackground>
 
                     <View style={{marginTop: 15, backgroundColor: '#fff', paddingLeft: 15}}>
-                        <Text style={{fontSize: 16, color: '#333', height: 40, textAlignVertical: 'center'}}>投诉表扬</Text>
+                        <Text style={{fontSize: 16, color: '#333', paddingVertical:15}}>投诉表扬</Text>
                         <View style={{backgroundColor: CommonStyle.lightGray, flex: 1, height: .5}}/>
                         <Text style={{fontSize: 16, color: '#333', paddingVertical: 15,}}>{data.content}</Text>
                     </View>
                     <View style={{marginTop: 15, backgroundColor: '#fff', paddingLeft: 15}}>
-                        <Text style={{fontSize: 16, color: '#333', height: 40, textAlignVertical: 'center'}}>处理反馈</Text>
+                        <Text style={{fontSize: 16, color: '#333', paddingVertical:15}}>处理反馈</Text>
                         <View style={{backgroundColor:CommonStyle.lightGray,flex:1, height: .5}}/>
                         <Text style={{
                             fontSize: 16,
