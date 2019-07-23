@@ -551,13 +551,6 @@ const styles = StyleSheet.create({
         flexDirection: 'column'
     },
     banner: {height: 180,},
-    slide: {
-        height: 180,
-        resizeMode: Image.resizeMode.stretch,
-    },
-    bottomIcon: {
-        width: 15, height: 15, resizeMode: 'contain'
-    },
     bottomView: {
         flexDirection: 'row', justifyContent: 'space-between', width: width, position: 'absolute',
         bottom: 0,

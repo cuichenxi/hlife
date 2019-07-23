@@ -92,7 +92,7 @@ export default class TrafficPermit extends BaseComponent{
                 <View style={{justifyContent: 'center',alignItems: 'center'}}>
                     <ImageView source={data.imageUrl}
                                defaultSource={require("../../img/default_image.png")}
-                           style={{width: 182, height: 182, resizeMode: 'contain'}}/>
+                           style={{width: 182, height: 182}}/>
                 </View>
                 <Text style={{color:CommonStyle.themeColor,padding: 10,marginTop:10,fontSize:12}}>有效时间:{data.endTime}</Text>
                 <Text style={{color:CommonStyle.textGrayColor,padding:10,fontSize:12}}>进入小区的时候,将二维码放置在门禁读头</Text>

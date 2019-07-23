@@ -2,6 +2,7 @@ import React from 'react';
 import {Image, Platform, StyleSheet, View, ViewPropTypes} from 'react-native';
 import PropTypes from 'prop-types';
 import util from "../utils/util";
+import {ImageStyle} from "../common/ImageStyle";
 
 class ImageView extends React.Component {
     static propTypes = {
@@ -52,9 +53,9 @@ class ImageView extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    imageDefStyle: {resizeMode: Image.resizeMode.contain ,},
+    imageDefStyle: {resizeMode: ImageStyle.contain ,},
     content: {},
-    imageAndStyle: {position: 'absolute', top: 0, right: 0, left: 0, bottom: 0,resizeMode:Image.resizeMode.contain}
+    imageAndStyle: {position: 'absolute', top: 0, right: 0, left: 0, bottom: 0, resizeMode: ImageStyle.contain}
 });
 
 export default ImageView;

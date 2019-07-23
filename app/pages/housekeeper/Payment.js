@@ -4,6 +4,7 @@ import {Dimensions, Image, ScrollView, StyleSheet, Text, View} from "react-nativ
 import {CommonStyle} from "../../common/CommonStyle";
 import CheckBox from "../../components/Checkbox";
 import TouchableView from "../../components/TouchableView";
+import {ImageStyle} from "../../common/ImageStyle";
 
 let {width, height} = Dimensions.get('window')
 
@@ -40,7 +41,7 @@ export default class Payment extends BaseComponent {
                 <View style={styles.typeView}>
                     <View style={styles.centerRow}>
                         <Image source={require('../../img/wallet_icon.png')}
-                               style={{width: 32, height: 32, resizeMode: 'contain'}}/>
+                               style={{width: 32, height: 32, resizeMode: ImageStyle.contain}}/>
                         <Text style={{
                             color: '#333',
                             padding: 3,
@@ -73,7 +74,7 @@ export default class Payment extends BaseComponent {
                 <View style={styles.typeView}>
                     <View style={styles.centerRow}>
                         <Image source={require('../../img/alipay_icon.png')}
-                               style={{width: 32, height: 32, resizeMode: 'contain'}}/>
+                               style={{width: 32, height: 32, resizeMode: ImageStyle.contain}}/>
                         <View style={{justifyContent: 'center', alignItems: 'flex-start', marginLeft: 10}}>
                             <Text style={{
                                 color: '#333',
@@ -110,7 +111,7 @@ export default class Payment extends BaseComponent {
                 <View style={styles.typeView}>
                     <View style={styles.centerRow}>
                         <Image source={require('../../img/alipay_icon.png')}
-                               style={{width: 32, height: 32, resizeMode: 'contain'}}/>
+                               style={{width: 32, height: 32, resizeMode: ImageStyle.contain}}/>
                         <View style={{justifyContent: 'center', alignItems: 'flex-start', marginLeft: 10}}>
                             <Text style={{
                                 color: '#333',

@@ -15,5 +15,7 @@ export const ThemeStyle = {
         backgroundColor: CommonStyle.gray,
         justifyContent: 'center',
         alignItems: 'center'
-    }
+    },
+
+
 }

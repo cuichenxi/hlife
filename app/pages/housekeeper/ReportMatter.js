@@ -216,6 +216,7 @@ export default class ReportMatter extends BaseComponent {
                 if (buttonIndex == 0) {
                     ImagePicker.openPicker({
                         multiple: false,
+                        compressImageQuality: CommonStyle.compressImageQuality,
                     }).then(image => {
                         let files = [
                             {
@@ -234,7 +235,8 @@ export default class ReportMatter extends BaseComponent {
                     ImagePicker.openCamera({
                         // width: 300,
                         // height: 300,
-                        cropping: false
+                        cropping: false,
+                        compressImageQuality: CommonStyle.compressImageQuality,
                     }).then(image => {
                         let files = [
                             {

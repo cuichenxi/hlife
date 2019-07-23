@@ -23,6 +23,7 @@ import App from './App';
 import AppSynStore from './store/AppSynStore';
 import NavigationUtil from "./utils/NavigationUtil";
 import Router from "./widget/Router";
+import {Text} from "react-native";
 console.ignoredYellowBox = ['Warning: BackAndroid is deprecated. Please use BackHandler instead.','source.uri should not be an empty string','Invalid props.style key'];
 console.disableYellowBox = true // 关闭全部黄色警告
 AppSynStore.initData();
@@ -31,7 +32,7 @@ const store = configureStore();
 
 // run root saga
 store.runSaga(rootSaga);
-global.React = React;
+// global.React = React;
 
 class Root extends React.Component{
     constructor(props) {
@@ -44,17 +45,17 @@ class Root extends React.Component{
                 <App ref={navigatorRef => {
                     // const router = Router(navigatorRef);
                     // global.$router = router;
-                    global.$router = ()=>{
-                        alert("xxx")
-                    };
+                    // global.$router = ()=>{
+                    //     alert("xxx")
+                    // };
                     NavigationUtil.init(navigatorRef);
                 }}/>
         );
     }
 }
-// const Root = () => (
-//     <Provider store={store}>
-//         <App/>
-//     </Provider>
-// );
+const RootView = () => (
+    <Provider store={store}>
+        <Text>xxxx</Text>
+    </Provider>
+);
 export default Root;

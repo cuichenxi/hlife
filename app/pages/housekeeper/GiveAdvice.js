@@ -7,6 +7,7 @@ import {COMPLAINTPRAISE, GIVEADVICE, PAGE_SIZE} from "../../constants/AppConstan
 import UserStore from "../../store/UserStore";
 import util from "../../utils/util";
 import Request from "../../utils/Request";
+import {ImageStyle} from "../../common/ImageStyle";
 
 export default class GiveAdvice extends BaseComponent {
     navigationBarProps() {
@@ -62,7 +63,7 @@ export default class GiveAdvice extends BaseComponent {
                         padding: 10
                     }}>
                         <Image source={require('../../img/default_head.png')}
-                               style={{width: 37, height: 37, resizeMode: 'contain'}}/>
+                               style={{width: 37, height: 37, resizeMode: ImageStyle.contain}}/>
                         <Text></Text>
                         <View style={{flex: 1, marginLeft: 10}}>
                             <View style={{justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row'}}>
@@ -84,7 +85,7 @@ export default class GiveAdvice extends BaseComponent {
                         height: 50, alignItems: 'center', paddingRight: 10, paddingLeft: 10, backgroundColor: '#fff'
                     }}>
                         <Image source={require('../../img/advice_type.png')}
-                               style={{width: 18, height: 15, resizeMode: 'contain'}}/>
+                               style={{width: 18, height: 15, resizeMode: ImageStyle.contain}}/>
                         <Text style={{color:'#333',fontSize:16,marginLeft:5}}>您要选择的类型是？</Text>
                     </View>
                     <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: '100%'}}/>

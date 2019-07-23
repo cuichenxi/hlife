@@ -4,6 +4,7 @@ import React from "react";
 import GiftedListView from "../../components/refreshList/GiftedListView";
 import {PAGE_SIZE} from "../../constants/AppConstants";
 import Request from "../../utils/Request";
+import {ImageStyle} from "../../common/ImageStyle";
 
 let {width} = Dimensions.get('window')
 export default class MessageDetail extends BaseComponent {
@@ -58,7 +59,7 @@ export default class MessageDetail extends BaseComponent {
             }}>
                 <Image
                     source={require('../../img/order_message.png')}
-                    style={{ width: 38, height: 38, resizeMode: 'contain'}}
+                    style={{ width: 38, height: 38, resizeMode: ImageStyle.contain}}
                 />
                 <View style={{flex: 1, marginLeft: 10,alignItems:'flex-start',justifyContent: 'center'}}>
                     <View style={{justifyContent:'space-between',flexDirection:'row',flex:1,width:width-70}}>

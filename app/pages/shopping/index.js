@@ -11,6 +11,7 @@ import {LINK_APIPAYS_CZ, LINK_APIPAYS_EXPRESS, LINK_APIPAYS_WZ} from "../../cons
 import ImageView from "../../components/ImageView";
 import UserStore from "../../store/UserStore";
 import util from "../../utils/util";
+import {ImageStyle} from "../../common/ImageStyle";
 
 let {width, height} = Dimensions.get('window')
 let bottomHeight = 0;
@@ -329,7 +330,7 @@ export default class Shopping extends BaseComponent {
                 }
             }}>
                 <ImageView style={{
-                    height: 100, width: (width - 20), resizeMode: Image.resizeMode.cover
+                    height: 100, width: (width - 20), resizeMode: ImageStyle.cover
                 }}
                            source={image}></ImageView>
             </TouchableView>
@@ -393,7 +394,6 @@ const styles = StyleSheet.create({
     banner: {height: 255,},
     slide: {
         height: 255,
-        resizeMode: Image.resizeMode.stretch,
     },
     typesItem: {
         backgroundColor: "#fff",

@@ -12,6 +12,7 @@ const left = 10; // 左右边距
 const top = 10; // 上下边距
 const ImageWH = (width - (cols + 1) * left) / cols; // 图片大小
 import {LINK_APIPAYS_CZ, LINK_APIPAYS_EXPRESS, LINK_APIPAYS_JF} from "../../constants/UrlConstant";
+import {ImageStyle} from "../../common/ImageStyle";
 export default class WaterElectricityPayment extends BaseComponent {
     navigationBarProps() {
         return {
@@ -65,7 +66,7 @@ export default class WaterElectricityPayment extends BaseComponent {
                     backgroundColor: '#fff'
                 }}>
                     <Image source={require('../../img/notice_icon.png')}
-                           style={{width: 10, height: 10, resizeMode: 'contain'}}/>
+                           style={{width: 10, height: 10, resizeMode: ImageStyle.contain}}/>
                     <Text style={{
                         color: CommonStyle.textGrayColor,
                         padding: 3,
@@ -80,7 +81,7 @@ export default class WaterElectricityPayment extends BaseComponent {
                     backgroundColor: '#fff'
                 }}>
                     <Image source={require('../../img/theme_label.png')}
-                           style={{width: 20, height: 20, resizeMode: 'contain'}}/>
+                           style={{width: 20, height: 20, resizeMode: ImageStyle.contain}}/>
                     <Text style={{
                         color: CommonStyle.textBlockColor,
                         padding: 3,

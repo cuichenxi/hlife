@@ -12,6 +12,7 @@ import ImageView from "../../components/ImageView";
 import util from "../../utils/util";
 import BuyCarStore from "../../store/BuyCarStore";
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import {ImageStyle} from "../../common/ImageStyle";
 
 const Font = {
     Ionicons,
@@ -146,7 +147,7 @@ export default class ProductDetail extends BaseComponent {
                         }}>
                             <ImageView style={{
                                 height: 70, width: 70,
-                                resizeMode: Image.resizeMode.contain,
+                                resizeMode: ImageStyle.contain,
                             }} source={util.isArrayEmpty(this.state.data.imageList) ? '' : this.state.data.imageList[0]}
                                        defaultSource={require("../../img/default_image.png")}></ImageView>
                             <Text style={{
@@ -432,7 +433,7 @@ export default class ProductDetail extends BaseComponent {
                             key={i}>
                             <ImageView style={{
                                 height: 260, marginTop: 20, width: '100%',
-                                resizeMode: Image.resizeMode.contain,
+                                resizeMode: ImageStyle.contain,
                             }} source={banner} defaultSource={require("../../img/default_image.png")}></ImageView>
                             <LinearGradient start={{x: 0.0, y: 0}} end={{x: 0, y: 1}}
                                             colors={['#fff', '#aaa']}

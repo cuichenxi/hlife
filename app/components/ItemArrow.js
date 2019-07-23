@@ -17,6 +17,7 @@ import TouchableView from './TouchableView'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import util from "../utils/util";
+import {ImageStyle} from "../common/ImageStyle";
 
 const itemHeight = 45
 
@@ -71,7 +72,7 @@ export default class ItemArrow extends Component {
                     <Image style={{
                         width: 16,
                         height: 16,
-                        resizeMode: 'contain',
+                        resizeMode: ImageStyle.contain,
                         marginRight: 12,
                     }} source={icon}/>): null}
                 <View style={[styles.listInfo, {borderTopWidth: !first ? 1 : 0}]}>
@@ -81,7 +82,7 @@ export default class ItemArrow extends Component {
                         {avatar ? (<Image source={avatar} style={{
                             width: 36,
                             height: 36,
-                            resizeMode: "cover",
+                            resizeMode: ImageStyle.cover,
                             overflow: "hidden",
                             borderRadius: 18
                         }}/>) : null}

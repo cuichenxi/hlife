@@ -7,6 +7,7 @@ import TouchableView from "../../components/TouchableView";
 import {PAGE_SIZE} from "../../constants/AppConstants";
 import Request from "../../utils/Request";
 import ImageView from "../../components/ImageView";
+import {ImageStyle} from "../../common/ImageStyle";
 
 export default class HouseholdServer extends BaseComponent {
     navigationBarProps() {
@@ -41,7 +42,7 @@ export default class HouseholdServer extends BaseComponent {
             <ScrollView>
                 <View>
 
-                    <ImageView style={{height: 180, width: '100%',resizeMode: Image.resizeMode.contain,}}
+                    <ImageView style={{height: 180, width: '100%',resizeMode: ImageStyle.contain,}}
                                defaultSource={require("../../img/default_image.png")}
                                source={data.pic}/>
                     <View style={{

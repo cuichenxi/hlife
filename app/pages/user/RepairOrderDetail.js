@@ -21,7 +21,7 @@ export default class RepairOrderDetail extends BaseComponent {
             item: {},
             data: {},
             refreshing: false,
-            imageList:[
+            imageList: [
                 'http://115.28.21.13:8080/profile/upload/1563511765718.jpg'
             ]
         }
@@ -43,6 +43,22 @@ export default class RepairOrderDetail extends BaseComponent {
         });
     }
 
+    onComment(evaluate) {
+        let param = {id: this.state.item.id,evaluate:evaluate};
+        this.showLoading('评价中...')
+        Request.post('/api/user/repairComment', param).then(rep => {
+            if (rep.code == 0 ) {
+                this.requestData();
+            } else {
+                this.showShort(rep.message);
+            }
+        }).catch(err => {
+
+        }).done(() => {
+            this.hideLoading()
+            this.setState({refreshing: false});
+        })
+    }
     requestData() {
         let param = {id: this.state.item.id};
         this.showLoading()
@@ -108,43 +124,43 @@ export default class RepairOrderDetail extends BaseComponent {
         var statusStr = '';
         if (data.status === 1) {
             statusStr = '未处理';
-        }else  if (data.status === 2) {
+        } else if (data.status === 2) {
             statusStr = '正在派单';
-        }else  if (data.status === 3) {
+        } else if (data.status === 3) {
             statusStr = '派单完成';
-        }else  if (data.status === 4) {
+        } else if (data.status === 4) {
             statusStr = '已接单';
-        }else  if (data.status === 5) {
+        } else if (data.status === 5) {
             statusStr = '维修中';
-        }else  if (data.status === 6) {
+        } else if (data.status === 6) {
             statusStr = '已完成';
-        }else  if (data.status === 7) {
+        } else if (data.status === 7) {
             statusStr = '已评价';
-        }else  if (data.status === 8) {
+        } else if (data.status === 8) {
             statusStr = '等待支付';
-        }else  if (data.status === 9) {
+        } else if (data.status === 9) {
             statusStr = '支付完成';
-        }else  if (data.status === 10) {
+        } else if (data.status === 10) {
             statusStr = '支付失败';
         }
         var repairtypeStr = '';
         if (data.repairtype === 1) {
             repairtypeStr = '家居保修';
-        }else  if (data.repairtype === 2) {
+        } else if (data.repairtype === 2) {
             repairtypeStr = '小区报修';
-        }else  if (data.repairtype === 3) {
+        } else if (data.repairtype === 3) {
             repairtypeStr = '小区卫生';
-        }else  if (data.repairtype === 3) {
+        } else if (data.repairtype === 3) {
             repairtypeStr = '小区绿化';
-        }else  if (data.repairtype === 3) {
+        } else if (data.repairtype === 3) {
             repairtypeStr = '小区安全';
         }
         var evaluateStr = '未评价';
         if (data.evaluate === 1) {
             evaluateStr = '未评价';
-        }else  if (data.evaluate === 2) {
+        } else if (data.evaluate === 2) {
             evaluateStr = '满意';
-        }else  if (data.evaluate === 3) {
+        } else if (data.evaluate === 3) {
             evaluateStr = '不满意';
         }
 
@@ -162,21 +178,21 @@ export default class RepairOrderDetail extends BaseComponent {
                         marginTop: 10, paddingHorizontal: 15, paddingVertical: 12,
                         backgroundColor: '#fff'
                     }}>
-                        <View style={{flexDirection: 'row'}}>
+                        <View style={{flexDirection: 'row',marginTop: 10}}>
                             <Text style={{fontSize: 14, color: '#333'}}>订单状态 : </Text>
                             <Text style={{marginLeft: 5, fontSize: 14, color: '#333'}}>{statusStr}</Text>
                         </View>
-                        <View style={{flexDirection: 'row', marginTop: 10}}>
-                            <Text style={{fontSize: 14, color: '#333'}}>订单编号 : </Text>
-                            <Text style={{marginLeft: 5, fontSize: 14, color: '#333'}}>{data.orderno}</Text>
-                        </View>
+                        {/*<View style={{flexDirection: 'row', marginTop: 10}}>*/}
+                            {/*<Text style={{fontSize: 14, color: '#333'}}>订单编号 : </Text>*/}
+                            {/*<Text style={{marginLeft: 5, fontSize: 14, color: '#333'}}>{data.orderno}</Text>*/}
+                        {/*</View>*/}
                         <View style={{flexDirection: 'row', marginTop: 10}}>
                             <Text style={{fontSize: 14, color: '#333'}}>工单类型 : </Text>
                             <Text style={{marginLeft: 5, fontSize: 14, color: '#333'}}>{repairtypeStr}</Text>
                         </View>
                         <View style={{flexDirection: 'row', marginTop: 10}}>
                             <Text style={{fontSize: 14, color: '#333'}}>下单时间 : </Text>
-                            <Text style={{marginLeft: 5, fontSize: 14, color: '#333'}}>{data.createTime}</Text>
+                            <Text style={{marginLeft: 5, fontSize: 14, color: '#333'}}>{data.createtime}</Text>
                         </View>
                     </View>
                     <View style={{
@@ -192,7 +208,7 @@ export default class RepairOrderDetail extends BaseComponent {
                                    defaultSource={require('../../img/icon_address_order.png')}/>
                         <Text style={{
                             flex: 1,
-                            fontSize: 15,
+                            fontSize: 14,
                             color: '#333',
                             marginLeft: 12
                         }}>{address}</Text>
@@ -203,30 +219,58 @@ export default class RepairOrderDetail extends BaseComponent {
                         {this._renderGridView(data.imageList)}
                     </View>}
                     <View style={{marginTop: 15, backgroundColor: '#fff', paddingLeft: 15}}>
-                        <Text style={{fontSize: 16, color: '#333', paddingVertical: 12}}>备注</Text>
+                        <Text style={{fontSize: 14, color: '#333', paddingVertical: 12}}>报销报事</Text>
                         <View style={{backgroundColor: CommonStyle.lightGray, flex: 1, height: .5}}/>
-                        <Text style={{fontSize: 16, color: '#333', paddingVertical: 15,}}>{data.intro}</Text>
+                        <Text style={{fontSize: 12, color: '#666', paddingTop: 15,}}>标题 : {data.title}</Text>
+                        <Text style={{fontSize: 12, color: '#666', paddingBottom: 15, marginTop: 10}}>内容 : {data.intro}</Text>
                     </View>
                     <View style={{backgroundColor: CommonStyle.lightGray, flex: 1, height: .5}}/>
+                    {data.evaluate > 0&&
                     <View style={{marginTop: 1, backgroundColor: '#fff', paddingLeft: 12}}>
-                        <Text style={{fontSize: 16, color: '#333', paddingVertical: 15}}>评价</Text>
+                        <Text style={{fontSize: 14, color: '#333', paddingVertical: 15}}>评价</Text>
                         <View style={{backgroundColor: CommonStyle.lightGray, flex: 1, height: .5}}/>
-                        <Text style={{fontSize: 16, color: '#333', paddingVertical: 15,}}>{evaluateStr}</Text>
+                        <Text style={{fontSize: 12, color: '#333', paddingVertical: 15,}}>{evaluateStr}</Text>
                     </View>
-                    <View style={{backgroundColor: CommonStyle.lightGray, flex: 1, height: .5}}/>
-                    <View style={{marginTop: 1, backgroundColor: '#fff', paddingLeft: 12}}>
-                        <Text style={{fontSize: 16, color: '#333', paddingVertical: 15}}>处理反馈</Text>
-                        <View style={{backgroundColor: CommonStyle.lightGray, flex: 1, height: .5}}/>
-                        <Text style={{
-                            fontSize: 16,
-                            color: '#333',
-                            paddingVertical: 15,
-                        }}>{data.reply ? data.reply : '暂无'}</Text>
-                    </View>
+                    }
                 </ScrollView>
+                {(data.evaluate <= 1 && data.status > 6)&&
+                <View style={{
+                    position: CommonStyle.absolute,
+                    bottom: 0,
+                    height: 48,
+                    width: '100%',
+                    alignItems: 'center',
+                    flexDirection: 'row'
+                }}>
+                    <TouchableView style={{
+                        flex: 1,
+                        height: 48,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: CommonStyle.gray,
+                    }} onPress={() => {
+                        this.onComment(1)
+                    }}
+                    ><Text style={{fontSize: 16, color: '#fff'}}>不满意</Text>
+                    </TouchableView>
+                    <TouchableView style={{
+                        flex: 1,
+                        height: 48,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: CommonStyle.tomato,
+                    }} onPress={() => {
+                        this.onComment(2)
+                    }}
+                    >
+                        <Text style={{fontSize: 16, color: '#fff'}}>满意</Text>
+                    </TouchableView>
+                </View>
+                }
             </View>
         );
     }
+
     _renderGridView(imageList) {
         return (
             <Grid

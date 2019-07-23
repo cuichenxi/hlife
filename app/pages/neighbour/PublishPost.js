@@ -204,6 +204,7 @@ export default class PublishPost extends BaseComponent {
                 if (buttonIndex == 0) {
                     ImagePicker.openPicker({
                         multiple: false,
+                        compressImageQuality: CommonStyle.compressImageQuality,
                     }).then(image => {
                         let files = [
                             {
@@ -222,6 +223,7 @@ export default class PublishPost extends BaseComponent {
                     ImagePicker.openCamera({
                         // width: 300,
                         // height: 300,
+                        compressImageQuality: CommonStyle.compressImageQuality,
                         cropping: false
                     }).then(image => {
                         let files = [

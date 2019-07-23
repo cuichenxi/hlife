@@ -8,6 +8,7 @@ import {CommonStyle} from "../../common/CommonStyle";
 import TouchableView from "../../components/TouchableView";
 import ImageView from "../../components/ImageView";
 import GridView from "../../components/GridView";
+import {ImageStyle} from "../../common/ImageStyle";
 
 /**
  * 话题view
@@ -58,7 +59,7 @@ export default class Index extends BaseView {
                         style={{
                             width: 80,
                             height: 80,
-                            resizeMode: "cover",//contain 等比例缩放 cover 模式只求在显示比例不失真的情况下填充整个显示区域。
+                            resizeMode: ImageStyle.cover,//contain 等比例缩放 cover 模式只求在显示比例不失真的情况下填充整个显示区域。
                         }}
                     />
                     <View style={{
@@ -133,7 +134,7 @@ export default class Index extends BaseView {
                        style={{
                            width: 175,
                            height: 131,
-                           resizeMode: "cover",
+                           resizeMode: ImageStyle.cover,
                            padding: 5,
                        }}/>
         )

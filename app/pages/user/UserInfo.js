@@ -278,7 +278,8 @@ export default class UserInfo extends BaseComponent {
                     ImagePicker.openPicker({
                         width: 300,
                         height: 300,
-                        cropping: true
+                        cropping: true,
+                        compressImageQuality: CommonStyle.compressImageQuality,
                     }).then(image => {
                         let files = [
                             {
@@ -292,7 +293,8 @@ export default class UserInfo extends BaseComponent {
                     ImagePicker.openCamera({
                         width: 300,
                         height: 300,
-                        cropping: true
+                        cropping: true,
+                        compressImageQuality: CommonStyle.compressImageQuality,
                     }).then(image => {
                         console.log(image);
                     });

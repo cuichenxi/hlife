@@ -8,6 +8,7 @@ import util from "../../utils/util";
 import Swiper from "react-native-swiper";
 import ImageView from "../../components/ImageView";
 import {ThemeStyle} from "../../common/ThemeStyle";
+import {ImageStyle} from "../../common/ImageStyle";
 
 
 export default class Payment extends BaseComponent {
@@ -168,7 +169,7 @@ export default class Payment extends BaseComponent {
                     return (
                         <ImageView style={{
                             height: 300, width: '100%',
-                            resizeMode: Image.resizeMode.contain,
+                            resizeMode: ImageStyle.contain,
                         }} source={banner} defaultSource={require("../../img/default_image.png")}></ImageView>
                     );
                 })}

@@ -7,6 +7,7 @@ import Request from "../../utils/Request";
 import {CommonStyle} from "../../common/CommonStyle";
 import GiftedListView from "../../components/refreshList/GiftedListView";
 import {PAGE_SIZE} from "../../constants/AppConstants";
+import {ImageStyle} from "../../common/ImageStyle";
 
 let {width, height} = Dimensions.get('window')
 
@@ -365,7 +366,7 @@ const styles = StyleSheet.create({
         paddingBottom: 68,
     },
     bottomIcon: {
-        width: 15, height: 15, resizeMode: 'contain'
+        width: 15, height: 15, resizeMode: ImageStyle.contain
     },
     bottomView: {
         flexDirection: 'row', justifyContent: 'space-between', width: width, position: 'absolute',

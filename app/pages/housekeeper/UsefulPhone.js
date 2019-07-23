@@ -8,6 +8,7 @@ import Request from "../../utils/Request";
 import TouchableView from "../../components/TouchableView";
 import Modal from "antd-mobile-rn/es/modal/index.native";
 import util from "../../utils/util";
+import {ImageStyle} from "../../common/ImageStyle";
 
 
 let {width} = Dimensions.get('window')
@@ -30,7 +31,7 @@ export default class UsefulPhone extends BaseComponent{
                     backgroundColor: '#fff'
                 }}>
                     <Image source={require('../../img/telephone.png')}
-                           style={{width: 16, height: 16, resizeMode: 'contain'}}/>
+                           style={{width: 16, height: 16, resizeMode: ImageStyle.contain}}/>
                     <Text style={{
                         color: CommonStyle.textGrayColor,
                         padding: 3,
@@ -71,7 +72,7 @@ export default class UsefulPhone extends BaseComponent{
             }}>
                 <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
                     <Image source={require('../../img/head_icon.png')}
-                           style={{width: 37, height: 37, resizeMode: 'contain'}}/>
+                           style={{width: 37, height: 37, resizeMode: ImageStyle.contain}}/>
                     <View style={{justifyContent:'center',alignItems:'flex-start',marginLeft: 10}}>
                         <Text style={{textAlign: 'center', color: CommonStyle.textBlockColor,fontSize:14}}>{item.name}</Text>
                         <Text style={{textAlign: 'center', color: CommonStyle.textGrayColor,fontSize:13}}>{item.tel}</Text>
@@ -81,7 +82,7 @@ export default class UsefulPhone extends BaseComponent{
                     this.onButtonClick(item.tel)
                 }}>
                     <Image source={require('../../img/phone_icon.png')}
-                           style={{width: 20, height: 20, resizeMode: 'contain'}}/>
+                           style={{width: 20, height: 20, resizeMode: ImageStyle.contain}}/>
                 </TouchableView>
 
             </View>

@@ -6,6 +6,7 @@ import Request from "../../utils/Request";
 import {BaseView} from "../../components/base/BaseView";
 import util from "../../utils/util";
 import TouchableView from "../../components/TouchableView";
+import {ImageStyle} from "../../common/ImageStyle";
 
 let {width, height} = Dimensions.get('window')
 export default class MessageListView extends BaseView {
@@ -65,7 +66,7 @@ export default class MessageListView extends BaseView {
             }}>
                 <Image
                     source={require('../../img/order_message.png')}
-                    style={{ width: 38, height: 38, resizeMode: 'contain'}}
+                    style={{ width: 38, height: 38, resizeMode: ImageStyle.contain}}
                 />
                 <View style={{flex: 1, marginLeft: 10,alignItems:'flex-start',justifyContent: 'center'}}>
                     <View style={{justifyContent:'space-between',flexDirection:'row',flex:1,width:width-70}}>

@@ -5,6 +5,7 @@ import {CommonStyle} from "../../common/CommonStyle";
 import Request from "../../utils/Request";
 import {PAGE_SIZE} from "../../constants/AppConstants";
 import TouchableView from "../../components/TouchableView";
+import {ImageStyle} from "../../common/ImageStyle";
 
 let {width, height} = Dimensions.get('window')
 
@@ -50,7 +51,7 @@ export default class BillDetail extends BaseComponent {
                 }}>
                     <View style={styles.titleLine}>
                         <Image source={require('../../img/bill_info.png')}
-                               style={{width: 20, height: 20, resizeMode: 'contain'}}/>
+                               style={{width: 20, height: 20, resizeMode: ImageStyle.contain}}/>
                         <Text style={{
                             color: '#333',
                             padding: 3,
@@ -140,7 +141,7 @@ export default class BillDetail extends BaseComponent {
                 }}>
 
                     <Image source={require('../../img/bill_detail.png')}
-                           style={{width: 20, height: 20, resizeMode: 'contain'}}/>
+                           style={{width: 20, height: 20, resizeMode: ImageStyle.contain}}/>
                     <Text style={{
                         color: '#333',
                         padding: 3,

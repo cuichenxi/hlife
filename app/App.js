@@ -92,6 +92,7 @@ import RepairOrderDetail from "./pages/user/RepairOrderDetail";
 import ComplaintList from "./pages/user/ComplaintList";
 import ComplaintDetail from "./pages/user/ComplaintDetail";
 import ProductInfo from "./pages/shopping/ProductInfo";
+import {ImageStyle} from "./common/ImageStyle";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -287,7 +288,7 @@ const styles = StyleSheet.create({
     tabIcon: {
         width: 18,
         height: 18,
-        resizeMode:'contain'
+        resizeMode: ImageStyle.contain
     },
 })
 export default App;

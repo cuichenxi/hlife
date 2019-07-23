@@ -7,6 +7,7 @@ import {PAGE_SIZE} from "../../constants/AppConstants";
 import {CommonStyle} from "../../common/CommonStyle";
 import {BaseComponent} from "../../components/base/BaseComponent";
 import ImageView from "../../components/ImageView";
+import {ImageStyle} from "../../common/ImageStyle";
 
 let {width} = Dimensions.get('window')
 export default class Index extends BaseComponent {
@@ -215,8 +216,8 @@ export default class Index extends BaseComponent {
                     >
                         <Text style={{fontSize: 14, color: (this.state.filterType==0||this.state.filterType==1 ) ?CommonStyle.themeColor:'#333'}}>价格</Text>
                         <View style={{height:16,width:16}}>
-                            {this.state.filterType==0&&<Image style={{height:16, width: 16 ,resizeMode:Image.resizeMode.stretch  }} source={require('../../img/icon_down.png')}/>}
-                            {this.state.filterType==1&&<Image style={{height:16, width: 16 ,resizeMode:Image.resizeMode.stretch }} source={require('../../img/icon_up.png')}/>}
+                            {this.state.filterType==0&&<Image style={{height:16, width: 16 ,resizeMode:ImageStyle.stretch  }} source={require('../../img/icon_down.png')}/>}
+                            {this.state.filterType==1&&<Image style={{height:16, width: 16 ,resizeMode:ImageStyle.stretch }} source={require('../../img/icon_up.png')}/>}
                         </View>
                     </TouchableView>
                     <TouchableView style={{
@@ -238,8 +239,8 @@ export default class Index extends BaseComponent {
                     }}>
                         <Text style={{fontSize: 14, color: (this.state.filterType==2||this.state.filterType==3) ?CommonStyle.themeColor:'#333'}}>销量</Text>
                         <View style={{height:16,width:16}}>
-                            {this.state.filterType==2&&<Image style={{height:16, width: 16 ,resizeMode:Image.resizeMode.stretch  }} source={require('../../img/icon_down.png')}/>}
-                            {this.state.filterType==3&&<Image style={{height:16, width: 16 ,resizeMode:Image.resizeMode.stretch }} source={require('../../img/icon_up.png')}/>}
+                            {this.state.filterType==2&&<Image style={{height:16, width: 16 ,resizeMode:ImageStyle.stretch  }} source={require('../../img/icon_down.png')}/>}
+                            {this.state.filterType==3&&<Image style={{height:16, width: 16 ,resizeMode:ImageStyle.stretch }} source={require('../../img/icon_up.png')}/>}
                         </View>
                     </TouchableView>
                 </View>

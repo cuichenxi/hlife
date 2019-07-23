@@ -15,7 +15,7 @@ import {CALL_BACK_TEST} from "../../constants/ActionTypes";
 import JPushModule from "jpush-react-native/index";
 import ADStore from "../../store/ADStore";
 import util from "../../utils/util";
-import {registerApp} from "react-native-wechat";
+import {ImageStyle} from "../../common/ImageStyle";
 
 export default class Main extends BaseComponent {
 
@@ -41,7 +41,7 @@ export default class Main extends BaseComponent {
                 {
                     title: '',
                     url: '',
-                    imagePath: ''
+                    imagePath: null
                 }
             ],
             types: [
@@ -448,7 +448,7 @@ export default class Main extends BaseComponent {
                                 this._loadWeb(banner.title, banner.url);
                             }
                         }}>
-                            <ImageView style={{height: 255,width:'100%',resizeMode:Image.resizeMode.stretch,}} source={banner.imagePath} defaultSource={require('../../img/bg_banner.png')} ></ImageView>
+                            <ImageView style={{height: 255,width:'100%', resizeMode: ImageStyle.stretch,}} source={banner.imagePath} defaultSource={require('../../img/bg_banner.png')} ></ImageView>
                         </TouchableView>
                     );
                 })}
@@ -510,8 +510,8 @@ export default class Main extends BaseComponent {
                                 // borderRadius: 40,
                                 width:'100%',
                                 height: 80,
-                                resizeMode:Image.resizeMode.cover
-                            }} source={ banner.imagePath} defaultSource={require('../../img/bg_center_banner.png')}></ImageView>
+                                resizeMode: ImageStyle.cover
+                            }} source={banner.imagePath} defaultSource={require('../../img/bg_center_banner.png')}></ImageView>
                         </TouchableView>
                     );
                 })}
@@ -622,7 +622,6 @@ const styles = StyleSheet.create({
     banner: {height: 255,},
     slide: {
         height: 255,
-        // resizeMode:Image.resizeMode.contain,
     },
     typesItem: {
         backgroundColor: "#fff",

@@ -418,9 +418,6 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column'
     },
-    bottomIcon: {
-        width: 15, height: 15, resizeMode: 'contain'
-    },
     bottomView: {
         flexDirection: 'row', justifyContent: 'space-between', width: width, position: 'absolute',
         bottom: 0,

@@ -8,6 +8,7 @@ import ImageView from "../../components/ImageView";
 import GridView from "../../components/GridView";
 import {BaseComponent} from "../../components/base/BaseComponent";
 import util from "../../utils/util";
+import {ImageStyle} from "../../common/ImageStyle";
 
 /**
  * 话题帖子列表
@@ -67,7 +68,7 @@ export default class TopicPostList extends BaseComponent {
                                style={{
                                    width: 40,
                                    height: 40,
-                                   resizeMode: "cover",
+                                   resizeMode:  ImageStyle.cover,
                                    overflow: "hidden",
                                    borderRadius: 20
                                }}/>
@@ -89,7 +90,7 @@ export default class TopicPostList extends BaseComponent {
                             style={{
                                 width: 11,
                                 height: 11,
-                                resizeMode: "cover",
+                                resizeMode: ImageStyle.cover,
                                 overflow: "hidden",
                                 marginRight: 8
                             }}/>
@@ -111,7 +112,7 @@ export default class TopicPostList extends BaseComponent {
                         style={{
                             width: 18,
                             height: 15,
-                            resizeMode: "cover",
+                            resizeMode: ImageStyle.cover,
                             marginRight: 10
                         }}/>
 
@@ -120,7 +121,7 @@ export default class TopicPostList extends BaseComponent {
                                style={{
                                    width: 17,
                                    height: 15,
-                                   resizeMode: "cover",
+                                   resizeMode: ImageStyle.cover,
                                    marginRight: 10
                                }}/>
                     <Text style={{color: '#999', fontSize: 12,}}>{item.commentCount}</Text>
@@ -172,7 +173,7 @@ export default class TopicPostList extends BaseComponent {
                        style={{
                            width: 175,
                            height: 131,
-                           resizeMode: "contain",
+                           resizeMode:  ImageStyle.contain,
                            padding: 5,
                        }}/>
         )

@@ -8,6 +8,7 @@ import {BaseView} from "../../components/base/BaseView";
 import {CommonStyle} from "../../common/CommonStyle";
 import ImageView from "../../components/ImageView";
 import Modal from "antd-mobile-rn/es/modal/index.native";
+import {ImageStyle} from "../../common/ImageStyle";
 
 const imageUrl = require('../../img/default_image.png');
 
@@ -96,7 +97,7 @@ export default class HouseSellRentView extends BaseView {
                         this.onButtonClick(item.phone)
                     }}>
                         <Image source={require('../../img/bohao_icon.png')}
-                               style={{width: 30, height: 30, resizeMode: 'contain'}}/>
+                               style={{width: 30, height: 30, resizeMode: ImageStyle.contain}}/>
                     </TouchableView>
                 </View>
 
