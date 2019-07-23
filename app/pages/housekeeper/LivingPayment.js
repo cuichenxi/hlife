@@ -42,12 +42,13 @@ export default class LivingPayment extends BaseComponent {
             endDate: undefined,
             endDatetime: '',
             startDate: undefined,
-            checkedItems:[]
+            checkedItems:[],
+            address:''
         }
     }
 
     onReady() {
-
+        this.fetchData()
     }
 
     refreshing = () => {
@@ -55,7 +56,7 @@ export default class LivingPayment extends BaseComponent {
     }
 
     _render() {
-        const {communityinfo, rows, items, totalPrice, defaultColor, enabledBt, endDate,checkedItems} = this.state
+        const {address, rows, items, totalPrice, defaultColor, enabledBt, endDate} = this.state
         if (endDate){
             return (
                 <View style={styles.container}>
@@ -71,7 +72,7 @@ export default class LivingPayment extends BaseComponent {
                         paddingRight: 5
                     }}>
                         <Text
-                            style={{color: CommonStyle.textBlockColor, fontSize: 15, paddingLeft: 5}}>{communityinfo}</Text>
+                            style={{color: CommonStyle.textBlockColor, fontSize: 15, paddingLeft: 5}}>{address}</Text>
                     </View>
                     <ScrollView style={{
                         flex: 1,
@@ -113,7 +114,7 @@ export default class LivingPayment extends BaseComponent {
                                             data.checked = false
                                         }
                                         totalPrice = data.fee + totalPrice
-                                        checkedItems = checkedItems.push(data.fee)
+                                        checkedItems.push(data)
 
                                     }
                                     if (!this.state.isAllChecked) {
@@ -127,6 +128,7 @@ export default class LivingPayment extends BaseComponent {
                                             checkedItems:checkedItems
                                         })
                                     } else {
+                                        console.log('==========zoudaolezheli')
                                         this.setState({
                                             rows: datas,
                                             isAllChecked: !this.state.isAllChecked,
@@ -169,8 +171,7 @@ export default class LivingPayment extends BaseComponent {
                             width: width / 3,
                         }} onPress={() => {
                             if (enabledBt) {
-                                //
-                                this.showShort('去缴费')
+                                this.onSubmit()
                             } else {
                                 this.showShort('请至少选择一个交费项')
                             }
@@ -310,7 +311,6 @@ export default class LivingPayment extends BaseComponent {
                             if (data.checked) {
                                 defaultColor = CommonStyle.themeColor
                                 enabledBt = true
-
                             }
                         }
                         for (var i = 0; i < datas.length; i++) {
@@ -329,22 +329,30 @@ export default class LivingPayment extends BaseComponent {
                         }
 
                         if (datas[item.index].checked) {
+                            this.state.checkedItems.push(datas[item.index])
                             this.setState({
                                 items: ++this.state.items,
                                 rows: datas,
                                 totalPrice: item.item.fee + this.state.totalPrice,
                                 defaultColor: defaultColor,
                                 enabledBt: enabledBt,
-                                isAllChecked: isAllChecked
+                                isAllChecked: isAllChecked,
                             })
                         } else {
+                            console.log(this.state.checkedItems)
+                            for (var i = 0; i < this.state.checkedItems.length; i++) {
+                                if (this.state.checkedItems[i].year == parseInt(datas[item.index].year)) {
+                                    this.state.checkedItems.splice(i, 1)
+                                }
+                            }
+
                             this.setState({
                                 items: --this.state.items,
                                 rows: datas,
                                 totalPrice: this.state.totalPrice - item.item.fee,
                                 defaultColor: defaultColor,
                                 enabledBt: enabledBt,
-                                isAllChecked: isAllChecked
+                                isAllChecked: isAllChecked,
                             })
                         }
 
@@ -364,7 +372,7 @@ export default class LivingPayment extends BaseComponent {
                     <Text style={{textAlign: 'center', color: CommonStyle.textBlockColor, fontSize: 17}}>待缴费{item.item.months}项</Text>
                 </View>
                 <TouchableView onPress={() => {
-                    this.navigate("LivingPaymentDetail", {startDate: item.item.startDate,endDate:item.item.endDate})
+                    this.navigate("LivingPaymentDetail", {startDate: item.item.startDate,endDate:item.item.endDate,address:this.state.address})
                 }}>
                     <Text style={{
                         color: CommonStyle.themeColor,
@@ -385,31 +393,156 @@ export default class LivingPayment extends BaseComponent {
     }
 
     onSubmit() {
-        this.showLoading("生单中...");
+        // this.showLoading("生单中...");
 
-        let param = {
-            startDate: this.dateToString(this.state.startDate),
-            endDate: this.dateToString(this.state.endDate)
-        };
-        Request.post('/api/pay/chargeBatch', param).then(rep => {
-            if (rep.code === 0 && rep.data) {
-                this.navigate('PayCenter', {
-                        id: rep.data.id,
-                        totalPrice: rep.data.totalPrice,
-                        orderno: rep.data.orderno,
-                        orderType: ORDER_TYPE_JF,
-                        from: PAY_FROM_JF
+        console.log(this.state.checkedItems)
+        const checkedItems = this.state.checkedItems
+        var years=[]
+        for (checkedItem of checkedItems){
+            years.push(parseInt(checkedItem.year))
+        }
+        console.log(years.sort())
+
+        checkedItems.sort(function (a,b) {
+            var a1 = parseInt(a.year)
+            var b1 = parseInt(b.year)
+            if (a1 < b1){
+                return -1;
+            } else if (a1 > b1) {
+                return 1;
+            }
+            return 0;
+
+        });
+
+        console.log(checkedItems)
+
+        console.log('是否跨年：')
+        console.log(this.isOrderNumeric(years))
+        if (this.isOrderNumeric(years)) {
+            if (checkedItems[0].year == this.state.rows[0].year){
+                console.log('符合提交：')
+                let param = {
+                    startDate: checkedItems[0].startDate,
+                    endDate: checkedItems[checkedItems.length-1].endDate
+                };
+                this.showLoading("生单中...");
+                Request.post('/api/pay/chargeBatch', param).then(rep => {
+                    if (rep.code === 0 && rep.data) {
+                        this.navigate('PayCenter', {
+                                id: rep.data.id,
+                                totalPrice: rep.data.totalPrice,
+                                orderno: rep.data.orderno,
+                                orderType: ORDER_TYPE_JF,
+                                from: PAY_FROM_JF
+                            }
+                        );
+                    } else {
+                        this.showShort(rep.message);
                     }
-                );
+                }).catch(err => {
+
+                }).done(() => {
+                    this.hideLoading()
+                })
+
             } else {
-                this.showShort(rep.message);
+                console.log('不符合提交：')
+                this.showShort('请选择第一个待缴费年份')
+            }
+        } else {
+            this.showShort('请选择连续的待缴年份')
+        }
+    }
+
+
+    /**
+     * 判断是否是递增数组
+     * @param array
+     * @returns {boolean}
+     */
+    isContinuityArray(array) {
+        var isContinuityArray = false;
+        var arrayCount = array.length - 1;
+        for (var i = 0; i < arrayCount; i++) {
+            var currentArr = Number(array[i]) + 1;
+            var nestArr = Number(array[i + 1]);
+            if(i+1==arrayCount){
+                currentArr= Number(array[i]);
+                nestArr= Number(array[i]);
+            }
+            if (currentArr != nestArr) {
+                isContinuityArray = false;
+                break;
+            } else {
+                isContinuityArray = true;
+            }
+
+        }
+        return isContinuityArray;
+    }
+
+    /**
+     * 判断是否是递增数组
+     * @param array
+     * @returns {boolean}
+     */
+    isOrderNumeric(array){
+        var flag = true;
+        for (var i=0;i<array.length;i++){
+            if (i>0){
+                var num = array[i]
+                var num_ = array[i-1]+1
+                if (num != num_){
+                    flag = false
+                    break
+                }
+            }
+        }
+        if (!flag){
+            for (var i=0;i<array.length;i++){
+                if (i>0){
+                    var num = array[i]
+                    var num_ = array[i-1]-1
+                    if (num != num_){
+                        flag = false
+                        break
+                    }
+                }
+            }
+        }
+        return flag
+    }
+
+    fetchData(page = 1) {
+        let param = { page: page - 1, pageSize: PAGE_SIZE};
+
+        this.showDLoading()
+        Request.post('/api/user/mycommunityList', param,
+            {
+                mock: false,
+                mockId: 1095864,
+            }).then(rep => {
+            if (rep.code == 0 && rep.data) {
+                this.setState({
+                    rows: rep.data
+                })
+                for (var community of rep.data){
+                    if (community.isAuth == 1) {
+                        this.setState({
+                            address:community.communityName+community.buildingName+community.unitName+community.roomName
+                        })
+                        break
+                    }
+                }
             }
         }).catch(err => {
 
         }).done(() => {
-            this.hideLoading()
+            this.hideLoading();
         })
     }
+
 
 }
 const styles = StyleSheet.create({

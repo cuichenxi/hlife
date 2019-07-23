@@ -20,7 +20,9 @@ export default class LivingPaymentItem extends Component {
     render() {
         const {item} = this.props
         return (
-            <TouchableView onPress={this.props.onPress}>
+            <TouchableView
+                // onPress={this.props.onPress}
+            >
                 <View style={{
                     backgroundColor: 'white',
                     height: 80,
@@ -41,7 +43,7 @@ export default class LivingPaymentItem extends Component {
                             unCheckedImage={<Image source={require('../../img/icon_buy_unselect.png')}
                                                    style={styles.image}/>}
                         />
-                        <Text style={{paddingLeft: 5, color: '#333', fontSize: 15}}>{item.yearMonth}</Text>
+                        <Text style={{paddingLeft: 5, color: '#333', fontSize: 15}}>{item.yearMonth+' '+item.name}</Text>
                     </View>
 
                     <View style={{
@@ -56,8 +58,8 @@ export default class LivingPaymentItem extends Component {
                             padding: 3,
                             fontSize: 20
                         }}>¥{item.totalMoney}</Text>
-                        <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
-                                       color="#bbb"/>
+                        {/*<Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
+                                       color="#bbb"/>*/}
                     </View>
                 </View>
             </TouchableView>

@@ -41,6 +41,7 @@ export default class LivingPaymentDetail extends BaseComponent {
             year: this.props.navigation.state.params.year,
             startDate: this.props.navigation.state.params.startDate,
             endDate: this.props.navigation.state.params.endDate,
+            address: this.props.navigation.state.params.address,
             isAllChecked: false,
             isLoading: false,
             months: []
@@ -52,7 +53,7 @@ export default class LivingPaymentDetail extends BaseComponent {
     }
 
     _render() {
-        const {communityinfo, rows, items, totalPrice, defaultColor, months} = this.state
+        const {address, rows, items, totalPrice, defaultColor, months} = this.state
         return (
             <View style={styles.container}>
                 <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
@@ -67,7 +68,7 @@ export default class LivingPaymentDetail extends BaseComponent {
                     paddingRight: 5
                 }}>
                     <Text
-                        style={{color: CommonStyle.textBlockColor, fontSize: 15, paddingLeft: 5}}>{communityinfo}</Text>
+                        style={{color: CommonStyle.textBlockColor, fontSize: 15, paddingLeft: 5}}>{address}</Text>
                 </View>
                 <ScrollView style={{
                     flex: 1,
@@ -77,7 +78,6 @@ export default class LivingPaymentDetail extends BaseComponent {
 
                     <FlatList ref={(flatList) => this._flatList = flatList}
                               ItemSeparatorComponent={this._separator}
-                        // renderItem={this._renderItem.bind(this)}
                               refreshing={false}
                               style={{flex: 1}}
                               keyExtractor={this._keyExtractor}
@@ -230,6 +230,7 @@ export default class LivingPaymentDetail extends BaseComponent {
             })
 
         } else {
+            console.log(this.state.months)
             for (var i = 0; i < this.state.months.length; i++) {
                 if (this.state.months[i] == parseInt(datas[index].yearMonth)) {
                     this.state.months.splice(i, 1)
@@ -355,7 +356,7 @@ export default class LivingPaymentDetail extends BaseComponent {
                             unCheckedImage={<Image source={require('../../img/icon_buy_unselect.png')}
                                                    style={styles.image}/>}
                         />
-                        <Text style={{paddingLeft: 5, color: '#333', fontSize: 15}}>{item.item.yearMonth}</Text>
+                        <Text style={{paddingLeft: 5, color: '#333', fontSize: 15}}>{item.item.yearMonth+item.item.name}</Text>
                     </View>
 
                     <View style={{
