@@ -461,32 +461,6 @@ export default class LivingPayment extends BaseComponent {
      * @param array
      * @returns {boolean}
      */
-    isContinuityArray(array) {
-        var isContinuityArray = false;
-        var arrayCount = array.length - 1;
-        for (var i = 0; i < arrayCount; i++) {
-            var currentArr = Number(array[i]) + 1;
-            var nestArr = Number(array[i + 1]);
-            if(i+1==arrayCount){
-                currentArr= Number(array[i]);
-                nestArr= Number(array[i]);
-            }
-            if (currentArr != nestArr) {
-                isContinuityArray = false;
-                break;
-            } else {
-                isContinuityArray = true;
-            }
-
-        }
-        return isContinuityArray;
-    }
-
-    /**
-     * 判断是否是递增数组
-     * @param array
-     * @returns {boolean}
-     */
     isOrderNumeric(array){
         var flag = true;
         for (var i=0;i<array.length;i++){

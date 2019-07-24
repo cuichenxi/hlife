@@ -7,6 +7,7 @@ import {COMPLAINTPRAISE, GIVEADVICE, PAGE_SIZE} from "../../constants/AppConstan
 import UserStore from "../../store/UserStore";
 import util from "../../utils/util";
 import Request from "../../utils/Request";
+import ImageView from "../../components/ImageView";
 import {ImageStyle} from "../../common/ImageStyle";
 
 export default class GiveAdvice extends BaseComponent {
@@ -43,7 +44,7 @@ export default class GiveAdvice extends BaseComponent {
     }
 
     _render() {
-        const {userName, userPhone,address} = this.state
+        const {userName, userPhone,address,headerUrl} = this.state
         return (
             <ScrollView style={{
                 flex: 1,
@@ -62,8 +63,9 @@ export default class GiveAdvice extends BaseComponent {
                         alignItems: 'center',
                         padding: 10
                     }}>
-                        <Image source={require('../../img/default_head.png')}
-                               style={{width: 37, height: 37, resizeMode: ImageStyle.contain}}/>
+                        <ImageView source={headerUrl}
+                                   defaultSource={require("../../img/default_head.png")}
+                                   style={{width: 37, height: 37, resizeMode: 'contain'}}/>
                         <Text></Text>
                         <View style={{flex: 1, marginLeft: 10}}>
                             <View style={{justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row'}}>

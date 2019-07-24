@@ -7,6 +7,7 @@ import UserStore from "../../store/UserStore";
 import util from "../../utils/util";
 import {PAGE_SIZE} from "../../constants/AppConstants";
 import Request from "../../utils/Request";
+import ImageView from "../../components/ImageView";
 import {ImageStyle} from "../../common/ImageStyle";
 
 let {width, height} = Dimensions.get('window')
@@ -70,7 +71,7 @@ export default class RepairsSelect extends BaseComponent {
     }
 
     _render() {
-        const {userName, userPhone,address} = this.state
+        const {userName, userPhone,address,headerUrl} = this.state
         return (
             <ScrollView style={{
                 flex: 1,
@@ -85,8 +86,9 @@ export default class RepairsSelect extends BaseComponent {
                         alignItems: 'center',
                         padding: 10
                     }}>
-                        <Image source={require('../../img/default_head.png')}
-                               style={{width: 37, height: 37, resizeMode: ImageStyle.contain}}/>
+                        <ImageView source={headerUrl}
+                                   defaultSource={require("../../img/default_head.png")}
+                               style={{width: 37, height: 37, resizeMode: 'contain'}}/>
                         <Text></Text>
                         <View style={{flex: 1, marginLeft: 10}}>
                             <View style={{justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row'}}>
@@ -108,7 +110,7 @@ export default class RepairsSelect extends BaseComponent {
                         height: 50, alignItems: 'center', paddingRight: 10, paddingLeft: 10, backgroundColor: '#fff'
                     }}>
                         <Image source={require('../../img/advice_type.png')}
-                               style={{width: 18, height: 15, resizeMode: ImageStyle.contain}}/>
+                               style={{width: 18, height: 15, resizeMode: 'contain'}}/>
                         <Text style={{color:'#333',fontSize:16,marginLeft:5}}>您要选择的类型是？</Text>
                     </View>
                     <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: '100%'}}/>

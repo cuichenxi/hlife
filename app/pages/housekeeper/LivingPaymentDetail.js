@@ -10,7 +10,7 @@ import Request from "../../utils/Request";
 import CheckBox from "../../components/Checkbox";
 import LivingPaymentItem from "./LivingPaymentItem";
 import util from "../../utils/util";
-import {ORDER_TYPE_JF, PAY_FROM_CREATE_ORDER, PAY_FROM_JF} from "../../constants/ActionTypes";
+import {ORDER_TYPE_JF, PAY_FROM_JF} from "../../constants/ActionTypes";
 
 let {width} = Dimensions.get('window')
 const Font = {
@@ -44,7 +44,7 @@ export default class LivingPaymentDetail extends BaseComponent {
             address: this.props.navigation.state.params.address,
             isAllChecked: false,
             isLoading: false,
-            months: []
+            months: [],
         }
     }
 
@@ -88,7 +88,7 @@ export default class LivingPaymentDetail extends BaseComponent {
                                       select={item.checked}
                                       onItemChecked={() => this.onItemSelected(item, index)}
                                       onPress={() => {
-                                          this.navigate('BillDetail')
+                                          this.navigate('LivingBillDetail',{item:item})
                                       }}
                                   />
                               )}
@@ -128,7 +128,7 @@ export default class LivingPaymentDetail extends BaseComponent {
                                         totalPrice: totalPrice,
                                         defaultColor: CommonStyle.themeColor,
                                         enabledBt: true,
-                                        months: months
+                                        months: months,
                                     })
                                 } else {
                                     this.setState({
@@ -138,7 +138,7 @@ export default class LivingPaymentDetail extends BaseComponent {
                                         totalPrice: 0,
                                         defaultColor: CommonStyle.drakGray,
                                         enabledBt: false,
-                                        months: []
+                                        months: [],
                                     })
                                 }
                             }}
@@ -230,7 +230,6 @@ export default class LivingPaymentDetail extends BaseComponent {
             })
 
         } else {
-            console.log(this.state.months)
             for (var i = 0; i < this.state.months.length; i++) {
                 if (this.state.months[i] == parseInt(datas[index].yearMonth)) {
                     this.state.months.splice(i, 1)
@@ -382,36 +381,79 @@ export default class LivingPaymentDetail extends BaseComponent {
     }
 
     onSubmit() {
-        console.log(this.state.months)
-
-
-        if (util.isArrayEmpty(this.state.months)) {
+        let months = this.state.months
+        if (util.isArrayEmpty(months)) {
             return
         }
-        this.showLoading("生单中...");
+        months.sort()
+        console.log('this.state.rows[0]',this.state.rows[0])
+        if (this.isOrderNumeric(months)){
+            if (months[0] == this.state.rows[0].yearMonth){
+                console.log('符合提交：',months)
 
-        let param = {
-            month: this.state.months
-        };
-        Request.post('/api/pay/chargeBatch', param).then(rep => {
-            if (rep.code === 0 && rep.data) {
-                this.navigate('PayCenter', {
-                        id: rep.data.id,
-                        totalPrice: rep.data.totalPrice,
-                        orderno: rep.data.orderno,
-                        orderType: ORDER_TYPE_JF,
-                        from: PAY_FROM_JF
-                    }
-                );
+                let param = {
+                    month: this.state.months
+                };
+                this.showLoading("生单中...");
+                Request.post('/api/pay/chargeBatch', param).then(rep => {
+                            if (rep.code === 0 && rep.data) {
+                                this.navigate('PayCenter', {
+                                        id: rep.data.id,
+                                        totalPrice: rep.data.totalPrice,
+                                        orderno: rep.data.orderno,
+                                        orderType: ORDER_TYPE_JF,
+                                        from: PAY_FROM_JF
+                                    }
+                                );
+                            } else {
+                                this.showShort(rep.message);
+                            }
+                        }).catch(err => {
+
+                        }).done(() => {
+                            this.hideLoading()
+                        })
             } else {
-                this.showShort(rep.message);
+                this.showShort('请选择第一个待缴费月份')
             }
-        }).catch(err => {
-
-        }).done(() => {
-            this.hideLoading()
-        })
+        } else {
+            this.showShort('请选择连续的待缴月份')
+        }
     }
+
+
+    /**
+     * 判断是否是递增数组
+     * @param array
+     * @returns {boolean}
+     */
+    isOrderNumeric(array){
+        var flag = true;
+        for (var i=0;i<array.length;i++){
+            if (i>0){
+                var num = array[i]
+                var num_ = array[i-1]+1
+                if (num != num_){
+                    flag = false
+                    break
+                }
+            }
+        }
+        if (!flag){
+            for (var i=0;i<array.length;i++){
+                if (i>0){
+                    var num = array[i]
+                    var num_ = array[i-1]-1
+                    if (num != num_){
+                        flag = false
+                        break
+                    }
+                }
+            }
+        }
+        return flag
+    }
+
 }
 const styles = StyleSheet.create({
     container: {

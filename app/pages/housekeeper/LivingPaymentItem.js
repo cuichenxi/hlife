@@ -21,7 +21,7 @@ export default class LivingPaymentItem extends Component {
         const {item} = this.props
         return (
             <TouchableView
-                // onPress={this.props.onPress}
+                onPress={this.props.onPress}
             >
                 <View style={{
                     backgroundColor: 'white',
@@ -58,8 +58,8 @@ export default class LivingPaymentItem extends Component {
                             padding: 3,
                             fontSize: 20
                         }}>¥{item.totalMoney}</Text>
-                        {/*<Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
-                                       color="#bbb"/>*/}
+                        <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
+                                       color="#bbb"/>
                     </View>
                 </View>
             </TouchableView>
