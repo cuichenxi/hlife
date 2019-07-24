@@ -22,8 +22,8 @@ export default ADStore = {
         return adInfo;
     },
     isAD() {
-        // return !util.isEmpty(adInfo.imageUrl);
-        return false;
+        return !util.isEmpty(adInfo.imageUrl);
+        // return false;
     },
     save(data = {}) {
         adInfo = Object.assign(adInfo, data);

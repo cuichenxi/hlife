@@ -1,13 +1,11 @@
 import React from 'react';
 import {Dimensions, Image, Linking, RefreshControl, ScrollView, StyleSheet, Text, View} from "react-native";
 import {BaseComponent} from "../../components/base/BaseComponent";
-import GridView from "../../components/GridView";
 import TouchableView from "../../components/TouchableView";
 import {CommonStyle} from "../../common/CommonStyle";
 import BarcodePage from "../witget/BarcodePage";
 import Request from "../../utils/Request";
 import {Badge, Grid} from "antd-mobile-rn";
-import {LINK_APIPAYS_CZ, LINK_APIPAYS_EXPRESS, LINK_APIPAYS_WZ} from "../../constants/UrlConstant";
 import ImageView from "../../components/ImageView";
 import UserStore from "../../store/UserStore";
 import util from "../../utils/util";

@@ -22,7 +22,7 @@ export default class Index extends BaseView {
     _onFetch(page = 1, callback) {
         // this.showInDLoading()
         let param = {status: this.state.index > 0 ? this.state.index : '', page: page - 1, pageSize: PAGE_SIZE,};
-        Request.post("/api/goods/orderList", param, (cacheRep) => {
+        Request.post("/api/goods/orderList", param, {cache: true},(cacheRep) => {
             if (cacheRep) {
                 if (cacheRep.code == 0 && cacheRep.data && !util.isArrayEmpty(cacheRep.data.rows)) {
                     callback(cacheRep.data.rows, {allLoaded: page * PAGE_SIZE >= cacheRep.data.total})

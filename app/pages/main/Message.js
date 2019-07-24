@@ -5,6 +5,7 @@ import {CommonStyle} from "../../common/CommonStyle";
 import Tabs from "antd-mobile-rn/es/tabs/index.native";
 import MessageListView from "./MessageListView";
 import Request from "../../utils/Request";
+import {getUrlParam} from "../../utils/UrlUtil";
 
 export default class Message extends BaseComponent {
     navigationBarProps() {
@@ -39,9 +40,8 @@ export default class Message extends BaseComponent {
     _render() {
         const tabs = [
             {title: '活动'},
-            {title: '关键通知'},
+            {title: '管家'},
             {title: '订单'},
-            {title: '服务号'},
         ];
         return (
             <View style={styles.container}>
@@ -67,6 +67,27 @@ export default class Message extends BaseComponent {
                 this.navigate('MessageDetail',item)
             }}/>
         )
+    }
+    /**
+     *
+     * 欢迎页 & 推送通知消息列表 & 首页banner
+     * active: 字段
+     *
+     * https://baidu.com 跳网页
+     * qfant://xfyj/productDetail?id=1 跳商品详情
+     * qfant://xfyj/activeDetail?id=1 跳活动详情
+     * qfant://xfyj/orderDetail?id=1 跳订单详情
+     */
+    _loadWeb(title, url) {
+        if (url && url.indexOf('productDetail') !=-1) {
+            var id = getUrlParam(url,'id');
+            this.navigate('ProductDetail',{id: id})
+        } else if (url && url.indexOf('activeDetail') != -1) {
+            var id = getUrlParam(url,'id');
+            this.navigate('activeDetail', {id: id});
+        } else {
+            this.push('Web', {article: {title: title, url: url}})
+        }
     }
 }
 

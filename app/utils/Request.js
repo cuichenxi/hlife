@@ -21,13 +21,14 @@ const post = (url, params = {}, options = {}, cacheCallback) => {
             isMock = true;
             url = 'http://rap2api.taobao.org/app/mock/data/' + options.mockId;
         }
-        isCache = (options.cache != 0);
+        isCache = (options.cache == true);
+
         if (isCache && cacheCallback) {
             store.get(cache_key).then(data => {
                 if (data) {
                     cacheCallback(data);
                 }
-                console.log('cacheData:' + JSON.stringify(data));
+                console.log('cacheData:' + JSON.stringify(data, null, 2));
             });
         }
     }

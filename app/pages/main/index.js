@@ -16,7 +16,8 @@ import JPushModule from "jpush-react-native/index";
 import ADStore from "../../store/ADStore";
 import util from "../../utils/util";
 import {ImageStyle} from "../../common/ImageStyle";
-
+import {getUrlParam} from '../../utils/UrlUtil'
+import {PAGE_SIZE} from "../../constants/AppConstants";
 export default class Main extends BaseComponent {
 
     navigationBarProps() {
@@ -25,6 +26,7 @@ export default class Main extends BaseComponent {
             title: '首页',
         }
     }
+
     constructor(props) {
         super(props);
         this.state = {
@@ -74,20 +76,17 @@ export default class Main extends BaseComponent {
             typeList: {},
             goodsRecommend: [],
             isAuth: 0,
-            searchHint:'搜索',
+            searchHint: '搜索',
             messages: 0
         };
-        // this.onGetRegistrationIdPress = this.onGetRegistrationIdPress.bind(this)
-        // this.onHasPermission = this.onHasPermission.bind(this)
-        // this.jumpSecondActivity = this.jumpSecondActivity.bind(this)
-        // this.setTag = this.setTag.bind(this)
-        // this.setAlias = this.setAlias.bind(this)
+        this.onHasPermission();
     }
+
     //rOfQ8XGOt98_57EL3FJIogtaEFaL1847071a-a410-40be-8295-ea5fb8bf4b4a staging
     //Zuhm7813pnWp80Jxdy3_J07YWFJP1847071a-a410-40be-8295-ea5fb8bf4b4a test
     //K6yVS_qXUMNuWuppkSEpFyOVmB921847071a-a410-40be-8295-ea5fb8bf4b4a Production
 
-    onShow(e){
+    onShow(e) {
         this.getHomeData()
         JPushModule.clearAllNotifications();
     }
@@ -106,19 +105,6 @@ export default class Main extends BaseComponent {
         //     installMode: CodePush.InstallMode.IMMEDIATE
         // });
         this.hideHeader(true);
-        Request.post('/api/home/goodsRecommend', {page: 0, pageSize: 10})
-            .then(rep => {
-                if (rep.code == 0 && rep.data) {
-                    this.setState({
-                        goodsRecommend: rep.data.rows,
-                    });
-                }
-            }).catch(err => {
-        }).done(() => {
-        })
-        this.registerCallBack(CALL_BACK_TEST,(e)=>{
-            this.showShort(JSON.stringify(e));
-        })
         this.initPush();
         this.getAD();
     }
@@ -180,10 +166,12 @@ export default class Main extends BaseComponent {
         //android
         JPushModule.addGetRegistrationIdListener(registrationId => {
             // alert('' + registrationId);
+            this.sendPushId(registrationId)
             console.log('Device register succeed, registrationId ' + registrationId)
         })
         JPushModule.getRegistrationID((registrationId) => {
             // alert('' + registrationId);
+            this.sendPushId(registrationId)
             console.log('Device register succeed, registrationId ' + registrationId)
         })
         //ios
@@ -195,47 +183,140 @@ export default class Main extends BaseComponent {
         JPushModule.clearAllNotifications();
     }
 
-    getAD(){
-        Request.post('/api/home/advertising', {},
-            {
-                mock: false,
-                mockId: 1095514,
-            }).then(rep => {
-            if (rep.code == 0&&rep.data) {
+
+    getAD() {
+        Request.post('/api/home/goodsRecommend', {page: 0, pageSize: 10})
+            .then(rep => {
+                if (rep.code == 0 && rep.data) {
+                    this.setState({
+                        goodsRecommend: rep.data.rows,
+                    });
+                }
+            }).catch(err => {
+        }).done(() => {
+        })
+        this.registerCallBack(CALL_BACK_TEST, (e) => {
+            this.showShort(JSON.stringify(e));
+        })
+        Request.post('/api/home/advertising', {}).then(rep => {
+            if (rep.code == 0 && rep.data) {
                 ADStore.save({
-                    // imageUrl: 'https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/common/1544009388067/ad_t1.gif',
                     imageUrl: rep.data.imgurl,
                     active: rep.data.link,
-                    times: 3,
+                    times: rep.data.times,
                 });
+            }
+        }).catch(err => {
+        }).done(() => {
+
+        })
+
+        Request.post('/api/home/slideshow', {type: 1}, {cache: true},(cacheRep) => {
+            if (cacheRep) {
+                if (cacheRep.code == 0) {
+                    let _banners = [];
+                    if (cacheRep.data) {
+                        cacheRep.data.forEach(item => {
+                            _banners.push({
+                                title: item.title,
+                                url: item.link,
+                                imagePath: item.imgurl
+                            })
+                        })
+                        this.setState({
+                            banners: _banners,
+                        });
+                    }
+                }
+            }
+        }).then(rep => {
+            if (rep.code == 0) {
+                let _banners = [];
+                if (rep.data) {
+                    rep.data.forEach(item => {
+                        _banners.push({
+                            title: item.title,
+                            url: item.link,
+                            imagePath: item.imgurl
+                        })
+                    })
+                    this.setState({
+                        banners: _banners,
+                    });
+                }
+            }
+        }).catch(err => {
+        }).done(() => {
+        })
+        Request.post('/api/home/slideshow', {type: 2}, {cache: true},(cacheRep) => {
+            if (cacheRep) {
+                if (cacheRep.code == 0) {
+                    let _recommendList = [];
+                    if (cacheRep.data) {
+                        cacheRep.data.forEach(item => {
+                            _recommendList.push({
+                                title: item.title,
+                                url: item.link,
+                                imagePath: item.imgurl
+                            })
+                        })
+                        this.setState({
+                            recommendList: _recommendList,
+                        });
+                    }
+                }
+            }
+        }).then(rep => {
+            if (rep.code == 0 ) {
+                let _recommendList = [];
+                if (rep.data) {
+                    rep.data.forEach(item => {
+                        _recommendList.push({
+                            title: item.title,
+                            url: item.link,
+                            imagePath: item.imgurl
+                        })
+                    })
+                    this.setState({
+                        recommendList: _recommendList,
+                    });
+                }
+            }
+        }).catch(err => {
+        }).done(() => {
+        })
+
+    }
+
+    sendPushId(pushId) {
+        Request.post('/api/user/reportPushId', {pushId: pushId}).then(rep => {
+            if (rep.code == 0) {
+                console.debug('同步pushId' + pushId);
+            }
+            else {
+                console.debug('同步pushId失败' + pushId);
             }
         }).catch(err => {
         }).done(() => {
         })
     }
+
     onUnload() {
-        JPushModule.removeReceiveCustomMsgListener(this.receiveCustomMsgListener)
-        JPushModule.removeReceiveNotificationListener(this.receiveNotificationListener)
-        JPushModule.removeReceiveOpenNotificationListener(this.openNotificationListener)
-        JPushModule.removeGetRegistrationIdListener(this.getRegistrationIdListener)
+        // JPushModule.removeReceiveCustomMsgListener(this.receiveCustomMsgListener)
+        // JPushModule.removeReceiveNotificationListener(this.receiveNotificationListener)
+        // JPushModule.removeReceiveOpenNotificationListener(this.openNotificationListener)
+        // JPushModule.removeGetRegistrationIdListener(this.getRegistrationIdListener)
         console.log('Will clear all notifications')
         JPushModule.clearAllNotifications()
     }
 
 
-    onHasPermission () {
-        JPushModule.hasPermission( res => console.log(`onHasPermission ${res}`) )
+    onHasPermission() {
+        JPushModule.hasPermission(res => console.log(`onHasPermission ${res}`))
     }
 
 
-    onGetRegistrationIdPress () {
-        JPushModule.getRegistrationID(registrationId => {
-            this.setState({
-                registrationId: registrationId
-            })
-        })
-    }
-    jumpSecondActivity (message) {
+    jumpSecondActivity(message) {
         // JPushModule.jumpToPushActivityWithParams('SecondActivity', {
         //   hello: 'world'
         // })
@@ -244,46 +325,34 @@ export default class Main extends BaseComponent {
     }
 
 
-
     canExitApp() {
         return true;
     }
 
 
+    /**
+     *
+     * 欢迎页 & 推送通知消息列表 & 首页banner
+     * active: 字段
+     *
+     * https://baidu.com 跳网页
+     * qfant://xfyj/productDetail?id=1 跳商品详情
+     * qfant://xfyj/activeDetail?id=1 跳活动详情
+     * qfant://xfyj/orderDetail?id=1 跳订单详情
+     */
     _loadWeb(title, url) {
-        this.push('Web', {article: {title: title, url: url}})
+        if (url && url.indexOf('productDetail') !=-1) {
+            var id = getUrlParam(url,'id');
+            this.navigate('ProductDetail',{id: id})
+        } else if (url && url.indexOf('activeDetail') != -1) {
+            var id = getUrlParam(url,'id');
+            this.navigate('activeDetail', {id: id});
+        } else {
+            this.push('Web', {article: {title: title, url: url}})
+        }
     }
 
 
-    setData(data) {
-        let _banners = [];
-        if (data.bannerList) {
-            data.bannerList.forEach(item => {
-                _banners.push({
-                    title: item.name,
-                    url: item.actionUrl,
-                    imagePath: item.imageUrl
-                })
-            })
-            this.setState({
-                banners: _banners,
-            });
-        }
-        let _recommendList = [];
-        if (data.recommendList) {
-            data.recommendList.forEach(item => {
-                _recommendList.push({
-                    title: item.name,
-                    url: item.actionUrl,
-                    imagePath: item.imageUrl
-                })
-            })
-            this.setState({
-                banners: _banners,
-            });
-        }
-
-    }
 
 
     getHomeData() {
@@ -295,11 +364,11 @@ export default class Main extends BaseComponent {
                 //     })
                 // }
                 UserStore.save({
-                    isAuth:rep.data.isAuth,
+                    isAuth: rep.data.isAuth,
                     messages: rep.data.messageCount,
-                    searchHint: !util.isEmpty(rep.data.searchHint)?rep.data.searchHint:'搜索',
+                    searchHint: !util.isEmpty(rep.data.searchHint) ? rep.data.searchHint : '搜索',
                     userName: rep.data.userName,
-                    phone:rep.data.phone,
+                    phone: rep.data.phone,
                     avatar: rep.data.avatar,
                     sign: rep.data.sign,
                     gender: rep.data.gender,
@@ -322,10 +391,13 @@ export default class Main extends BaseComponent {
             this.setState({refreshing: false});
         })
     }
+
     _onRefresh = () => {
         this.setState({refreshing: true});
         this.getHomeData()
+        this.getAD();
     }
+
 
     _jumpRouter(typeItem) {
         if (typeItem && typeItem.active.indexOf('alipays://') === 0) {
@@ -339,7 +411,7 @@ export default class Main extends BaseComponent {
         this.navigate("BarcodePage", {},
             (backData) => {
                 setTimeout(() => {
-                    this.navigate('scanInfo',{serialNum: backData})
+                    this.navigate('scanInfo', {serialNum: backData})
                 }, 500);
 
             }
@@ -351,13 +423,13 @@ export default class Main extends BaseComponent {
     _renderHeader() {
         var authText = '请认证'
         const {isAuth} = this.state
-        if (isAuth === 0){
+        if (isAuth === 0) {
             authText = '请认证'
-        } else if (isAuth === 1){
+        } else if (isAuth === 1) {
             authText = '已认证'
-        } else if (isAuth === 2){
+        } else if (isAuth === 2) {
             authText = '认证中'
-        } else if (isAuth === 3){
+        } else if (isAuth === 3) {
             authText = '认证失败'
         }
         return (
@@ -366,61 +438,68 @@ export default class Main extends BaseComponent {
                     flex: 1, flexDirection: 'row', height: CommonStyle.navContentHeight,
                     marginTop: CommonStyle.navStatusBarHeight, alignItems: 'center'
                 }}>
-                    <TouchableView style={{width: 60,height:50, alignItems: 'center',justifyContent:'center'}} onPress={() => {
-                            this.navigate('AuthPage',{},(e)=>{
-                                   this.setState({
-                                       isAuth: e.isAuth
-                                   })
-                                });
-                    }}>
-                        <Text style={{textAlign: 'center',color:'#fff', fontSize: 14}} >{authText}</Text>
+                    <TouchableView style={{width: 60, height: 50, alignItems: 'center', justifyContent: 'center'}}
+                                   onPress={() => {
+                                       this.navigate('AuthPage', {}, (e) => {
+                                           this.setState({
+                                               isAuth: e.isAuth
+                                           })
+                                       });
+                                   }}>
+                        <Text style={{textAlign: 'center', color: '#fff', fontSize: 14}}>{authText}</Text>
                     </TouchableView>
                     <View style={{
                         flex: 1,
                         height: 30,
                     }}>
-                    <View style={{
-                        flex: 1,
-                        alignItems: 'center',
-                        flexDirection: 'row',
-                        height: 30,
-                        backgroundColor: 'rgba(255,255,255,.5)',
-                        borderRadius: 15
-                    }}>
-                        <Image style={{
-                            width: 12,
-                            height: 12,
-                            marginLeft:10
-                        }} source={require("../../img/icon_search.png")}/>
-                        <TouchableView style={{
+                        <View style={{
                             flex: 1,
-                            height: 30,
                             alignItems: 'center',
                             flexDirection: 'row',
-                        }} onPress={() => {
-                            this.navigate("goodsSearch")
-                        }}>
-                          <Text style={{color: "#fff", fontSize: 14,flex:1, marginLeft: 5}}>{util.isEmpty(this.state.searchHint)?'搜索':this.state.searchHint}</Text>
-                        </TouchableView>
-                        <TouchableView style={{width: 60, alignItems: 'center',justifyContent:'center'}} onPress={() => {
-                            this.onScanClick()
+                            height: 30,
+                            backgroundColor: 'rgba(255,255,255,.5)',
+                            borderRadius: 15
                         }}>
                             <Image style={{
-                                width: 16,
-                                height: 16,marginLeft: 8
-                            }} source={require("../../img/icon_scan.png")}/>
-                        </TouchableView>
+                                width: 12,
+                                height: 12,
+                                marginLeft: 10
+                            }} source={require("../../img/icon_search.png")}/>
+                            <TouchableView style={{
+                                flex: 1,
+                                height: 30,
+                                alignItems: 'center',
+                                flexDirection: 'row',
+                            }} onPress={() => {
+                                this.navigate("goodsSearch")
+                            }}>
+                                <Text style={{
+                                    color: "#fff",
+                                    fontSize: 14,
+                                    flex: 1,
+                                    marginLeft: 5
+                                }}>{util.isEmpty(this.state.searchHint) ? '搜索' : this.state.searchHint}</Text>
+                            </TouchableView>
+                            <TouchableView style={{width: 60, alignItems: 'center', justifyContent: 'center'}}
+                                           onPress={() => {
+                                               this.onScanClick()
+                                           }}>
+                                <Image style={{
+                                    width: 16,
+                                    height: 16, marginLeft: 8
+                                }} source={require("../../img/icon_scan.png")}/>
+                            </TouchableView>
+                        </View>
                     </View>
-                    </View>
-                    <TouchableView style={{ alignItems: 'center',justifyContent:'center', height: 50}} onPress={() => {
+                    <TouchableView style={{alignItems: 'center', justifyContent: 'center', height: 50}} onPress={() => {
                         this.navigate("Message")
                     }}>
-                        <Badge text={this.state.messages} overflowCount={99} small >
+                        <Badge text={this.state.messages} overflowCount={99} small>
                             <View style={{
                                 width: 48,
                                 height: 20,
-                                paddingLeft:8,
-                                paddingRight:18,
+                                paddingLeft: 8,
+                                paddingRight: 18,
                             }}>
                                 <ImageView style={{
                                     width: 20,
@@ -448,7 +527,9 @@ export default class Main extends BaseComponent {
                                 this._loadWeb(banner.title, banner.url);
                             }
                         }}>
-                            <ImageView style={{height: 255,width:'100%', resizeMode: ImageStyle.stretch,}} source={banner.imagePath} defaultSource={require('../../img/bg_banner.png')} ></ImageView>
+                            <ImageView style={{height: 255, width: '100%', resizeMode: ImageStyle.stretch,}}
+                                       source={banner.imagePath}
+                                       defaultSource={require('../../img/bg_banner.png')}></ImageView>
                         </TouchableView>
                     );
                 })}
@@ -508,10 +589,11 @@ export default class Main extends BaseComponent {
                         }}>
                             <ImageView style={{
                                 // borderRadius: 40,
-                                width:'100%',
+                                width: '100%',
                                 height: 80,
                                 resizeMode: ImageStyle.cover
-                            }} source={banner.imagePath} defaultSource={require('../../img/bg_center_banner.png')}></ImageView>
+                            }} source={banner.imagePath}
+                                       defaultSource={require('../../img/bg_center_banner.png')}></ImageView>
                         </TouchableView>
                     );
                 })}
@@ -549,18 +631,29 @@ export default class Main extends BaseComponent {
                 borderWidth: .5,
                 margin: 5
             }} key={index} onPress={() => {
-                this.navigate('ProductDetail',item);
+                this.navigate('ProductDetail', item);
             }}>
-                <View style={[{flex: 1, borderRadius: 3, backgroundColor: '#fff',
+                <View style={[{
+                    flex: 1, borderRadius: 3, backgroundColor: '#fff',
                     borderColor: '#fff',
                     padding: 10,
-                    borderWidth: .5,}]}>
-                    <ImageView source={item.goodsImage} style={{width: '100%', marginTop:10, height: 100,}} defaultSource={require("../../img/default_image.png")}/>
-                    <Text  ellipsizeMode={'tail'} numberOfLines={1} style={{flex:1,fontSize: 14, color: "#333", marginTop: 20,
-                        }}>{item.goodsName}</Text>
-                    <View style={{flex:1 ,flexDirection:'row', alignItems: "flex-end", marginTop: 10}}>
-                        <Text style={{fontSize: 12, color: CommonStyle.themeColor}}>￥<Text style={{fontSize: 24, color: CommonStyle.themeColor,}}>{item.goodsPrice}</Text></Text>
-                        <Text style={{fontSize: 12, color: '#666',marginLeft:5 , marginBottom: 5 ,textDecorationLine: 'line-through'}}>{`￥${item.marketPrice}`}</Text>
+                    borderWidth: .5,
+                }]}>
+                    <ImageView source={item.goodsImage} style={{width: '100%', marginTop: 10, height: 100,}}
+                               defaultSource={require("../../img/default_image.png")}/>
+                    <Text ellipsizeMode={'tail'} numberOfLines={1} style={{
+                        flex: 1, fontSize: 14, color: "#333", marginTop: 20,
+                    }}>{item.goodsName}</Text>
+                    <View style={{flex: 1, flexDirection: 'row', alignItems: "flex-end", marginTop: 10}}>
+                        <Text style={{fontSize: 12, color: CommonStyle.themeColor}}>￥<Text
+                            style={{fontSize: 24, color: CommonStyle.themeColor,}}>{item.goodsPrice}</Text></Text>
+                        <Text style={{
+                            fontSize: 12,
+                            color: '#666',
+                            marginLeft: 5,
+                            marginBottom: 5,
+                            textDecorationLine: 'line-through'
+                        }}>{`￥${item.marketPrice}`}</Text>
                     </View>
                 </View>
             </TouchableView>
@@ -583,7 +676,7 @@ export default class Main extends BaseComponent {
                     {this._renderCenterView()}
                 </View>
                 {this.state.goodsRecommend && <TouchableView onPress={() => {
-                    this.navigate('goodsList', {'type': 0,title:'商品列表'});
+                    this.navigate('goodsList', {'type': 0, title: '商品列表'});
                 }}>
                     <View style={{
                         paddingHorizontal: 10, paddingVertical: 15, marginTop: 10, flex: 1, flexDirection: 'row',
@@ -592,7 +685,7 @@ export default class Main extends BaseComponent {
                     }}>
                         <View style={{backgroundColor: CommonStyle.themeColor, height: 18, width: 2}}></View>
                         <Text style={{fontSize: 15, color: CommonStyle.themeColor, marginLeft: 5, flex: 1}}>商品推荐</Text>
-                        <Text style={{fontSize: 13, color: '#666', }}>更多</Text>
+                        <Text style={{fontSize: 13, color: '#666',}}>更多</Text>
                     </View>
                 </TouchableView>
                 }

@@ -15,11 +15,32 @@
  * limitations under the License.
  *
  */
-const getUrl = (url) => {
-  if (url.indexOf('?') === -1) {
-    return `${url}?showapi_appid=29400&showapi_sign=e7977541307547beab3e4aa033adb78f`;
-  }
-  return `${url}&showapi_appid=29400&showapi_sign=e7977541307547beab3e4aa033adb78f`;
-};
+export function getUrlParam(url ,name) {
+    let urlArr = url.split('?');
+    if (urlArr.length < 2) {
+        return '';
+    }
+    let tempArr = urlArr[1].split('&');
+    for (let i = 0; i < tempArr.length; i++) {
+        let item = tempArr[i].split('=');
+        if (item[0].trim() == name) {
+            return item[1];
+        }
+    }
+    return '';
+}
 
-export default getUrl;
+export function getUrlParams(url, name) {
+    let urlArr = url.split('?');
+    if (urlArr.length < 2) {
+        return '';
+    }
+    let tempArr = urlArr[1].split('&');
+    for (let i = 0; i < tempArr.length; i++) {
+        let item = tempArr[i].split('=');
+        if (item[0].trim() == name) {
+            return item[1];
+        }
+    }
+    return '';
+}

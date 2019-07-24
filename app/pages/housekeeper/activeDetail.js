@@ -1,6 +1,6 @@
 import {BaseComponent} from "../../components/base/BaseComponent";
 import React from "react";
-import {Image, ScrollView, StyleSheet, Text, View} from "react-native";
+import {ScrollView, StyleSheet, Text, View, xImage} from "react-native";
 import {CommonStyle} from "../../common/CommonStyle";
 import TouchableView from "../../components/TouchableView";
 import Request from "../../utils/Request";
@@ -42,7 +42,7 @@ export default class Payment extends BaseComponent {
      imageUrl activityName activityDate activityContent activityNum id
      */
     onReady(e) {
-        this.setTitle(e.activityName);
+        this.setTitle('活动详情');
         this.requestData(e.id)
     }
 

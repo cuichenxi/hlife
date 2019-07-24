@@ -16,12 +16,12 @@
  *
  */
 
-import getUrl from './UrlUtil';
+// import getUrl from './UrlUtil';
 
 const request = (url, method, body) => {
   let isOk;
   return new Promise((resolve, reject) => {
-    fetch(getUrl(url), {
+    fetch((url), {
       method,
       headers: {
         'Content-Type': 'application/json;charset=utf-8'

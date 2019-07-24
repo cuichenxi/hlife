@@ -24,6 +24,7 @@ import {BaseComponent} from '../components/base/BaseComponent'
 import ADStore from "../store/ADStore";
 import {CommonStyle} from "../common/CommonStyle";
 import TouchableView from "../components/TouchableView";
+import {getUrlParam} from "../utils/UrlUtil";
 
 const maxHeight = Dimensions.get('window').height;
 const maxWidth = Dimensions.get('window').width;
@@ -39,8 +40,8 @@ class Splash extends BaseComponent {
         this.state = {
             bounceValue: new Animated.Value(1),
             ad: {
-                imageUrl: 'https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/common/1544009388067/ad_t1.gif',
-                active: 'https://reactnative.cn/docs/image/',
+                imageUrl: null,
+                active:null,
             },
             secondsElapsed: 0,
             hasAd: false,
@@ -58,14 +59,14 @@ class Splash extends BaseComponent {
 
     onReady(param) {
         setTimeout(() => {
-            let ADInfo = ADStore.get();
+            let adStore = ADStore.get();
             this.setState({
                 ad: {
-                    imageUrl: ADInfo.imageUrl,
-                    active: ADInfo.active,
+                    imageUrl: adStore.imageUrl,
+                    active: adStore.active,
                 },
                 hasAd: ADStore.isAD(),
-                secondsElapsed: ADInfo.times
+                secondsElapsed: adStore.times
             })
             if (this.state.hasAd) {
                 this.tickHandler();
@@ -93,7 +94,29 @@ class Splash extends BaseComponent {
     _goAd() {
         SplashScreen.hide();
         this._goPage()
-        this.navigate('Web', {article: {title: '', url: this.state.ad.active}})
+        this._loadWeb(this.state.ad.active);
+    }
+
+    /**
+     *
+     * 欢迎页 & 推送通知消息列表 & 首页banner
+     * active: 字段
+     *
+     * https://baidu.com 跳网页
+     * qfant://xfyj/productDetail?id=1 跳商品详情
+     * qfant://xfyj/activeDetail?id=1 跳活动详情
+     * qfant://xfyj/orderDetail?id=1 跳订单详情
+     */
+    _loadWeb( url) {
+        if (url && url.indexOf('productDetail') !=-1) {
+            var id = getUrlParam(url,'id');
+            this.navigate('ProductDetail',{id: id})
+        } else if (url && url.indexOf('activeDetail') != -1) {
+            var id = getUrlParam(url,'id');
+            this.navigate('activeDetail', {id: id});
+        } else {
+            this.push('Web', {article: {title: title, url: url}})
+        }
     }
 
     onUnload() {
@@ -117,6 +140,7 @@ class Splash extends BaseComponent {
     }
 
     _renderADView() {
+        console.debug('splash image',this.state.ad.imageUrl)
         var adTimeText = this.state.secondsElapsed == 0 ? '' : ('跳过 ' + this.state.secondsElapsed + ' s');
         return (
             <TouchableView style={{
