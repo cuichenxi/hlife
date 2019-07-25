@@ -335,12 +335,12 @@ export default class Housekeeper extends BaseComponent {
                 style={{
                     width: 90,
                     height: 90,
-                    padding:10,
-                    resizeMode: ImageStyle.stretch
+                    paddingLeft:10,
+                    resizeMode: ImageStyle.contain
                 }}
                 defaultSource={require('../../img/default_image.png')}
             />
-            <View style={{flex: 1, paddingLeft: 2}}>
+            <View style={{flex: 1, paddingLeft: 10}}>
                 <Text style={{
                     fontSize: 17,
                     marginTop:10,

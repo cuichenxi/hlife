@@ -440,11 +440,16 @@ export default class Main extends BaseComponent {
                 }}>
                     <TouchableView style={{width: 60, height: 50, alignItems: 'center', justifyContent: 'center'}}
                                    onPress={() => {
-                                       this.navigate('AuthPage', {}, (e) => {
-                                           this.setState({
-                                               isAuth: e.isAuth
-                                           })
-                                       });
+                                       console.log('isAuth',isAuth)
+                                       if (isAuth == 1){
+                                           this.showShort('您已完成认证')
+                                       } else if (isAuth != 1) {
+                                           this.navigate('AuthPage', {}, (e) => {
+                                               this.setState({
+                                                   isAuth: e.isAuth
+                                               })
+                                           });
+                                       }
                                    }}>
                         <Text style={{textAlign: 'center', color: '#fff', fontSize: 14}}>{authText}</Text>
                     </TouchableView>

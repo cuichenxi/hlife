@@ -71,7 +71,7 @@ export default class MyAddress extends BaseComponent {
 
                 <TouchableView style={{
                     alignItems: 'center',
-                    backgroundColor: CommonStyle.themeColor,
+                    backgroundColor: !util.isArrayEmpty(rows)?CommonStyle.gray:CommonStyle.themeColor,
                     justifyContent: 'center',
                     height: 40,
                     width: width,
@@ -80,7 +80,11 @@ export default class MyAddress extends BaseComponent {
                     bottom: 0,
                     alignSelf: 'center'
                 }} onPress={() => {
-                    this.goAddHousingAddress()
+                    if (!util.isArrayEmpty(rows)){
+                        //
+                    } else {
+                        this.goAddHousingAddress()
+                    }
                 }}>
                     <Text style={{color: 'white'}}>我的小区</Text>
                 </TouchableView>
@@ -113,13 +117,8 @@ export default class MyAddress extends BaseComponent {
                 mock: false,
                 mockId: 1095864,
             }).then(rep => {
-            /*if (rep.code == 0 && rep.data) {
-                // console.log(JSON.stringify(rep))
-                this.setState({
-                    rows: rep.data
-                })
-            }*/
             if (rep.code == 0 && rep.data && !util.isArrayEmpty(rep.data)) {
+                this.state.rows = rep.data
                 callback(rep.data)
             } else {
                 callback(null,{emptyTitle: '暂无小区'})
