@@ -19,8 +19,7 @@ import Request from "../../utils/Request";
 import ImageView from "../../components/ImageView";
 import UserStore from "../../store/UserStore";
 import util from "../../utils/util";
-import {PAGE_SIZE} from "../../constants/AppConstants";
-import GiftedListView from "../../components/refreshList/GiftedListView";
+import {ImageStyle} from "../../common/ImageStyle";
 
 
 export default class Housekeeper extends BaseComponent {
@@ -336,11 +335,12 @@ export default class Housekeeper extends BaseComponent {
                 style={{
                     width: 90,
                     height: 90,
-                    paddingLeft:10
+                    padding:10,
+                    resizeMode: ImageStyle.stretch
                 }}
                 defaultSource={require('../../img/default_image.png')}
             />
-            <View style={{flex: 1, paddingLeft: 10}}>
+            <View style={{flex: 1, paddingLeft: 2}}>
                 <Text style={{
                     fontSize: 17,
                     marginTop:10,

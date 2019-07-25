@@ -107,7 +107,7 @@ class Splash extends BaseComponent {
      * qfant://xfyj/activeDetail?id=1 跳活动详情
      * qfant://xfyj/orderDetail?id=1 跳订单详情
      */
-    _loadWeb( url) {
+    _loadWeb(url) {
         if (url && url.indexOf('productDetail') !=-1) {
             var id = getUrlParam(url,'id');
             this.navigate('ProductDetail',{id: id})
@@ -115,7 +115,7 @@ class Splash extends BaseComponent {
             var id = getUrlParam(url,'id');
             this.navigate('activeDetail', {id: id});
         } else {
-            this.push('Web', {article: {title: title, url: url}})
+            this.push('Web', {article: {title: '', url: url}})
         }
     }
 

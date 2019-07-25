@@ -41,9 +41,13 @@
 {
   [[NSNotificationCenter defaultCenter] postNotificationName:kJPFDidReceiveRemoteNotification object:userInfo];
 }
-//微信支付
+//微信支付&支付宝
 -(BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options
 {
+  if ([url.host isEqualToString:@"safepay"]) {
+    [AlipayModule handleCallback:url];
+    return YES;
+  }
   return [[RCTWeChat sharedManager] handleOpenURL: url];
 }
 

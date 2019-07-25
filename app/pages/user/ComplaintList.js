@@ -41,7 +41,7 @@ export default class ComplaintList extends BaseComponent{
                 mock: false,
                 mockId: 1095356,
             }).then(rep => {
-            if (rep.code == 0 && rep.data ) {
+            if (rep.code == 0 &&!util.isArrayEmpty(rep.data)) {
             // if (rep.code == 0 && rep.data && !util.isArrayEmpty(rep.data.rows)) {
                 // console.log(JSON.stringify(rep))
                 callback(rep.data, {allLoaded: true})
