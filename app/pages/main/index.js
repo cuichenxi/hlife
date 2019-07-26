@@ -441,11 +441,16 @@ export default class Main extends BaseComponent {
                 }}>
                     <TouchableView style={{width: 60, height: 50, alignItems: 'center', justifyContent: 'center'}}
                                    onPress={() => {
-                                       this.navigate('AuthPage', {}, (e) => {
-                                           this.setState({
-                                               isAuth: e.isAuth
-                                           })
-                                       });
+                                       console.log('isAuth',isAuth)
+                                       if (isAuth == 1){
+                                           this.showShort('您已完成认证')
+                                       } else if (isAuth != 1) {
+                                           this.navigate('AuthPage', {}, (e) => {
+                                               this.setState({
+                                                   isAuth: e.isAuth
+                                               })
+                                           });
+                                       }
                                    }}>
                         <Text style={{textAlign: 'center', color: '#fff', fontSize: 14}}>{authText}</Text>
                     </TouchableView>
@@ -524,7 +529,7 @@ export default class Main extends BaseComponent {
             <Swiper style={styles.banner} paginationStyle={{bottom: 10, left: 100}}
                     dotStyle={{backgroundColor: 'rgba(200,200,200,.2)', width: 6, height: 6}}
                     activeDotStyle={{backgroundColor: 'rgba(100,100,100,.5)', width: 6, height: 6}} showsButtons={false}
-                    autoplay={true} showsPagination={true}>
+                    autoplay={true} showsPagination={true} autoplayTimeout={2}>
                 {this.state.banners.map((banner, i) => {
                     return (
                         <TouchableView key={i} onPress={() => {

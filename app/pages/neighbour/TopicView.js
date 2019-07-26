@@ -1,14 +1,13 @@
 import React from "react";
-import {Dimensions, Image, ImageBackground, Text, View} from "react-native";
+import {Text, View} from "react-native";
 import {BaseView} from "../../components/base/BaseView";
 import GiftedListView from "../../components/refreshList/GiftedListView";
 import Request from "../../utils/Request";
 import {PAGE_SIZE} from "../../constants/AppConstants";
-import {CommonStyle} from "../../common/CommonStyle";
 import TouchableView from "../../components/TouchableView";
 import ImageView from "../../components/ImageView";
-import GridView from "../../components/GridView";
 import {ImageStyle} from "../../common/ImageStyle";
+import {CommonStyle} from "../../common/CommonStyle";
 
 /**
  * 话题view
@@ -48,10 +47,11 @@ export default class Index extends BaseView {
             }}>
                 <View style={{
                     backgroundColor: 'white',
-                    // height:50,
                     flexDirection: 'row',
                     alignItems: 'flex-start',
-                    padding: 5
+                    justifyContent:'center',
+                    padding: 5,
+                    flex:1
                 }}>
                     <ImageView
                         source={item.pic}
@@ -59,37 +59,34 @@ export default class Index extends BaseView {
                         style={{
                             width: 80,
                             height: 80,
-                            resizeMode: ImageStyle.cover,//contain 等比例缩放 cover 模式只求在显示比例不失真的情况下填充整个显示区域。
+                            resizeMode: ImageStyle.contain,//contain 等比例缩放 cover 模式只求在显示比例不失真的情况下填充整个显示区域。
                         }}
                     />
                     <View style={{
                         flex: 1,
                         marginLeft: 10,
                         padding: 10,
-                        justifyContent: 'flex-start',
-                        alignItems: 'flex-start'
+                        height:80,
+                        justifyContent: 'center',
+                        alignItems: 'flex-start',
                     }}>
                         <Text style={{
                             fontSize: 14,
-                            textAlign: 'left', color: '#333'
+                             color: '#333'
                         }}>{item.name}</Text>
-                        <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                            <Text style={{
-                                fontSize: 12,
-                                textAlign: 'left', color: '#999'
-                            }}>{item.des}</Text>
-                        </View>
+                        <Text style={{
+                            fontSize: 12,
+                             color: '#999'
+                        }}>{item.des}</Text>
 
 
                     </View>
                 </View>
 
-
             </TouchableView>
 
         )
     }
-
 
     _render() {
         return (
@@ -107,37 +104,6 @@ export default class Index extends BaseView {
                 />
             </View>
         );
-    }
-
-    _renderGridView(item) {
-        return (
-            <GridView
-                style={{
-                    flex: 1,
-                    paddingBottom: 10,
-                    marginTop: 10,
-                    backgroundColor: '#fff',
-                    marginRight: 10,
-                    marginLeft: 10
-                }}
-                items={item}
-                num={2}
-                renderItem={this._renderGridItem.bind(this)}
-            />
-        );
-    }
-
-
-    _renderGridItem(item, index) {
-        return (
-            <ImageView source={item}
-                       style={{
-                           width: 175,
-                           height: 131,
-                           resizeMode: ImageStyle.cover,
-                           padding: 5,
-                       }}/>
-        )
     }
 
 }

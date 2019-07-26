@@ -321,7 +321,11 @@ export default class AuthPage extends BaseComponent {
                         marginRight: 15,
                         marginTop: 20,
                     }, ThemeStyle.btn_submit]} onPress={() => {
-                        this._auth()
+                        if (isAuth === 1){
+                            this.showShort('如需重新认证或解除认证请联系管理员')
+                        } else {
+                            this._auth()
+                        }
                     }}>
                         <Text style={styles.loginText}>{authText}</Text>
                     </TouchableOpacity>
