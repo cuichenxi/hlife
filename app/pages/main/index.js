@@ -524,7 +524,7 @@ export default class Main extends BaseComponent {
             <Swiper style={styles.banner} paginationStyle={{bottom: 10, left: 100}}
                     dotStyle={{backgroundColor: 'rgba(200,200,200,.2)', width: 6, height: 6}}
                     activeDotStyle={{backgroundColor: 'rgba(100,100,100,.5)', width: 6, height: 6}} showsButtons={false}
-                    autoplay={true} showsPagination={true}>
+                    autoplay={true} showsPagination={true} autoplayTimeout={2}>
                 {this.state.banners.map((banner, i) => {
                     return (
                         <TouchableView key={i} onPress={() => {

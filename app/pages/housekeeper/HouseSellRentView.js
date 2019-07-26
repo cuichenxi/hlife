@@ -61,6 +61,7 @@ export default class HouseSellRentView extends BaseView {
                             width: 100,
                             height: 90,
                             marginLeft: 10,
+                            resizeMode: ImageStyle.contain,
                         }}
                     />
                     <View style={{ flex:1,marginLeft: 15, justifyContent: 'space-between',marginRight:30}}>
