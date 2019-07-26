@@ -12,7 +12,7 @@ export default class Index extends BaseComponent {
     }
 
     onReady(e) {
-        this.setTitle("商品详情")
+        this.setTitle(e.title)
         this.setState({
             htmlContent: e.htmlContent
         })

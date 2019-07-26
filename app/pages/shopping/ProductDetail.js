@@ -346,7 +346,7 @@ export default class ProductDetail extends BaseComponent {
                         alignItems: 'center', backgroundColor: '#fff', borderColor: CommonStyle.lineColor,
                         borderBottomWidth: .5
                     }} onPress={() => {
-                        this.navigate('ProductInfo',{htmlContent: htmlContent})
+                        this.navigate('ProductInfo',{title:'商品详情',htmlContent: htmlContent})
                     }}>
                         <View style={{backgroundColor: CommonStyle.themeColor, height: 18, width: 2}}></View>
                         <Text style={{fontSize: 15, color: CommonStyle.themeColor, marginLeft: 5, flex: 1}}>商品详情</Text>

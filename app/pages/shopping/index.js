@@ -25,6 +25,7 @@ export default class Shopping extends BaseComponent {
     canExitApp() {
         return true;
     }
+
 // , {
 //     name: '家政服务',
 //     imageUrl: require('../../img/menu_jzfw.png'),
@@ -71,7 +72,7 @@ export default class Shopping extends BaseComponent {
             typeIds: [],
             typeList: {},
             searchHint: '搜索',
-            unreadMessageCount: 0
+            messages: 0
         };
     }
 
@@ -187,7 +188,6 @@ export default class Shopping extends BaseComponent {
             recommendList: _recommendList,
             isAuth: data.isAuth == 1,
             searchHint: data.searchHint,
-            unreadMessageCount: data.unreadMessageCount
         });
     }
 
@@ -289,23 +289,27 @@ export default class Shopping extends BaseComponent {
                             </TouchableView>
                         </View>
                     </TouchableView>
-                    <TouchableView style={{alignItems: 'center', justifyContent: 'center', height: 50}} onPress={() => {
-                        this.navigate("Message")
-                    }}>
-                        <Badge text={this.state.unreadMessageCount} overflowCount={99} small>
+                    <TouchableView style={{alignItems: 'center', justifyContent: 'center', height: 50, width: 48}}
+                                   onPress={() => {
+                                       this.navigate("Message")
+                                   }}>
                             <View style={{
                                 width: 48,
                                 height: 20,
-                                paddingLeft: 8,
-                                paddingRight: 18,
+                                paddingLeft: 12,
                             }}>
                                 <ImageView style={{
                                     width: 20,
                                     height: 20,
                                 }} source={require("../../img/icon_msg_w.png")}/>
                             </View>
+                            <Badge  style={{
+                                position:CommonStyle.absolute,top: 15, right: 0,
+                                width: 20,
+                                height: 20,
+                            }}  text={this.state.messages} overflowCount={10} small>
 
-                        </Badge>
+                            </Badge>
                     </TouchableView>
                 </View>
             </View>

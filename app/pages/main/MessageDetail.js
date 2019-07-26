@@ -58,7 +58,7 @@ export default class MessageDetail extends BaseComponent {
                 padding: 5
             }}>
                 <Image
-                    source={require('../../img/order_message.png')}
+                    source={require('../../img/ic_message_active.png')}
                     style={{ width: 38, height: 38, resizeMode: ImageStyle.contain}}
                 />
                 <View style={{flex: 1, marginLeft: 10,alignItems:'flex-start',justifyContent: 'center'}}>

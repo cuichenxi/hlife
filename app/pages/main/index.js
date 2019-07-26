@@ -148,12 +148,13 @@ export default class Main extends BaseComponent {
             console.log(' extras: ' + JSON.stringify(map));
             if (Platform.OS === 'ios') {
                 JPushModule.setBadge(map.aps.badge, success => {
+
                 });
             } else {
                 JPushModule.setBadge(1, success => {
+
                 });
             }
-
         })
 
         JPushModule.addReceiveOpenNotificationListener(map => {
@@ -358,11 +359,11 @@ export default class Main extends BaseComponent {
     getHomeData() {
         Request.post('/api/user/getuserinfo', {}).then(rep => {
             if (rep.code === 0 && rep.data) {
-                // if(!util.isEmpty(rep.data.pushTag)){
-                //     JPushModule.setTags([rep.data.pushTag],(tags)=>{
-                //         console.debug('pushtags=' + JSON.stringify(tags));
-                //     })
-                // }
+                if(!util.isArrayEmpty(rep.data.pushTag)){
+                    JPushModule.setTags(rep.data.pushTag,(tags)=>{
+                        console.debug('pushtags=' + JSON.stringify(tags));
+                    })
+                }
                 UserStore.save({
                     isAuth: rep.data.isAuth,
                     messages: rep.data.messageCount,
@@ -491,21 +492,25 @@ export default class Main extends BaseComponent {
                             </TouchableView>
                         </View>
                     </View>
-                    <TouchableView style={{alignItems: 'center', justifyContent: 'center', height: 50}} onPress={() => {
-                        this.navigate("Message")
-                    }}>
-                        <Badge text={this.state.messages} overflowCount={99} small>
-                            <View style={{
-                                width: 48,
+                    <TouchableView style={{alignItems: 'center', justifyContent: 'center', height: 50, width: 48}}
+                                   onPress={() => {
+                                       this.navigate("Message")
+                                   }}>
+                        <View style={{
+                            width: 48,
+                            height: 20,
+                            paddingLeft: 12,
+                        }}>
+                            <ImageView style={{
+                                width: 20,
                                 height: 20,
-                                paddingLeft: 8,
-                                paddingRight: 18,
-                            }}>
-                                <ImageView style={{
-                                    width: 20,
-                                    height: 20,
-                                }} source={require("../../img/icon_msg.png")}/>
-                            </View>
+                            }} source={require("../../img/icon_msg_w.png")}/>
+                        </View>
+                        <Badge  style={{
+                            position:CommonStyle.absolute,top: 15, right: 0,
+                            width: 20,
+                            height: 20,
+                        }}  text={this.state.messages} overflowCount={10} small>
 
                         </Badge>
                     </TouchableView>

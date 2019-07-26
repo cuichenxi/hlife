@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {DeviceEventEmitter, StyleSheet, View} from 'react-native';
 import {BaseComponent} from '../../components/base/BaseComponent'
 import {CommonStyle} from "../../common/CommonStyle";
 import Tabs from "antd-mobile-rn/es/tabs/index.native";
@@ -15,16 +15,22 @@ export default class Message extends BaseComponent {
         }
     }
     onRightPress(){
-        Request.post('/api/home/msgreadAll', {evaluate:1,id:item.id}).then(rep => {
-            if (rep.code == 0 && rep.data) {
+        Request.post('/api/home/msgreadAll').then(rep => {
+            if (rep.code == 0) {
+                DeviceEventEmitter.emit("msgreadAll", {msgreadAll: 1});
             } else {
+
             }
         }).catch(err => {
         }).done(() => {
             this.hideLoading();
         })
     }
-    msgread(){
+
+    onUnload() {
+
+    }
+    msgread(item){
         Request.post('/api/home/msgread', {evaluate:1,id:item.id}).then(rep => {
             if (rep.code == 0 && rep.data) {
 
@@ -39,9 +45,10 @@ export default class Message extends BaseComponent {
 
     _render() {
         const tabs = [
-            {title: '活动'},
-            {title: '管家'},
-            {title: '订单'},
+            {title: '通知'},//1
+            {title: '管家'},//2
+            {title: '订单'},//3
+            {title: '其他'},//4
         ];
         return (
             <View style={styles.container}>
@@ -62,22 +69,13 @@ export default class Message extends BaseComponent {
                 flex: 1,
                 backgroundColor: 'white',
                 flexDirection: 'column'
-            }} tab={tab} index={index} onButtonPress={(item) =>{
-                this.msgread();
-                this.navigate('MessageDetail',item)
+            }} tab={tab} index={index} onButtonPress={(e) =>{
+                this.msgread(e);
+                this._loadWeb("",e.active)
+                // this.navigate('s',e)
             }}/>
         )
     }
-    /**
-     *
-     * 欢迎页 & 推送通知消息列表 & 首页banner
-     * active: 字段
-     *
-     * https://baidu.com 跳网页
-     * qfant://xfyj/productDetail?id=1 跳商品详情
-     * qfant://xfyj/activeDetail?id=1 跳活动详情
-     * qfant://xfyj/orderDetail?id=1 跳订单详情
-     */
     _loadWeb(title, url) {
         if (url && url.indexOf('productDetail') !=-1) {
             var id = getUrlParam(url,'id');
@@ -85,7 +83,11 @@ export default class Message extends BaseComponent {
         } else if (url && url.indexOf('activeDetail') != -1) {
             var id = getUrlParam(url,'id');
             this.navigate('activeDetail', {id: id});
-        } else {
+        } else if (url && url.indexOf('orderDetail') != -1) {
+            var id = getUrlParam(url,'id');
+            this.navigate('OrderDetail', {id: id});
+        }else {
+            // this.navigate('ProductInfo',{title:'商品详情',htmlContent: htmlContent})
             this.push('Web', {article: {title: title, url: url}})
         }
     }
