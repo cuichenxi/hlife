@@ -94,6 +94,7 @@ import ComplaintDetail from "./pages/user/ComplaintDetail";
 import ProductInfo from "./pages/shopping/ProductInfo";
 import {ImageStyle} from "./common/ImageStyle";
 import LivingBillDetail from "./pages/housekeeper/LivingBillDetail";
+import HouseSellRentInfo from "./pages/housekeeper/HouseSellRentInfo";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -258,6 +259,7 @@ const App = createStackNavigator(
         ComplaintDetail:{screen: ComplaintDetail},//投诉表扬详情
         ProductInfo:{screen: ProductInfo},//投诉表扬详情
         LivingBillDetail:{screen: LivingBillDetail},//单条缴费明细
+        HouseSellRentInfo:{screen: HouseSellRentInfo},//房屋详情
     },
     {
         // initialRouteName: 'Splash',
