@@ -101,6 +101,8 @@ export default class PublishHouseInfo extends BaseComponent {
                         <RadioModal
                             selectedValue={this.state.initId}
                             onValueChange={(id, item) => {
+                                console.log('id',id)
+                                console.log('item',item)
                                 this.setState({initId: id, initItem: item})
 
                             }}
@@ -116,7 +118,7 @@ export default class PublishHouseInfo extends BaseComponent {
                             radioWidth={90}
                         >
                             <Text value="1">房屋出租</Text>
-                            <Text value="2">房屋出售</Text>
+                            <Text value="0">房屋出售</Text>
                         </RadioModal>
                     </View>
                 </View>

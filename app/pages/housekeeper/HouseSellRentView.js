@@ -46,7 +46,10 @@ export default class HouseSellRentView extends BaseView {
 
     _renderRowView(item) {
         return (
-            <TouchableView>
+            <TouchableView onPress={()=>{
+                console.log('打开新页面')
+                this.state.onItemPress(item,this.state.index)
+            }}>
                 <View style={{
                     backgroundColor: 'white',
                     flexDirection: 'row',

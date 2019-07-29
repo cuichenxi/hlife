@@ -61,7 +61,8 @@ export default class HouseSellRent extends BaseComponent {
                 backgroundColor: 'white',
                 flexDirection: 'column'
             }} tab={tab} index={index}
-                               onItemPress={(item) => {
+                               onItemPress={(item,index) => {
+                                   this.navigate('HouseSellRentInfo',{id:item.id,index:index})
                                }}
                                onButtonPress={() =>{
                                    this.navigate('PublishHouseInfo')
