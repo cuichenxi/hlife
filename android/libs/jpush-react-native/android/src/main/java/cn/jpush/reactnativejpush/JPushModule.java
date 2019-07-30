@@ -523,12 +523,14 @@ public class JPushModule extends ReactContextBaseJavaModule implements Lifecycle
             ln.setContent(map.getString("content"));
             ReadableMap extra = map.getMap("extra");
             JSONObject json = new JSONObject();
-            ReadableMapKeySetIterator iterator = extra.keySetIterator();
-            while (iterator.hasNextKey()) {
-                String key = iterator.nextKey();
-                json.put(key, extra.getString(key));
+            if (extra != null) {
+                ReadableMapKeySetIterator iterator = extra.keySetIterator();
+                while (iterator.hasNextKey()) {
+                    String key = iterator.nextKey();
+                    json.put(key, extra.getString(key));
+                }
+                ln.setExtras(json.toString());
             }
-            ln.setExtras(json.toString());
             if (map.hasKey("fireTime")) {
                 long date = (long) map.getDouble("fireTime");
                 ln.setBroadcastTime(date);

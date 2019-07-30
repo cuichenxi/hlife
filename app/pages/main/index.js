@@ -17,7 +17,7 @@ import ADStore from "../../store/ADStore";
 import util from "../../utils/util";
 import {ImageStyle} from "../../common/ImageStyle";
 import {getUrlParam} from '../../utils/UrlUtil'
-import {PAGE_SIZE} from "../../constants/AppConstants";
+
 export default class Main extends BaseComponent {
 
     navigationBarProps() {
@@ -88,7 +88,7 @@ export default class Main extends BaseComponent {
 
     onShow(e) {
         this.getHomeData()
-        JPushModule.clearAllNotifications();
+        // JPushModule.clearAllNotifications();
     }
 
     onReady(e) {
@@ -125,7 +125,7 @@ export default class Main extends BaseComponent {
         }
         // JPushModule.initPush();
         JPushModule.addReceiveCustomMsgListener(map => {
-            console.log('android extras: ' + JSON.stringify(map));
+            console.log('extras: ' + JSON.stringify(map));
             /**
              * @param {Object} notification = {
 	 	  'buildId': Number     // 设置通知样式，1 为基础样式，2 为自定义样式。自定义样式需要先调用 setStyleCustom 接口设置自定义样式。(Android Only)
@@ -139,29 +139,88 @@ export default class Main extends BaseComponent {
      *    'subtitle': String    // 子标题 （iOS10+ Only）
 	 *  }
              */
-            JPushModule.sendLocalNotification({});
-            JPushModule.setBadge(1, success => {
-            });
+            if (map) {
+                if (Platform.OS === 'android') {
+                    var extraJson = null;
+                    if (map.extras) {
+                        extraJson = JSON.parse(map.extras);
+                    }
+                    JPushModule.sendLocalNotification({
+                        buildId: 1,
+                        id: map.id,
+                        title: map.title,
+                        content: map.content,
+                        extra: extraJson
+                    });
+                }else {
+                    var timestamp = new Date().getTime();
+                    if (map.extras) {
+                        JPushModule.sendLocalNotification({
+                            id: map.id ? map.id : 0,
+                            fireTime:timestamp,
+                            title: map.title,
+                            content: map.content,
+                            extra: map.extras
+                        });
+                    }
+                    /**
+                     * iOS Only
+                     * 设置本地推送
+                     * @param {Date} date  触发本地推送的时间
+                     * @param {String} textContain 推送消息体内容
+                     * @param {Int} badge  本地推送触发后 应用 Badge（小红点）显示的数字
+                     * @param {String} alertAction 弹框的按钮显示的内容（IOS 8默认为"打开", 其他默认为"启动"）
+                     * @param {String} notificationKey  本地推送标示符
+                     * @param {Object} userInfo 推送的附加字段 选填
+                     * @param {String} soundName 自定义通知声音，设置为 null 为默认声音
+                     *  static setLocalNotification(
+                     date: Date,
+                     alertBody: string,
+                     badge?: number,
+                     alertAction?: string,
+                     notificationKey?: string,
+                     userInfo?: any,
+                     soundName?: string
+                     ):
+                     */
+                    // if (map.extras) {
+                    //
+                    //     JPushModule.setLocalNotification(
+                    //         new Date(),
+                    //         map.content,
+                    //         this.state.messages + 1,
+                    //         map.content,
+                    //         "1",
+                    //         map.extras,
+                    //         null
+                    //     );
+                    // }
+                }
+            }
+            this.getHomeData()
         })
         JPushModule.addReceiveNotificationListener(map => {
             // console.log('alertContent: ' + map.alertContent)
-            console.log(' extras: ' + JSON.stringify(map));
-            if (Platform.OS === 'ios') {
-                JPushModule.setBadge(map.aps.badge, success => {
+            console.log(' addReceiveNot extras: ' + JSON.stringify(map));
+            // if (Platform.OS === 'ios') {
+            //     // JPushModule.setBadge(map.aps.badge, success => {
+            //     //
+            //     // });
+            // } else {
+            //     JPushModule.setBadge(1, success => {
+            //
+            //     });
+            // }
+            JPushModule.setBadge(this.state.messages + 1, success => {
 
-                });
-            } else {
-                JPushModule.setBadge(1, success => {
-
-                });
-            }
+            });
         })
 
         JPushModule.addReceiveOpenNotificationListener(map => {
             console.log('Opening notification!')
             console.log('map.extra: ' + map.extras)
-            this.jumpSecondActivity(map)
-            JPushModule.clearAllNotifications();
+            this.jumpSecondActivity(map.extras)
+            // JPushModule.clearAllNotifications();
         })
 
         //android
@@ -180,8 +239,7 @@ export default class Main extends BaseComponent {
         //     // alert('' + registrationId);
         //     console.log('Device register succeed, registrationId ' + registrationId)
         // })
-        // JPushModule.getAppkeyWithcallback()
-        JPushModule.clearAllNotifications();
+        // JPushModule.clearAllNotifications();
     }
 
 
@@ -308,7 +366,7 @@ export default class Main extends BaseComponent {
         // JPushModule.removeReceiveOpenNotificationListener(this.openNotificationListener)
         // JPushModule.removeGetRegistrationIdListener(this.getRegistrationIdListener)
         console.log('Will clear all notifications')
-        JPushModule.clearAllNotifications()
+        // JPushModule.clearAllNotifications()
     }
 
 
@@ -316,15 +374,41 @@ export default class Main extends BaseComponent {
         JPushModule.hasPermission(res => console.log(`onHasPermission ${res}`))
     }
 
-
-    jumpSecondActivity(message) {
-        // JPushModule.jumpToPushActivityWithParams('SecondActivity', {
-        //   hello: 'world'
-        // })
-        this.navigate('message', message);
-        // this.props.navigation.navigate('AboutPage')
+    jumpSecondActivity(extras) {
+        if (extras == null) {
+            return;
+        }
+        this.msgread(extras.id);
+        var title = extras.title;
+        var url = extras.active;
+        if (url && url.indexOf('productDetail') !=-1) {
+            var id = getUrlParam(url,'id');
+            this.navigate('ProductDetail',{id: id})
+        } else if (url && url.indexOf('activeDetail') != -1) {
+            var id = getUrlParam(url,'id');
+            this.navigate('activeDetail', {id: id});
+        } else if (url && url.indexOf('orderDetail') != -1) {
+            var id = getUrlParam(url,'id');
+            this.navigate('OrderDetail', {id: id});
+        }else {
+            // this.navigate('ProductInfo',{title:'商品详情',htmlContent: htmlContent})
+            var user = UserStore.get();
+            url = url + "/"+user.token;
+            this.push('Web', {article: {title: title, url: url}})
+        }
     }
+    msgread(id){
+        Request.post('/api/home/msgread', {evaluate: 1, id: id}).then(rep => {
+            if (rep.code == 0 && rep.data) {
 
+            } else {
+
+            }
+        }).catch(err => {
+        }).done(() => {
+            this.hideLoading();
+        });
+    }
 
     canExitApp() {
         return true;
@@ -385,7 +469,11 @@ export default class Main extends BaseComponent {
                     searchHint: rep.data.searchHint,
                     messages: rep.data.messageCount
                 });
+                JPushModule.setBadge(rep.data.messageCount, success => {
+
+                });
             }
+
         }).catch(err => {
 
         }).done(() => {

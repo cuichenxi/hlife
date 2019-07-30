@@ -34,7 +34,7 @@ export default class Housekeeper extends BaseComponent {
         super(props);
         this.state = {
             refreshing: false,
-            phone:10086,
+            phone:null,
             types: [
                 {
                     name: '物业缴费',
@@ -299,7 +299,7 @@ export default class Housekeeper extends BaseComponent {
                     if (util.isEmpty(tenementPhone)) {
                         this.showShort('暂无物业电话')
                     }else {
-                        Linking.openURL(`tel:${this.state.phone}`);
+                        Linking.openURL(`tel:${tenementPhone}`);
                     }
                 }}>
                     <ImageBackground source={require('../../img/bg_dhwy.png')} style={{

@@ -145,7 +145,7 @@ export default class RepairOrderDetail extends BaseComponent {
         }
         var repairtypeStr = '';
         if (data.repairtype === 1) {
-            repairtypeStr = '家居保修';
+            repairtypeStr = '家居报修';
         } else if (data.repairtype === 2) {
             repairtypeStr = '小区报修';
         } else if (data.repairtype === 3) {
@@ -219,7 +219,7 @@ export default class RepairOrderDetail extends BaseComponent {
                         {this._renderGridView(data.imageList)}
                     </View>}
                     <View style={{marginTop: 15, backgroundColor: '#fff', paddingLeft: 15}}>
-                        <Text style={{fontSize: 14, color: '#333', paddingVertical: 12}}>报销报事</Text>
+                        <Text style={{fontSize: 14, color: '#333', paddingVertical: 12}}>报修报事</Text>
                         <View style={{backgroundColor: CommonStyle.lightGray, flex: 1, height: .5}}/>
                         <Text style={{fontSize: 12, color: '#666', paddingTop: 15,}}>标题 : {data.title}</Text>
                         <Text style={{fontSize: 12, color: '#666', paddingBottom: 15, marginTop: 10}}>内容 : {data.intro}</Text>

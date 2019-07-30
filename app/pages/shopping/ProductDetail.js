@@ -325,7 +325,7 @@ export default class ProductDetail extends BaseComponent {
                         <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
                             <Image source={require('../../img/check.png')}
                                    style={{width: 12, height: 12, resizeMode: 'contain'}}/>
-                            <Text style={{fontSize: 12, color: '#333', marginLeft: 2}}>支持开局电子发票</Text>
+                            <Text style={{fontSize: 12, color: '#333', marginLeft: 2}}>支持开具电子发票</Text>
                         </View>
                         <View style={{
                             marginLeft: 50,

@@ -10,6 +10,7 @@ import ImageView from "../../components/ImageView";
 import UserStore from "../../store/UserStore";
 import util from "../../utils/util";
 import {ImageStyle} from "../../common/ImageStyle";
+import {LINK_APIPAYS_JF} from "../../constants/UrlConstant";
 
 let {width, height} = Dimensions.get('window')
 let bottomHeight = 0;
@@ -324,7 +325,8 @@ export default class Shopping extends BaseComponent {
                 height: 100
             }} onPress={() => {
                 if (index == 0) {
-                    this.navigate('WaterElectricityPayment')
+                    // this.navigate('WaterElectricityPayment')
+                    Linking.openURL(LINK_APIPAYS_JF).catch(err => this.showShort("未检测到支付宝"));
                 } else if (index == 1) {
                     this.navigate('goodsList', {'type': 17, title: '送水上门'});
                 } else if (index == 2) {

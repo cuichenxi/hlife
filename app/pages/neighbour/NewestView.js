@@ -48,7 +48,7 @@ export default class Index extends BaseView {
                 this.setState({
                     emptyTitle: rep.message
                 })
-                callback(null,{emptyTitle: rep.message})
+                callback(null,{emptyTitle: '空空如也~'})
             }
         }).catch(err => {
             this.setState({
@@ -184,10 +184,11 @@ export default class Index extends BaseView {
                         this.listRef = ref;
                     }}
                     style={{ flex: 1}}
-                    emptyView={this._renderEmptyView.bind(this)}
+                    // emptyView={this._renderEmptyView.bind(this)}
                     rowView={this._renderRowView.bind(this)}
                     onFetch={this.makeRemoteRequest.bind(this)}
                     loadMore={false}
+                    firstLoader={false}
                 />
                 <TouchableView style={{
                     height: 70,

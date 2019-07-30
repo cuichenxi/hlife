@@ -120,7 +120,7 @@ export default class MessageListView extends BaseView {
                 </View>
                 {item.isRead === 0 &&
                 <View style={{
-                    backgroundColor: CommonStyle.red, borderRadius: 4, width: 8, height: 8,
+                    backgroundColor: CommonStyle.red, borderRadius: 5, width: 10, height: 10,
                     position: CommonStyle.absolute, left: 45, top: 12
                 }}></View>}
 
