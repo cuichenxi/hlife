@@ -123,9 +123,9 @@ export default class GiveAdvice extends BaseComponent {
                     this.navigate('CommitInfo', {title: secondType, hideUpload: true,commitType:commitType})
                 }}>
                     <ImageBackground style={{alignItems: 'center', justifyContent: 'center', height: 67, width: 107}}
-                                     source={require('../../img/white_bg.png')}>
+                                     source={require('../../img/theme_color_bg.png')}>
                         <Text style={{
-                            color: '#333',
+                            color: '#fff',
                             fontWeight: 'bold',
                             fontSize: 16,
                             marginBottom: 5

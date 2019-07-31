@@ -43,7 +43,7 @@ export default class CommitInfo extends BaseComponent {
         return (
             <View>
                 <TextInput
-                    placeholder='您对我们的工作有什么建议'
+                    placeholder='请在这编辑内容……'
                     style={{
                         width: '100%',
                         backgroundColor: '#fff',
