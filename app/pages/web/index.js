@@ -36,7 +36,7 @@ import {SafeAreaView} from 'react-navigation';
 import LoadingView from '../../components/LoadingView';
 import {formatStringWithHtml} from '../../utils/FormatUtil';
 
-let canGoBack = true;
+let canGoBack = false;
 const shareIconWechat = require('../../img/share_icon_wechat.png');
 const shareIconMoments = require('../../img/share_icon_moments.png');
 import {BaseComponent} from '../../components/base/BaseComponent'
@@ -60,17 +60,19 @@ class Index extends BaseComponent {
     navigationBarProps() {
         return {
             title: this.props.navigation.state.params.article.title,
-            rightTitle:(
+            rightTitle: (
                 '分享'
             ),
         }
     }
+
     constructor(props) {
         super(props);
         this.state = {
             isShareModal: false
         };
     }
+
     //
     // componentDidMount() {
     //     // this.props.navigation.setParams({handleShare: this.onActionSelected});
@@ -185,6 +187,7 @@ class Index extends BaseComponent {
 
     _render() {
         const {params} = this.props.navigation.state;
+        console.log('web url',params.article.url)
         return (
             <SafeAreaView style={styles.container}>
                 <Modal

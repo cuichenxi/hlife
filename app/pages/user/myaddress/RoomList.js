@@ -46,7 +46,7 @@ export default class RoomList extends BaseComponent{
         return(<TouchableView onPress={() => {
             if (this.state.from !== FROMAUTH) {
                 this.pop(3)
-                this.sendCallback(CALL_BACK_FROM_AUTH,{elementName:this.state.elementData.name+'-'+rowData.name,roomId:rowData.id})
+                this.sendEvent(CALL_BACK_FROM_AUTH,{elementName:this.state.elementData.name+'-'+rowData.name,roomId:rowData.id})
             } else {
                 this.goBack(rowData)
             }

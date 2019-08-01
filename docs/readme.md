@@ -13,7 +13,7 @@ app store
 ch.colorful@gmail.com 
 Chenghui1989
 
-
+//效果图
 https://lanhuapp.com/url/xpcJ3-4pdqg
 
 https://www.pgyer.com/6vsc 安卓

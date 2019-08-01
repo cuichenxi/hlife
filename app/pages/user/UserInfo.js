@@ -11,6 +11,7 @@ import UserStore from "../../store/UserStore";
 import ImageView from "../../components/ImageView";
 import List from "antd-mobile-rn/es/list/index.native";
 import {ThemeStyle} from "../../common/ThemeStyle";
+import {UPDATE_USER_INFO} from "../../constants/ActionTypes";
 
 export default class UserInfo extends BaseComponent {
 
@@ -60,6 +61,10 @@ export default class UserInfo extends BaseComponent {
     // "sign":"你在哪里呀",
     // "token":null,"
     // userName":"15811508404"}
+    goBack(e){
+        super.goBack(e)
+        this.sendEvent(UPDATE_USER_INFO,{})
+    }
     updateUserInfo(){
         this.showLoading('保存信息中...')
         var param ={

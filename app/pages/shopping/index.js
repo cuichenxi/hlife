@@ -11,6 +11,7 @@ import UserStore from "../../store/UserStore";
 import util from "../../utils/util";
 import {ImageStyle} from "../../common/ImageStyle";
 import {LINK_APIPAYS_JF} from "../../constants/UrlConstant";
+import {UPDATE_UN_MESSAGE} from "../../constants/ActionTypes";
 
 let {width, height} = Dimensions.get('window')
 let bottomHeight = 0;
@@ -77,39 +78,24 @@ export default class Shopping extends BaseComponent {
         };
     }
 
-
     onReady(param) {
-        this.hideHeader(true);
         bottomHeight = (height - 290 - 10 - 60) / 3;
-        Request.post('/api/user/getuserinfo', {}).then(rep => {
-            if (rep.code === 0 && rep.data) {
-                UserStore.save({
-                    isAuth: rep.data.isAuth,
-                    messages: rep.data.messageCount,
-                    searchHint: !util.isEmpty(rep.data.searchHint) ? rep.data.searchHint : '搜索',
-                    userName: rep.data.userName,
-                    phone: rep.data.phone,
-                    avatar: rep.data.avatar,
-                    sign: rep.data.sign,
-                    gender: rep.data.gender,
-                    birthday: rep.data.birthday,
-                    redCount: rep.data.redCount,
-                    integralCount: rep.data.integralCount,
-                    balance: rep.data.balance,
-                    tenementPhone: rep.data.tenementPhone,
-                });
-                this.setState({
-                    isAuth: rep.data.isAuth,
-                    searchHint: rep.data.searchHint,
-                    messages: rep.data.messageCount
-                });
-            }
-        }).catch(err => {
-
-        }).done(() => {
-            this.setState({refreshing: false});
-        })
+        this.hideHeader(true);
         this.housekeeping();
+        // this.addEventListener(UPDATE_UN_MESSAGE, (e) => {
+        //     var userInfo = UserStore.get();
+        //     this.setState({
+        //         messages: userInfo.messages
+        //     });
+        // });
+    }
+
+    onShow(){
+        var userInfo = UserStore.get();
+        this.setState({
+            searchHint: userInfo.searchHint,
+            messages: userInfo.messages
+        });
     }
 
     _onRefresh = () => {

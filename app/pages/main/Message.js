@@ -9,6 +9,7 @@ import {getUrlParam} from "../../utils/UrlUtil";
 import UserStore from "../../store/UserStore";
 import {PAGE_SIZE} from "../../constants/AppConstants";
 import util from "../../utils/util";
+import {UPDATE_USER_INFO} from "../../constants/ActionTypes";
 
 export default class Message extends BaseComponent {
     navigationBarProps() {
@@ -36,6 +37,10 @@ export default class Message extends BaseComponent {
             ],
             {cancelable: true}
         );
+    }
+    goBack(e){
+        super.goBack(e)
+        this.sendEvent(UPDATE_USER_INFO,{})
     }
     allRead(){
         Request.post('/api/home/msgreadAll').then(rep => {
