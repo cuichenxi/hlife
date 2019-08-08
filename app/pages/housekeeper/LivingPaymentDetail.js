@@ -272,7 +272,6 @@ export default class LivingPaymentDetail extends BaseComponent {
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
                 var datas = []
-                let map={}
 
                 let  result =[]
                 for (var row of rep.data) {
