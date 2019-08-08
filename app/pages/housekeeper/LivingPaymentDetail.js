@@ -98,8 +98,7 @@ export default class LivingPaymentDetail extends BaseComponent {
                 </ScrollView>
 
                 <View style={styles.bottomView}>
-                    <TouchableView style={[styles.bottomLeftBt, styles.bottomRow]}
-                                   onPress={() => this.state.onButtonPress()}>
+                    <TouchableView style={[styles.bottomLeftBt, styles.bottomRow]}>
                         <CheckBox
                             style={styles.checkBox}
                             onClick={() => {
@@ -203,7 +202,7 @@ export default class LivingPaymentDetail extends BaseComponent {
                 enabledBt = true
             }
         }
-        for (var i = 0; i < datas.length; i++) {
+        /*for (var i = 0; i < datas.length; i++) {
             if (datas[0].checked !== datas[i].checked) {
                 isSomeState = false
                 isAllChecked = false
@@ -215,6 +214,15 @@ export default class LivingPaymentDetail extends BaseComponent {
                 }
                 isSomeState = true
             }
+        }*/
+        let checkedList = []
+        for (var i = 0; i < datas.length; i++) {
+            checkedList.push(datas[i].checked)
+        }
+
+        isSomeState = this.isAllEqual(checkedList)
+        if (isSomeState){
+            isAllChecked = checkedList[0]
         }
 
         if (datas[index].checked) {
@@ -264,10 +272,22 @@ export default class LivingPaymentDetail extends BaseComponent {
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
                 var datas = []
+                let map={}
+
+                let  result =[]
                 for (var row of rep.data) {
                     row.checked = false
+
                     datas.push(row)
                 }
+                for (let i=0;i<datas.length;i++){
+                    let name = datas[i]['name'];
+                    let filterArr = datas.filter(item => item.name == name)
+                    result.push(filterArr)
+                    i+= filterArr.length-1
+                }
+                console.log('result=',result)
+
                 this.setState({
                     rows: datas,
                     communityinfo: rep.data.communityinfo
@@ -281,103 +301,14 @@ export default class LivingPaymentDetail extends BaseComponent {
     }
 
 
-    _renderItem = (item) => {
-        return (
-            <TouchableView onPress={() => {
-                this.navigate("BillDetail")
-            }}>
-                <View style={{
-                    backgroundColor: 'white',
-                    height: 80,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    // padding: 10,
-                }}>
-                    <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                        <CheckBox
-                            style={styles.checkBox}
-                            onClick={() => {
-
-                                var datas = this.state.rows
-                                datas[item.index].checked = !item.item.checked
-                                var defaultColor = CommonStyle.drakGray
-                                var enabledBt = false
-                                var isAllChecked = false
-                                var isSomeState = false
-
-                                for (var data of datas) {
-                                    if (data.checked) {
-                                        defaultColor = CommonStyle.themeColor
-                                        enabledBt = true
-                                    }
-                                }
-                                for (var i = 0; i < datas.length; i++) {
-                                    if (datas[0].checked !== datas[i].checked) {
-                                        isSomeState = false
-                                        isAllChecked = false
-                                    } else if (datas[0].checked === datas[i].checked) {
-                                        if (datas[0].checked) {
-                                            isAllChecked = true
-                                        } else {
-                                            isAllChecked = false
-                                        }
-                                        isSomeState = true
-                                    }
-                                }
-
-                                if (datas[item.index].checked) {
-                                    this.setState({
-                                        items: ++this.state.items,
-                                        rows: datas,
-                                        totalPrice: item.item.totalMoney + this.state.totalPrice,
-                                        defaultColor: defaultColor,
-                                        enabledBt: enabledBt,
-                                        isAllChecked: isAllChecked
-                                    })
-                                } else {
-                                    this.setState({
-                                        items: --this.state.items,
-                                        rows: datas,
-                                        totalPrice: this.state.totalPrice - item.item.totalMoney,
-                                        defaultColor: defaultColor,
-                                        enabledBt: enabledBt,
-                                        isAllChecked: isAllChecked
-                                    })
-                                }
-
-                            }}
-                            isChecked={item.item.checked}
-                            rightText={''}
-                            rightTextStyle={styles.text}
-                            checkedImage={<Image source={require('../../img/icon_buy_select.png')}
-                                                 style={styles.image}/>}
-                            unCheckedImage={<Image source={require('../../img/icon_buy_unselect.png')}
-                                                   style={styles.image}/>}
-                        />
-                        <Text style={{paddingLeft: 5, color: '#333', fontSize: 15}}>{item.item.yearMonth+item.item.name}</Text>
-                    </View>
-
-                    <View style={{
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        flexDirection: 'row',
-                        paddingRight: 10
-                    }}>
-
-                        <Text style={{
-                            color: CommonStyle.themeColor,
-                            padding: 3,
-                            fontSize: 20
-                        }}>¥{item.item.totalMoney}</Text>
-                        <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
-                                       color="#bbb"/>
-                    </View>
-
-                </View>
-            </TouchableView>
-
-        )
+    isAllEqual(array){
+        if (array.length >0){
+            return !array.some(function (value,index) {
+                return value !== array[0];
+            })
+        } else {
+            return true
+        }
     }
 
     onSubmit() {

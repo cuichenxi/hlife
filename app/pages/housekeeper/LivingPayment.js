@@ -266,7 +266,7 @@ export default class LivingPayment extends BaseComponent {
                 mock: false,
                 mockId: 1125376,
             }).then(rep => {
-            if (rep.code == 0 && rep.data) {
+            if (rep.code == 0 && rep.data && !util.isArrayEmpty(rep.data)) {
                 var datas = []
                 for (var row of rep.data) {
                     row.checked = false
@@ -277,6 +277,11 @@ export default class LivingPayment extends BaseComponent {
                     communityinfo: rep.data.communityinfo
                 })
                 // callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
+            } else {
+                this.setState({
+                    emptyTitle: rep.message
+                })
+                callback(null,{emptyTitle: '空空如也~'})
             }
         }).catch(err => {
 
@@ -313,20 +318,16 @@ export default class LivingPayment extends BaseComponent {
                                 enabledBt = true
                             }
                         }
+
+                        let checkedList = []
                         for (var i = 0; i < datas.length; i++) {
-                            console.log(datas[i].checked)
-                            if (datas[0].checked !== datas[i].checked) {
-                                isSomeState = false
-                                isAllChecked = false
-                            } else if (datas[0].checked === datas[i].checked) {
-                                if (datas[0].checked) {
-                                    isAllChecked = true
-                                } else {
-                                    isAllChecked = false
-                                }
-                                isSomeState = true
-                            }
+                            checkedList.push(datas[i].checked)
                         }
+                        isSomeState = this.isAllEqual(checkedList)
+                        if (isSomeState){
+                            isAllChecked = checkedList[0]
+                        }
+
 
                         if (datas[item.index].checked) {
                             this.state.checkedItems.push(datas[item.index])
@@ -392,6 +393,16 @@ export default class LivingPayment extends BaseComponent {
         )
     }
 
+    isAllEqual(array){
+        if (array.length >0){
+            return !array.some(function (value,index) {
+                return value !== array[0];
+            })
+        } else {
+            return true
+        }
+    }
+
     onSubmit() {
         // this.showLoading("生单中...");
 
@@ -415,7 +426,6 @@ export default class LivingPayment extends BaseComponent {
 
         });
 
-        console.log(checkedItems)
 
         console.log('是否跨年：')
         console.log(this.isOrderNumeric(years))

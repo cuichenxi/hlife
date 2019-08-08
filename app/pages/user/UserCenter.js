@@ -121,13 +121,14 @@ export default class UserCenter extends BaseComponent {
                 mockId: 1095514,
             }).then(rep => {
             if (rep.code == 0) {
+                UserStore.save({integralCount: rep.data.integralCount})
                 this.setState({
                     signVisible: true,
                     singInCount: rep.data.singInCount,
                     signCount: rep.data.integralCount,
-                    integralCount: this.state.integralCount + rep.data.integralCount,
+                    integralCount: rep.data.integralCount,
                 })
-                UserStore.save({integralCount: this.state.integralCount + 1})
+
             }else {
                 this.showShort(rep.message)
             }
