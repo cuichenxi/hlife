@@ -116,9 +116,12 @@ export default class PublishActivity extends BaseComponent {
                         style={styles.inputItem}
                         underlineColorAndroid="transparent"
                         placeholder='请输入活动人数'
-                        maxLength={100}
+                        maxLength={3}
                         keyboardType='numeric'
-                        onChangeText={(text) => this.setState({persons: text})}
+                        onChangeText={(text) => {
+                            const newText = text.replace(/[^\d]+/, '');
+                            this.setState({persons: newText})
+                        }}
                         value={persons}
                     />
                 </View>

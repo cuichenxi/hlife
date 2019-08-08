@@ -39,7 +39,7 @@ export default class ReportMatter extends BaseComponent {
 
 
     _render() {
-        const {hideUpload} = this.state
+        const {hideUpload,phone} = this.state
         return (
             <View>
                 <View style={[styles.inputRow,styles.marginTop]}>
@@ -61,8 +61,11 @@ export default class ReportMatter extends BaseComponent {
                         placeholder='填写电话'
                         keyboardType='numeric'
                         maxLength={11}
-                        onChangeText={(text) => this.setState({phone: text})}
-                        value={this.state.phone ? this.state.phone : ''}
+                        onChangeText={(text) => {
+                            const newText = text.replace(/[^\d]+/, '');
+                            this.setState({phone: newText})
+                        }}
+                        value={phone ? phone : ''}
                     />
                 </View>
                 <View style={styles.lineStyle}/>

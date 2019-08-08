@@ -58,9 +58,10 @@ export default class PaymentVerification extends BaseComponent{
                         placeholder='请输入验证码'
                         keyboardType='numeric'
                         maxLength={6}
-                        onChangeText={(value) =>{
+                        onChangeText={(text) =>{
+                            const newText = text.replace(/[^\d]+/, '');
                             this.setState({
-                                authCode:value
+                                authCode:newText
                             })
                         }}
                     />

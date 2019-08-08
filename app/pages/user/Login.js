@@ -1,15 +1,5 @@
 import React from 'react';
-import {
-    Dimensions,
-    Image,
-    ImageBackground,
-    Keyboard,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View
-} from 'react-native';
+import {Image, ImageBackground, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import Request from "../../utils/Request";
 import UserStore from "../../store/UserStore";
 import {BaseComponent} from '../../components/base/BaseComponent'
@@ -18,7 +8,6 @@ import {CommonStyle} from "../../common/CommonStyle";
 import CountDownButton from "../../components/CountDownButton";
 import {ThemeStyle} from "../../common/ThemeStyle";
 
-var { width, height } = Dimensions.get('window');
 
 export default class Login extends BaseComponent {
     navigationBarProps() {
@@ -67,6 +56,7 @@ export default class Login extends BaseComponent {
                         style={styles.loginInput}
                         keyboardType='numeric'
                         maxLength={11}
+                        value={mobile}
                         onChangeText={this.onChangeMobile.bind(this)}/>
                 </View>
                 <View style={[styles.formInput, styles.formInputSplit]}>
@@ -78,6 +68,7 @@ export default class Login extends BaseComponent {
                         underlineColorAndroid="transparent"
                         placeholder='请输入验证码'
                         keyboardType='numeric'
+                        maxLength={6}
                         onChangeText={this.onChangeAuth.bind(this)}
                     />
                     <View style={{
@@ -186,8 +177,10 @@ export default class Login extends BaseComponent {
     }
 
     onChangeMobile(text) {
-        this.state.mobile = text;
+        // this.state.mobile = text;
         // this.setState({'mobile': text});
+        const newText = text.replace(/[^\d]+/, '');
+        this.setState({mobile: newText})
     }
 
     onChangePassword(text) {
@@ -196,7 +189,8 @@ export default class Login extends BaseComponent {
     }
 
     onChangeAuth(text){
-        this.state.authCode = text;
+        const newText = text.replace(/[^\d]+/, '');
+        this.state.authCode = newText;
     }
 }
 

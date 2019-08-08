@@ -144,7 +144,7 @@ export default class MyWallet extends BaseComponent {
     }
 
     _render() {
-        const {aliPay, weChatPay, balance} = this.state
+        const {aliPay, weChatPay, balance,money} = this.state
         return (
             <View style={{flex: 1}}>
                 <LinearGradient start={{x: 0.0, y: 0}} end={{x: 0, y: .8}}
@@ -199,8 +199,11 @@ export default class MyWallet extends BaseComponent {
                         }}
                         keyboardType='numeric'
                         maxLength={11}
-                        onChangeText={(text) => this.setState({money: text})}
-                        value={this.state.money ? this.state.money : ''}
+                        onChangeText={(text) => {
+                            const newText = text.replace(/[^\d]+/, '');
+                            this.setState({money: newText})
+                        }}
+                        value={money ? money : ''}
                     />
                 </View>
                 {false &&

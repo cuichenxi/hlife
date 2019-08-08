@@ -117,7 +117,10 @@ export default class AddBillInfo extends BaseComponent {
                             placeholder=''
                             maxLength={11}
                             keyboardType='numeric'
-                            onChangeText={(text) => this.setState({phone: text})}
+                            onChangeText={(text) => {
+                                const newText = text.replace(/[^\d]+/, '');
+                                this.setState({phone: newText})
+                            }}
                             value={phone}
                         />
                     </View>
@@ -143,7 +146,11 @@ export default class AddBillInfo extends BaseComponent {
                             underlineColorAndroid="transparent"
                             placeholder=''
                             keyboardType='numeric'
-                            onChangeText={(text) => this.setState({bankNo: text})}
+                            maxLength={25}
+                            onChangeText={(text) => {
+                                const newText = text.replace(/[^\d]+/, '');
+                                this.setState({bankNo: newText})
+                            }}
                             value={bankNo}
                         />
                     </View>

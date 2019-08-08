@@ -73,7 +73,10 @@ export default class ModifyPhone extends BaseComponent {
                         style={styles.loginInput}
                         keyboardType='numeric'
                         maxLength={11}
-                        onChangeText={this.onChangeMobile.bind(this)}/>
+                        onChangeText={(text)=>{
+                            const newText = text.replace(/[^\d]+/, '');
+                            this.state.mobile = newText;
+                        }}/>
                 </View>
                 <Text style={{fontSize: 12, marginLeft: 20, marginTop: 15, color: '#333'}}>验证码</Text>
                 <View style={[styles.formInput, styles.formInputSplit]}>
@@ -83,7 +86,11 @@ export default class ModifyPhone extends BaseComponent {
                         underlineColorAndroid="transparent"
                         placeholder='请输入验证码'
                         keyboardType='numeric'
-                        onChangeText={this.onChangeAuth.bind(this)}
+                        maxLength={6}
+                        onChangeText={(text) =>{
+                            const newText = text.replace(/[^\d]+/, '');
+                            this.state.authCode = newText;
+                        }}
                     />
                     <View style={{
                         height: 35, justifyContent: 'center',

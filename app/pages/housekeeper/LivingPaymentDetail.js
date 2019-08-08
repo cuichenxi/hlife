@@ -45,6 +45,7 @@ export default class LivingPaymentDetail extends BaseComponent {
             isAllChecked: false,
             isLoading: false,
             months: [],
+            result:[]
         }
     }
 
@@ -289,7 +290,8 @@ export default class LivingPaymentDetail extends BaseComponent {
 
                 this.setState({
                     rows: datas,
-                    communityinfo: rep.data.communityinfo
+                    communityinfo: rep.data.communityinfo,
+                    result
                 })
                 // callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             }

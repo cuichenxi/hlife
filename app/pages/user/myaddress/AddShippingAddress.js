@@ -62,7 +62,10 @@ export default class AddShippingAddress extends BaseComponent {
                             placeholder='请输入电话'
                             maxLength={11}
                             keyboardType='numeric'
-                            onChangeText={(text) => this.setState({tel: text})}
+                            onChangeText={(text) => {
+                                const newText = text.replace(/[^\d]+/, '');
+                                this.setState({tel: newText})
+                            }}
                             value={tel}
                         />
                     </View>
