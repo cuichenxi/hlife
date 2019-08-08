@@ -8,6 +8,7 @@ import {CommonStyle} from "../../common/CommonStyle";
 import GiftedListView from "../../components/refreshList/GiftedListView";
 import {PAGE_SIZE} from "../../constants/AppConstants";
 import {ImageStyle} from "../../common/ImageStyle";
+import util from "../../utils/util";
 
 let {width, height} = Dimensions.get('window')
 
@@ -64,7 +65,7 @@ export default class PostDetail extends BaseComponent {
                         justifyContent: 'space-between',
                         padding: 5
                     }}>
-                        <ImageView source={data.memberAvatar}
+                        <ImageView source={util.isEmpty(data.memberAvatar)?require("../../img/default_head.png"):data.memberAvatar}
                                    defaultSource={require("../../img/default_head.png")}
                                    style={{
                                        width: 40,

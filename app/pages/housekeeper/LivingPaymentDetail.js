@@ -2,8 +2,6 @@ import {BaseComponent} from "../../components/base/BaseComponent";
 import React from "react";
 import {Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, View} from "react-native";
 import {CommonStyle} from "../../common/CommonStyle";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
 import TouchableView from "../../components/TouchableView";
 import {PAGE_SIZE} from "../../constants/AppConstants";
 import Request from "../../utils/Request";
@@ -13,10 +11,7 @@ import util from "../../utils/util";
 import {ORDER_TYPE_JF, PAY_FROM_JF} from "../../constants/ActionTypes";
 
 let {width} = Dimensions.get('window')
-const Font = {
-    Ionicons,
-    FontAwesome
-}
+
 /**
  * 物业缴费明细列表
  */
@@ -45,7 +40,8 @@ export default class LivingPaymentDetail extends BaseComponent {
             isAllChecked: false,
             isLoading: false,
             months: [],
-            result:[]
+            result:[],
+            types:[]
         }
     }
 
@@ -196,6 +192,8 @@ export default class LivingPaymentDetail extends BaseComponent {
         var enabledBt = false
         var isAllChecked = false
         var isSomeState = false
+        let types = this.state.types
+        let result = this.state.result
 
         for (var data of datas) {
             if (data.checked) {
@@ -203,19 +201,7 @@ export default class LivingPaymentDetail extends BaseComponent {
                 enabledBt = true
             }
         }
-        /*for (var i = 0; i < datas.length; i++) {
-            if (datas[0].checked !== datas[i].checked) {
-                isSomeState = false
-                isAllChecked = false
-            } else if (datas[0].checked === datas[i].checked) {
-                if (datas[0].checked) {
-                    isAllChecked = true
-                } else {
-                    isAllChecked = false
-                }
-                isSomeState = true
-            }
-        }*/
+
         let checkedList = []
         for (var i = 0; i < datas.length; i++) {
             checkedList.push(datas[i].checked)
