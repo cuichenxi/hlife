@@ -11,12 +11,15 @@ import {Badge} from "antd-mobile-rn";
 import {LINK_APIPAYS_EXPRESS, LINK_APIPAYS_WZ} from "../../constants/UrlConstant";
 import ImageView from "../../components/ImageView";
 import UserStore from "../../store/UserStore";
-import {CALL_BACK_TEST} from "../../constants/ActionTypes";
+import {CALL_BACK_TEST, UPDATE_USER_INFO} from "../../constants/ActionTypes";
 import JPushModule from "jpush-react-native/index";
 import ADStore from "../../store/ADStore";
 import util from "../../utils/util";
 import {ImageStyle} from "../../common/ImageStyle";
 import {getUrlParam} from '../../utils/UrlUtil'
+import {CPKEY} from '../../constants/CPKC'
+import CodePush from 'react-native-code-push';
+
 
 export default class Main extends BaseComponent {
 
@@ -69,9 +72,6 @@ export default class Main extends BaseComponent {
                     active: LINK_APIPAYS_EXPRESS
                 }
             ],
-            dataSource: new ListView.DataSource({
-                rowHasChanged: (row1, row2) => row1 !== row2
-            }),
             typeIds: [],
             typeList: {},
             goodsRecommend: [],
@@ -82,38 +82,46 @@ export default class Main extends BaseComponent {
         this.onHasPermission();
     }
 
-    //rOfQ8XGOt98_57EL3FJIogtaEFaL1847071a-a410-40be-8295-ea5fb8bf4b4a staging
-    //Zuhm7813pnWp80Jxdy3_J07YWFJP1847071a-a410-40be-8295-ea5fb8bf4b4a test
-    //K6yVS_qXUMNuWuppkSEpFyOVmB921847071a-a410-40be-8295-ea5fb8bf4b4a Production
-
-    onShow(e) {
-        this.getHomeData()
-        // JPushModule.clearAllNotifications();
-    }
+    // onShow(e) {
+    //     this.getUserInfo()
+    // }
 
     onReady(e) {
-        // registerApp('wxb4f5998bd885e481');
-        // this.showShort('onReady')
-        // CodePush.sync({
-        //     // deploymentKey: 'rOfQ8XGOt98_57EL3FJIogtaEFaL1847071a-a410-40be-8295-ea5fb8bf4b4a"',
-        //     updateDialog: {
-        //         optionalIgnoreButtonLabel: '稍后',
-        //         optionalInstallButtonLabel: '后台更新',
-        //         optionalUpdateMessage: '幸福宜居有新版本了，是否更新？',
-        //         title: '更新提示'
-        //     },
-        //     installMode: CodePush.InstallMode.IMMEDIATE
-        // });
         this.hideHeader(true);
+        this.codePush();
         this.initPush();
+        this.getUserInfo()
         this.getAD();
+        this.addEventListener(UPDATE_USER_INFO,(e)=>{
+            this.getUserInfo()
+        })
+    }
+
+    /**
+     *  rOfQ8XGOt98_57EL3FJIogtaEFaL1847071a-a410-40be-8295-ea5fb8bf4b4a staging //安卓
+     *  K6yVS_qXUMNuWuppkSEpFyOVmB921847071a-a410-40be-8295-ea5fb8bf4b4a Production  //安卓
+     *  ttINUFwHSiyS40PcWa39-eTQB2Q5ryhtF9zA7  staging //ios
+     *  37_lnnPrUpSXghoyqf-CpGYKPcZ_BJZnYF9z07 Production  //ios
+     */
+    codePush() {
+        var debug = true;
+        CodePush.sync({
+            deploymentKey: debug ? CPKEY.CP_KEY_STAGING : CPKEY.CP_KEY_PRO,
+            updateDialog: {
+                optionalIgnoreButtonLabel: '稍后',
+                optionalInstallButtonLabel: '后台更新',
+                optionalUpdateMessage: '幸福宜居有新版本了，是否更新？',
+                title: '提示'
+            },
+            installMode: CodePush.InstallMode.IMMEDIATE
+        });
     }
 
     initPush() {
         if (Platform.OS === 'android') {
             JPushModule.initPush()
             JPushModule.getInfo(map => {
-                console.log('extras: ' + map)
+                console.log('push info', map);
             })
             JPushModule.notifyJSDidLoad(resultCode => {
                 if (resultCode === 0) {
@@ -123,7 +131,6 @@ export default class Main extends BaseComponent {
         } else {
             JPushModule.setupPush()
         }
-        // JPushModule.initPush();
         JPushModule.addReceiveCustomMsgListener(map => {
             console.log('extras: ' + JSON.stringify(map));
             /**
@@ -139,65 +146,64 @@ export default class Main extends BaseComponent {
      *    'subtitle': String    // 子标题 （iOS10+ Only）
 	 *  }
              */
-            if (map) {
-                if (Platform.OS === 'android') {
-                    var extraJson = null;
-                    if (map.extras) {
-                        extraJson = JSON.parse(map.extras);
-                    }
-                    JPushModule.sendLocalNotification({
-                        buildId: 1,
-                        id: map.id,
-                        title: map.title,
-                        content: map.content,
-                        extra: extraJson
-                    });
-                }else {
-                    var timestamp = new Date().getTime();
-                    if (map.extras) {
-                        JPushModule.sendLocalNotification({
-                            id: map.id ? map.id : 0,
-                            fireTime:timestamp,
-                            title: map.title,
-                            content: map.content,
-                            extra: map.extras
-                        });
-                    }
-                    /**
-                     * iOS Only
-                     * 设置本地推送
-                     * @param {Date} date  触发本地推送的时间
-                     * @param {String} textContain 推送消息体内容
-                     * @param {Int} badge  本地推送触发后 应用 Badge（小红点）显示的数字
-                     * @param {String} alertAction 弹框的按钮显示的内容（IOS 8默认为"打开", 其他默认为"启动"）
-                     * @param {String} notificationKey  本地推送标示符
-                     * @param {Object} userInfo 推送的附加字段 选填
-                     * @param {String} soundName 自定义通知声音，设置为 null 为默认声音
-                     *  static setLocalNotification(
-                     date: Date,
-                     alertBody: string,
-                     badge?: number,
-                     alertAction?: string,
-                     notificationKey?: string,
-                     userInfo?: any,
-                     soundName?: string
-                     ):
-                     */
-                    // if (map.extras) {
-                    //
-                    //     JPushModule.setLocalNotification(
-                    //         new Date(),
-                    //         map.content,
-                    //         this.state.messages + 1,
-                    //         map.content,
-                    //         "1",
-                    //         map.extras,
-                    //         null
-                    //     );
-                    // }
-                }
-            }
-            this.getHomeData()
+            // if (map) {
+            //     if (Platform.OS === 'android') {
+            //         var extraJson = null;
+            //         if (map.extras) {
+            //             extraJson = JSON.parse(map.extras);
+            //         }
+            //         JPushModule.sendLocalNotification({
+            //             buildId: 1,
+            //             id: map.id,
+            //             title: map.title,
+            //             content: map.content,
+            //             extra: extraJson
+            //         });
+            //     }else {
+            //         var timestamp = new Date().getTime();
+            //         if (map.extras) {
+            //             JPushModule.sendLocalNotification({
+            //                 id: map.id ? map.id : 0,
+            //                 fireTime:timestamp,
+            //                 title: map.title,
+            //                 content: map.content,
+            //                 extra: map.extras
+            //             });
+            //         }
+            //         /**
+            //          * iOS Only
+            //          * 设置本地推送
+            //          * @param {Date} date  触发本地推送的时间
+            //          * @param {String} textContain 推送消息体内容
+            //          * @param {Int} badge  本地推送触发后 应用 Badge（小红点）显示的数字
+            //          * @param {String} alertAction 弹框的按钮显示的内容（IOS 8默认为"打开", 其他默认为"启动"）
+            //          * @param {String} notificationKey  本地推送标示符
+            //          * @param {Object} userInfo 推送的附加字段 选填
+            //          * @param {String} soundName 自定义通知声音，设置为 null 为默认声音
+            //          *  static setLocalNotification(
+            //          date: Date,
+            //          alertBody: string,
+            //          badge?: number,
+            //          alertAction?: string,
+            //          notificationKey?: string,
+            //          userInfo?: any,
+            //          soundName?: string
+            //          ):
+            //          */
+            //         // if (map.extras) {
+            //         //
+            //         //     JPushModule.setLocalNotification(
+            //         //         new Date(),
+            //         //         map.content,
+            //         //         this.state.messages + 1,
+            //         //         map.content,
+            //         //         "1",
+            //         //         map.extras,
+            //         //         null
+            //         //     );
+            //         // }
+            //     }
+            // }
         })
         JPushModule.addReceiveNotificationListener(map => {
             // console.log('alertContent: ' + map.alertContent)
@@ -214,12 +220,29 @@ export default class Main extends BaseComponent {
             JPushModule.setBadge(this.state.messages + 1, success => {
 
             });
+            this.getUserInfo()
         })
 
         JPushModule.addReceiveOpenNotificationListener(map => {
             console.log('Opening notification!')
-            console.log('map.extra: ' + map.extras)
-            this.jumpSecondActivity(map.extras)
+            if (map == null) {
+                return
+            }
+            if (Platform.OS === 'android') {
+                console.log('map.extra: ' + map.extras);
+                if (map.extras) {
+                    this.jumpSecondActivity(JSON.parse(map.extras));
+                }
+            }else {
+                console.log('map.extra: ' + JSON.stringify(map));
+                if (map.extras) {
+                    this.jumpSecondActivity({
+                        title:map.extras.title,
+                        active:map.extras.active,
+                        messageId:map.extras.messageId,
+                    });
+                }
+            }
             // JPushModule.clearAllNotifications();
         })
 
@@ -254,9 +277,6 @@ export default class Main extends BaseComponent {
             }).catch(err => {
         }).done(() => {
         })
-        this.registerCallBack(CALL_BACK_TEST, (e) => {
-            this.showShort(JSON.stringify(e));
-        })
         Request.post('/api/home/advertising', {}).then(rep => {
             if (rep.code == 0 && rep.data) {
                 ADStore.save({
@@ -270,25 +290,26 @@ export default class Main extends BaseComponent {
 
         })
 
-        Request.post('/api/home/slideshow', {type: 1}, {cache: true},(cacheRep) => {
+        Request.post('/api/home/slideshow', {type: 1}, {cache: false}, (cacheRep) => {
             if (cacheRep) {
-                if (cacheRep.code == 0) {
-                    let _banners = [];
-                    if (cacheRep.data) {
-                        cacheRep.data.forEach(item => {
-                            _banners.push({
-                                title: item.title,
-                                url: item.link,
-                                imagePath: item.imgurl
-                            })
-                        })
-                        this.setState({
-                            banners: _banners,
-                        });
-                    }
-                }
+                // if (cacheRep.code == 0) {
+                //     let _banners = [];
+                //     if (cacheRep.data) {
+                //         cacheRep.data.forEach(item => {
+                //             _banners.push({
+                //                 title: item.title,
+                //                 url: item.link,
+                //                 imagePath: item.imgurl
+                //             })
+                //         })
+                //         this.setState({
+                //             banners: _banners,
+                //         });
+                //     }
+                // }
             }
         }).then(rep => {
+            // alert(JSON.stringify(rep.data))
             if (rep.code == 0) {
                 let _banners = [];
                 if (rep.data) {
@@ -307,26 +328,26 @@ export default class Main extends BaseComponent {
         }).catch(err => {
         }).done(() => {
         })
-        Request.post('/api/home/slideshow', {type: 2}, {cache: true},(cacheRep) => {
+        Request.post('/api/home/slideshow', {type: 2}, {cache: false}, (cacheRep) => {
             if (cacheRep) {
-                if (cacheRep.code == 0) {
-                    let _recommendList = [];
-                    if (cacheRep.data) {
-                        cacheRep.data.forEach(item => {
-                            _recommendList.push({
-                                title: item.title,
-                                url: item.link,
-                                imagePath: item.imgurl
-                            })
-                        })
-                        this.setState({
-                            recommendList: _recommendList,
-                        });
-                    }
-                }
+                // if (cacheRep.code == 0) {
+                //     let _recommendList = [];
+                //     if (cacheRep.data) {
+                //         cacheRep.data.forEach(item => {
+                //             _recommendList.push({
+                //                 title: item.title,
+                //                 url: item.link,
+                //                 imagePath: item.imgurl
+                //             })
+                //         })
+                //         this.setState({
+                //             recommendList: _recommendList,
+                //         });
+                //     }
+                // }
             }
         }).then(rep => {
-            if (rep.code == 0 ) {
+            if (rep.code == 0) {
                 let _recommendList = [];
                 if (rep.data) {
                     rep.data.forEach(item => {
@@ -378,26 +399,32 @@ export default class Main extends BaseComponent {
         if (extras == null) {
             return;
         }
-        this.msgread(extras.id);
-        var title = extras.title;
         var url = extras.active;
-        if (url && url.indexOf('productDetail') !=-1) {
-            var id = getUrlParam(url,'id');
-            this.navigate('ProductDetail',{id: id})
+        if (url && url.indexOf('productDetail') != -1) {
+            this.msgread(extras.messageId);
+            var id = getUrlParam(url, 'id');
+            this.navigate('ProductDetail', {id: id})
         } else if (url && url.indexOf('activeDetail') != -1) {
-            var id = getUrlParam(url,'id');
+            this.msgread(extras.messageId);
+            var id = getUrlParam(url, 'id');
             this.navigate('activeDetail', {id: id});
         } else if (url && url.indexOf('orderDetail') != -1) {
-            var id = getUrlParam(url,'id');
+            this.msgread(extras.messageId);
+            var id = getUrlParam(url, 'id');
             this.navigate('OrderDetail', {id: id});
-        }else {
+        } else {
             // this.navigate('ProductInfo',{title:'商品详情',htmlContent: htmlContent})
+            var title = extras.title;
             var user = UserStore.get();
-            url = url + "/"+user.token;
+            url = url + "/" + user.token;
             this.push('Web', {article: {title: title, url: url}})
         }
+        setTimeout(() => {
+            this.getUserInfo()
+        }, 3000);
     }
-    msgread(id){
+
+    msgread(id) {
         Request.post('/api/home/msgread', {evaluate: 1, id: id}).then(rep => {
             if (rep.code == 0 && rep.data) {
 
@@ -425,12 +452,12 @@ export default class Main extends BaseComponent {
      * qfant://xfyj/activeDetail?id=1 跳活动详情
      * qfant://xfyj/orderDetail?id=1 跳订单详情
      */
-    _loadWeb(title, url) {
-        if (url && url.indexOf('productDetail') !=-1) {
-            var id = getUrlParam(url,'id');
-            this.navigate('ProductDetail',{id: id})
+    schamaJump(title, url) {
+        if (url && url.indexOf('productDetail') != -1) {
+            var id = getUrlParam(url, 'id');
+            this.navigate('ProductDetail', {id: id})
         } else if (url && url.indexOf('activeDetail') != -1) {
-            var id = getUrlParam(url,'id');
+            var id = getUrlParam(url, 'id');
             this.navigate('activeDetail', {id: id});
         } else {
             this.push('Web', {article: {title: title, url: url}})
@@ -438,13 +465,11 @@ export default class Main extends BaseComponent {
     }
 
 
-
-
-    getHomeData() {
+    getUserInfo() {
         Request.post('/api/user/getuserinfo', {}).then(rep => {
             if (rep.code === 0 && rep.data) {
-                if(!util.isArrayEmpty(rep.data.pushTag)){
-                    JPushModule.setTags(rep.data.pushTag,(tags)=>{
+                if (!util.isArrayEmpty(rep.data.pushTag)) {
+                    JPushModule.setTags(rep.data.pushTag, (tags) => {
                         console.debug('pushtags=' + JSON.stringify(tags));
                     })
                 }
@@ -483,7 +508,7 @@ export default class Main extends BaseComponent {
 
     _onRefresh = () => {
         this.setState({refreshing: true});
-        this.getHomeData()
+        this.getUserInfo()
         this.getAD();
     }
 
@@ -529,8 +554,8 @@ export default class Main extends BaseComponent {
                 }}>
                     <TouchableView style={{width: 60, height: 50, alignItems: 'center', justifyContent: 'center'}}
                                    onPress={() => {
-                                       console.log('isAuth',isAuth)
-                                       if (isAuth == 1){
+                                       console.log('isAuth', isAuth)
+                                       if (isAuth == 1) {
                                            this.showShort('您已完成认证')
                                        } else if (isAuth != 1) {
                                            this.navigate('AuthPage', {}, (e) => {
@@ -599,11 +624,11 @@ export default class Main extends BaseComponent {
                                 height: 20,
                             }} source={require("../../img/icon_msg_w.png")}/>
                         </View>
-                        <Badge  style={{
-                            position:CommonStyle.absolute,top: 15, right: 0,
+                        <Badge style={{
+                            position: CommonStyle.absolute, top: 15, right: 0,
                             width: 20,
                             height: 20,
-                        }}  text={this.state.messages} overflowCount={10} small>
+                        }} text={this.state.messages} overflowCount={10} small>
 
                         </Badge>
                     </TouchableView>
@@ -622,7 +647,7 @@ export default class Main extends BaseComponent {
                     return (
                         <TouchableView key={i} onPress={() => {
                             if (banner.url) {
-                                this._loadWeb(banner.title, banner.url);
+                                this.schamaJump(banner.title, banner.url);
                             }
                         }}>
                             <ImageView style={{height: 255, width: '100%', resizeMode: ImageStyle.stretch,}}
@@ -682,7 +707,7 @@ export default class Main extends BaseComponent {
                             // paddingLeft: 10,
                         }} key={i} onPress={() => {
                             if (banner.url) {
-                                this._loadWeb(banner.title, banner.url);
+                                this.schamaJump(banner.title, banner.url);
                             }
                         }}>
                             <ImageView style={{

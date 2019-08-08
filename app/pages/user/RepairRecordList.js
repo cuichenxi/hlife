@@ -1,13 +1,13 @@
 import {BaseComponent} from "../../components/base/BaseComponent";
 import React from "react";
-import {Dimensions, Image, Text, View} from "react-native";
-import {CommonStyle} from "../../common/CommonStyle";
+import {Dimensions, Text, View} from "react-native";
 import GiftedListView from "../../components/refreshList/GiftedListView";
 import {PAGE_SIZE} from "../../constants/AppConstants";
 import Request from "../../utils/Request";
 import TouchableView from "../../components/TouchableView";
 import util from "../../utils/util";
 import ImageView from "../../components/ImageView";
+
 let {width, height} = Dimensions.get('window')
 
 export default class RepairRecordList extends BaseComponent{

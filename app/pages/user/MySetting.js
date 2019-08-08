@@ -19,8 +19,9 @@ import {GIVEADVICE} from "../../constants/AppConstants";
 import * as WeChat from "react-native-wechat";
 import DeviceInfo from "react-native-device-info";
 import AntDModal from "antd-mobile-rn/es/modal/index.native";
+import {CPKEY} from "../../constants/CPKC";
 
-
+import CodePush from 'react-native-code-push';
 const shareIconWechat = require('../../img/share_icon_wechat.png');
 const shareIconMoments = require('../../img/share_icon_moments.png');
 const Font = {
@@ -184,11 +185,26 @@ export default class MySetting extends BaseComponent{
                     </View>
                 </TouchableView>
 
-                <View style={[styles.item,styles.itemMarginTop]}>
-                    <Text style={styles.text}>新版本检测</Text>
+                <TouchableView style={[styles.item,styles.itemMarginTop]} onPress={()=>{
+                    this.showLoading("检测中...")
+                    setTimeout(()=>{
+                        this.hideLoading()
+                    },2000)
+                    CodePush.sync({
+                        deploymentKey: false ? CPKEY.CP_KEY_STAGING : CPKEY.CP_KEY_PRO,
+                        updateDialog: {
+                            optionalIgnoreButtonLabel: '稍后',
+                            optionalInstallButtonLabel: '更新',
+                            optionalUpdateMessage: '幸福宜居有新版本了，是否更新？',
+                            title: '更新提示'
+                        },
+                        installMode: CodePush.InstallMode.IMMEDIATE
+                    });
+                }}>
+                    <Text style={styles.text}>版本检测</Text>
                     <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
                                    color="#bbb"/>
-                </View>
+                </TouchableView>
                 <Modal
                     animationType="fade"
                     visible={this.state.isShareModal}

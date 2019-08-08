@@ -121,7 +121,6 @@ export default class MyWallet extends BaseComponent {
     onReady(param) {
         this.hideHeader(true);
     }
-
     onShow() {
         let userInfo = UserStore.get();
         this.setState({

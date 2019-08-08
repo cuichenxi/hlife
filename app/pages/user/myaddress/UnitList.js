@@ -52,7 +52,7 @@ export default class UnitList extends BaseComponent{
                     buildingId:this.state.elementData.id
                 })
             } else {
-                this.sendCallback(CALL_BACK_PUBLISH_HOUSE,{elementName:this.state.elementData.name+'-'+rowData.name,unitId:rowData.id,buildingId:this.state.elementData.id})
+                this.sendEvent(CALL_BACK_PUBLISH_HOUSE,{elementName:this.state.elementData.name+'-'+rowData.name,unitId:rowData.id,buildingId:this.state.elementData.id})
                 this.pop(2);
             }
 

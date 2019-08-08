@@ -435,13 +435,13 @@ export default class ProductDetail extends BaseComponent {
                                 height: 260, marginTop: 20, width: '100%',
                                 resizeMode: ImageStyle.contain,
                             }} source={banner} defaultSource={require("../../img/default_image.png")}></ImageView>
-                            <LinearGradient start={{x: 0.0, y: 0}} end={{x: 0, y: 1}}
-                                            colors={['#fff', '#aaa']}
-                                            style={{
-                                                height: 50, position: CommonStyle.absolute, bottom: 0,
-                                                width: '100%'
-                                            }}>
-                            </LinearGradient>
+                            {/*<LinearGradient start={{x: 0.0, y: 0}} end={{x: 0, y: 1}}*/}
+                                            {/*colors={['#fff', '#aaa']}*/}
+                                            {/*style={{*/}
+                                                {/*height: 50, position: CommonStyle.absolute, bottom: 0,*/}
+                                                {/*width: '100%'*/}
+                                            {/*}}>*/}
+                            {/*</LinearGradient>*/}
                         </TouchableView>
                     );
                 })}

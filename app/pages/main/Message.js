@@ -9,6 +9,7 @@ import {getUrlParam} from "../../utils/UrlUtil";
 import UserStore from "../../store/UserStore";
 import {PAGE_SIZE} from "../../constants/AppConstants";
 import util from "../../utils/util";
+import {UPDATE_USER_INFO} from "../../constants/ActionTypes";
 
 export default class Message extends BaseComponent {
     navigationBarProps() {
@@ -36,6 +37,10 @@ export default class Message extends BaseComponent {
             ],
             {cancelable: true}
         );
+    }
+    goBack(e){
+        super.goBack(e)
+        this.sendEvent(UPDATE_USER_INFO,{})
     }
     allRead(){
         Request.post('/api/home/msgreadAll').then(rep => {
@@ -204,6 +209,13 @@ export default class Message extends BaseComponent {
         )
     }
 
+    /**
+     * messagedetail
+     * @param title
+     * @param url
+     * @private
+     * qfant://xfyj/messageDetail?id=1
+     */
     _loadWeb(title, url) {
         if (url && url.indexOf('productDetail') != -1) {
             var id = getUrlParam(url, 'id');
@@ -214,6 +226,9 @@ export default class Message extends BaseComponent {
         } else if (url && url.indexOf('orderDetail') != -1) {
             var id = getUrlParam(url, 'id');
             this.navigate('OrderDetail', {id: id});
+        }else if (url && url.indexOf('messageDetail') != -1) {
+            var id = getUrlParam(url, 'id');
+            this.navigate('messageDetail', {id: id});
         } else {
             // this.navigate('ProductInfo',{title:'商品详情',htmlContent: htmlContent})
             var user = UserStore.get();

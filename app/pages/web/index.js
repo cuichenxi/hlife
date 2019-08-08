@@ -17,30 +17,27 @@
  */
 import React from 'react';
 import {
-    StyleSheet,
-    WebView,
-    BackHandler,
     Dimensions,
-    Text,
     Image,
+    Modal,
+    StyleSheet,
+    Text,
     TouchableOpacity,
     TouchableWithoutFeedback,
     View,
-    Modal
+    WebView
 } from 'react-native';
 
 import * as WeChat from 'react-native-wechat';
-import Icon from 'react-native-vector-icons/Ionicons';
-import FIcon from 'react-native-vector-icons/Feather';
 import {SafeAreaView} from 'react-navigation';
 import LoadingView from '../../components/LoadingView';
 import {formatStringWithHtml} from '../../utils/FormatUtil';
-
-let canGoBack = true;
-const shareIconWechat = require('../../img/share_icon_wechat.png');
-const shareIconMoments = require('../../img/share_icon_moments.png');
 import {BaseComponent} from '../../components/base/BaseComponent'
 import DeviceInfo from "react-native-device-info/deviceinfo";
+
+let canGoBack = false;
+const shareIconWechat = require('../../img/share_icon_wechat.png');
+const shareIconMoments = require('../../img/share_icon_moments.png');
 
 class Index extends BaseComponent {
     // static navigationOptions = ({navigation}) => ({
@@ -60,17 +57,19 @@ class Index extends BaseComponent {
     navigationBarProps() {
         return {
             title: this.props.navigation.state.params.article.title,
-            rightTitle:(
+            rightTitle: (
                 '分享'
             ),
         }
     }
+
     constructor(props) {
         super(props);
         this.state = {
             isShareModal: false
         };
     }
+
     //
     // componentDidMount() {
     //     // this.props.navigation.setParams({handleShare: this.onActionSelected});
@@ -185,8 +184,28 @@ class Index extends BaseComponent {
 
     _render() {
         const {params} = this.props.navigation.state;
+        console.log('web url',params.article.url)
         return (
-            <SafeAreaView style={styles.container}>
+            <View style={styles.container}>
+
+                <WebView
+                    ref={(ref) => {
+                        this.webview = ref;
+                    }}
+                    style={styles.base}
+                    source={{uri: params.article.url}}
+                    javaScriptEnabled={true}
+                    domStorageEnabled={true}
+                    startInLoadingState={true}
+                    scalesPageToFit={true}
+                    decelerationRate="normal"
+                    onShouldStartLoadWithRequest={() => {
+                        const shouldStartLoad = true;
+                        return shouldStartLoad;
+                    }}
+                    onNavigationStateChange={this.onNavigationStateChange}
+                    renderLoading={this.renderLoading}
+                />
                 <Modal
                     animationType="fade"
                     visible={this.state.isShareModal}
@@ -199,25 +218,7 @@ class Index extends BaseComponent {
                 >
                     {this.renderSpinner()}
                 </Modal>
-                <WebView
-                    ref={(ref) => {
-                        this.webview = ref;
-                    }}
-                    style={styles.base}
-                    source={{uri: params.article.url}}
-                    javaScriptEnabled
-                    domStorageEnabled
-                    startInLoadingState
-                    scalesPageToFit
-                    decelerationRate="normal"
-                    onShouldStartLoadWithRequest={() => {
-                        const shouldStartLoad = true;
-                        return shouldStartLoad;
-                    }}
-                    onNavigationStateChange={this.onNavigationStateChange}
-                    renderLoading={this.renderLoading}
-                />
-            </SafeAreaView>
+            </View>
         );
     }
 }

@@ -21,7 +21,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import {FROMAUTH} from "../../constants/AppConstants";
 import ImageView from "../../components/ImageView";
 import QIcon from "../../components/icon";
-import {CALL_BACK_PUBLISH_HOUSE} from "../../constants/ActionTypes";
+import {CALL_BACK_PUBLISH_HOUSE, UPDATE_USER_INFO} from "../../constants/ActionTypes";
 import UserStore from "../../store/UserStore";
 import Modal from "antd-mobile-rn/es/modal/index.native";
 import NavigationUtil from "../../utils/NavigationUtil";
@@ -73,7 +73,7 @@ export default class AuthPage extends BaseComponent {
         }
         this.setTitle(authText)
         this.hideHeader(true);
-        this.registerCallBack(CALL_BACK_PUBLISH_HOUSE,(e)=>{
+        this.addEventListener(CALL_BACK_PUBLISH_HOUSE,(e)=>{
             if (e) {
                 this.setState({
                     elementName: e.elementName,
@@ -83,6 +83,10 @@ export default class AuthPage extends BaseComponent {
                 })
             }
         })
+    }
+    goBack(e){
+        super.goBack(e)
+        this.sendEvent(UPDATE_USER_INFO,{})
     }
 
     _renderHeader() {

@@ -11,15 +11,16 @@ import UserStore from "../../store/UserStore";
 import ImageView from "../../components/ImageView";
 import List from "antd-mobile-rn/es/list/index.native";
 import {ThemeStyle} from "../../common/ThemeStyle";
+import {UPDATE_USER_INFO} from "../../constants/ActionTypes";
 
 export default class UserInfo extends BaseComponent {
 
     navigationBarProps() {
         return {
             title: '个人资料',
-            rightTitle:(
-                '保存'
-            ),
+            // rightTitle:(
+            //     '保存'
+            // ),
         }
     }
 
@@ -49,9 +50,9 @@ export default class UserInfo extends BaseComponent {
             nickName: userInfo.nickName,
         })
     }
-    onRightPress(){
-        this.updateUserInfo();
-    }
+    // onRightPress(){
+        // this.updateUserInfo();
+    // }
     //{"avatar":"http://115.28.21.13/images/1561829802433.jpg",
     // "birthday":null
     // ,"gender":1,"isAuth":1,
@@ -60,8 +61,12 @@ export default class UserInfo extends BaseComponent {
     // "sign":"你在哪里呀",
     // "token":null,"
     // userName":"15811508404"}
+    goBack(e){
+        super.goBack(e)
+        this.sendEvent(UPDATE_USER_INFO,{})
+    }
     updateUserInfo(){
-        this.showLoading('保存信息中...')
+        this.showLoading('更新中...')
         var param ={
             gender: this.state.gender,
             sign: this.state.sign,
@@ -120,6 +125,8 @@ export default class UserInfo extends BaseComponent {
         this.navigate('ModifyPhone',{},(e)=>{
                 this.setState({
                     userPhone: e.phone,
+                },()=>{
+                    this.updateUserInfo();
                 })
             })
     }
@@ -247,7 +254,9 @@ export default class UserInfo extends BaseComponent {
     onChange = (value) => {
         console.log(value)
         this.setState({birthday: this.dateToString(value)})
-        this.setState({date: value});
+        this.setState({date: value},()=>{
+            this.updateUserInfo();
+        });
     }
 
     _logout() {
@@ -311,7 +320,9 @@ export default class UserInfo extends BaseComponent {
                 if (rep.code === 0&&rep.data){
                     this.setState({
                         avatar: rep.data[0]
-                    })
+                    },()=>{
+                        this.updateUserInfo();
+                    });
                 }else {
                     this.showShort(rep.message)
                 }
@@ -329,7 +340,9 @@ export default class UserInfo extends BaseComponent {
             (value) => {
                 this.setState({
                     userName: value
-                })
+                },()=>{
+                    this.updateUserInfo();
+                });
             },
             'default',
             null,
@@ -343,7 +356,9 @@ export default class UserInfo extends BaseComponent {
             (value) => {
                 this.setState({
                     nickName: value
-                })
+                },()=>{
+                    this.updateUserInfo();
+                });
             },
             'default',
             null,
@@ -357,7 +372,9 @@ export default class UserInfo extends BaseComponent {
             (value) => {
                 this.setState({
                     sign: value
-                })
+                },()=>{
+                    this.updateUserInfo();
+                });
             },
             'default',
             null,
@@ -380,12 +397,16 @@ export default class UserInfo extends BaseComponent {
                     this.setState({
                             gender:1
                         }
-                    )
+                        ,()=>{
+                            this.updateUserInfo();
+                        });
                 } else if (buttonIndex == 1) {
                     this.setState({
                             gender:2
                         }
-                    )
+                        ,()=>{
+                            this.updateUserInfo();
+                        });
                 }
             },
         );

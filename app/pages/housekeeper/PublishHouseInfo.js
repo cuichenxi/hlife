@@ -68,7 +68,7 @@ export default class PublishHouseInfo extends BaseComponent {
             base: '',
             keyboardHeight: 0
         }
-        this.registerCallBack(CALL_BACK_PUBLISH_HOUSE,(e)=>{
+        this.addEventListener(CALL_BACK_PUBLISH_HOUSE,(e)=>{
             if (e) {
                 this.setState({
                     elementName: e.elementName,

@@ -42,7 +42,7 @@ export default class ModifyHousingAddress extends BaseComponent {
     }
 
     onReady(p) {
-        this.registerCallBack(CALL_BACK_PUBLISH_HOUSE,(e)=>{
+        this.addEventListener(CALL_BACK_PUBLISH_HOUSE,(e)=>{
             if (e) {
                 this.setState({
                     elementName: e.elementName,

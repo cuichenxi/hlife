@@ -30,13 +30,13 @@ export default class demorouter extends BaseComponent {
             <View>
                 <TouchableView onPress={() => {
                     this.goBack({test:'123'})
-                    this.sendCallback(CALL_BACK_TEST,{text: 'nis'})
+                    this.sendEvent(CALL_BACK_TEST,{text: 'nis'})
                 }}>
                     <Text>goBack</Text>
                 </TouchableView>
                 <TouchableView onPress={() => {
                     this.pop(1);
-                    this.sendCallback(CALL_BACK_TEST,{text: 'nis'})
+                    this.sendEvent(CALL_BACK_TEST,{text: 'nis'})
                 }}>
                     <Text>pop</Text>
                 </TouchableView>
