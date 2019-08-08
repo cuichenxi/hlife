@@ -41,7 +41,7 @@ class Splash extends BaseComponent {
             bounceValue: new Animated.Value(1),
             ad: {
                 imageUrl: null,
-                active:null,
+                active: null,
             },
             secondsElapsed: 0,
             hasAd: false,
@@ -83,7 +83,7 @@ class Splash extends BaseComponent {
     }
 
     _goPage() {
-        SplashScreen.hide();
+        // SplashScreen.hide();
         if (UserStore.isLogin()) {
             this.reset('Home');
         } else {
@@ -92,7 +92,7 @@ class Splash extends BaseComponent {
     }
 
     _goAd() {
-        SplashScreen.hide();
+        // SplashScreen.hide();
         this._goPage()
         this._loadWeb(this.state.ad.active);
     }
@@ -108,11 +108,11 @@ class Splash extends BaseComponent {
      * qfant://xfyj/orderDetail?id=1 跳订单详情
      */
     _loadWeb(url) {
-        if (url && url.indexOf('productDetail') !=-1) {
-            var id = getUrlParam(url,'id');
-            this.navigate('ProductDetail',{id: id})
+        if (url && url.indexOf('productDetail') != -1) {
+            var id = getUrlParam(url, 'id');
+            this.navigate('ProductDetail', {id: id})
         } else if (url && url.indexOf('activeDetail') != -1) {
-            var id = getUrlParam(url,'id');
+            var id = getUrlParam(url, 'id');
             this.navigate('activeDetail', {id: id});
         } else {
             this.push('Web', {article: {title: '', url: url}})
@@ -140,7 +140,7 @@ class Splash extends BaseComponent {
     }
 
     _renderADView() {
-        console.debug('splash image',this.state.ad.imageUrl)
+        console.debug('splash image', this.state.ad.imageUrl)
         var adTimeText = this.state.secondsElapsed == 0 ? '' : ('跳过 ' + this.state.secondsElapsed + ' s');
         return (
             <TouchableView style={{
@@ -155,17 +155,18 @@ class Splash extends BaseComponent {
                     }} source={{uri: this.state.ad.imageUrl}} onLoad={() => this.setState({AdImageLoaded: true})}/>
 
                     {this.state.secondsElapsed > 0 &&
-                    <TouchableView onPress={() => this._goPage()}>
-                        <View style={{
-                            position: CommonStyle.absolute,
-                            right: 30,
-                            bottom: 100,
-                            backgroundColor: 'rgba(0,0,0,0.5)',
-                            borderRadius: 5,
-                            padding: 5
-                        }}><Text style={{color: '#fff', fontSize: 14}}>{adTimeText}</Text>
-                        </View>
-                    </TouchableView>}
+                    <TouchableView style={{
+                        position: CommonStyle.absolute,
+                        right: 30,
+                        bottom: 100,
+                        backgroundColor: 'rgba(0,0,0,0.5)',
+                        borderRadius: 5,
+                        padding: 5
+                    }} onPress={() => {
+                        this._goPage()
+                    }}><Text style={{color: '#fff', fontSize: 14}}>{adTimeText}</Text>
+                    </TouchableView>
+                    }
                     <View style={{
                         position: CommonStyle.absolute,
                         left: 20,

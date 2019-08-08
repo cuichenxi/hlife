@@ -109,9 +109,9 @@ export default class Main extends BaseComponent {
             deploymentKey: debug ? CPKEY.CP_KEY_STAGING : CPKEY.CP_KEY_PRO,
             updateDialog: {
                 optionalIgnoreButtonLabel: '稍后',
-                optionalInstallButtonLabel: '更新',
+                optionalInstallButtonLabel: '后台更新',
                 optionalUpdateMessage: '幸福宜居有新版本了，是否更新？',
-                title: '更新提示'
+                title: '提示'
             },
             installMode: CodePush.InstallMode.IMMEDIATE
         });
@@ -225,8 +225,24 @@ export default class Main extends BaseComponent {
 
         JPushModule.addReceiveOpenNotificationListener(map => {
             console.log('Opening notification!')
-            console.log('map.extra: ' + map.extras)
-            this.jumpSecondActivity(map.extras)
+            if (map == null) {
+                return
+            }
+            if (Platform.OS === 'android') {
+                console.log('map.extra: ' + map.extras);
+                if (map.extras) {
+                    this.jumpSecondActivity(JSON.parse(map.extras));
+                }
+            }else {
+                console.log('map.extra: ' + JSON.stringify(map));
+                if (map.extras) {
+                    this.jumpSecondActivity({
+                        title:map.extras.title,
+                        active:map.extras.active,
+                        messageId:map.extras.messageId,
+                    });
+                }
+            }
             // JPushModule.clearAllNotifications();
         })
 
@@ -383,24 +399,29 @@ export default class Main extends BaseComponent {
         if (extras == null) {
             return;
         }
-        this.msgread(extras.id);
-        var title = extras.title;
         var url = extras.active;
         if (url && url.indexOf('productDetail') != -1) {
+            this.msgread(extras.messageId);
             var id = getUrlParam(url, 'id');
             this.navigate('ProductDetail', {id: id})
         } else if (url && url.indexOf('activeDetail') != -1) {
+            this.msgread(extras.messageId);
             var id = getUrlParam(url, 'id');
             this.navigate('activeDetail', {id: id});
         } else if (url && url.indexOf('orderDetail') != -1) {
+            this.msgread(extras.messageId);
             var id = getUrlParam(url, 'id');
             this.navigate('OrderDetail', {id: id});
         } else {
             // this.navigate('ProductInfo',{title:'商品详情',htmlContent: htmlContent})
+            var title = extras.title;
             var user = UserStore.get();
             url = url + "/" + user.token;
             this.push('Web', {article: {title: title, url: url}})
         }
+        setTimeout(() => {
+            this.getUserInfo()
+        }, 3000);
     }
 
     msgread(id) {
@@ -431,7 +452,7 @@ export default class Main extends BaseComponent {
      * qfant://xfyj/activeDetail?id=1 跳活动详情
      * qfant://xfyj/orderDetail?id=1 跳订单详情
      */
-    schameJump(title, url) {
+    schamaJump(title, url) {
         if (url && url.indexOf('productDetail') != -1) {
             var id = getUrlParam(url, 'id');
             this.navigate('ProductDetail', {id: id})
@@ -626,7 +647,7 @@ export default class Main extends BaseComponent {
                     return (
                         <TouchableView key={i} onPress={() => {
                             if (banner.url) {
-                                this.schameJump(banner.title, banner.url);
+                                this.schamaJump(banner.title, banner.url);
                             }
                         }}>
                             <ImageView style={{height: 255, width: '100%', resizeMode: ImageStyle.stretch,}}
@@ -686,7 +707,7 @@ export default class Main extends BaseComponent {
                             // paddingLeft: 10,
                         }} key={i} onPress={() => {
                             if (banner.url) {
-                                this.schameJump(banner.title, banner.url);
+                                this.schamaJump(banner.title, banner.url);
                             }
                         }}>
                             <ImageView style={{

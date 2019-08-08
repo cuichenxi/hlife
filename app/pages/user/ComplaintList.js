@@ -33,7 +33,7 @@ export default class ComplaintList extends BaseComponent{
 
     makeRemoteRequest(page = 1, callback) {
         // let param = { page: page - 1, pageSize: PAGE_SIZE};
-        let param = { page: page - 1, pageSize: 100};
+        let param = { page: page - 1, pageSize: 100, orderRule: 'DESC',orderColumn:'createTime'};
 
         console.log(this.props)
         Request.post('/api/steward/complaintpraiseList', param,

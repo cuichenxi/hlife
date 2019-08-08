@@ -1,82 +1,71 @@
 import {BaseComponent} from "../../components/base/BaseComponent";
-import {Dimensions, Image, Text, View} from "react-native";
+import {View, WebView} from "react-native";
 import React from "react";
-import GiftedListView from "../../components/refreshList/GiftedListView";
-import {PAGE_SIZE} from "../../constants/AppConstants";
 import Request from "../../utils/Request";
-import {ImageStyle} from "../../common/ImageStyle";
+import util from "../../utils/util";
+import Text from "react-native-elements/src/text/Text";
 
-let {width} = Dimensions.get('window')
 export default class MessageDetail extends BaseComponent {
-    navigationBarProps() {
-        return {
-            title: '通知',
-        }
+    constructor(props) {
+        super(props)
+        this.state = {
+            msgContent: '',
+            msgTitle: '',
+            msgTime: '',
+        };
     }
 
-    _render() {
-        return (
-            <View style={{flex: 1}}>
-                <GiftedListView
-                    style={{width: width}}
-                    rowView={this._renderRowView.bind(this)}
-                    onFetch={this.makeRemoteRequest.bind(this)}
-                    loadMore={false}
-                />
-            </View>
-        )
+    onReady(e) {
+        this.setTitle("消息详情")
+        this.requestData(e.id);
     }
 
-    makeRemoteRequest(page = 1, callback) {
-        let param = {type: this.state.index, page: page - 1, pageSize: PAGE_SIZE};
-
-        Request.post('api/home/messageList', param,
-            {
-                mock: false,
-                mockId: 1095710,
-            }).then(rep => {
+    requestData(id) {
+        this.showDLoading();
+        let param = {id: id};
+        Request.post('/api/home/messagedetail', param).then(rep => {
             if (rep.code == 0 && rep.data) {
-                callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
+                this.setState({
+                    msgContent: rep.data.message,
+                    msgTitle: rep.data.title,
+                    msgTime: rep.data.createtime
+                })
             } else {
-                callback(null,{emptyTitle: rep.message})
             }
         }).catch(err => {
-            callback(null,{emptyTitle: err})
         }).done(() => {
             this.hideLoading();
         })
     }
 
-    _renderRowView(item, i) {
+    _render() {
+        var html = this.state.msgContent;
+        console.debug('html' + html);
+        if (util.isEmpty(html)) {
+            html = '无'
+        }
         return (
-
-            <View style={{
-                backgroundColor: 'white',
-                // height:50,
-                flexDirection: 'row',
-                alignItems: 'center',
-                padding: 5
-            }}>
-                <Image
-                    source={require('../../img/ic_message_active.png')}
-                    style={{ width: 38, height: 38, resizeMode: ImageStyle.contain}}
+            <View>
+                {
+                    this.state.msgTitle && <Text style={{
+                        fontSize: 16,
+                        color: '#333',
+                        marginTop: 10,
+                        justifyContent: 'center'
+                    }}>this.state.msgTitle</Text>
+                }
+                {
+                    this.state.msgTime &&
+                    <Text style={{fontSize: 10, color: '#666', marginLeft: 10, marginTop: 5}}>this.state.msgTime</Text>
+                }
+                <WebView
+                    originWhitelist={['*']}
+                    source={{html: html}}
                 />
-                <View style={{flex: 1, marginLeft: 10,alignItems:'flex-start',justifyContent: 'center'}}>
-                    <View style={{justifyContent:'space-between',flexDirection:'row',flex:1,width:width-70}}>
-                        <Text style={{
-                            fontSize: 13,
-                            textAlign: 'left', color: '#333'
-                        }}>{item.title}</Text>
-                        <Text style={{ color: '#999999', fontSize: 12,textAlign: 'right',}}>{item.date}</Text>
-                    </View>
-                    <Text style={{
-                        fontSize: 13,
-                        textAlign: 'left', color: '#999'
-                    }}>{item.content}</Text>
-                </View>
             </View>
 
-
-        )
+        );
     }
+
+
 }

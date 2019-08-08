@@ -208,7 +208,7 @@ const App = createStackNavigator(
         MyInvoiceList:{screen:MyInvoiceList},//我的发票
         MySetting:{screen:MySetting},//我的设置
         AuthPage:{screen:AuthPage},//认证
-        MessageDetail:{screen:MessageDetail},//消息详情
+        messageDetail:{screen:MessageDetail},//消息详情
         ProductDetail:{screen:ProductDetail},//商品详情
         GiveAdvice:{screen:GiveAdvice},//咨询建议
         RepairsSelect:{screen:RepairsSelect},//报修报事
