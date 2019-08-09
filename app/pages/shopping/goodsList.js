@@ -252,7 +252,7 @@ export default class Index extends BaseComponent {
                     rowView={this._renderRowView.bind(this)}
                     onFetch={this._onFetch.bind(this)}
                     loadMore={true}
-                    pagination={true}
+                    pagination={false}
                     renderSeparator={() => {
                         return (null);
                     }}

@@ -1,9 +1,8 @@
 import {BaseComponent} from "../../components/base/BaseComponent";
-import {View, WebView} from "react-native";
+import {View, WebView, Text} from "react-native";
 import React from "react";
 import Request from "../../utils/Request";
 import util from "../../utils/util";
-import Text from "react-native-elements/src/text/Text";
 
 export default class MessageDetail extends BaseComponent {
     constructor(props) {
@@ -46,22 +45,14 @@ export default class MessageDetail extends BaseComponent {
         }
         return (
             <View>
-                {
-                    this.state.msgTitle && <Text style={{
-                        fontSize: 16,
-                        color: '#333',
-                        marginTop: 10,
-                        justifyContent: 'center'
-                    }}>this.state.msgTitle</Text>
-                }
-                {
-                    this.state.msgTime &&
-                    <Text style={{fontSize: 10, color: '#666', marginLeft: 10, marginTop: 5}}>this.state.msgTime</Text>
-                }
-                <WebView
-                    originWhitelist={['*']}
-                    source={{html: html}}
-                />
+                <Text style={{
+                    fontSize: 18,
+                    color: '#333',
+                    marginTop: 10,
+                    alignSelf:'center'
+                }}>{this.state.msgTitle}</Text>
+                <Text style={{fontSize: 10, color: '#666', marginLeft: 10, marginTop: 10}}>时间:{this.state.msgTime}</Text>
+                <Text style={{fontSize: 16, color: '#666', marginHorizontal: 10, marginTop: 10}}>{html}</Text>
             </View>
 
         );
@@ -69,3 +60,10 @@ export default class MessageDetail extends BaseComponent {
 
 
 }
+/**
+ * <WebView
+ originWhitelist={['*']}
+ source={{html: html}}
+ />
+ */
+

@@ -13,6 +13,7 @@ import util from "../../utils/util";
 import BuyCarStore from "../../store/BuyCarStore";
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import {ImageStyle} from "../../common/ImageStyle";
+import {ImageViewer} from "react-native-image-zoom-viewer";
 
 const Font = {
     Ionicons,
@@ -38,6 +39,7 @@ export default class ProductDetail extends BaseComponent {
             goodId: null,
             num: 1,
             submitVisible: false,
+            preImage: false,
             addBuy: false,
         }
     }
@@ -115,6 +117,39 @@ export default class ProductDetail extends BaseComponent {
         this.navigate('OrderConfirm', param)
     }
 
+    _preImages() {
+        var images = [];
+        this.state.data.imageList.map((imageUrl, i) => {
+            images.push({
+                url: imageUrl,
+                freeHeight: true
+            })
+        })
+
+        return (
+            <ModalView animationType="fade"
+                       transparent={true}
+                       visible={this.state.preImage}
+                       onRequestClose={() => {
+                           this.setState({
+                               preImage: false
+                           })
+                       }}
+            >
+                <ImageViewer imageUrls={images} enableSwipeDown={true} onCancel={() => {
+                    this.setState({
+                        preImage: false
+                    })
+                }} onClick={()=>{
+                    this.setState({
+                        preImage: false
+                    });}} onDoubleClick={()=>{
+                    this.setState({
+                        preImage: false
+                    });}}/>
+            </ModalView>
+        );
+    }
 
     _renderSubmit() {
         return (
@@ -123,6 +158,9 @@ export default class ProductDetail extends BaseComponent {
                 transparent={true}
                 visible={this.state.submitVisible}
                 onRequestClose={() => {
+                    this.setState({
+                        submitVisible: false
+                    })
                 }}
             >
                 <TouchableView style={{
@@ -253,6 +291,7 @@ export default class ProductDetail extends BaseComponent {
                 {that.state.isLoading ?
                     <Loading loadProps={{visible: that.state.isLoading, loadingText: that.state.loadingText}}/> : null}
                 {this._renderSubmit()}
+                {this._preImages()}
             </View>
         );
     }
@@ -346,7 +385,7 @@ export default class ProductDetail extends BaseComponent {
                         alignItems: 'center', backgroundColor: '#fff', borderColor: CommonStyle.lineColor,
                         borderBottomWidth: .5
                     }} onPress={() => {
-                        this.navigate('ProductInfo',{title:'商品详情',htmlContent: htmlContent})
+                        this.navigate('ProductInfo', {title: '商品详情', htmlContent: htmlContent})
                     }}>
                         <View style={{backgroundColor: CommonStyle.themeColor, height: 18, width: 2}}></View>
                         <Text style={{fontSize: 15, color: CommonStyle.themeColor, marginLeft: 5, flex: 1}}>商品详情</Text>
@@ -430,17 +469,21 @@ export default class ProductDetail extends BaseComponent {
                     return (
                         <TouchableView
                             style={{height: 380, width: '100%', justifyContent: 'center', alignItems: 'center'}}
-                            key={i}>
+                            key={i} onPress={() => {
+                            this.setState({
+                                preImage: true
+                            })
+                        }}>
                             <ImageView style={{
                                 height: 260, marginTop: 20, width: '100%',
                                 resizeMode: ImageStyle.contain,
                             }} source={banner} defaultSource={require("../../img/default_image.png")}></ImageView>
                             {/*<LinearGradient start={{x: 0.0, y: 0}} end={{x: 0, y: 1}}*/}
-                                            {/*colors={['#fff', '#aaa']}*/}
-                                            {/*style={{*/}
-                                                {/*height: 50, position: CommonStyle.absolute, bottom: 0,*/}
-                                                {/*width: '100%'*/}
-                                            {/*}}>*/}
+                            {/*colors={['#fff', '#aaa']}*/}
+                            {/*style={{*/}
+                            {/*height: 50, position: CommonStyle.absolute, bottom: 0,*/}
+                            {/*width: '100%'*/}
+                            {/*}}>*/}
                             {/*</LinearGradient>*/}
                         </TouchableView>
                     );

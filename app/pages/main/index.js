@@ -412,6 +412,10 @@ export default class Main extends BaseComponent {
             this.msgread(extras.messageId);
             var id = getUrlParam(url, 'id');
             this.navigate('OrderDetail', {id: id});
+        }else if (url && url.indexOf('messageDetail') != -1) {
+            var id = getUrlParam(url, 'id');
+            this.msgread(id);
+            this.navigate('messageDetail', {id: id});
         } else {
             // this.navigate('ProductInfo',{title:'商品详情',htmlContent: htmlContent})
             var title = extras.title;
@@ -459,6 +463,12 @@ export default class Main extends BaseComponent {
         } else if (url && url.indexOf('activeDetail') != -1) {
             var id = getUrlParam(url, 'id');
             this.navigate('activeDetail', {id: id});
+        }else if (url && url.indexOf('orderDetail') != -1) {
+            var id = getUrlParam(url, 'id');
+            this.navigate('OrderDetail', {id: id});
+        }else if (url && url.indexOf('messageDetail') != -1) {
+            var id = getUrlParam(url, 'id');
+            this.navigate('messageDetail', {id: id});
         } else {
             this.push('Web', {article: {title: title, url: url}})
         }

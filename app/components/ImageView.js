@@ -25,6 +25,9 @@ class ImageView extends React.Component {
         // console.debug('contentStyle=' + JSON.stringify(contentStyle));
         // console.debug('imageStyle=' + JSON.stringify(this.props.style));
 
+        if (util.isEmpty(this.props.source)) {
+            this.props.source = this.props.defaultSource;
+        }
         var isNumber = util.isNumber(this.props.source);
         if (Platform.OS === 'ios'){
             return isNumber ?
