@@ -1,23 +1,16 @@
 import {BaseComponent} from "../../components/base/BaseComponent";
 import React from "react";
-import {Dimensions, FlatList, Image, RefreshControl, ScrollView, StyleSheet, Text, View} from "react-native";
+import {Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, View} from "react-native";
 import {CommonStyle} from "../../common/CommonStyle";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
 import TouchableView from "../../components/TouchableView";
 import {PAGE_SIZE} from "../../constants/AppConstants";
 import Request from "../../utils/Request";
 import CheckBox from "../../components/Checkbox";
-import List from "antd-mobile-rn/es/list/index.native";
-import DatePicker from "antd-mobile-rn/es/date-picker/index.native";
 import util from "../../utils/util";
 import {ORDER_TYPE_JF, PAY_FROM_JF} from "../../constants/ActionTypes";
 
-let {width, height} = Dimensions.get('window')
-const Font = {
-    Ionicons,
-    FontAwesome
-}
+let {width} = Dimensions.get('window')
+
 /**
  * 物业缴费
  */
@@ -49,177 +42,138 @@ export default class LivingPayment extends BaseComponent {
 
     onReady() {
         this.fetchData()
+        this.makeRemoteRequest(1)
     }
 
-    refreshing = () => {
-
-    }
 
     _render() {
-        const {address, rows, items, totalPrice, defaultColor, enabledBt, endDate} = this.state
-        if (endDate){
-            return (
-                <View style={styles.container}>
-                    <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
+        const {address, rows, items, totalPrice, defaultColor, enabledBt} = this.state
+        return (
+            <View style={styles.container}>
+                <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
 
-                    <View style={{
-                        alignItems: 'center',
-                        justifyContent: 'flex-start',
-                        height: 40,
-                        width: width,
-                        flexDirection: 'row',
-                        paddingLeft: 5,
-                        paddingRight: 5
-                    }}>
-                        <Text
-                            style={{color: CommonStyle.textBlockColor, fontSize: 15, paddingLeft: 5}}>{address}</Text>
-                    </View>
-                    <ScrollView style={{
-                        flex: 1,
-                        // height: 1000,
-                        flexDirection: 'column',
-                        marginBottom:60
-                    }} >
-
-                        <FlatList ref={(flatList) => this._flatList = flatList}
-                                  ItemSeparatorComponent={this._separator}
-                                  renderItem={this._renderItem}
-                                  ListEmptyComponent={this._createEmptyView}
-                                  onRefresh={() => this.refreshing()}
-                                  refreshing={this.state.isLoading}
-                                  onEndReachedThreshold={0.1}
-                                  data={rows}>
-
-                        </FlatList>
-                    </ScrollView>
-
-                    <View style={styles.bottomView}>
-                        <TouchableView style={[styles.bottomLeftBt, styles.bottomRow]} onPress={() => {
-
-                        }}>
-                            <CheckBox
-                                style={styles.checkBox}
-                                onClick={() => {
-                                    var datas = rows
-                                    if (datas.length == 0) {
-                                        return
-                                    }
-                                    var totalPrice = 0
-                                    var checkedItems=[]
-
-                                    for (var data of datas) {
-                                        if (!this.state.isAllChecked) {
-                                            data.checked = true
-                                        } else {
-                                            data.checked = false
-                                        }
-                                        totalPrice = data.fee + totalPrice
-                                        checkedItems.push(data)
-
-                                    }
-                                    if (!this.state.isAllChecked) {
-                                        this.setState({
-                                            rows: datas,
-                                            isAllChecked: !this.state.isAllChecked,
-                                            items: datas.length,
-                                            totalPrice: totalPrice,
-                                            defaultColor: CommonStyle.themeColor,
-                                            enabledBt: true,
-                                            checkedItems:checkedItems
-                                        })
-                                    } else {
-                                        console.log('==========zoudaolezheli')
-                                        this.setState({
-                                            rows: datas,
-                                            isAllChecked: !this.state.isAllChecked,
-                                            items: 0,
-                                            totalPrice: 0,
-                                            defaultColor: CommonStyle.drakGray,
-                                            enabledBt: false,
-                                            checkedItems:[]
-                                        })
-                                    }
-
-                                }}
-                                isChecked={this.state.isAllChecked}
-                                rightText={'全选'}
-                                rightTextStyle={styles.text}
-                                checkedImage={<Image source={require('../../img/icon_buy_select.png')}
-                                                     style={styles.image}/>}
-                                unCheckedImage={<Image source={require('../../img/icon_buy_unselect.png')}
-                                                       style={styles.image}/>}
-                            />
-                            <Text style={{fontSize: 14, color: '#333'}}>全选</Text>
-                        </TouchableView>
-                        <View style={{height: 50, width: 0.5, backgroundColor: CommonStyle.lineColor,}}/>
-                        <TouchableView style={[styles.bottomLeftBt, styles.centerBottomRow]} onPress={() => {
-                            this.onSubmit()
-                        }}>
-                            <View style={{justifyContent: 'center', alignItems: 'flex-end',}}>
-                                <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-end'}}>
-                                    <Text style={{color: '#333', fontSize: 12, marginBottom: 2}}>共计:￥</Text>
-                                    <Text style={{color: '#FF3633', fontSize: 20}}>{totalPrice}</Text>
-                                </View>
-                                <Text style={{color: '#666666', fontSize: 11}}>已选{items}项</Text>
-                            </View>
-                        </TouchableView>
-                        <TouchableView style={{
-                            alignItems: 'center',
-                            backgroundColor: defaultColor,
-                            justifyContent: 'center',
-                            height: 50,
-                            width: width / 3,
-                        }} onPress={() => {
-                            if (enabledBt) {
-                                this.onSubmit()
-                            } else {
-                                this.showShort('请至少选择一个交费项')
-                            }
-                        }}>
-                            <Text style={{color: 'white', fontSize: 16}}>去缴费</Text>
-                        </TouchableView>
-                    </View>
+                <View style={{
+                    alignItems: 'center',
+                    justifyContent: 'flex-start',
+                    height: 40,
+                    width: width,
+                    flexDirection: 'row',
+                    paddingLeft: 5,
+                    paddingRight: 5
+                }}>
+                    <Text
+                        style={{color: CommonStyle.textBlockColor, fontSize: 15, paddingLeft: 5}}>{address}</Text>
                 </View>
-            );
+                <ScrollView style={{
+                    flex: 1,
+                    // height: 1000,
+                    flexDirection: 'column',
+                    marginBottom:60
+                }} >
 
-        } else {
-            return(
-                <DatePicker
-                    title={'截至日期'}
-                    value={this.state.endDate}
-                    mode="date"
-                    minDate={new Date()}
-                    maxDate={new Date(2026, 11, 3)}
-                    onChange={this.onChange}
-                    format="YYYY-MM-DD"
-                    extra=' '
-                    style={{marginTop: 10}}
-                    onOk={() => {
-                        console.log('====onOk====')
-                        this.props.extra = ' '
-                    }}
-                    itemStyle={{alignItems: 'center', justifyContent: 'center'}}
-                >
-                    <List.Item arrow="horizontal" extra={' '}><Text>请选择缴费截至日期</Text></List.Item>
-                </DatePicker>
-            )
-        }
+                    <FlatList ref={(flatList) => this._flatList = flatList}
+                              ItemSeparatorComponent={this._separator}
+                              renderItem={this._renderItem}
+                              ListEmptyComponent={this._createEmptyView}
+                              onRefresh={() => this.refreshing()}
+                              refreshing={this.state.isLoading}
+                              onEndReachedThreshold={0.1}
+                              data={rows}>
+
+                    </FlatList>
+                </ScrollView>
+
+                <View style={styles.bottomView}>
+                    <TouchableView style={[styles.bottomLeftBt, styles.bottomRow]} onPress={() => {
+
+                    }}>
+                        <CheckBox
+                            style={styles.checkBox}
+                            onClick={() => {
+                                var datas = rows
+                                if (datas.length == 0) {
+                                    return
+                                }
+                                var totalPrice = 0
+                                var checkedItems=[]
+
+                                for (var data of datas) {
+                                    if (!this.state.isAllChecked) {
+                                        data.checked = true
+                                    } else {
+                                        data.checked = false
+                                    }
+                                    totalPrice = data.fee + totalPrice
+                                    checkedItems.push(data)
+
+                                }
+                                if (!this.state.isAllChecked) {
+                                    this.setState({
+                                        rows: datas,
+                                        isAllChecked: !this.state.isAllChecked,
+                                        items: datas.length,
+                                        totalPrice: totalPrice,
+                                        defaultColor: CommonStyle.themeColor,
+                                        enabledBt: true,
+                                        checkedItems:checkedItems
+                                    })
+                                } else {
+                                    this.setState({
+                                        rows: datas,
+                                        isAllChecked: !this.state.isAllChecked,
+                                        items: 0,
+                                        totalPrice: 0,
+                                        defaultColor: CommonStyle.drakGray,
+                                        enabledBt: false,
+                                        checkedItems:[]
+                                    })
+                                }
+
+                            }}
+                            isChecked={this.state.isAllChecked}
+                            rightText={'全选'}
+                            rightTextStyle={styles.text}
+                            checkedImage={<Image source={require('../../img/icon_buy_select.png')}
+                                                 style={styles.image}/>}
+                            unCheckedImage={<Image source={require('../../img/icon_buy_unselect.png')}
+                                                   style={styles.image}/>}
+                        />
+                        <Text style={{fontSize: 14, color: '#333'}}>全选</Text>
+                    </TouchableView>
+                    <View style={{height: 50, width: 0.5, backgroundColor: CommonStyle.lineColor,}}/>
+                    <TouchableView style={[styles.bottomLeftBt, styles.centerBottomRow]} onPress={() => {
+                        this.onSubmit()
+                    }}>
+                        <View style={{justifyContent: 'center', alignItems: 'flex-end',}}>
+                            <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-end'}}>
+                                <Text style={{color: '#333', fontSize: 12, marginBottom: 2}}>共计:￥</Text>
+                                <Text style={{color: '#FF3633', fontSize: 20}}>{totalPrice}</Text>
+                            </View>
+                            <Text style={{color: '#666666', fontSize: 11}}>已选{items}项</Text>
+                        </View>
+                    </TouchableView>
+                    <TouchableView style={{
+                        alignItems: 'center',
+                        backgroundColor: defaultColor,
+                        justifyContent: 'center',
+                        height: 50,
+                        width: width / 3,
+                    }} onPress={() => {
+                        if (enabledBt) {
+                            this.onSubmit()
+                        } else {
+                            this.showShort('请至少选择一个交费项')
+                        }
+                    }}>
+                        <Text style={{color: 'white', fontSize: 16}}>去缴费</Text>
+                    </TouchableView>
+                </View>
+            </View>
+        );
 
     }
 
-    onChange = (value) => {
-        console.log(value)
 
-        this.setState(
-            {
-                endDatetime: this.dateToString(value),
-                endDate: value
-            }
-        )
-        this.makeRemoteRequest(1,this.dateToString(value))
-
-
-    }
 
     dateToString(date) {
         var year = date.getFullYear();
@@ -232,7 +186,20 @@ export default class LivingPayment extends BaseComponent {
             day = "0" + day;
         }
         var dateTime = year + "-" + month + "-" + day;
-        console.log(dateTime)
+        return dateTime;
+    }
+
+    dateToNextYearString(date) {
+        var year = date.getFullYear()+1;
+        var month = (date.getMonth() + 1).toString();
+        var day = (date.getDate()).toString();
+        if (month.length == 1) {
+            month = "0" + month;
+        }
+        if (day.length == 1) {
+            day = "0" + day;
+        }
+        var dateTime = year + "-" + month + "-" + day;
         return dateTime;
     }
 
@@ -253,11 +220,11 @@ export default class LivingPayment extends BaseComponent {
         );
     }
 
-    makeRemoteRequest(page= 1,endDatetime) {
+    makeRemoteRequest(page= 1) {
         let param = {
             page: page - 1,
             pageSize: PAGE_SIZE,
-            endDate: endDatetime,
+            endDate: this.dateToNextYearString(new Date()),
             startDate: this.dateToString(new Date())
         };
 
@@ -340,7 +307,6 @@ export default class LivingPayment extends BaseComponent {
                                 isAllChecked: isAllChecked,
                             })
                         } else {
-                            console.log(this.state.checkedItems)
                             for (var i = 0; i < this.state.checkedItems.length; i++) {
                                 if (this.state.checkedItems[i].year == parseInt(datas[item.index].year)) {
                                     this.state.checkedItems.splice(i, 1)
@@ -405,8 +371,6 @@ export default class LivingPayment extends BaseComponent {
 
     onSubmit() {
         // this.showLoading("生单中...");
-
-        console.log(this.state.checkedItems)
         const checkedItems = this.state.checkedItems
         var years=[]
         for (checkedItem of checkedItems){
