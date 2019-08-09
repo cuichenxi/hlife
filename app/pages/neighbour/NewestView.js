@@ -75,7 +75,7 @@ export default class Index extends BaseView {
                     justifyContent: 'space-between',
                     padding: 5
                 }}>
-                    <ImageView source={item.memberAvatar}
+                    <ImageView source={util.isEmpty(item.memberAvatar)?require("../../img/default_head.png"):item.memberAvatar}
                                defaultSource={require("../../img/default_head.png")}
                                style={{
                                    width: 40,
