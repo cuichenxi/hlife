@@ -68,6 +68,8 @@ export default class PublishComment extends BaseComponent{
             }).then(rep => {
             if (rep.code == 0 ) {
                 this.goBack(rep.message)
+            } else {
+                this.showShort(rep.message)
             }
         }).catch(err => {
 

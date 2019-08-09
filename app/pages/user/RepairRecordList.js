@@ -117,20 +117,6 @@ export default class RepairRecordList extends BaseComponent{
                             fontSize: 12,
                         }}>{item.statusName}</Text>
                     </View>
-                        {/*<Text style={{
-                            color: statusFontColor,
-                            borderRadius: 30,
-                            borderWidth: 1,
-                            borderColor: statusBgColor,
-                            backgroundColor:statusBgColor,
-                            paddingTop:3,
-                            paddingBottom:3,
-                            paddingRight:5,
-                            paddingLeft:5,
-                            fontSize: 12,
-                            marginRight: 12
-                        }}>{item.statusName}</Text>*/}
-
                 </View>
             </TouchableView>
 

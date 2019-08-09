@@ -2,13 +2,12 @@ import {BaseComponent} from "../../../components/base/BaseComponent";
 import React from "react";
 import {CommonStyle} from "../../../common/CommonStyle";
 import TouchableView from "../../../components/TouchableView";
-import {Dimensions, FlatList, Text, View} from "react-native";
+import {Dimensions, Text, View} from "react-native";
 import {PAGE_SIZE} from "../../../constants/AppConstants";
 import Request from "../../../utils/Request";
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import Ionicons from "react-native-vector-icons/Ionicons";
-import SwipeAction from "antd-mobile-rn/es/swipe-action/index.native";
 import UserStore from "../../../store/UserStore";
 import GiftedListView from "../../../components/refreshList/GiftedListView";
 import util from "../../../utils/util";

@@ -10,7 +10,7 @@ import {PAGE_SIZE} from "../../constants/AppConstants";
 import {ImageStyle} from "../../common/ImageStyle";
 import util from "../../utils/util";
 
-let {width, height} = Dimensions.get('window')
+let {width} = Dimensions.get('window')
 
 export default class PostDetail extends BaseComponent {
     navigationBarProps() {
@@ -47,6 +47,7 @@ export default class PostDetail extends BaseComponent {
     onReady(){
         this.makeRemoteRequest()
     }
+
 
     _render() {
         const {data, like} = this.state
@@ -134,10 +135,13 @@ export default class PostDetail extends BaseComponent {
                     <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: '100%'}}/>
 
                     <GiftedListView
+                        onRef={(ref)=>{
+                            this.listRef = ref;
+                        }}
                         style={{ flex: 1}}
                         rowView={this.renderComment.bind(this)}
                         onFetch={this.makeCommentRequest.bind(this)}
-                        loadMore={false}
+
                         // refreshable={}
                         // renderRefreshControl={}
                     />
@@ -179,7 +183,8 @@ export default class PostDetail extends BaseComponent {
                             id: data.id,},
                              (message) => {
                                 console.log('=======go back======' + message)
-                                this.makeRemoteRequest()
+                                 this.listRef._refresh();
+                                 this.makeRemoteRequest();
                         })
                     }
                     }>
@@ -193,7 +198,6 @@ export default class PostDetail extends BaseComponent {
             </View>
         );
     }
-
 
     _renderItem = (item) => {
         return (
