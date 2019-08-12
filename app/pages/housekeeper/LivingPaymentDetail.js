@@ -36,12 +36,11 @@ export default class LivingPaymentDetail extends BaseComponent {
             year: this.props.navigation.state.params.year,
             startDate: this.props.navigation.state.params.startDate,
             endDate: this.props.navigation.state.params.endDate,
+            feeType: this.props.navigation.state.params.feeType,
             address: this.props.navigation.state.params.address,
             isAllChecked: false,
             isLoading: false,
             months: [],
-            result:[],
-            types:[]
         }
     }
 
@@ -192,8 +191,6 @@ export default class LivingPaymentDetail extends BaseComponent {
         var enabledBt = false
         var isAllChecked = false
         var isSomeState = false
-        let types = this.state.types
-        let result = this.state.result
 
         for (var data of datas) {
             if (data.checked) {
@@ -249,7 +246,8 @@ export default class LivingPaymentDetail extends BaseComponent {
             page: page - 1,
             pageSize: PAGE_SIZE,
             startDate: this.state.startDate.substring(0, 10),
-            endDate: this.state.endDate.substring(0, 10)
+            endDate: this.state.endDate.substring(0, 10),
+            feeType: this.state.feeType
         };
 
         Request.post('/api/fee/list', param,
@@ -259,25 +257,15 @@ export default class LivingPaymentDetail extends BaseComponent {
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
                 var datas = []
-
-                let  result =[]
                 for (var row of rep.data) {
                     row.checked = false
 
                     datas.push(row)
                 }
-                for (let i=0;i<datas.length;i++){
-                    let name = datas[i]['name'];
-                    let filterArr = datas.filter(item => item.name == name)
-                    result.push(filterArr)
-                    i+= filterArr.length-1
-                }
-                console.log('result=',result)
 
                 this.setState({
                     rows: datas,
                     communityinfo: rep.data.communityinfo,
-                    result
                 })
                 // callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             }

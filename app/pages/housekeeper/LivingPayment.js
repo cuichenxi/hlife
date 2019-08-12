@@ -25,7 +25,6 @@ export default class LivingPayment extends BaseComponent {
         super(props);
         this.state = {
             isAllChecked: false,
-            communityinfo: '',
             isLoading: false,
             rows: [],
             items: 0,
@@ -45,6 +44,9 @@ export default class LivingPayment extends BaseComponent {
         this.makeRemoteRequest(1)
     }
 
+    refreshing(){
+        this.makeRemoteRequest(1)
+    }
 
     _render() {
         const {address, rows, items, totalPrice, defaultColor, enabledBt} = this.state
@@ -239,10 +241,11 @@ export default class LivingPayment extends BaseComponent {
                     row.checked = false
                     datas.push(row)
                 }
-                this.setState({
-                    rows: datas,
-                    communityinfo: rep.data.communityinfo
-                })
+                if (datas.length>0){
+                    this.setState({
+                        rows: datas,
+                    })
+                }
                 // callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             } else {
                 this.setState({
@@ -258,6 +261,7 @@ export default class LivingPayment extends BaseComponent {
     }
 
     _renderItem = (item) => {
+        console.log('item',item.item)
         return (
             <View style={{
                 backgroundColor: 'white',
@@ -336,10 +340,11 @@ export default class LivingPayment extends BaseComponent {
                         color: CommonStyle.textBlockColor,
                         fontSize: 14
                     }}>{item.item.year}</Text>
-                    <Text style={{textAlign: 'center', color: CommonStyle.textBlockColor, fontSize: 17}}>待缴费{item.item.months}项</Text>
+                    <Text style={{textAlign: 'center', color: CommonStyle.textBlockColor, fontSize: 17}}>{item.item.feeTypeName}待缴费{item.item.months}项</Text>
                 </View>
                 <TouchableView onPress={() => {
-                    this.navigate("LivingPaymentDetail", {startDate: item.item.startDate,endDate:item.item.endDate,address:this.state.address})
+                    this.navigate("LivingPaymentDetail", {startDate: item.item.startDate,endDate:item.item.endDate,
+                        address:this.state.address,feeType:item.item.feeType})
                 }}>
                     <Text style={{
                         color: CommonStyle.themeColor,
@@ -472,9 +477,6 @@ export default class LivingPayment extends BaseComponent {
                 mockId: 1095864,
             }).then(rep => {
             if (rep.code == 0 && rep.data) {
-                this.setState({
-                    rows: rep.data
-                })
                 for (var community of rep.data){
                     if (community.isAuth == 1) {
                         this.setState({
