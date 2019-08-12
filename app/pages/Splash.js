@@ -83,7 +83,7 @@ class Splash extends BaseComponent {
     }
 
     _goPage() {
-        // SplashScreen.hide();
+        SplashScreen.hide();
         if (UserStore.isLogin()) {
             this.reset('Home');
         } else {
@@ -92,7 +92,7 @@ class Splash extends BaseComponent {
     }
 
     _goAd() {
-        // SplashScreen.hide();
+        SplashScreen.hide();
         this._goPage()
         this._loadWeb(this.state.ad.active);
     }

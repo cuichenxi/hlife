@@ -25,7 +25,7 @@ code-push release-react 应用名 --platform android --deploymentName Staging --
 code-push release-react qfant/Hlife android  -d Staging --des 测试 -t 1.0.0 
 code-push release-react qfant/Hlife android  -d Production --des 测试 -t 1.0.0 
 //ios
-code-push release-react qfant/Hlife-ios ios -d Staging --des 测试 -t 1.0.0
+code-push release-react qfant/Hlife-ios ios -d Staging --des 测试 -t 1.0.0 -m true
 code-push release-react qfant/Hlife-ios ios -d Production --des 测试 -t 1.0.0
 查看部署的历史版本信息
 code-push deployment history qfant/Hlife  Staging 
