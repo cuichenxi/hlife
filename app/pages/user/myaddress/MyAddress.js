@@ -155,7 +155,7 @@ export default class MyAddress extends BaseComponent {
                                 color: '#666',
                                 fontSize: 13,
                                 marginTop: 5
-                            }}>{item.unitName + item.roomName}</Text>
+                            }}>{item.buildingName+item.unitName + item.roomName}</Text>
                     </View>
                     <Font.Ionicons style={{marginLeft: 10}} name="ios-arrow-forward-outline" size={(18)}
                                    color="#bbb"/>

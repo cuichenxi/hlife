@@ -7,7 +7,7 @@ import {PAGE_SIZE} from "../../constants/AppConstants";
 import TouchableView from "../../components/TouchableView";
 import {ImageStyle} from "../../common/ImageStyle";
 
-let {width, height} = Dimensions.get('window')
+let {width} = Dimensions.get('window')
 
 export default class BillDetail extends BaseComponent {
     navigationBarProps() {
@@ -64,7 +64,7 @@ export default class BillDetail extends BaseComponent {
                         <Text style={styles.contentRightText}>{data.title}</Text>
                     </View>*/}
                     <View style={styles.contentItem}>
-                        <Text style={styles.contentText}>收费地址：</Text>
+                        <Text style={styles.contentText}>业主信息：</Text>
                         <Text style={styles.contentRightText}>{data.address}</Text>
                     </View>
 
@@ -146,45 +146,27 @@ export default class BillDetail extends BaseComponent {
                         color: '#333',
                         padding: 3,
                         fontSize: 16
-                    }}>{data.item.yearmonth+data.item.chargeSettingName}</Text>
+                    }}>{data.item.chargeSettingName}</Text>
                     <Text style={styles.contentRightText}>{data.item.startDate.substring(0, 10)}~{data.item.endDate.substring(0, 10)}</Text>
 
                 </TouchableView>
                 <View style={{flex:1,height:data.item.isShow?'100%':0}}>
                     <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
-                    {/*<View style={styles.contentItem}>
-                        <Text style={styles.contentText}>收费名目：</Text>
-                        <Text style={styles.contentRightText}>{data.item.chargeSettingName}</Text>
-                    </View>*/}
-                    {/*<View style={styles.contentItem}>
-
-
-                        <Text style={styles.contentText}>账单月份：</Text>
-                        <Text style={styles.contentRightText}>{data.item.yearmonth}</Text>
-                    </View>*/}
                     <View style={styles.contentItem}>
-                        <Text style={styles.contentText}>账单金额：</Text>
-                        <Text style={styles.themeColor}></Text>
+                        <Text style={styles.contentText}>应交金额：</Text>
+                        <Text style={styles.themeColor}>{data.item.shouldMoney}</Text>
                     </View>
                     <View style={styles.contentItem}>
-                        <Text style={styles.contentText}>已交金额：</Text>
-                        <Text style={styles.themeColor}></Text>
+                        <Text style={styles.contentText}>实收金额：</Text>
+                        <Text style={styles.contentRightText}>{data.item.chargeMoney}</Text>
                     </View>
-                    <View style={styles.contentItem}>
-                        <Text style={styles.contentText}>本次应收：</Text>
-                        <Text style={styles.contentRightText}>{data.item.shouldMoney}</Text>
-                    </View>
-                    {/*<View style={styles.contentItem}>
-                        <Text style={styles.contentText}>计费周期：</Text>
-                        <Text style={styles.contentRightText}>{data.item.startDate.substring(0, 10)}~{data.item.endDate.substring(0, 10)}</Text>
-                    </View>*/}
                     <View style={styles.contentItem}>
                         <Text style={styles.contentText}>单位价格：</Text>
                         <Text style={styles.contentRightText}>{data.item.unitPrice}</Text>
                     </View>
                     <View style={styles.contentItem}>
-                        <Text style={styles.contentText}>面积：</Text>
-                        <Text style={styles.contentRightText}></Text>
+                        <Text style={styles.contentText}>数量：</Text>
+                        <Text style={styles.contentRightText}>{data.item.amount}</Text>
                     </View>
                 </View>
 

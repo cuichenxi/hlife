@@ -43,7 +43,7 @@ export default class LivingPaymentItem extends Component {
                             unCheckedImage={<Image source={require('../../img/icon_buy_unselect.png')}
                                                    style={styles.image}/>}
                         />
-                        <Text style={{paddingLeft: 5, color: '#333', fontSize: 15}}>{item.yearMonth+' '+item.name}</Text>
+                        <Text style={{paddingLeft: 5, color: '#333', fontSize: 15}}>{item.startDate.substring(0, 10)}~{item.endDate.substring(0, 10)}</Text>
                     </View>
 
                     <View style={{

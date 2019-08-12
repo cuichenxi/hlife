@@ -64,7 +64,7 @@ export default class LivingBillDetail extends BaseComponent {
                         <Text style={styles.contentRightText}>{data.title}</Text>
                     </View>*/}
                     <View style={styles.contentItem}>
-                        <Text style={styles.contentText}>收费地址：</Text>
+                        <Text style={styles.contentText}>业主信息：</Text>
                         <Text style={styles.contentRightText}>{data.roomName}</Text>
                     </View>
                     <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
@@ -83,7 +83,7 @@ export default class LivingBillDetail extends BaseComponent {
                                 color: '#333',
                                 padding: 3,
                                 fontSize: 16
-                            }}>{data.yearmonth + data.name}</Text>
+                            }}>{data.name}</Text>
                             <Text style={styles.contentRightText}>{data.startDate}~{data.endDate}</Text>
 
                         </View>
@@ -91,39 +91,17 @@ export default class LivingBillDetail extends BaseComponent {
 
                         <View style={{flex: 1,}}>
                             <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: width}}/>
-                            {/*<View style={styles.contentItem}>
-                        <Text style={styles.contentText}>收费名目：</Text>
-                        <Text style={styles.contentRightText}>{data.item.chargeSettingName}</Text>
-                    </View>*/}
-                            {/*<View style={styles.contentItem}>
-
-
-                        <Text style={styles.contentText}>账单月份：</Text>
-                        <Text style={styles.contentRightText}>{data.item.yearmonth}</Text>
-                    </View>*/}
                             <View style={styles.contentItem}>
-                                <Text style={styles.contentText}>账单金额：</Text>
-                                <Text style={styles.themeColor}></Text>
+                                <Text style={styles.contentText}>应交金额：</Text>
+                                <Text style={styles.themeColor}>{data.shouldMoney}</Text>
                             </View>
-                            <View style={styles.contentItem}>
-                                <Text style={styles.contentText}>已交金额：</Text>
-                                <Text style={styles.themeColor}></Text>
-                            </View>
-                            <View style={styles.contentItem}>
-                                <Text style={styles.contentText}>本次应收：</Text>
-                                <Text style={styles.contentRightText}>{data.totalMoney}</Text>
-                            </View>
-                            {/*<View style={styles.contentItem}>
-                        <Text style={styles.contentText}>计费周期：</Text>
-                        <Text style={styles.contentRightText}>{data.item.startDate.substring(0, 10)}~{data.item.endDate.substring(0, 10)}</Text>
-                    </View>*/}
                             <View style={styles.contentItem}>
                                 <Text style={styles.contentText}>单位价格：</Text>
                                 <Text style={styles.contentRightText}>{data.unitPrice}</Text>
                             </View>
                             <View style={styles.contentItem}>
-                                <Text style={styles.contentText}>面积：</Text>
-                                <Text style={styles.contentRightText}></Text>
+                                <Text style={styles.contentText}>数量：</Text>
+                                <Text style={styles.contentRightText}>{data.count}</Text>
                             </View>
                         </View>
 
