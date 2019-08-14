@@ -58,7 +58,7 @@ class Index extends BaseComponent {
         return {
             title: this.props.navigation.state.params.article.title,
             rightTitle: (
-                '分享'
+                this.props.navigation.state.params.article.title !== '隐私政策'?'分享':''
             ),
         }
     }
