@@ -3,7 +3,7 @@ import React from "react";
 import {
     Dimensions,
     Image,
-    Modal,
+    Modal, Platform,
     StyleSheet,
     Text,
     TouchableOpacity,
@@ -185,26 +185,30 @@ export default class MySetting extends BaseComponent{
                     </View>
                 </TouchableView>
 
-                <TouchableView style={[styles.item,styles.itemMarginTop]} onPress={()=>{
-                    this.showLoading("检测中...")
-                    setTimeout(()=>{
-                        this.hideLoading()
-                    },2000)
-                    CodePush.sync({
-                        deploymentKey: false ? CPKEY.CP_KEY_STAGING : CPKEY.CP_KEY_PRO,
-                        updateDialog: {
-                            optionalIgnoreButtonLabel: '稍后',
-                            optionalInstallButtonLabel: '更新',
-                            optionalUpdateMessage: '幸福宜居有新版本了，是否更新？',
-                            title: '更新提示'
-                        },
-                        installMode: CodePush.InstallMode.IMMEDIATE
-                    });
-                }}>
-                    <Text style={styles.text}>版本检测</Text>
-                    <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
-                                   color="#bbb"/>
-                </TouchableView>
+                {
+                    Platform.OS === 'ios'?<View style={{width:0}}/>:
+                        <TouchableView style={[styles.item,styles.itemMarginTop]} onPress={()=>{
+                            this.showLoading("检测中...")
+                            setTimeout(()=>{
+                                this.hideLoading()
+                            },2000)
+                            CodePush.sync({
+                                deploymentKey: false ? CPKEY.CP_KEY_STAGING : CPKEY.CP_KEY_PRO,
+                                updateDialog: {
+                                    optionalIgnoreButtonLabel: '稍后',
+                                    optionalInstallButtonLabel: '更新',
+                                    optionalUpdateMessage: '幸福宜居有新版本了，是否更新？',
+                                    title: '更新提示'
+                                },
+                                installMode: CodePush.InstallMode.IMMEDIATE
+                            });
+                        }}>
+                            <Text style={styles.text}>版本检测</Text>
+                            <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
+                                           color="#bbb"/>
+                        </TouchableView>
+                }
+
                 <Modal
                     animationType="fade"
                     visible={this.state.isShareModal}
