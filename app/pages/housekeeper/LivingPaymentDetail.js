@@ -34,9 +34,10 @@ export default class LivingPaymentDetail extends BaseComponent {
             enabledBt: false,
             items: 0,
             year: this.props.navigation.state.params.year,
-            startDate: this.props.navigation.state.params.startDate,
-            endDate: this.props.navigation.state.params.endDate,
+            // startDate: this.props.navigation.state.params.startDate,
+            // endDate: this.props.navigation.state.params.endDate,
             feeType: this.props.navigation.state.params.feeType,
+            type: this.props.navigation.state.params.type,
             address: this.props.navigation.state.params.address,
             isAllChecked: false,
             isLoading: false,
@@ -241,13 +242,14 @@ export default class LivingPaymentDetail extends BaseComponent {
 
     }
 
-    makeRemoteRequest(page = 1) {
+    makeRemoteRequest() {
         let param = {
-            page: page - 1,
-            pageSize: PAGE_SIZE,
-            startDate: this.state.startDate.substring(0, 10),
-            endDate: this.state.endDate.substring(0, 10),
-            feeType: this.state.feeType
+            // page: page - 1,
+            // pageSize: PAGE_SIZE,
+            // startDate: this.state.startDate.substring(0, 10),
+            // endDate: this.state.endDate.substring(0, 10),
+            feeType: this.state.feeType,
+            type: this.state.type
         };
 
         Request.post('/api/fee/list', param,
@@ -298,7 +300,10 @@ export default class LivingPaymentDetail extends BaseComponent {
                 console.log('符合提交：',months)
 
                 let param = {
-                    month: this.state.months
+                    month: this.state.months,
+                    type: this.state.type,
+                    feeType: this.state.feeType,
+
                 };
                 this.showLoading("生单中...");
                 Request.post('/api/pay/chargeBatch', param).then(rep => {

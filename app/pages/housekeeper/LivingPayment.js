@@ -224,10 +224,10 @@ export default class LivingPayment extends BaseComponent {
 
     makeRemoteRequest(page= 1) {
         let param = {
-            page: page - 1,
-            pageSize: PAGE_SIZE,
-            endDate: this.dateToNextYearString(new Date()),
-            startDate: this.dateToString(new Date())
+            // page: page - 1,
+            // pageSize: PAGE_SIZE,
+            // endDate: this.dateToNextYearString(new Date()),
+            // startDate: this.dateToString(new Date())
         };
 
         Request.post('/api/fee/totallist', param,
@@ -339,12 +339,12 @@ export default class LivingPayment extends BaseComponent {
                         textAlign: 'center',
                         color: CommonStyle.textBlockColor,
                         fontSize: 14
-                    }}>{item.item.year}</Text>
-                    <Text style={{textAlign: 'center', color: CommonStyle.textBlockColor, fontSize: 17}}>{item.item.feeTypeName}待缴费{item.item.months}项</Text>
+                    }}>{item.item.feeTypeName}</Text>
+                    <Text style={{textAlign: 'center', color: CommonStyle.textBlockColor, fontSize: 17}}>{item.item.name}</Text>
                 </View>
                 <TouchableView onPress={() => {
-                    this.navigate("LivingPaymentDetail", {startDate: item.item.startDate,endDate:item.item.endDate,
-                        address:this.state.address,feeType:item.item.feeType})
+                    this.navigate("LivingPaymentDetail", {
+                        address:this.state.address,feeType:item.item.feeType,type:item.item.type})
                 }}>
                     <Text style={{
                         color: CommonStyle.themeColor,
