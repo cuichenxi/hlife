@@ -18,7 +18,7 @@ export default class LivingPaymentItem extends Component {
     }
 
     render() {
-        const {item} = this.props
+        const {item,checked} = this.props
         return (
             <TouchableView
                 onPress={this.props.onPress}
@@ -56,7 +56,7 @@ export default class LivingPaymentItem extends Component {
                         <Text style={{
                             color: CommonStyle.themeColor,
                             padding: 3,
-                            fontSize: 20
+                            fontSize: 17
                         }}>¥{item.totalMoney}</Text>
                         <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
                                        color="#bbb"/>

@@ -38,6 +38,7 @@ export default class LivingPaymentDetail extends BaseComponent {
             // endDate: this.props.navigation.state.params.endDate,
             feeType: this.props.navigation.state.params.feeType,
             type: this.props.navigation.state.params.type,
+            checked: this.props.navigation.state.params.checked,
             address: this.props.navigation.state.params.address,
             isAllChecked: false,
             isLoading: false,
@@ -82,6 +83,7 @@ export default class LivingPaymentDetail extends BaseComponent {
                               renderItem={({item, index}) => (
                                   <LivingPaymentItem
                                       item={item}
+                                      checked={this.state.checked}
                                       select={item.checked}
                                       onItemChecked={() => this.onItemSelected(item, index)}
                                       onPress={() => {
@@ -268,6 +270,32 @@ export default class LivingPaymentDetail extends BaseComponent {
                 this.setState({
                     rows: datas,
                     communityinfo: rep.data.communityinfo,
+                },()=>{
+                    if (this.state.checked){
+                        var datas = this.state.rows
+                        var months = []
+                        if (datas.length == 0) {
+                            return
+                        }
+                        var totalPrice = 0
+                        for (var data of datas) {
+                            data.checked = true
+                            months.push(parseInt(data.yearMonth))
+                            totalPrice = data.totalMoney + totalPrice
+                        }
+                        this.state.months = months
+                        console.log(this.state.months)
+                        this.setState({
+                            rows: datas,
+                            isAllChecked: !this.state.isAllChecked,
+                            items: datas.length,
+                            totalPrice: totalPrice,
+                            defaultColor: CommonStyle.themeColor,
+                            enabledBt: true,
+                            months: months,
+                        })
+                    }
+
                 })
                 // callback(rep.data.rows, {allLoaded: page * PAGE_SIZE >= rep.data.total})
             }

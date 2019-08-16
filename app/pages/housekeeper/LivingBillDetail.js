@@ -101,7 +101,7 @@ export default class LivingBillDetail extends BaseComponent {
                             </View>
                             <View style={styles.contentItem}>
                                 <Text style={styles.contentText}>数量：</Text>
-                                <Text style={styles.contentRightText}>{data.count}</Text>
+                                <Text style={styles.contentRightText}>{data.amount}</Text>
                             </View>
                         </View>
 

@@ -140,7 +140,7 @@ export default class LivingPayment extends BaseComponent {
                             unCheckedImage={<Image source={require('../../img/icon_buy_unselect.png')}
                                                    style={styles.image}/>}
                         />
-                        <Text style={{fontSize: 14, color: '#333'}}>全选</Text>
+                        {/*<Text style={{fontSize: 14, color: '#333'}}>全选</Text>*/}
                     </TouchableView>
                     <View style={{height: 50, width: 0.5, backgroundColor: CommonStyle.lineColor,}}/>
                     <TouchableView style={[styles.bottomLeftBt, styles.centerBottomRow]} onPress={() => {
@@ -261,7 +261,6 @@ export default class LivingPayment extends BaseComponent {
     }
 
     _renderItem = (item) => {
-        console.log('item',item.item)
         return (
             <View style={{
                 backgroundColor: 'white',
@@ -334,18 +333,17 @@ export default class LivingPayment extends BaseComponent {
                     checkedImage={<Image source={require('../../img/icon_buy_select.png')} style={styles.image}/>}
                     unCheckedImage={<Image source={require('../../img/icon_buy_unselect.png')} style={styles.image}/>}
                 />
-                <View style={{alignItems: 'flex-start', justifyContent: 'center'}}>
+                <View style={{alignItems: 'flex-start', justifyContent: 'flex-start',flex:1.5}}>
                     <Text style={{
-                        textAlign: 'center',
-                        color: CommonStyle.textBlockColor,
-                        fontSize: 14
+                        color: CommonStyle.themeColor,
+                        fontSize: 17
                     }}>{item.item.feeTypeName}</Text>
-                    <Text style={{textAlign: 'center', color: CommonStyle.textBlockColor, fontSize: 17}}>{item.item.name}</Text>
+                    <Text style={{ color: CommonStyle.textBlockColor, fontSize: 14}}>{item.item.name}</Text>
                 </View>
                 <TouchableView onPress={() => {
                     this.navigate("LivingPaymentDetail", {
-                        address:this.state.address,feeType:item.item.feeType,type:item.item.type})
-                }}>
+                        address:this.state.address,feeType:item.item.feeType,type:item.item.type,checked:item.item.checked})
+                }} style={{flex:1,display: 'flex',alignItems:'center',justifyContent:'center'}}>
                     <Text style={{
                         color: CommonStyle.themeColor,
                         borderRadius: 15,
@@ -396,42 +394,29 @@ export default class LivingPayment extends BaseComponent {
         });
 
 
-        console.log('是否跨年：')
-        console.log(this.isOrderNumeric(years))
-        if (this.isOrderNumeric(years)) {
-            if (checkedItems[0].year == this.state.rows[0].year){
-                console.log('符合提交：')
-                let param = {
-                    startDate: checkedItems[0].startDate,
-                    endDate: checkedItems[checkedItems.length-1].endDate
-                };
-                this.showLoading("生单中...");
-                Request.post('/api/pay/chargeBatch', param).then(rep => {
-                    if (rep.code === 0 && rep.data) {
-                        this.navigate('PayCenter', {
-                                id: rep.data.id,
-                                totalPrice: rep.data.totalPrice,
-                                orderno: rep.data.orderno,
-                                orderType: ORDER_TYPE_JF,
-                                from: PAY_FROM_JF
-                            }
-                        );
-                    } else {
-                        this.showShort(rep.message);
+        let param = {
+            startDate: checkedItems[0].startDate,
+            endDate: checkedItems[checkedItems.length-1].endDate
+        };
+        this.showLoading("生单中...");
+        Request.post('/api/pay/chargeBatch', param).then(rep => {
+            if (rep.code === 0 && rep.data) {
+                this.navigate('PayCenter', {
+                        id: rep.data.id,
+                        totalPrice: rep.data.totalPrice,
+                        orderno: rep.data.orderno,
+                        orderType: ORDER_TYPE_JF,
+                        from: PAY_FROM_JF
                     }
-                }).catch(err => {
-
-                }).done(() => {
-                    this.hideLoading()
-                })
-
+                );
             } else {
-                console.log('不符合提交：')
-                this.showShort('请选择第一个待缴费年份')
+                this.showShort(rep.message);
             }
-        } else {
-            this.showShort('请选择连续的待缴年份')
-        }
+        }).catch(err => {
+
+        }).done(() => {
+            this.hideLoading()
+        })
     }
 
 
@@ -524,7 +509,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         height: 56,
         marginTop: 1,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        flex:1
     },
     image: {
         marginLeft: 16,
