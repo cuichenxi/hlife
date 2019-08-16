@@ -109,7 +109,7 @@ export default class Main extends BaseComponent {
             deploymentKey: debug ? CPKEY.CP_KEY_STAGING : CPKEY.CP_KEY_PRO,
             updateDialog: {
                 optionalIgnoreButtonLabel: '稍后',
-                mandatoryUpdateMessage: '幸福宜居有新版本了,问题修复8.12 12:57',
+                mandatoryUpdateMessage: '幸福宜居有新版本了',
                 optionalInstallButtonLabel: '后台更新',
                 mandatoryContinueButtonLabel:'继续',
                 optionalUpdateMessage: '幸福宜居有新版本了，是否更新？',

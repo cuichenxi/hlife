@@ -97,7 +97,7 @@
                                           categories:nil];
   }
   
-  [JPUSHService setupWithOption:launchOptions appKey:@"3effae24fc73e3023b01a251"
+  [JPUSHService setupWithOption:launchOptions appKey:@"537f155ce32483a9a68b5f83"
                         channel:nil apsForProduction:nil];
 
   NSURL *jsCodeLocation;

@@ -58,6 +58,7 @@ class Splash extends BaseComponent {
     }
 
     onReady(param) {
+        SplashScreen.hide();
         setTimeout(() => {
             let adStore = ADStore.get();
             this.setState({

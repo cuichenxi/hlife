@@ -2,7 +2,8 @@
 https://github.com/jpush/jpush-react-native
 287288189@qq.com
  Qifan2013
-3effae24fc73e3023b01a251
+
+537f155ce32483a9a68b5f83
 
 密钥
 Chenghui1989
