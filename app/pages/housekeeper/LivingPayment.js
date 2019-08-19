@@ -414,19 +414,6 @@ export default class LivingPayment extends BaseComponent {
         }
         // console.log(years.sort())
 
-        /*checkedItems.sort(function (a,b) {
-            var a1 = parseInt(a.year)
-            var b1 = parseInt(b.year)
-            if (a1 < b1){
-                return -1;
-            } else if (a1 > b1) {
-                return 1;
-            }
-            return 0;
-
-        });*/
-
-
         let param = {
             // startDate: checkedItems[0].startDate,
             // endDate: checkedItems[checkedItems.length-1].endDate
