@@ -18,4 +18,4 @@ Chenghui1989
 https://lanhuapp.com/url/xpcJ3-4pdqg
 
 https://www.pgyer.com/6vsc 安卓
-https://www.pgyer.com/H7Jg 苹果
+https://www.pgyer.com/muW2 苹果
