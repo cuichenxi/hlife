@@ -72,14 +72,15 @@ export default class OrderDetail extends BaseComponent {
 // ,"status":1,"totalprice":1.5}
 
     onPay() {
-        this.navigate('PayCenter', {id: this.state.id, from: PAY_FROM_ORDER_DETAIL,orderType: ORDER_TYPE_DD})
+        this.navigate('PayCenter', {id: this.state.id, from: PAY_FROM_ORDER_DETAIL, orderType: ORDER_TYPE_DD})
     }
+
     onRefund() {
-        let param = {orderId: this.state.data.id,orderNo:this.state.data.orderno};
+        let param = {orderId: this.state.data.id, orderNo: this.state.data.orderno};
         this.showLoading('申请退款中')
         setTimeout(() => {
             Request.post('/api/pay/refund', param).then(rep => {
-                if (rep.code == 0 && rep.data) {
+                if (rep.code == 0) {
                     this.requestData()
                 } else {
                     this.showShort(rep.message);
@@ -126,6 +127,24 @@ export default class OrderDetail extends BaseComponent {
                 statusStr = '已评价';
                 break
         }
+
+        let payType = ''
+        switch (data.paytype) {
+            case 1:
+                payType = '支付宝'
+                break
+            case 2:
+                payType = '微信'
+                break
+            case 3:
+                payType = '余额'
+                break
+            default:
+                payType = ''
+                break
+        }
+
+
         var sh = data.shippingAddressListDTO;
         var address = ''
         if (sh) {
@@ -149,6 +168,10 @@ export default class OrderDetail extends BaseComponent {
                             <Text style={{marginLeft: 5, fontSize: 14, color: '#333'}}>{statusStr}</Text>
                         </View>
                         <View style={{flexDirection: 'row', marginTop: 10}}>
+                            <Text style={{fontSize: 14, color: '#333'}}>支付类型 : </Text>
+                            <Text style={{marginLeft: 5, fontSize: 14, color: '#333'}}>{payType}</Text>
+                        </View>
+                        <View style={{flexDirection: 'row', marginTop: 10}}>
                             <Text style={{fontSize: 14, color: '#333'}}>订单编号 : </Text>
                             <Text style={{marginLeft: 5, fontSize: 14, color: '#333'}}>{data.orderno}</Text>
                         </View>
@@ -160,6 +183,35 @@ export default class OrderDetail extends BaseComponent {
                             <Text style={{fontSize: 14, color: '#333'}}>合计金额 : </Text>
                             <Text style={{marginLeft: 5, fontSize: 14, color: '#333'}}>￥{data.totalprice}</Text>
                         </View>
+                        {
+                            data.paystatus === 1 && data.status === 3 ?
+                                <View style={{flexDirection: 'row', marginTop: 10}}>
+                                    <Text style={{fontSize: 14, color: '#333'}}>支付时间 : </Text>
+                                    <Text style={{marginLeft: 5, fontSize: 14, color: '#333'}}>￥{data.paytime}</Text>
+                                </View> : <View/>
+                        }
+                        {
+                            data.status === 5 && data.paystatus === 1 ?
+                                <View style={{flexDirection: 'row', marginTop: 10}}>
+                                    <Text style={{fontSize: 14, color: '#333'}}>发货时间 : </Text>
+                                    <Text style={{marginLeft: 5, fontSize: 14, color: '#333'}}>{data.shipTime}</Text>
+                                </View> : <View/>
+                        }
+                        {
+                            data.paystatus === 1? <View style={{flexDirection: 'row', marginTop: 10}}>
+                                <Text style={{fontSize: 14, color: '#333'}}>发货信息 : </Text>
+                                <Text style={{marginLeft: 5, fontSize: 14, color: '#333'}}>{data.logistics}</Text>
+                            </View>:<View/>
+                        }
+                        {
+                            data.isrefund === 2 && data.status === 7 ?
+                                <View style={{flexDirection: 'row', marginTop: 10}}>
+                                    <Text style={{fontSize: 14, color: '#333'}}>退款时间 : </Text>
+                                    <Text style={{marginLeft: 5, fontSize: 14, color: '#333'}}>{data.refundTime}</Text>
+                                </View> : <View/>
+                        }
+
+
                     </View>
                     {data.goodsList && data.goodsList.map((item) => this._renderOrderItem(item))}
                     <View style={{

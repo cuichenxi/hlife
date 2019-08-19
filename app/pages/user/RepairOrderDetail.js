@@ -122,20 +122,37 @@ export default class RepairOrderDetail extends BaseComponent {
     _render() {
         const {data} = this.state
         var statusStr = '';
+        let orderTime=''
+        let timeName=''
         if (data.status === 1) {
             statusStr = '未处理';
+            orderTime = data.createtime;
+            timeName='下单时间'
         } else if (data.status === 2) {
             statusStr = '正在派单';
+            timeName='下单时间'
+            orderTime = data.createtime;
         } else if (data.status === 3) {
             statusStr = '派单完成';
+            orderTime = data.assignTime;
+            timeName='工单分配时间'
         } else if (data.status === 4) {
             statusStr = '已接单';
+            orderTime = data.takeTime;
+            timeName='接单时间'
         } else if (data.status === 5) {
             statusStr = '维修中';
+            orderTime = data.processTime;
+            timeName='处理时间'
         } else if (data.status === 6) {
             statusStr = '已完成';
+            orderTime = data.finishTime;
+            timeName='完成时间'
         } else if (data.status === 7) {
             statusStr = '已评价';
+            orderTime = data.evaluateTime;
+            timeName='评价时间'
+
         } else if (data.status === 8) {
             statusStr = '等待支付';
         } else if (data.status === 9) {
@@ -179,7 +196,7 @@ export default class RepairOrderDetail extends BaseComponent {
                         backgroundColor: '#fff'
                     }}>
                         <View style={{flexDirection: 'row',marginTop: 10}}>
-                            <Text style={{fontSize: 14, color: '#333'}}>订单状态 : </Text>
+                            <Text style={{fontSize: 14, color: '#333'}}>工单状态 : </Text>
                             <Text style={{marginLeft: 5, fontSize: 14, color: '#333'}}>{statusStr}</Text>
                         </View>
                         {/*<View style={{flexDirection: 'row', marginTop: 10}}>*/}
@@ -191,8 +208,8 @@ export default class RepairOrderDetail extends BaseComponent {
                             <Text style={{marginLeft: 5, fontSize: 14, color: '#333'}}>{repairtypeStr}</Text>
                         </View>
                         <View style={{flexDirection: 'row', marginTop: 10}}>
-                            <Text style={{fontSize: 14, color: '#333'}}>下单时间 : </Text>
-                            <Text style={{marginLeft: 5, fontSize: 14, color: '#333'}}>{data.createtime}</Text>
+                            <Text style={{fontSize: 14, color: '#333'}}>{timeName} : </Text>
+                            <Text style={{marginLeft: 5, fontSize: 14, color: '#333'}}>{orderTime}</Text>
                         </View>
                     </View>
                     <View style={{
