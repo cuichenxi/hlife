@@ -88,12 +88,16 @@ export default class ComplaintDetail extends BaseComponent {
                         backgroundColor: '#fff'
                     }}>
                         <View style={{flexDirection: 'row'}}>
-                            <Text style={{fontSize: 14, color: '#333'}}>订单状态 : </Text>
+                            <Text style={{fontSize: 14, color: '#333'}}>回复状态 : </Text>
                             <Text style={{marginLeft: 5, fontSize: 14, color: '#333'}}>{statusStr}</Text>
                         </View>
                         <View style={{flexDirection: 'row', marginTop: 10}}>
-                            <Text style={{fontSize: 14, color: '#333'}}>下单时间 : </Text>
+                            <Text style={{fontSize: 14, color: '#333'}}>提交时间 : </Text>
                             <Text style={{marginLeft: 5, fontSize: 14, color: '#333'}}>{data.createTime}</Text>
+                        </View>
+                        <View style={{flexDirection: 'row', marginTop: 10}}>
+                            <Text style={{fontSize: 14, color: '#333'}}>回复时间 : </Text>
+                            <Text style={{marginLeft: 5, fontSize: 14, color: '#333'}}>{data.replyTime}</Text>
                         </View>
                     </View>
                     <View style={{
