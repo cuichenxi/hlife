@@ -80,6 +80,11 @@ export default class ComplaintList extends BaseComponent{
                                 fontSize: 15
                             }}>{item.memberName}</Text>
                             <Text style={{
+                                color: '#333',
+                                padding: 3,
+                                fontSize: 15,
+                            }}>{item.content}</Text>
+                            <Text style={{
                                 color: '#999',
                                 padding: 3,
                                 fontSize: 13
