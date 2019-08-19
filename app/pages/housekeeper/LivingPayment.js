@@ -35,7 +35,11 @@ export default class LivingPayment extends BaseComponent {
             endDatetime: '',
             startDate: undefined,
             checkedItems:[],
-            address:''
+            address:'',
+            chargeTypeItem:{
+                type:'',
+                feeType:''
+            }
         }
     }
 
@@ -299,7 +303,7 @@ export default class LivingPayment extends BaseComponent {
                         }
 
 
-                        if (datas[item.index].checked) {
+                        if (datas[item.index].checked === true) {
                             this.state.checkedItems.push(datas[item.index])
                             this.setState({
                                 items: ++this.state.items,
@@ -311,9 +315,12 @@ export default class LivingPayment extends BaseComponent {
                             })
                         } else {
                             for (var i = 0; i < this.state.checkedItems.length; i++) {
-                                if (this.state.checkedItems[i].year == parseInt(datas[item.index].year)) {
+                                if (this.isObjectValueEqual(this.state.checkedItems[i],datas[item.index])) {
                                     this.state.checkedItems.splice(i, 1)
                                 }
+                                /*if (this.state.checkedItems[i].year == parseInt(datas[item.index].year)) {
+                                    this.state.checkedItems.splice(i, 1)
+                                }*/
                             }
 
                             this.setState({
@@ -362,6 +369,24 @@ export default class LivingPayment extends BaseComponent {
         )
     }
 
+    isObjectValueEqual (a, b) {
+        //取对象a和b的属性名
+        var aProps = Object.getOwnPropertyNames(a);
+        var bProps = Object.getOwnPropertyNames(b);
+        //判断属性名的length是否一致
+        if (aProps.length != bProps.length) {
+            return false;
+        }
+        //循环取出属性名，再判断属性值是否一致
+        for (var i = 0; i < aProps.length; i++) {
+            var propName = aProps[i];
+            if (a[propName] !== b[propName]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     isAllEqual(array){
         if (array.length >0){
             return !array.some(function (value,index) {
@@ -375,13 +400,21 @@ export default class LivingPayment extends BaseComponent {
     onSubmit() {
         // this.showLoading("生单中...");
         const checkedItems = this.state.checkedItems
-        var years=[]
-        for (checkedItem of checkedItems){
-            years.push(parseInt(checkedItem.year))
-        }
-        console.log(years.sort())
 
-        checkedItems.sort(function (a,b) {
+        var chargeType=[]
+        for (checkedItem of checkedItems){
+            const chargeTypeItem = {
+                // type:'',
+                // feeType:''
+            }
+            // years.push(parseInt(checkedItem.year))
+            chargeTypeItem.feeType = checkedItem.feeType
+            chargeTypeItem.type = checkedItem.type
+            chargeType.push(chargeTypeItem)
+        }
+        // console.log(years.sort())
+
+        /*checkedItems.sort(function (a,b) {
             var a1 = parseInt(a.year)
             var b1 = parseInt(b.year)
             if (a1 < b1){
@@ -391,13 +424,16 @@ export default class LivingPayment extends BaseComponent {
             }
             return 0;
 
-        });
+        });*/
 
 
         let param = {
-            startDate: checkedItems[0].startDate,
-            endDate: checkedItems[checkedItems.length-1].endDate
+            // startDate: checkedItems[0].startDate,
+            // endDate: checkedItems[checkedItems.length-1].endDate
+            chargeType:chargeType
         };
+        console.log('checkedItems',checkedItems)
+        console.log('chargeType',chargeType)
         this.showLoading("生单中...");
         Request.post('/api/pay/chargeBatch', param).then(rep => {
             if (rep.code === 0 && rep.data) {

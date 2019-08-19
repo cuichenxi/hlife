@@ -328,9 +328,10 @@ export default class LivingPaymentDetail extends BaseComponent {
                 console.log('符合提交：',months)
 
                 let param = {
-                    month: this.state.months,
+                    chargeType:[{month: this.state.months,
                     type: this.state.type,
-                    feeType: this.state.feeType,
+                    feeType: this.state.feeType,}],
+
 
                 };
                 this.showLoading("生单中...");
