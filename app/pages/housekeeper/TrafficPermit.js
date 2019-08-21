@@ -83,6 +83,10 @@ export default class TrafficPermit extends BaseComponent{
 
     _render() {
         const {data} = this.state
+        let timestamp1 = Date.parse( new Date());
+
+        let imageUrl = data.imageUrl +'?t='+timestamp1
+        console.log('imageUrl',imageUrl)
         return (
             <View style={{flex: 1}}>
                 <View style={{justifyContent: 'center',alignItems: 'center',marginTop:36}}>
@@ -90,7 +94,7 @@ export default class TrafficPermit extends BaseComponent{
                 </View>
                 <Text style={{color:CommonStyle.textBlockColor,padding:10}}>尊敬的{data.name}:</Text>
                 <View style={{justifyContent: 'center',alignItems: 'center'}}>
-                    <ImageView source={data.imageUrl}
+                    <ImageView source={imageUrl}
                                defaultSource={require("../../img/default_image.png")}
                            style={{width: 182, height: 182}}/>
                 </View>
