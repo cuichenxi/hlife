@@ -28,7 +28,7 @@ export default class Index extends BaseComponent {
         return (
             <WebView
                 originWhitelist={['*']}
-                source={{html: html}}
+                source={{html: html,baseUrl:''}}
             />
         );
     }

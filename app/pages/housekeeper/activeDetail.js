@@ -1,6 +1,6 @@
 import {BaseComponent} from "../../components/base/BaseComponent";
 import React from "react";
-import {ScrollView, StyleSheet, Text, View, xImage} from "react-native";
+import {ScrollView, StyleSheet, Text, View, } from "react-native";
 import {CommonStyle} from "../../common/CommonStyle";
 import TouchableView from "../../components/TouchableView";
 import Request from "../../utils/Request";
@@ -9,7 +9,11 @@ import Swiper from "react-native-swiper";
 import ImageView from "../../components/ImageView";
 import {ThemeStyle} from "../../common/ThemeStyle";
 import {ImageStyle} from "../../common/ImageStyle";
+import Ionicons from 'react-native-vector-icons/Ionicons'
 
+const Font = {
+    Ionicons,
+}
 
 export default class Payment extends BaseComponent {
     navigationBarProps() {
@@ -97,7 +101,7 @@ export default class Payment extends BaseComponent {
                 }}>
                     <View style={{flex: 1, backgroundColor: '#fff'}}>
                         {this._renderBanner()}
-                        <View style={{paddingHorizontal: 15, marginTop: 15}}>
+                        <View style={{paddingHorizontal: 20, marginTop: 15}}>
                             <Text style={{
                                 fontSize: 14,
                                 color: CommonStyle.textBlockColor,
@@ -105,8 +109,17 @@ export default class Payment extends BaseComponent {
                             }}>{data.activityName}</Text>
                             <Text style={{fontSize: 12, color: '#999'}}>{data.activityNum}人已参与</Text>
                         </View>
-                        <Text style={{fontSize: 18, color: '#666', padding: 15}}>{data.content}</Text>
-
+                        {/*<Text style={{fontSize: 18, color: '#666', padding: 15}}>{data.content}</Text>*/}
+                        {data.content!=null && <TouchableView style={{
+                            paddingHorizontal: 20, height:35,  flex: 1, flexDirection: 'row',
+                            alignItems: 'center', backgroundColor: '#fff',
+                        }} onPress={() => {
+                            this.navigate('ProductInfo', {title: '活动详情', htmlContent: data.content})
+                        }}>
+                            <Text style={{fontSize: 14, color:"#262626",flex: 1}}>查看详情</Text>
+                            <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
+                                           color="#bbb"/>
+                        </TouchableView>}
                         <View style={styles.item}>
                             <Text style={styles.text}>发起人</Text>
                             <View style={{flexDirection: 'row'}}>
@@ -185,7 +198,7 @@ const styles = StyleSheet.create(
     {
         item: {
             backgroundColor: 'white',
-            height: 50,
+            height: 35,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',

@@ -8,7 +8,11 @@ import {PAGE_SIZE} from "../../constants/AppConstants";
 import Request from "../../utils/Request";
 import ImageView from "../../components/ImageView";
 import {ImageStyle} from "../../common/ImageStyle";
+import Ionicons from 'react-native-vector-icons/Ionicons'
 
+const Font = {
+    Ionicons,
+}
 export default class HouseholdServer extends BaseComponent {
     navigationBarProps() {
         return {
@@ -89,6 +93,16 @@ export default class HouseholdServer extends BaseComponent {
                         width: '100%',
                         backgroundColor: '#fff'
                     }}>{data.intro}</Text>
+                    {data.content!=null && <TouchableView style={{
+                        paddingHorizontal: 10, height:35,  flex: 1, flexDirection: 'row',
+                        alignItems: 'center', backgroundColor: '#fff',
+                    }} onPress={() => {
+                        this.navigate('ProductInfo', {title: '详细', htmlContent: data.content})
+                    }}>
+                        <Text style={{fontSize: 14, color:"#262626",flex: 1}}>查看详情</Text>
+                        <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
+                                       color="#bbb"/>
+                    </TouchableView>}
                     <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: '100%'}}/>
                     <View style={{
                         flexDirection: 'row',
