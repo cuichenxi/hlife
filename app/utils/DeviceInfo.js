@@ -16,6 +16,11 @@ export default deviceInfo = {
   // 设备系统
   deviceOS: Platform.OS,
   // 当前config: debug \ release
-  mode: __DEV__ ? 'xdebug' : 'release',
+  mode: __DEV__ ? 'debug' : 'release',
     // appName: AppJson.get('displayName')
 }
+// export function debug() {
+//     const { scriptURL } = NativeModules.SourceCode
+//     const devEvn = scriptURL.split('&')[1]
+//     return devEvn === 'dev=true'
+// }

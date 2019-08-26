@@ -1,5 +1,5 @@
 import moment from 'moment'
-
+import { NativeModules } from 'react-native';
 /** *公共方法类库 */
 const util = {
 
@@ -76,9 +76,14 @@ const util = {
     getMonthDate,
     formatBirth,
     numberToTenThousand,
+    debug,
 }
 export default util
-
+function debug() {
+    const { scriptURL } = NativeModules.SourceCode
+    const devEvn = scriptURL.split('&')[1]
+    return devEvn === 'dev=true'
+}
 /** *校验手机号 * @param tel * @returns {boolean} * @constructor */
 function isMobile(tel) {
     let reg = new RegExp(/^13[\d]{9}$|^14[5,7]{1}\d{8}$|^15[^4]{1}\d{8}$|^17[0,6,7,8]{1}\d{8}$|^18[\d]{9}$/);

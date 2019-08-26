@@ -97,8 +97,6 @@
                                           categories:nil];
   }
   
-  [JPUSHService setupWithOption:launchOptions appKey:@"537f155ce32483a9a68b5f83"
-                        channel:nil apsForProduction:nil];
 
   NSURL *jsCodeLocation;
   
@@ -106,10 +104,17 @@
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
 //  jsCodeLocation = [[NSBun#import "AlipayModule.h"dle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 //   jsCodeLocation = [CodePush bundleURL];
+  [JPUSHService setupWithOption:launchOptions appKey:@"537f155ce32483a9a68b5f83"
+                        channel:nil apsForProduction:NO];
+  
+  
 #else
   jsCodeLocation = [CodePush bundleURL];
   [Bugly startWithAppId:@"6a53ff7338"];
 #endif
+  [JPUSHService setupWithOption:launchOptions appKey:@"537f155ce32483a9a68b5f83"
+                        channel:nil apsForProduction:YES];
+  
   
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"hlife"

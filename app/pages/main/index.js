@@ -19,6 +19,7 @@ import {ImageStyle} from "../../common/ImageStyle";
 import {getUrlParam} from '../../utils/UrlUtil'
 import {CPKEY} from '../../constants/CPKC'
 import CodePush from 'react-native-code-push';
+// import {debug} from "../../utils/DeviceInfo";
 
 
 export default class Main extends BaseComponent {
@@ -104,7 +105,8 @@ export default class Main extends BaseComponent {
      *  37_lnnPrUpSXghoyqf-CpGYKPcZ_BJZnYF9z07 Production  //ios
      */
     codePush() {
-        var debug = true;
+        // this.showLong("__DEV__=" + util.debug() ? "debug" : "release");
+        var debug = false;
         CodePush.sync({
             deploymentKey: debug ? CPKEY.CP_KEY_STAGING : CPKEY.CP_KEY_PRO,
             updateDialog: {
