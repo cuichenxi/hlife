@@ -106,7 +106,7 @@ export default class Main extends BaseComponent {
      */
     codePush() {
         // this.showLong("__DEV__=" + util.debug() ? "debug" : "release");
-        var debug = false;
+        var debug = true;
         CodePush.sync({
             deploymentKey: debug ? CPKEY.CP_KEY_STAGING : CPKEY.CP_KEY_PRO,
             updateDialog: {

@@ -1,7 +1,6 @@
 import {BaseComponent} from "../../components/base/BaseComponent";
 import React from "react";
-import {Dimensions, Image, Text, View} from "react-native";
-import {CommonStyle} from "../../common/CommonStyle";
+import {Dimensions, Text, View} from "react-native";
 import {PAGE_SIZE} from "../../constants/AppConstants";
 import Request from "../../utils/Request";
 import TouchableView from "../../components/TouchableView";
@@ -80,22 +79,22 @@ export default class HouseholdServerList extends BaseComponent {
         return (
             <TouchableView onPress={() => {
                 this.navigate("HouseholdServer", {id: item.id})
+            }} style={{
+                backgroundColor: 'white',
+                // height: 80,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
             }}>
-                <View style={{
-                    backgroundColor: 'white',
-                    height: 80,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    // padding: 10,
-                }}>
-                    <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                        <ImageView source={item.pic}
-                                   defaultSource={require("../../img/default_image.png")}
-                                   style={{
-                                       width: 37,
-                                       height: 37, alignItems: 'center', marginLeft: 12
-                                   }} resizeMode='cover'/>
+                <ImageView source={item.pic}
+                           defaultSource={require("../../img/default_image.png")}
+                           style={{
+                               width: 37,
+                               height: 37, alignItems: 'center',
+                               marginLeft:10
+                           }} resizeMode='cover'/>
+                    <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center',flex:9,paddingLeft: 12,marginRight: 10,}}>
+
                         <View style={{justifyContent: 'flex-start', alignItems: 'flex-start', marginLeft: 15}}>
                             <Text style={{
                                 color: '#333',
@@ -108,19 +107,17 @@ export default class HouseholdServerList extends BaseComponent {
                                 fontSize: 13
                             }}>业务简介:{item.intro}</Text>
                         </View>
+                        <View style={{
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            flexDirection: 'row',
+                            marginRight: 10,
+                        }}>
+                            <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
+                                           color="#bbb"/>
+                        </View>
                     </View>
 
-                    <View style={{
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        flexDirection: 'row',
-                        paddingRight: 10
-                    }}>
-                        <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
-                                       color="#bbb"/>
-                    </View>
-
-                </View>
             </TouchableView>
 
         )

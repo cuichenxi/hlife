@@ -150,6 +150,7 @@ export default class Login extends BaseComponent {
         this.showLoading('获取验证中...')
         if (this.state.mobile.length !== 11) {
             this.showShort('请输入有效的手机号');
+            this.hideLoading();
             return;
         }
 
