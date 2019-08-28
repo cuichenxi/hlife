@@ -121,7 +121,7 @@ export default class HouseholdServer extends BaseComponent {
                                 color: '#333',
                                 padding: 3,
                                 fontSize: 15
-                            }}>联系方式：</Text>
+                            }}>联系方式</Text>
                         </View>
                     </View>
                     <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: '100%'}}/>
@@ -140,6 +140,15 @@ export default class HouseholdServer extends BaseComponent {
                             }} resizeMode='cover'/>
                             <View style={{justifyContent: 'flex-start', alignItems: 'flex-start', marginLeft: 5}}>
                                 <Text style={styles.contactTypeText}>电话：{data.phone}</Text>
+                            </View>
+                        </View>
+                        <View style={styles.contactTypeView}>
+                            <Image source={require('../../img/icon_uc_shdz.png')} style={{
+                                width: 12,
+                                height: 13, alignItems: 'center', marginLeft: 12
+                            }} resizeMode='cover'/>
+                            <View style={{justifyContent: 'flex-start', alignItems: 'flex-start', marginLeft: 5}}>
+                                <Text style={styles.contactTypeText}>地址：{data.address}</Text>
                             </View>
                         </View>
                     </View>
