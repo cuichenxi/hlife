@@ -95,6 +95,9 @@ import ProductInfo from "./pages/shopping/ProductInfo";
 import {ImageStyle} from "./common/ImageStyle";
 import LivingBillDetail from "./pages/housekeeper/LivingBillDetail";
 import HouseSellRentInfo from "./pages/housekeeper/HouseSellRentInfo";
+import SuggestList from "./pages/user/SuggestList";
+import SuggestDetail from "./pages/user/SuggestDetail";
+import ActiveList from "./pages/housekeeper/ActiveList";
 
 const TabContainer = createBottomTabNavigator(
     {
@@ -247,6 +250,7 @@ const App = createStackNavigator(
         OrderDetail:{screen:OrderDetail},//订单详情
         MyPaymentRecord:{screen:MyPaymentRecord},//我的缴费记录
         OrderConfirm:{screen:OrderConfirm},//订单确认
+        SuggestList:{screen:SuggestList},//订单确认
         About:{screen:About},//关于
         BuyCar:{screen:BuyCar},//购物车
         IntegralExplain:{screen:IntegralExplain},//积分说明
@@ -257,6 +261,8 @@ const App = createStackNavigator(
         RepairOrderDetail:{screen:RepairOrderDetail},//工单记录详情
         ComplaintList:{screen:ComplaintList},//投诉表扬
         ComplaintDetail:{screen: ComplaintDetail},//投诉表扬详情
+        SuggestDetail:{screen: SuggestDetail},//投诉表扬详情
+        ActiveList:{screen: ActiveList},//投诉表扬详情
         ProductInfo:{screen: ProductInfo},//投诉表扬详情
         LivingBillDetail:{screen: LivingBillDetail},//单条缴费明细
         HouseSellRentInfo:{screen: HouseSellRentInfo},//房屋详情

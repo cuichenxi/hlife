@@ -193,14 +193,14 @@ export default {
  * @returns {string}
  */
 export function getHost() {
-    const protocol = 'dev';
+    const protocol = 'release';
     let host = 'http://172.17.100.16:7780/mockjsdata/4';
     if (protocol === 'dev') {
         host = 'http://115.28.21.13:8089';
     } else if (protocol === 'beta') {
-        host = 'https://api-stage.gaojihealth.cn';
+        host = 'http://app.yijuwy.com:8089';
     } else if (protocol === 'release') {
-        host = 'https://api.gaojihealth.cn';
+        host = 'http://app.yijuwy.com:8089';
     }
     return host;
 }

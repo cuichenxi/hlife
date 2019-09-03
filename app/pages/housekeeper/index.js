@@ -20,6 +20,7 @@ import ImageView from "../../components/ImageView";
 import UserStore from "../../store/UserStore";
 import util from "../../utils/util";
 import {ImageStyle} from "../../common/ImageStyle";
+import ActiveList from "./ActiveList";
 
 
 export default class Housekeeper extends BaseComponent {
@@ -180,10 +181,13 @@ export default class Housekeeper extends BaseComponent {
                     <View>
                         {this._renderGridView()}
                         {this._rendCardView()}
-                        <View style={[styles.titleLine, {marginTop: 5}]}>
+                        <TouchableView style={[styles.titleLine, {marginTop: 5}]} onPress={()=>{
+                            this.navigate("ActiveList")
+                        }}>
                             <Image style={{width: 16, height: 16}} source={require('../../img/icon_xqhd.png')}/>
-                            <Text style={{fontSize: 16, marginLeft: 5, color: CommonStyle.color_333}}>小区活动</Text>
-                        </View>
+                            <Text style={{fontSize: 16, marginLeft: 5, color: CommonStyle.color_333, flex: 1}}>小区活动</Text>
+                            <Text style={{fontSize: 16, marginLeft: 5, color: CommonStyle.color_666}}>更多</Text>
+                        </TouchableView>
                         <View>
                             <FlatList
                                 style={styles.container}
