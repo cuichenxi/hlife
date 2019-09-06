@@ -50,10 +50,7 @@ export default class HouseSellRentInfo extends BaseComponent {
 
                     {this._renderBanner()}
                     <View style={{
-                        flexDirection: 'row',
                         justifyContent: 'flex-start',
-                        alignItems: 'center',
-                        height: 60,
                         backgroundColor: '#fff'
                     }}>
 
@@ -64,11 +61,18 @@ export default class HouseSellRentInfo extends BaseComponent {
                                 fontSize: 15
                             }}>{data.title}</Text>
                         </View>
+                        <View style={{justifyContent: 'flex-start', alignItems: 'flex-start', marginLeft: 15}}>
+                            <Text style={{
+                                color: '#333',
+                                padding: 3,
+                                fontSize: 13
+                            }}>{data.content}</Text>
+                        </View>
                     </View>
                     <View style={{flexDirection: 'row', alignItems: 'center',height:70,backgroundColor:'#fff',marginTop:10, justifyContent: 'flex-start'}}>
                         <View style={{flex: 2, marginLeft: 20}}>
                             <Text style={{fontSize: 15, color: '#333'}}>{index == 0?'售价：':'租金：'}</Text>
-                            <Text style={{color: CommonStyle.themeColor}}></Text>
+                            <Text style={{color: CommonStyle.themeColor}}>￥{data.price}</Text>
                         </View>
                         <View style={{flex: 0.01, height: 70, width: 0.5, backgroundColor: CommonStyle.lightGray}}/>
                         <View style={{flex: 2, marginLeft: 20}}>
