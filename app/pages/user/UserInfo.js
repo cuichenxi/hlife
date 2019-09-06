@@ -285,6 +285,7 @@ export default class UserInfo extends BaseComponent {
             (buttonIndex) => {
                 if (buttonIndex == 0) {
                     ImagePicker.openPicker({
+                        mediaType: "photo",
                         width: 300,
                         height: 300,
                         cropping: true,

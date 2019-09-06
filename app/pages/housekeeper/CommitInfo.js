@@ -178,6 +178,7 @@ export default class CommitInfo extends BaseComponent {
             (buttonIndex) => {
                 if (buttonIndex == 0) {
                     ImagePicker.openPicker({
+                        mediaType: "photo",
                         multiple: false,
                         compressImageQuality: CommonStyle.compressImageQuality,
                     }).then(image => {

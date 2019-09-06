@@ -392,6 +392,7 @@ export default class PublishHouseInfo extends BaseComponent {
             (buttonIndex) => {
                 if (buttonIndex == 0) {
                     ImagePicker.openPicker({
+                        mediaType: "photo",
                         multiple: false,
                         compressImageQuality: CommonStyle.compressImageQuality,
                     }).then(image => {
@@ -456,6 +457,10 @@ export default class PublishHouseInfo extends BaseComponent {
 
         if (!square.length) {
             this.showShort('请输入房屋面积');
+            return;
+        }
+        if (uploadImages.length == 0) {
+            this.showShort('请上传房屋图片');
             return;
         }
         // if (!housingId.length ) {

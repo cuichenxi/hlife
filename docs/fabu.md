@@ -33,6 +33,7 @@ code-push deployment history qfant/Hlife  Production
 code-push deployment history qfant/Hlife-ios  Staging 
 code-push deployment history qfant/Hlife-ios  Production 
 
+code-push rollback qfant/Hlife-ios Production --targetRelease v9
 
 测试 ok 后，提升（Promoting）到 Production 环境，并且进行灰度20%发布
 

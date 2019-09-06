@@ -294,6 +294,7 @@ export default class PublishActivity extends BaseComponent {
                 if (buttonIndex == 0) {
                     ImagePicker.openPicker({
                         multiple: false,
+                        mediaType: "photo",
                         compressImageQuality: CommonStyle.compressImageQuality
                     }).then(image => {
                         let files = [
