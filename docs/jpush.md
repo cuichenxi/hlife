@@ -1,1 +1,0 @@
-curl --insecure -X POST -v https://api.jpush.cn/v3/push -H "Content-Type: application/json" -u "537f155ce32483a9a68b5f83" -d '{"platform":"all","audience":"all","notification":{"alert":"Hi,JPush !","android":{"extras":{"android-key1":"android-value1"}},"ios":{"sound":"sound.caf","badge":"+1","extras":{"ios-key1":"ios-value1"}}}}'
