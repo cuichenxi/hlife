@@ -25,30 +25,34 @@ export default class Login extends BaseComponent {
             password: '',
             authCode: '',
             authState: '显示请求的状态',
-            codeRequesting:false
+            codeRequesting: false
         };
     }
 
     canBack() {
         return false;
     }
-    onReady(e){
+
+    onReady(e) {
         this.hideHeader(true);
     }
 
 
     _render() {
-        const {mobile,codeRequesting} = this.state
+        const {mobile, codeRequesting} = this.state
         return (
             <View style={styles.container}>
-                <ImageBackground style={{alignItems:'center',justifyContent:'center',height:200}} source={require('../../img/login_bg.png')}>
-                    <Image source={require('../../img/login_logo.png')} style={{width:173,
-                        height:66, alignItems:'center'}} resizeMode='cover'/>
+                <ImageBackground style={{alignItems: 'center', justifyContent: 'center', height: 200}}
+                                 source={require('../../img/login_bg.png')}>
+                    <Image source={require('../../img/login_logo.png')} style={{
+                        width: 173,
+                        height: 66, alignItems: 'center'
+                    }} resizeMode='cover'/>
                 </ImageBackground>
 
                 <View style={[styles.formInput, styles.formInputSplit]}>
                     <Image source={require('../../img/shouji.png')}
-                           style={{ width: 20, height: 20, resizeMode: 'contain'}}/>
+                           style={{width: 20, height: 20, resizeMode: 'contain'}}/>
                     <TextInput
                         ref="login_name"
                         placeholder='请输入手机号码'
@@ -61,7 +65,7 @@ export default class Login extends BaseComponent {
                 </View>
                 <View style={[styles.formInput, styles.formInputSplit]}>
                     <Image source={require('../../img/yanzhengma.png')}
-                           style={{ width: 20, height: 20, resizeMode: 'contain'}}/>
+                           style={{width: 20, height: 20, resizeMode: 'contain'}}/>
                     <TextInput
                         ref="login_auth"
                         style={styles.loginInput}
@@ -75,7 +79,7 @@ export default class Login extends BaseComponent {
                         height: 35, justifyContent: 'center',
                     }}>
                         <CountDownButton
-                            executeFunc={(shouldStartCounting)=>{
+                            executeFunc={(shouldStartCounting) => {
                                 // 组件加载完成后 回吐开始倒计时的function 把这个function绑定到当前对象
                                 this.shouldStartCounting = shouldStartCounting;
                             }}
@@ -100,6 +104,20 @@ export default class Login extends BaseComponent {
                     marginTop: 20,
                 }, ThemeStyle.btn_submit]} onPress={this._login.bind(this)}>
                     <Text style={styles.loginText}>登录</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={[{
+                    marginLeft: 15,
+                    marginRight: 15,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginTop: 100,
+                },]} onPress={
+                    () => {
+                        this.push('Web', {article: {title: '用户协议', url: 'http://app.yijuwy.com:8080/wap/agreement'}})
+                    }
+                }>
+                    <Text style={{color: '#999', fontSize: 16, textDecorationLine: 'underline'}}>幸福宜居用户使用协议</Text>
                 </TouchableOpacity>
             </View>
         )
@@ -154,7 +172,7 @@ export default class Login extends BaseComponent {
             return;
         }
 
-        var param = {phone: this.state.mobile,type:1};
+        var param = {phone: this.state.mobile, type: 1};
 
         Request.post('/api/user/getAuthCode', param,
             {
@@ -162,10 +180,10 @@ export default class Login extends BaseComponent {
                 mockId: 1089766,
             }).then(rep => {
             this.setState({
-                authState: `验证码获取${rep.code===0?'验证已发送':'验证发送失败'}`,
-                codeRequesting:false
+                authState: `验证码获取${rep.code === 0 ? '验证已发送' : '验证发送失败'}`,
+                codeRequesting: false
             })
-            shouldStartCounting && shouldStartCounting(rep.code===0)
+            shouldStartCounting && shouldStartCounting(rep.code === 0)
             if (rep.code !== 0) {
                 this.showShort(rep.message);
             }
@@ -189,7 +207,7 @@ export default class Login extends BaseComponent {
         // this.setState({'password': text});
     }
 
-    onChangeAuth(text){
+    onChangeAuth(text) {
         const newText = text.replace(/[^\d]+/, '');
         this.state.authCode = newText;
     }
@@ -231,8 +249,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         height: 60,
         padding: 20,
-        justifyContent:'center',
-        alignItems:'center'
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     formInputSplit: {
         borderBottomWidth: .5,
@@ -243,7 +261,7 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         flex: 1,
         fontSize: 16,
-        marginTop:3
+        marginTop: 3
     },
 
     loginBtn: {

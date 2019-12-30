@@ -55,6 +55,7 @@ export default class UserCenter extends BaseComponent {
             {icon: require('../../img/icon_uc_zxjy.png'), name: "咨询建议", onPress: this.goPage.bind(this, "SuggestList")},
             {icon: require('../../img/icon_uc_gdjl.png'), name: "工单记录", onPress: this.goPage.bind(this, "RepairRecordList")},
             {icon: require('../../img/icon_uc_jfjl.png'), name: "缴费记录", onPress: this.goPage.bind(this, "MyPaymentRecord")},
+            {icon: require('../../img/icon_lianxi.png'), name: "客服电话", onPress: this.goPage.bind(this, "contactUs")},
             {icon: require('../../img/icon_uc_wsfp.png'), name: "我的发票",first: true, onPress: this.goPage.bind(this, "MyInvoiceList")},
             // {icon: require('../../img/icon_uc_wdfk.png'), name: "红包", marginTop: 10, onPress: this.goPage.bind(this, "RedPacket")},
             // {icon: "md-flower", name: "支付调试", onPress: this.goPage.bind(this, "PayCenter")},
@@ -67,11 +68,11 @@ export default class UserCenter extends BaseComponent {
 
     goPage(data = {}) {
         if (data === 'contactUs') {
-            Modal.alert('提示', '联系客服', [
+            Modal.alert('提示', '联系客服:0558-5625395', [
                 {text: '取消', onPress: () => console.log('cancel'), style: 'cancel'},
                 {
                     text: '确定', onPress: () => {
-                        Linking.openURL("tel:10086")
+                        Linking.openURL("tel:0558-5625395")
                     }
                 },
             ]);

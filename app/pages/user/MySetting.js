@@ -186,10 +186,10 @@ export default class MySetting extends BaseComponent{
                 </TouchableView>
                 <View style={{height: 0.5, backgroundColor: CommonStyle.lineColor, width: '100%'}}/>
                 <TouchableView onPress={()=>{
-                    this.push('Web', {article: {title: '隐私政策', url: 'http://115.28.21.13:8080/wap/privacy'}})
+                    this.push('Web', {article: {title: '用户协议', url: 'http://app.yijuwy.com:8080/wap/agreement'}})
                 }}>
                     <View style={styles.item}>
-                        <Text style={styles.text}>隐私政策</Text>
+                        <Text style={styles.text}>用户协议</Text>
                         <Font.Ionicons name="ios-arrow-forward-outline" size={(18)}
                                        color="#bbb"/>
                     </View>

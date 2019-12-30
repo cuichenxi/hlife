@@ -64,13 +64,13 @@ export default class Main extends BaseComponent {
                     imageUrl: require('../../img/menu_wyjf.png'),
                     active: 'LivingPayment'
                 }, {
-                    name: '违章查询',
-                    imageUrl: require('../../img/menu_wzcx.png'),
-                    active: LINK_APIPAYS_WZ
+                    name: '房屋租售',
+                    imageUrl: require('../../img/menu_fwzs.png'),
+                    active: 'HouseSellRent'
                 }, {
-                    name: '快递查询',
-                    imageUrl: require('../../img/menu_kdcx.png'),
-                    active: LINK_APIPAYS_EXPRESS
+                    name: '投诉表扬',
+                    imageUrl: require('../../img/menu_tsby.png'),
+                    active: 'GiveAdvice'
                 }
             ],
             typeIds: [],

@@ -127,15 +127,15 @@ const TabContainer = createBottomTabNavigator(
 
             }
         },
-        Neighbour: {
-            screen: Neighbour, navigationOptions: {
-                title: '邻里',
-                tabBarIcon: ({focused, tintColor}) => (
-                    <Image style={styles.tabIcon} source={focused ? require("./img/tab_press_ll.png") : require("./img/tab_unpress_ll.png")}/>
-                )
-
-            }
-        },
+        // Neighbour: {
+        //     screen: Neighbour, navigationOptions: {
+        //         title: '邻里',
+        //         tabBarIcon: ({focused, tintColor}) => (
+        //             <Image style={styles.tabIcon} source={focused ? require("./img/tab_press_ll.png") : require("./img/tab_unpress_ll.png")}/>
+        //         )
+        //
+        //     }
+        // },
         UserCenter: {
             screen: UserCenter, navigationOptions: {
                 title: '我的',
